@@ -41,7 +41,6 @@ import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 import at.jku.isse.services.OCLXGrammarAccess;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * This class contains custom validation rules. 

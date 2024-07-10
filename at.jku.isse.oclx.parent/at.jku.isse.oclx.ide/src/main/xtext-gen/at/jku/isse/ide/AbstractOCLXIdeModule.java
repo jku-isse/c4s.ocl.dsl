@@ -3,10 +3,6 @@
  */
 package at.jku.isse.ide;
 
-import at.jku.isse.ide.contentassist.antlr.OCLXParser;
-import at.jku.isse.ide.contentassist.antlr.internal.InternalOCLXLexer;
-import com.google.inject.Binder;
-import com.google.inject.name.Names;
 import org.eclipse.xtext.ide.DefaultIdeModule;
 import org.eclipse.xtext.ide.LexerIdeBindings;
 import org.eclipse.xtext.ide.editor.contentassist.FQNPrefixMatcher;
@@ -18,6 +14,12 @@ import org.eclipse.xtext.ide.editor.contentassist.antlr.internal.Lexer;
 import org.eclipse.xtext.ide.refactoring.IRenameStrategy2;
 import org.eclipse.xtext.ide.server.rename.IRenameService2;
 import org.eclipse.xtext.ide.server.rename.RenameService2;
+
+import com.google.inject.Binder;
+import com.google.inject.name.Names;
+
+import at.jku.isse.ide.contentassist.antlr.OCLXParser;
+import at.jku.isse.ide.contentassist.antlr.internal.InternalOCLXLexer;
 
 /**
  * Manual modifications go to {@link OCLXIdeModule}.

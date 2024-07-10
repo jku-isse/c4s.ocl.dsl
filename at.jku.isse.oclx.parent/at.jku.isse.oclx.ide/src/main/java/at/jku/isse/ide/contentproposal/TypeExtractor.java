@@ -1,6 +1,5 @@
 package at.jku.isse.ide.contentproposal;
 
-import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.EObject;
@@ -19,7 +18,6 @@ import at.jku.isse.oclx.MathOperator;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.NestedExp;
-import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
@@ -32,7 +30,6 @@ import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
-import lombok.AllArgsConstructor;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 
 public class TypeExtractor {

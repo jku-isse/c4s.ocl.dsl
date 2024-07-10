@@ -3,11 +3,13 @@
  */
 package at.jku.isse.ide;
 
-import at.jku.isse.OCLXRuntimeModule;
-import at.jku.isse.OCLXStandaloneSetup;
+import org.eclipse.xtext.util.Modules2;
+
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.eclipse.xtext.util.Modules2;
+
+import at.jku.isse.OCLXRuntimeModule;
+import at.jku.isse.OCLXStandaloneSetup;
 
 /**
  * Initialization support for running Xtext languages as language servers.

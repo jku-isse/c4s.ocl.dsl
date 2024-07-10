@@ -3,14 +3,17 @@
  */
 package at.jku.isse.ide.contentassist.antlr;
 
-import at.jku.isse.ide.contentassist.antlr.internal.InternalOCLXParser;
-import at.jku.isse.services.OCLXGrammarAccess;
+import java.util.Map;
+
+import org.eclipse.xtext.AbstractElement;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.AbstractContentAssistParser;
+
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Map;
-import org.eclipse.xtext.AbstractElement;
-import org.eclipse.xtext.ide.editor.contentassist.antlr.AbstractContentAssistParser;
+
+import at.jku.isse.ide.contentassist.antlr.internal.InternalOCLXParser;
+import at.jku.isse.services.OCLXGrammarAccess;
 
 public class OCLXParser extends AbstractContentAssistParser {
 

@@ -1,15 +1,16 @@
 package at.jku.isse.ide.contentproposal;
 
 import java.util.AbstractMap;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import org.apache.commons.text.similarity.JaroWinklerDistance;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.RuleCall;
@@ -19,8 +20,6 @@ import org.eclipse.xtext.ide.editor.contentassist.IIdeContentProposalAcceptor;
 import org.eclipse.xtext.ide.editor.contentassist.IdeContentProposalProvider;
 import org.eclipse.xtext.scoping.IScopeProvider;
 import org.eclipse.xtext.util.TextRegion;
-import org.apache.commons.text.similarity.JaroWinklerDistance;
-
 
 import com.google.inject.Inject;
 

@@ -3,18 +3,18 @@
  */
 package at.jku.isse.tests;
 
-import at.jku.isse.OCLXRuntimeModule;
-import at.jku.isse.OCLXStandaloneSetup;
-import at.jku.isse.ide.OCLXIdeModule;
-import at.jku.isse.ide.OCLXIdeSetup;
+import org.eclipse.xtext.testing.GlobalRegistries;
+import org.eclipse.xtext.testing.GlobalRegistries.GlobalStateMemento;
+import org.eclipse.xtext.testing.IInjectorProvider;
+import org.eclipse.xtext.testing.IRegistryConfigurator;
+import org.eclipse.xtext.util.Modules2;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import org.eclipse.xtext.testing.GlobalRegistries;
-import org.eclipse.xtext.testing.GlobalRegistries.GlobalStateMemento;
-import org.eclipse.xtext.util.Modules2;
-import org.eclipse.xtext.testing.IInjectorProvider;
-import org.eclipse.xtext.testing.IRegistryConfigurator;
+
+import at.jku.isse.OCLXRuntimeModule;
+import at.jku.isse.ide.OCLXIdeModule;
+import at.jku.isse.ide.OCLXIdeSetup;
 
 public class OCLXInjectorProvider implements IInjectorProvider, IRegistryConfigurator {
 

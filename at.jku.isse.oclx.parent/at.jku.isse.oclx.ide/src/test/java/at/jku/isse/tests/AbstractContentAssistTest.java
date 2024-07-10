@@ -3,6 +3,7 @@ package at.jku.isse.tests;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.testing.util.ResourceHelper;
+
 import com.google.inject.Inject;
 
 public class AbstractContentAssistTest {

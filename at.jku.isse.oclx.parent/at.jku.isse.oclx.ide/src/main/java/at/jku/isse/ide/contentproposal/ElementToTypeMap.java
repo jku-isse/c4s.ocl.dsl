@@ -9,10 +9,7 @@ import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
 public class ElementToTypeMap {
 

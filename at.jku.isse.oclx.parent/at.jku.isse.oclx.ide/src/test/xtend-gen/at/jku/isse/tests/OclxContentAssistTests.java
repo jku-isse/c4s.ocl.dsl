@@ -1,8 +1,7 @@
 package at.jku.isse.tests;
 
-import com.google.common.base.Objects;
-import com.google.inject.Inject;
 import java.util.function.Predicate;
+
 import org.eclipse.lsp4j.CompletionItem;
 import org.eclipse.lsp4j.CompletionList;
 import org.eclipse.lsp4j.CompletionParams;
@@ -18,6 +17,9 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+
+import com.google.common.base.Objects;
+import com.google.inject.Inject;
 
 @ExtendWith(InjectionExtension.class)
 @InjectWith(OCLXInjectorProvider.class)
