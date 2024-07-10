@@ -32,8 +32,9 @@ public class HoverOverTests extends AbstractContentAssistTest {
     _builder.append("expression: self }");
     _builder.newLine();
     final String text = _builder.toString();
-    final Hover completions = this.getHoverOver(text, (-4), 1);
-    System.out.println(completions);
+    final Hover hovers = this.getHoverOver(text, (-4), 1);
+    System.out.println(hovers);
+    Assertions.assertTrue(this.assertHoverHas("DemoIssue", hovers));
   }
 
   @Test
@@ -45,8 +46,13 @@ public class HoverOverTests extends AbstractContentAssistTest {
     _builder.append("expression: self.requirements->FORALL(req | req )}");
     _builder.newLine();
     final String text = _builder.toString();
-    final Hover completions = this.getHoverOver(text, (-5), 1);
-    System.out.println(completions);
+    final Hover hovers = this.getHoverOver(text, (-5), 1);
+    System.out.println(hovers);
+    Assertions.assertTrue(this.assertHoverHas("DemoIssue", hovers));
+  }
+
+  public boolean assertHoverHas(final String expectedHoverText, final Hover hoverInfo) {
+    return hoverInfo.getContents().getRight().getValue().equalsIgnoreCase(expectedHoverText);
   }
 
   public Hover getHoverOver(final String text, final int position) {

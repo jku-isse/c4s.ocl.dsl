@@ -269,8 +269,8 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
 		private final Action cPrefixExpAction_0_0 = (Action)cGroup_0.eContents().get(0);
-		private final Assignment cOperatorsAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
-		private final RuleCall cOperatorsUnaryOperatorParserRuleCall_0_1_0 = (RuleCall)cOperatorsAssignment_0_1.eContents().get(0);
+		private final Assignment cOperatorAssignment_0_1 = (Assignment)cGroup_0.eContents().get(1);
+		private final RuleCall cOperatorUnaryOperatorParserRuleCall_0_1_0 = (RuleCall)cOperatorAssignment_0_1.eContents().get(0);
 		private final Assignment cExpressionAssignment_0_2 = (Assignment)cGroup_0.eContents().get(2);
 		private final RuleCall cExpressionPrimaryExpParserRuleCall_0_2_0 = (RuleCall)cExpressionAssignment_0_2.eContents().get(0);
 		private final RuleCall cPrimaryExpParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
@@ -280,26 +280,26 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		// *
 		// */
 		//PrefixedExp returns Exp:
-		//    ({PrefixExp} operators+=UnaryOperator+ expression=PrimaryExp)
+		//    ({PrefixExp} operator=UnaryOperator expression=PrimaryExp)
 		//    |     PrimaryExp
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//({PrefixExp} operators+=UnaryOperator+ expression=PrimaryExp)
+		//({PrefixExp} operator=UnaryOperator expression=PrimaryExp)
 		//|     PrimaryExp
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//({PrefixExp} operators+=UnaryOperator+ expression=PrimaryExp)
+		//({PrefixExp} operator=UnaryOperator expression=PrimaryExp)
 		public Group getGroup_0() { return cGroup_0; }
 		
 		//{PrefixExp}
 		public Action getPrefixExpAction_0_0() { return cPrefixExpAction_0_0; }
 		
-		//operators+=UnaryOperator+
-		public Assignment getOperatorsAssignment_0_1() { return cOperatorsAssignment_0_1; }
+		//operator=UnaryOperator
+		public Assignment getOperatorAssignment_0_1() { return cOperatorAssignment_0_1; }
 		
 		//UnaryOperator
-		public RuleCall getOperatorsUnaryOperatorParserRuleCall_0_1_0() { return cOperatorsUnaryOperatorParserRuleCall_0_1_0; }
+		public RuleCall getOperatorUnaryOperatorParserRuleCall_0_1_0() { return cOperatorUnaryOperatorParserRuleCall_0_1_0; }
 		
 		//expression=PrimaryExp
 		public Assignment getExpressionAssignment_0_2() { return cExpressionAssignment_0_2; }
@@ -486,12 +486,14 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cMethodsAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
 		private final RuleCall cMethodsMethodExpParserRuleCall_1_1_1_0 = (RuleCall)cMethodsAssignment_1_1_1.eContents().get(0);
 		private final RuleCall cPrimitiveLiteralExpParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cTemporalExpParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//PrimaryExp returns Exp:
 		//    NestedExp
 		//|     VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
 		////|     VarReference (nav+=NavigationOperator methods+=MethodExp)*
 		//|     PrimitiveLiteralExp
+		//|    TemporalExp
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -499,6 +501,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//|     VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
 		////|     VarReference (nav+=NavigationOperator methods+=MethodExp)*
 		//|     PrimitiveLiteralExp
+		//|    TemporalExp
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//NestedExp
@@ -527,6 +530,9 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//PrimitiveLiteralExp
 		public RuleCall getPrimitiveLiteralExpParserRuleCall_2() { return cPrimitiveLiteralExpParserRuleCall_2; }
+		
+		//TemporalExp
+		public RuleCall getTemporalExpParserRuleCall_3() { return cTemporalExpParserRuleCall_3; }
 	}
 	public class NestedExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.NestedExp");
@@ -1100,6 +1106,341 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//'COLLECTION'
 		public Keyword getNameCOLLECTIONKeyword_0_3() { return cNameCOLLECTIONKeyword_0_3; }
 	}
+	public class TemporalExpElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TemporalExp");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cUnaryTemporalExpParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cTriggeredTemporalExpParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		
+		//TemporalExp returns TemporalExp:
+		//    UnaryTemporalExp | TriggeredTemporalExp
+		//    //| DeclarePatternExp
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//UnaryTemporalExp | TriggeredTemporalExp
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//UnaryTemporalExp
+		public RuleCall getUnaryTemporalExpParserRuleCall_0() { return cUnaryTemporalExpParserRuleCall_0; }
+		
+		//TriggeredTemporalExp
+		public RuleCall getTriggeredTemporalExpParserRuleCall_1() { return cTriggeredTemporalExpParserRuleCall_1; }
+	}
+	public class UnaryTemporalExpElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.UnaryTemporalExp");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final RuleCall cNameUnaryTemporalOpParserRuleCall_0_0 = (RuleCall)cNameAssignment_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cExpAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cExpExpParserRuleCall_2_0 = (RuleCall)cExpAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		
+		//UnaryTemporalExp:
+		//    name=UnaryTemporalOp '(' exp=Exp ')'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//name=UnaryTemporalOp '(' exp=Exp ')'
+		public Group getGroup() { return cGroup; }
+		
+		//name=UnaryTemporalOp
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+		
+		//UnaryTemporalOp
+		public RuleCall getNameUnaryTemporalOpParserRuleCall_0_0() { return cNameUnaryTemporalOpParserRuleCall_0_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//exp=Exp
+		public Assignment getExpAssignment_2() { return cExpAssignment_2; }
+		
+		//Exp
+		public RuleCall getExpExpParserRuleCall_2_0() { return cExpExpParserRuleCall_2_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
+	}
+	public class UnaryTemporalOpElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.UnaryTemporalOp");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final Keyword cNextKeyword_0 = (Keyword)cAlternatives.eContents().get(0);
+		private final Keyword cAlwaysKeyword_1 = (Keyword)cAlternatives.eContents().get(1);
+		private final Keyword cEventuallyKeyword_2 = (Keyword)cAlternatives.eContents().get(2);
+		
+		//UnaryTemporalOp:
+		//    'next' | 'always' | 'eventually'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//'next' | 'always' | 'eventually'
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//'next'
+		public Keyword getNextKeyword_0() { return cNextKeyword_0; }
+		
+		//'always'
+		public Keyword getAlwaysKeyword_1() { return cAlwaysKeyword_1; }
+		
+		//'eventually'
+		public Keyword getEventuallyKeyword_2() { return cEventuallyKeyword_2; }
+	}
+	public class TriggeredTemporalExpElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TriggeredTemporalExp");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cTemporalAsLongAsParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cTemporalUntilParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cTemporalEverytimeParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cTemporalAtLeastOnceParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		
+		//TriggeredTemporalExp returns TriggeredTemporalExp:
+		//    TemporalAsLongAs | TemporalUntil | TemporalEverytime | TemporalAtLeastOnce
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//TemporalAsLongAs | TemporalUntil | TemporalEverytime | TemporalAtLeastOnce
+		public Alternatives getAlternatives() { return cAlternatives; }
+		
+		//TemporalAsLongAs
+		public RuleCall getTemporalAsLongAsParserRuleCall_0() { return cTemporalAsLongAsParserRuleCall_0; }
+		
+		//TemporalUntil
+		public RuleCall getTemporalUntilParserRuleCall_1() { return cTemporalUntilParserRuleCall_1; }
+		
+		//TemporalEverytime
+		public RuleCall getTemporalEverytimeParserRuleCall_2() { return cTemporalEverytimeParserRuleCall_2; }
+		
+		//TemporalAtLeastOnce
+		public RuleCall getTemporalAtLeastOnceParserRuleCall_3() { return cTemporalAtLeastOnceParserRuleCall_3; }
+	}
+	public class TemporalAsLongAsElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TemporalAsLongAs");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final Keyword cNameAsLongAsKeyword_0_0 = (Keyword)cNameAssignment_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cBAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cBExpParserRuleCall_2_0 = (RuleCall)cBAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cEnsureThatKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cLeftParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cAAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cAExpParserRuleCall_6_0 = (RuleCall)cAAssignment_6.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		
+		///* Alternative Until, interpret: asLongAs(A) ensureThat(B) => as long as A is true, ensure that B is true , A must become true at some time in the future */
+		//TemporalAsLongAs returns TriggeredTemporalExp:
+		//    name='asLongAs' '(' b=Exp ')' 'ensureThat' '(' a=Exp ')'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//name='asLongAs' '(' b=Exp ')' 'ensureThat' '(' a=Exp ')'
+		public Group getGroup() { return cGroup; }
+		
+		//name='asLongAs'
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+		
+		//'asLongAs'
+		public Keyword getNameAsLongAsKeyword_0_0() { return cNameAsLongAsKeyword_0_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//b=Exp
+		public Assignment getBAssignment_2() { return cBAssignment_2; }
+		
+		//Exp
+		public RuleCall getBExpParserRuleCall_2_0() { return cBExpParserRuleCall_2_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
+		
+		//'ensureThat'
+		public Keyword getEnsureThatKeyword_4() { return cEnsureThatKeyword_4; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_5() { return cLeftParenthesisKeyword_5; }
+		
+		//a=Exp
+		public Assignment getAAssignment_6() { return cAAssignment_6; }
+		
+		//Exp
+		public RuleCall getAExpParserRuleCall_6_0() { return cAExpParserRuleCall_6_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_7() { return cRightParenthesisKeyword_7; }
+	}
+	public class TemporalUntilElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TemporalUntil");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final Keyword cNameEnsureThatKeyword_0_0 = (Keyword)cNameAssignment_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cAAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cAExpParserRuleCall_2_0 = (RuleCall)cAAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cAsLongAsKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cLeftParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cBAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cBExpParserRuleCall_6_0 = (RuleCall)cBAssignment_6.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		
+		///* Regular Until, interpret: ensureThat(B) asLongAs(A)  => ensure that A is true as long as B is true , B must become true at some time in the future */
+		//TemporalUntil returns TriggeredTemporalExp:
+		//    name='ensureThat' '(' a=Exp ')' 'asLongAs' '(' b=Exp ')'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//name='ensureThat' '(' a=Exp ')' 'asLongAs' '(' b=Exp ')'
+		public Group getGroup() { return cGroup; }
+		
+		//name='ensureThat'
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+		
+		//'ensureThat'
+		public Keyword getNameEnsureThatKeyword_0_0() { return cNameEnsureThatKeyword_0_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//a=Exp
+		public Assignment getAAssignment_2() { return cAAssignment_2; }
+		
+		//Exp
+		public RuleCall getAExpParserRuleCall_2_0() { return cAExpParserRuleCall_2_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
+		
+		//'asLongAs'
+		public Keyword getAsLongAsKeyword_4() { return cAsLongAsKeyword_4; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_5() { return cLeftParenthesisKeyword_5; }
+		
+		//b=Exp
+		public Assignment getBAssignment_6() { return cBAssignment_6; }
+		
+		//Exp
+		public RuleCall getBExpParserRuleCall_6_0() { return cBExpParserRuleCall_6_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_7() { return cRightParenthesisKeyword_7; }
+	}
+	public class TemporalEverytimeElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TemporalEverytime");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final Keyword cNameEverytimeKeyword_0_0 = (Keyword)cNameAssignment_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cAAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cAExpParserRuleCall_2_0 = (RuleCall)cAAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cThenKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cLeftParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cBAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cBExpParserRuleCall_6_0 = (RuleCall)cBAssignment_6.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		
+		//TemporalEverytime returns TriggeredTemporalExp:
+		//    name='everytime' '(' a=Exp ')' 'then' '(' b=Exp ')'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//name='everytime' '(' a=Exp ')' 'then' '(' b=Exp ')'
+		public Group getGroup() { return cGroup; }
+		
+		//name='everytime'
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+		
+		//'everytime'
+		public Keyword getNameEverytimeKeyword_0_0() { return cNameEverytimeKeyword_0_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//a=Exp
+		public Assignment getAAssignment_2() { return cAAssignment_2; }
+		
+		//Exp
+		public RuleCall getAExpParserRuleCall_2_0() { return cAExpParserRuleCall_2_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
+		
+		//'then'
+		public Keyword getThenKeyword_4() { return cThenKeyword_4; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_5() { return cLeftParenthesisKeyword_5; }
+		
+		//b=Exp
+		public Assignment getBAssignment_6() { return cBAssignment_6; }
+		
+		//Exp
+		public RuleCall getBExpParserRuleCall_6_0() { return cBExpParserRuleCall_6_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_7() { return cRightParenthesisKeyword_7; }
+	}
+	public class TemporalAtLeastOnceElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TemporalAtLeastOnce");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final Keyword cNameWhenOnceKeyword_0_0 = (Keyword)cNameAssignment_0.eContents().get(0);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cAAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cAExpParserRuleCall_2_0 = (RuleCall)cAAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
+		private final Keyword cThenAtLeastOnceKeyword_4 = (Keyword)cGroup.eContents().get(4);
+		private final Keyword cLeftParenthesisKeyword_5 = (Keyword)cGroup.eContents().get(5);
+		private final Assignment cBAssignment_6 = (Assignment)cGroup.eContents().get(6);
+		private final RuleCall cBExpParserRuleCall_6_0 = (RuleCall)cBAssignment_6.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_7 = (Keyword)cGroup.eContents().get(7);
+		
+		//TemporalAtLeastOnce returns TriggeredTemporalExp:
+		//    name='whenOnce' '(' a=Exp ')' 'thenAtLeastOnce' '(' b=Exp ')'
+		//;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//name='whenOnce' '(' a=Exp ')' 'thenAtLeastOnce' '(' b=Exp ')'
+		public Group getGroup() { return cGroup; }
+		
+		//name='whenOnce'
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+		
+		//'whenOnce'
+		public Keyword getNameWhenOnceKeyword_0_0() { return cNameWhenOnceKeyword_0_0; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
+		
+		//a=Exp
+		public Assignment getAAssignment_2() { return cAAssignment_2; }
+		
+		//Exp
+		public RuleCall getAExpParserRuleCall_2_0() { return cAExpParserRuleCall_2_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
+		
+		//'thenAtLeastOnce'
+		public Keyword getThenAtLeastOnceKeyword_4() { return cThenAtLeastOnceKeyword_4; }
+		
+		//'('
+		public Keyword getLeftParenthesisKeyword_5() { return cLeftParenthesisKeyword_5; }
+		
+		//b=Exp
+		public Assignment getBAssignment_6() { return cBAssignment_6; }
+		
+		//Exp
+		public RuleCall getBExpParserRuleCall_6_0() { return cBExpParserRuleCall_6_0; }
+		
+		//')'
+		public Keyword getRightParenthesisKeyword_7() { return cRightParenthesisKeyword_7; }
+	}
 	public class PathElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.Path");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1108,6 +1449,13 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Keyword cSolidusKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
 		private final RuleCall cSimpleNameParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
 		
+		////DeclarePatternExp:
+		////    'atMostOnce' |
+		////    'bothOrNeither' | // coexistence
+		////    'whenever' 'eventually' | // response
+		////
+		////
+		////;
 		//Path:
 		//     SimpleName ( '/'  SimpleName)*
 		//;
@@ -1199,6 +1547,14 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final MethodCallElements pMethodCall;
 	private final TypeExpElements pTypeExp;
 	private final CollectionTypeIdentifierElements pCollectionTypeIdentifier;
+	private final TemporalExpElements pTemporalExp;
+	private final UnaryTemporalExpElements pUnaryTemporalExp;
+	private final UnaryTemporalOpElements pUnaryTemporalOp;
+	private final TriggeredTemporalExpElements pTriggeredTemporalExp;
+	private final TemporalAsLongAsElements pTemporalAsLongAs;
+	private final TemporalUntilElements pTemporalUntil;
+	private final TemporalEverytimeElements pTemporalEverytime;
+	private final TemporalAtLeastOnceElements pTemporalAtLeastOnce;
 	private final PathElements pPath;
 	private final ArgumentsExpElements pArgumentsExp;
 	
@@ -1244,6 +1600,14 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pMethodCall = new MethodCallElements();
 		this.pTypeExp = new TypeExpElements();
 		this.pCollectionTypeIdentifier = new CollectionTypeIdentifierElements();
+		this.pTemporalExp = new TemporalExpElements();
+		this.pUnaryTemporalExp = new UnaryTemporalExpElements();
+		this.pUnaryTemporalOp = new UnaryTemporalOpElements();
+		this.pTriggeredTemporalExp = new TriggeredTemporalExpElements();
+		this.pTemporalAsLongAs = new TemporalAsLongAsElements();
+		this.pTemporalUntil = new TemporalUntilElements();
+		this.pTemporalEverytime = new TemporalEverytimeElements();
+		this.pTemporalAtLeastOnce = new TemporalAtLeastOnceElements();
 		this.pPath = new PathElements();
 		this.pArgumentsExp = new ArgumentsExpElements();
 	}
@@ -1356,7 +1720,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	// *
 	// */
 	//PrefixedExp returns Exp:
-	//    ({PrefixExp} operators+=UnaryOperator+ expression=PrimaryExp)
+	//    ({PrefixExp} operator=UnaryOperator expression=PrimaryExp)
 	//    |     PrimaryExp
 	//;
 	public PrefixedExpElements getPrefixedExpAccess() {
@@ -1433,6 +1797,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	//|     VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
 	////|     VarReference (nav+=NavigationOperator methods+=MethodExp)*
 	//|     PrimitiveLiteralExp
+	//|    TemporalExp
 	//;
 	public PrimaryExpElements getPrimaryExpAccess() {
 		return pPrimaryExp;
@@ -1644,6 +2009,104 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getCollectionTypeIdentifierAccess().getRule();
 	}
 	
+	//TemporalExp returns TemporalExp:
+	//    UnaryTemporalExp | TriggeredTemporalExp
+	//    //| DeclarePatternExp
+	//;
+	public TemporalExpElements getTemporalExpAccess() {
+		return pTemporalExp;
+	}
+	
+	public ParserRule getTemporalExpRule() {
+		return getTemporalExpAccess().getRule();
+	}
+	
+	//UnaryTemporalExp:
+	//    name=UnaryTemporalOp '(' exp=Exp ')'
+	//;
+	public UnaryTemporalExpElements getUnaryTemporalExpAccess() {
+		return pUnaryTemporalExp;
+	}
+	
+	public ParserRule getUnaryTemporalExpRule() {
+		return getUnaryTemporalExpAccess().getRule();
+	}
+	
+	//UnaryTemporalOp:
+	//    'next' | 'always' | 'eventually'
+	//;
+	public UnaryTemporalOpElements getUnaryTemporalOpAccess() {
+		return pUnaryTemporalOp;
+	}
+	
+	public ParserRule getUnaryTemporalOpRule() {
+		return getUnaryTemporalOpAccess().getRule();
+	}
+	
+	//TriggeredTemporalExp returns TriggeredTemporalExp:
+	//    TemporalAsLongAs | TemporalUntil | TemporalEverytime | TemporalAtLeastOnce
+	//;
+	public TriggeredTemporalExpElements getTriggeredTemporalExpAccess() {
+		return pTriggeredTemporalExp;
+	}
+	
+	public ParserRule getTriggeredTemporalExpRule() {
+		return getTriggeredTemporalExpAccess().getRule();
+	}
+	
+	///* Alternative Until, interpret: asLongAs(A) ensureThat(B) => as long as A is true, ensure that B is true , A must become true at some time in the future */
+	//TemporalAsLongAs returns TriggeredTemporalExp:
+	//    name='asLongAs' '(' b=Exp ')' 'ensureThat' '(' a=Exp ')'
+	//;
+	public TemporalAsLongAsElements getTemporalAsLongAsAccess() {
+		return pTemporalAsLongAs;
+	}
+	
+	public ParserRule getTemporalAsLongAsRule() {
+		return getTemporalAsLongAsAccess().getRule();
+	}
+	
+	///* Regular Until, interpret: ensureThat(B) asLongAs(A)  => ensure that A is true as long as B is true , B must become true at some time in the future */
+	//TemporalUntil returns TriggeredTemporalExp:
+	//    name='ensureThat' '(' a=Exp ')' 'asLongAs' '(' b=Exp ')'
+	//;
+	public TemporalUntilElements getTemporalUntilAccess() {
+		return pTemporalUntil;
+	}
+	
+	public ParserRule getTemporalUntilRule() {
+		return getTemporalUntilAccess().getRule();
+	}
+	
+	//TemporalEverytime returns TriggeredTemporalExp:
+	//    name='everytime' '(' a=Exp ')' 'then' '(' b=Exp ')'
+	//;
+	public TemporalEverytimeElements getTemporalEverytimeAccess() {
+		return pTemporalEverytime;
+	}
+	
+	public ParserRule getTemporalEverytimeRule() {
+		return getTemporalEverytimeAccess().getRule();
+	}
+	
+	//TemporalAtLeastOnce returns TriggeredTemporalExp:
+	//    name='whenOnce' '(' a=Exp ')' 'thenAtLeastOnce' '(' b=Exp ')'
+	//;
+	public TemporalAtLeastOnceElements getTemporalAtLeastOnceAccess() {
+		return pTemporalAtLeastOnce;
+	}
+	
+	public ParserRule getTemporalAtLeastOnceRule() {
+		return getTemporalAtLeastOnceAccess().getRule();
+	}
+	
+	////DeclarePatternExp:
+	////    'atMostOnce' |
+	////    'bothOrNeither' | // coexistence
+	////    'whenever' 'eventually' | // response
+	////
+	////
+	////;
 	//Path:
 	//     SimpleName ( '/'  SimpleName)*
 	//;

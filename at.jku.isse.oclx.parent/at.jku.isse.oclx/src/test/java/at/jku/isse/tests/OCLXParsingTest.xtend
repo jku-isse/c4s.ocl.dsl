@@ -112,29 +112,29 @@ rule AnotherRule {
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
-//	@Test //TODO: reactivate when scope calculation is fixed
-//	def void loadDuplicateVarDeclaration2() {
-//		val result = parseHelper.parse(	'''rule TestRule2 {
-//	    description: "just some test"
-//	    is overrulable: false
-//	    context: DemoIssue
-//	    expression: ( 
-//	            self.downstream 
-//	                ->EXISTS(req | req.bugs.size() > 0)
-//	        and 
-//	            self->isDefined()
-//	        and self.downstream->FORALL( req |  req.isEmpty() )  )
-//	
-//	}''')
-//		Assertions.assertNotNull(result)
-//		
-//		validationTestHelper.assertError(result, 
-//			OclxPackage.Literals.ITERATOR_VAR_DECLARATION, 
-//			OCLXValidator.DUPLICATE_VAR_NAME
-//		);
-//		val errors = result.eResource.errors
-//		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
-//	}
+	@Test 
+	def void loadDuplicateVarDeclaration2() {
+		val result = parseHelper.parse(	'''rule TestRule2 {
+	    description: "just some test"
+	    is overrulable: false
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->EXISTS(req | req.bugs.size() > 0)
+	        and 
+	            self->isDefined()
+	        and self.downstream->FORALL( req |  req.isEmpty() )  )
+	
+	}''')
+		Assertions.assertNotNull(result)
+		
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.ITERATOR_VAR_DECLARATION, 
+			OCLXValidator.DUPLICATE_VAR_NAME
+		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+	}
 	
 
 	
@@ -215,6 +215,57 @@ rule AnotherRule {
 			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
 			OCLXValidator.UNKNOWN_PROPERTY
 		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+	}
+	
+		@Test
+	def void testTemporalNestedReturnType() {
+		val result = parseHelper.parse('''
+			rule TestRule {
+				description: "testing"
+				context: DemoIssue
+				expression: next(self.requirements) 
+			}
+		''')
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.EXP, 
+			OCLXValidator.INCOMPATIBLE_RETURN_TYPE
+		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+	}
+	
+			@Test
+	def void testTriggeredTemporalNestedReturnType() {
+		val result = parseHelper.parse('''
+			rule TestRule {
+				description: "testing"
+				context: DemoIssue
+				expression: everytime(self.requirements) then(self.requirements.size() > 0)
+			}
+		''')
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.EXP, 
+			OCLXValidator.INCOMPATIBLE_RETURN_TYPE
+		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+	}
+	
+			@Test
+	def void testTriggeredTemporalNestedReturnTypeSuccess() {
+		val result = parseHelper.parse('''
+			rule TestRule {
+				description: "testing"
+				context: DemoIssue
+				expression: asLongAs(self.requirements.isEmpty()) ensureThat(self.requirements.size() > 0)
+			}
+		''')
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertNoErrors(result);
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}

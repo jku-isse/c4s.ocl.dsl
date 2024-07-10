@@ -15,6 +15,8 @@ import at.jku.isse.oclx.VarReference;
 public class ASTUtils {
 	
 	public static Optional<Constraint> getRootConstraint(EObject object) {
+		if (object == null)
+			return Optional.empty();
 		if (object instanceof Constraint)
 			return Optional.of((Constraint)object);
 		if (object.eContainer() != null)

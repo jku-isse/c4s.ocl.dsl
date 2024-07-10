@@ -1,5 +1,6 @@
 package at.jku.isse.ide.contentproposal;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.EObject;
@@ -18,9 +19,13 @@ import at.jku.isse.oclx.MathOperator;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.NestedExp;
+import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
+import at.jku.isse.oclx.TemporalExp;
+import at.jku.isse.oclx.TriggeredTemporalExp;
+import at.jku.isse.oclx.UnaryTemporalExp;
 import at.jku.isse.oclx.VarDeclaration;
 import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.BuildInType;
@@ -82,8 +87,12 @@ public class TypeExtractor {
 				}
 			} else {
 				currentType = fillTypeMapAndReturnCurrent(infixExp.getExpressions().get(0), elementToTypeMap);
-			}
-		} 
+			} 
+		} else if (exp instanceof TemporalExp) {
+			currentType = checkTemporalExpressionNavigation((TemporalExp) exp, elementToTypeMap);
+		}
+		
+		
 		elementToTypeMap.getReturnTypeMap().put(exp, currentType);
 		// as we also want to assign navigation operators the type of the preceding var/method/property
 		int methodPos = 0;
@@ -149,6 +158,17 @@ public class TypeExtractor {
 		
 		// returns the last type of an expression/navigation chain,
 		return currentType;
+	}
+	
+	private TypeAndCardinality checkTemporalExpressionNavigation(TemporalExp exp, ElementToTypeMap elementToTypeMap) {
+		if (exp instanceof UnaryTemporalExp) {
+			fillTypeMapAndReturnCurrent( ((UnaryTemporalExp)exp).getExp(), elementToTypeMap);
+		} else if (exp instanceof TriggeredTemporalExp) {
+			TriggeredTemporalExp trigExp = (TriggeredTemporalExp)exp;
+			fillTypeMapAndReturnCurrent(trigExp.getA(), elementToTypeMap);
+			fillTypeMapAndReturnCurrent(trigExp.getB(), elementToTypeMap);
+		}
+		return new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE); 
 	}
 	
 	private TypeAndCardinality processPropertyAccess(PPEInstanceType currentType, PropertyAccessExp expression, ElementToTypeMap elementToTypeMap) {

@@ -25,8 +25,10 @@ import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.StringLiteralExp;
+import at.jku.isse.oclx.TriggeredTemporalExp;
 import at.jku.isse.oclx.TypeExp;
 import at.jku.isse.oclx.UnaryOperator;
+import at.jku.isse.oclx.UnaryTemporalExp;
 import at.jku.isse.oclx.VarDeclaration;
 import at.jku.isse.oclx.VarReference;
 import at.jku.isse.services.OCLXGrammarAccess;
@@ -130,11 +132,41 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case OclxPackage.STRING_LITERAL_EXP:
 				sequence_StringLiteralExp(context, (StringLiteralExp) semanticObject); 
 				return; 
+			case OclxPackage.TRIGGERED_TEMPORAL_EXP:
+				if (rule == grammarAccess.getExpRule()
+						|| action == grammarAccess.getExpAccess().getInfixExpExpressionsAction_1_0()
+						|| rule == grammarAccess.getPrefixedExpRule()
+						|| rule == grammarAccess.getPrimaryExpRule()
+						|| rule == grammarAccess.getTemporalExpRule()
+						|| rule == grammarAccess.getTriggeredTemporalExpRule()) {
+					sequence_TemporalAsLongAs_TemporalAtLeastOnce_TemporalEverytime_TemporalUntil(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getTemporalAsLongAsRule()) {
+					sequence_TemporalAsLongAs(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getTemporalAtLeastOnceRule()) {
+					sequence_TemporalAtLeastOnce(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getTemporalEverytimeRule()) {
+					sequence_TemporalEverytime(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getTemporalUntilRule()) {
+					sequence_TemporalUntil(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else break;
 			case OclxPackage.TYPE_EXP:
 				sequence_TypeExp(context, (TypeExp) semanticObject); 
 				return; 
 			case OclxPackage.UNARY_OPERATOR:
 				sequence_UnaryOperator(context, (UnaryOperator) semanticObject); 
+				return; 
+			case OclxPackage.UNARY_TEMPORAL_EXP:
+				sequence_UnaryTemporalExp(context, (UnaryTemporalExp) semanticObject); 
 				return; 
 			case OclxPackage.VAR_DECLARATION:
 				sequence_VarDeclaration(context, (VarDeclaration) semanticObject); 
@@ -470,11 +502,20 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     PrefixedExp returns PrefixExp
 	 *
 	 * Constraint:
-	 *     (operators+=UnaryOperator+ expression=PrimaryExp)
+	 *     (operator=UnaryOperator expression=PrimaryExp)
 	 * </pre>
 	 */
 	protected void sequence_PrefixedExp(ISerializationContext context, PrefixExp semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.PREFIX_EXP__OPERATOR) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.PREFIX_EXP__OPERATOR));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.PREFIX_EXP__EXPRESSION) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.PREFIX_EXP__EXPRESSION));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getPrefixedExpAccess().getOperatorUnaryOperatorParserRuleCall_0_1_0(), semanticObject.getOperator());
+		feeder.accept(grammarAccess.getPrefixedExpAccess().getExpressionPrimaryExpParserRuleCall_0_2_0(), semanticObject.getExpression());
+		feeder.finish();
 	}
 	
 	
@@ -582,6 +623,129 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	/**
 	 * <pre>
 	 * Contexts:
+	 *     Exp returns TriggeredTemporalExp
+	 *     Exp.InfixExp_1_0 returns TriggeredTemporalExp
+	 *     PrefixedExp returns TriggeredTemporalExp
+	 *     PrimaryExp returns TriggeredTemporalExp
+	 *     TemporalExp returns TriggeredTemporalExp
+	 *     TriggeredTemporalExp returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     ((name='asLongAs' b=Exp a=Exp) | (name='ensureThat' a=Exp b=Exp) | (name='everytime' a=Exp b=Exp) | (name='whenOnce' a=Exp b=Exp))
+	 * </pre>
+	 */
+	protected void sequence_TemporalAsLongAs_TemporalAtLeastOnce_TemporalEverytime_TemporalUntil(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     TemporalAsLongAs returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (name='asLongAs' b=Exp a=Exp)
+	 * </pre>
+	 */
+	protected void sequence_TemporalAsLongAs(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTemporalAsLongAsAccess().getNameAsLongAsKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getTemporalAsLongAsAccess().getBExpParserRuleCall_2_0(), semanticObject.getB());
+		feeder.accept(grammarAccess.getTemporalAsLongAsAccess().getAExpParserRuleCall_6_0(), semanticObject.getA());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     TemporalAtLeastOnce returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (name='whenOnce' a=Exp b=Exp)
+	 * </pre>
+	 */
+	protected void sequence_TemporalAtLeastOnce(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTemporalAtLeastOnceAccess().getNameWhenOnceKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getTemporalAtLeastOnceAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
+		feeder.accept(grammarAccess.getTemporalAtLeastOnceAccess().getBExpParserRuleCall_6_0(), semanticObject.getB());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     TemporalEverytime returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (name='everytime' a=Exp b=Exp)
+	 * </pre>
+	 */
+	protected void sequence_TemporalEverytime(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getNameEverytimeKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
+		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getBExpParserRuleCall_6_0(), semanticObject.getB());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     TemporalUntil returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (name='ensureThat' a=Exp b=Exp)
+	 * </pre>
+	 */
+	protected void sequence_TemporalUntil(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTemporalUntilAccess().getNameEnsureThatKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getTemporalUntilAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
+		feeder.accept(grammarAccess.getTemporalUntilAccess().getBExpParserRuleCall_6_0(), semanticObject.getB());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
 	 *     TypeExp returns TypeExp
 	 *
 	 * Constraint:
@@ -604,6 +768,34 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 */
 	protected void sequence_UnaryOperator(ISerializationContext context, UnaryOperator semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     Exp returns UnaryTemporalExp
+	 *     Exp.InfixExp_1_0 returns UnaryTemporalExp
+	 *     PrefixedExp returns UnaryTemporalExp
+	 *     PrimaryExp returns UnaryTemporalExp
+	 *     TemporalExp returns UnaryTemporalExp
+	 *     UnaryTemporalExp returns UnaryTemporalExp
+	 *
+	 * Constraint:
+	 *     (name=UnaryTemporalOp exp=Exp)
+	 * </pre>
+	 */
+	protected void sequence_UnaryTemporalExp(ISerializationContext context, UnaryTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.UNARY_TEMPORAL_EXP__EXP) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.UNARY_TEMPORAL_EXP__EXP));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getUnaryTemporalExpAccess().getNameUnaryTemporalOpParserRuleCall_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getUnaryTemporalExpAccess().getExpExpParserRuleCall_2_0(), semanticObject.getExp());
+		feeder.finish();
 	}
 	
 	

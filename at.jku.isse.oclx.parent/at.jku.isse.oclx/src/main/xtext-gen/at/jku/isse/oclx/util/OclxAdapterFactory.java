@@ -206,6 +206,21 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
         return createCollectionTypeIdentifierAdapter();
       }
       @Override
+      public Adapter caseTemporalExp(TemporalExp object)
+      {
+        return createTemporalExpAdapter();
+      }
+      @Override
+      public Adapter caseUnaryTemporalExp(UnaryTemporalExp object)
+      {
+        return createUnaryTemporalExpAdapter();
+      }
+      @Override
+      public Adapter caseTriggeredTemporalExp(TriggeredTemporalExp object)
+      {
+        return createTriggeredTemporalExpAdapter();
+      }
+      @Override
       public Adapter caseArgumentsExp(ArgumentsExp object)
       {
         return createArgumentsExpAdapter();
@@ -633,6 +648,51 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createCollectionTypeIdentifierAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.TemporalExp <em>Temporal Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see at.jku.isse.oclx.TemporalExp
+   * @generated
+   */
+  public Adapter createTemporalExpAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.UnaryTemporalExp <em>Unary Temporal Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see at.jku.isse.oclx.UnaryTemporalExp
+   * @generated
+   */
+  public Adapter createUnaryTemporalExpAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.TriggeredTemporalExp <em>Triggered Temporal Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see at.jku.isse.oclx.TriggeredTemporalExp
+   * @generated
+   */
+  public Adapter createTriggeredTemporalExpAdapter()
   {
     return null;
   }

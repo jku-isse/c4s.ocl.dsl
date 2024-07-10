@@ -8,20 +8,13 @@ import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.UnaryOperator;
 
-import java.util.Collection;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
-
-import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
-
-import org.eclipse.emf.ecore.util.EObjectContainmentEList;
-import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
@@ -31,7 +24,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link at.jku.isse.oclx.impl.PrefixExpImpl#getOperators <em>Operators</em>}</li>
+ *   <li>{@link at.jku.isse.oclx.impl.PrefixExpImpl#getOperator <em>Operator</em>}</li>
  *   <li>{@link at.jku.isse.oclx.impl.PrefixExpImpl#getExpression <em>Expression</em>}</li>
  * </ul>
  *
@@ -40,14 +33,14 @@ import org.eclipse.emf.ecore.util.InternalEList;
 public class PrefixExpImpl extends ExpImpl implements PrefixExp
 {
   /**
-   * The cached value of the '{@link #getOperators() <em>Operators</em>}' containment reference list.
+   * The cached value of the '{@link #getOperator() <em>Operator</em>}' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see #getOperators()
+   * @see #getOperator()
    * @generated
    * @ordered
    */
-  protected EList<UnaryOperator> operators;
+  protected UnaryOperator operator;
 
   /**
    * The cached value of the '{@link #getExpression() <em>Expression</em>}' containment reference.
@@ -86,13 +79,48 @@ public class PrefixExpImpl extends ExpImpl implements PrefixExp
    * @generated
    */
   @Override
-  public EList<UnaryOperator> getOperators()
+  public UnaryOperator getOperator()
   {
-    if (operators == null)
+    return operator;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  public NotificationChain basicSetOperator(UnaryOperator newOperator, NotificationChain msgs)
+  {
+    UnaryOperator oldOperator = operator;
+    operator = newOperator;
+    if (eNotificationRequired())
     {
-      operators = new EObjectContainmentEList<UnaryOperator>(UnaryOperator.class, this, OclxPackage.PREFIX_EXP__OPERATORS);
+      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OclxPackage.PREFIX_EXP__OPERATOR, oldOperator, newOperator);
+      if (msgs == null) msgs = notification; else msgs.add(notification);
     }
-    return operators;
+    return msgs;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public void setOperator(UnaryOperator newOperator)
+  {
+    if (newOperator != operator)
+    {
+      NotificationChain msgs = null;
+      if (operator != null)
+        msgs = ((InternalEObject)operator).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OclxPackage.PREFIX_EXP__OPERATOR, null, msgs);
+      if (newOperator != null)
+        msgs = ((InternalEObject)newOperator).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OclxPackage.PREFIX_EXP__OPERATOR, null, msgs);
+      msgs = basicSetOperator(newOperator, msgs);
+      if (msgs != null) msgs.dispatch();
+    }
+    else if (eNotificationRequired())
+      eNotify(new ENotificationImpl(this, Notification.SET, OclxPackage.PREFIX_EXP__OPERATOR, newOperator, newOperator));
   }
 
   /**
@@ -155,8 +183,8 @@ public class PrefixExpImpl extends ExpImpl implements PrefixExp
   {
     switch (featureID)
     {
-      case OclxPackage.PREFIX_EXP__OPERATORS:
-        return ((InternalEList<?>)getOperators()).basicRemove(otherEnd, msgs);
+      case OclxPackage.PREFIX_EXP__OPERATOR:
+        return basicSetOperator(null, msgs);
       case OclxPackage.PREFIX_EXP__EXPRESSION:
         return basicSetExpression(null, msgs);
     }
@@ -173,8 +201,8 @@ public class PrefixExpImpl extends ExpImpl implements PrefixExp
   {
     switch (featureID)
     {
-      case OclxPackage.PREFIX_EXP__OPERATORS:
-        return getOperators();
+      case OclxPackage.PREFIX_EXP__OPERATOR:
+        return getOperator();
       case OclxPackage.PREFIX_EXP__EXPRESSION:
         return getExpression();
     }
@@ -186,15 +214,13 @@ public class PrefixExpImpl extends ExpImpl implements PrefixExp
    * <!-- end-user-doc -->
    * @generated
    */
-  @SuppressWarnings("unchecked")
   @Override
   public void eSet(int featureID, Object newValue)
   {
     switch (featureID)
     {
-      case OclxPackage.PREFIX_EXP__OPERATORS:
-        getOperators().clear();
-        getOperators().addAll((Collection<? extends UnaryOperator>)newValue);
+      case OclxPackage.PREFIX_EXP__OPERATOR:
+        setOperator((UnaryOperator)newValue);
         return;
       case OclxPackage.PREFIX_EXP__EXPRESSION:
         setExpression((Exp)newValue);
@@ -213,8 +239,8 @@ public class PrefixExpImpl extends ExpImpl implements PrefixExp
   {
     switch (featureID)
     {
-      case OclxPackage.PREFIX_EXP__OPERATORS:
-        getOperators().clear();
+      case OclxPackage.PREFIX_EXP__OPERATOR:
+        setOperator((UnaryOperator)null);
         return;
       case OclxPackage.PREFIX_EXP__EXPRESSION:
         setExpression((Exp)null);
@@ -233,8 +259,8 @@ public class PrefixExpImpl extends ExpImpl implements PrefixExp
   {
     switch (featureID)
     {
-      case OclxPackage.PREFIX_EXP__OPERATORS:
-        return operators != null && !operators.isEmpty();
+      case OclxPackage.PREFIX_EXP__OPERATOR:
+        return operator != null;
       case OclxPackage.PREFIX_EXP__EXPRESSION:
         return expression != null;
     }

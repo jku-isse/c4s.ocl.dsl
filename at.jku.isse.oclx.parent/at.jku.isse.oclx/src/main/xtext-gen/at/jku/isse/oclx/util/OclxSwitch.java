@@ -272,6 +272,32 @@ public class OclxSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case OclxPackage.TEMPORAL_EXP:
+      {
+        TemporalExp temporalExp = (TemporalExp)theEObject;
+        T result = caseTemporalExp(temporalExp);
+        if (result == null) result = caseExp(temporalExp);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case OclxPackage.UNARY_TEMPORAL_EXP:
+      {
+        UnaryTemporalExp unaryTemporalExp = (UnaryTemporalExp)theEObject;
+        T result = caseUnaryTemporalExp(unaryTemporalExp);
+        if (result == null) result = caseTemporalExp(unaryTemporalExp);
+        if (result == null) result = caseExp(unaryTemporalExp);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
+      case OclxPackage.TRIGGERED_TEMPORAL_EXP:
+      {
+        TriggeredTemporalExp triggeredTemporalExp = (TriggeredTemporalExp)theEObject;
+        T result = caseTriggeredTemporalExp(triggeredTemporalExp);
+        if (result == null) result = caseTemporalExp(triggeredTemporalExp);
+        if (result == null) result = caseExp(triggeredTemporalExp);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case OclxPackage.ARGUMENTS_EXP:
       {
         ArgumentsExp argumentsExp = (ArgumentsExp)theEObject;
@@ -721,6 +747,54 @@ public class OclxSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseCollectionTypeIdentifier(CollectionTypeIdentifier object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Temporal Exp</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Temporal Exp</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTemporalExp(TemporalExp object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Unary Temporal Exp</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Unary Temporal Exp</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseUnaryTemporalExp(UnaryTemporalExp object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Triggered Temporal Exp</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Triggered Temporal Exp</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTriggeredTemporalExp(TriggeredTemporalExp object)
   {
     return null;
   }

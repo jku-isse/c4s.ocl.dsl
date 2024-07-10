@@ -258,6 +258,33 @@ public interface OclxFactory extends EFactory
   CollectionTypeIdentifier createCollectionTypeIdentifier();
 
   /**
+   * Returns a new object of class '<em>Temporal Exp</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Temporal Exp</em>'.
+   * @generated
+   */
+  TemporalExp createTemporalExp();
+
+  /**
+   * Returns a new object of class '<em>Unary Temporal Exp</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Unary Temporal Exp</em>'.
+   * @generated
+   */
+  UnaryTemporalExp createUnaryTemporalExp();
+
+  /**
+   * Returns a new object of class '<em>Triggered Temporal Exp</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Triggered Temporal Exp</em>'.
+   * @generated
+   */
+  TriggeredTemporalExp createTriggeredTemporalExp();
+
+  /**
    * Returns a new object of class '<em>Arguments Exp</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

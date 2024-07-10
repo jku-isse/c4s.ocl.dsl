@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
 import org.eclipse.lsp4j.HoverParams
+import org.eclipse.lsp4j.Hover
 
 @ExtendWith(InjectionExtension)
 @InjectWith(OCLXInjectorProvider)
@@ -25,8 +26,9 @@ class HoverOverTests extends AbstractContentAssistTest{
 		val text = '''rule TestRule {description: "ignored" 	context: DemoIssue 	
 		expression: self }
 		'''
-		val completions = getHoverOver(text, -4, 1)
-		System.out.println(completions);
+		val hovers = getHoverOver(text, -4, 1)
+		System.out.println(hovers)
+		Assertions.assertTrue(assertHoverHas("DemoIssue", hovers))
 	}
 	
 	
@@ -35,9 +37,15 @@ class HoverOverTests extends AbstractContentAssistTest{
 		val text = '''rule TestRule {description: "ignored" 	context: DemoIssue 	
 		expression: self.requirements->FORALL(req | req )}
 		'''
-		val completions = getHoverOver(text, -5, 1)
-		System.out.println(completions);
+		val hovers = getHoverOver(text, -5, 1)
+		System.out.println(hovers)
+		Assertions.assertTrue(assertHoverHas("DemoIssue", hovers))
 	}
+	
+	def assertHoverHas(String expectedHoverText, Hover hoverInfo) {
+		return hoverInfo.contents.getRight().value.equalsIgnoreCase(expectedHoverText)
+	}
+	
 	
 	def getHoverOver(String text, int position) {
 		return getHoverOver(text, position, 0);

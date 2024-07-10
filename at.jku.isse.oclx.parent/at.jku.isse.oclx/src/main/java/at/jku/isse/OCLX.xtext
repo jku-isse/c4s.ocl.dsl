@@ -41,7 +41,7 @@ Exp returns Exp: //if there are more expressions, make sure that the initial Pre
  * 
  */
 PrefixedExp returns Exp:
-	({PrefixExp} operators+=UnaryOperator+ expression=PrimaryExp)
+	({PrefixExp} operator=UnaryOperator expression=PrimaryExp)
 	| 	PrimaryExp
 ;
 
@@ -69,6 +69,7 @@ PrimaryExp returns Exp:
 | 	VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
 //| 	VarReference (nav+=NavigationOperator methods+=MethodExp)*
 | 	PrimitiveLiteralExp
+|	TemporalExp
 ;
 
 NestedExp returns NestedExp:
@@ -143,6 +144,50 @@ TypeExp :
 CollectionTypeIdentifier: // not really used yet, as only needed to define literals
 	name=('SET'|'LIST'|'MAP'|'COLLECTION')
 ;
+
+TemporalExp returns TemporalExp:
+	UnaryTemporalExp | TriggeredTemporalExp 
+	//| DeclarePatternExp
+;
+
+UnaryTemporalExp:
+	name=UnaryTemporalOp '(' exp=Exp ')'
+;
+
+UnaryTemporalOp: 
+	'next' | 'always' | 'eventually'
+;
+
+
+TriggeredTemporalExp returns TriggeredTemporalExp:
+	TemporalAsLongAs | TemporalUntil | TemporalEverytime | TemporalAtLeastOnce
+;
+
+/* Alternative Until, interpret: asLongAs(A) ensureThat(B) => as long as A is true, ensure that B is true , A must become true at some time in the future */
+TemporalAsLongAs returns TriggeredTemporalExp:
+	name='asLongAs' '(' b=Exp ')' 'ensureThat' '(' a=Exp ')'
+;
+
+/* Regular Until, interpret: ensureThat(B) asLongAs(A)  => ensure that A is true as long as B is true , B must become true at some time in the future */
+TemporalUntil returns TriggeredTemporalExp:
+	name='ensureThat' '(' a=Exp ')' 'asLongAs' '(' b=Exp ')'
+;
+
+TemporalEverytime returns TriggeredTemporalExp:
+	name='everytime' '(' a=Exp ')' 'then' '(' b=Exp ')'
+;
+
+TemporalAtLeastOnce returns TriggeredTemporalExp:
+	name='whenOnce' '(' a=Exp ')' 'thenAtLeastOnce' '(' b=Exp ')'
+;
+
+//DeclarePatternExp:
+//	'atMostOnce' | 
+//	'bothOrNeither' | // coexistence
+//	'whenever' 'eventually' | // response
+//	
+//	
+//;
 
 Path:
 	 SimpleName ( '/'  SimpleName)*

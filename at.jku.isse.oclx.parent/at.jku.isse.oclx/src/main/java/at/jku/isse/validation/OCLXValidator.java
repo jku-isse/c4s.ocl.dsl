@@ -3,11 +3,16 @@
  */
 package at.jku.isse.validation;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.validation.Check;
 import org.eclipse.xtext.validation.CheckType;
 
@@ -28,10 +33,14 @@ import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
+import at.jku.isse.oclx.TemporalExp;
+import at.jku.isse.oclx.TriggeredTemporalExp;
+import at.jku.isse.oclx.UnaryTemporalExp;
 import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
+import at.jku.isse.services.OCLXGrammarAccess;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -44,11 +53,14 @@ public class OCLXValidator extends AbstractOCLXValidator {
 	private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(OCLXValidator.class);
 	
 	@Inject
+	private OCLXGrammarAccess grammarAccess;
+	@Inject
 	protected SchemaRegistry schemaReg;
 	
 	public static final String DUPLICATE_VAR_NAME = "duplicateVarName";
 	public static final String UNKNOWN_PROPERTY = "unknownProperty";
 	public static final String UNKNOWN_TYPE = "unknownType";
+	public static final String INCOMPATIBLE_RETURN_TYPE = "incompatibleReturnType";
 	
 	
 	@Check(CheckType.FAST)
@@ -86,8 +98,10 @@ public class OCLXValidator extends AbstractOCLXValidator {
 			checkVariables(((NestedExp) exp).getSource() , declaredVars);
 		} else if (exp instanceof InfixExp) {
 			InfixExp infixExp = (InfixExp)exp;
-			infixExp.getExpressions().forEach(childExp -> checkVariables(childExp, new HashSet<String>(declaredVars)));
-		} 
+			infixExp.getExpressions().forEach(childExp -> checkVariables(childExp, declaredVars));
+		} else if (exp instanceof TemporalExp) {
+			checkTemporalExpression((TemporalExp) exp, declaredVars);
+		}
 		// for any traversing/navigating:	
 		exp.getMethods().forEach(methodExp -> {	
 			log.trace("Traversing: "+methodExp);
@@ -108,11 +122,21 @@ public class OCLXValidator extends AbstractOCLXValidator {
 			} else if (methodExp instanceof MethodCallExp) {
 				MethodCallExp callExp = (MethodCallExp)methodExp;
 				if (callExp.getArgs() != null) {
-					callExp.getArgs().getOperators().stream() // we provide a copy of the declared var, as siblings cannot share vars!
-					.forEach(childExp -> checkVariables(childExp, new HashSet<String>(declaredVars)));
+					callExp.getArgs().getOperators().stream() 
+					.forEach(childExp -> checkVariables(childExp, declaredVars));
 				}
 			} //no need to check PropertyAccessExp
 		});
+	}
+	
+	private void checkTemporalExpression(TemporalExp exp, Set<String> declaredVars) {
+		if (exp instanceof UnaryTemporalExp) {
+			checkVariables(((UnaryTemporalExp)exp).getExp(), declaredVars);
+		} else if (exp instanceof TriggeredTemporalExp) {
+			TriggeredTemporalExp trigExp = (TriggeredTemporalExp)exp;
+			checkVariables(trigExp.getA(), declaredVars);
+			checkVariables(trigExp.getB(), declaredVars);
+		}
 	}
 	
 	@Check(CheckType.FAST)
@@ -146,25 +170,45 @@ public class OCLXValidator extends AbstractOCLXValidator {
 			if (exp instanceof PrefixExp) {
 			PrefixExp prefixExp = (PrefixExp)exp;
 			currentType = checkExpressionForNavigationCorrectness(prefixExp.getExpression(), varTypeMap);
+			if (prefixExp.getOperator().getName().equals(grammarAccess.getUnaryOperatorAccess().getNameNotKeyword_0_1().getValue())
+					&& currentType != BuildInType.BOOLEAN) {
+				error(String.format(" Expression prefixed with 'not' operator requires Boolean return type but found '%s' ", currentType), prefixExp.getExpression(), OclxPackage.Literals.PREFIX_EXP__EXPRESSION, INCOMPATIBLE_RETURN_TYPE);
+			}
 		} else if (exp instanceof NestedExp) {
 			currentType = checkExpressionForNavigationCorrectness(((NestedExp) exp).getSource(), varTypeMap);
 		} else if (exp instanceof InfixExp) {
 			InfixExp infixExp = (InfixExp)exp;
 			if (infixExp.getExpressions().size() > 1) {
-				infixExp.getExpressions().forEach(childExp -> checkExpressionForNavigationCorrectness(childExp, varTypeMap));
-				// return type depends on Binary Operator
 				BinaryOperator op = infixExp.getOperators().get(0);
+				boolean isBooleanOp = isBooleanOperator(op);
+				boolean isMathOp = isMathOperatpr(op);
+				List<PPEInstanceType> returnTypes = infixExp.getExpressions().stream()
+						.map(childExp -> new AbstractMap.SimpleEntry<Exp, PPEInstanceType>(childExp, checkExpressionForNavigationCorrectness(childExp, varTypeMap)))
+						.map(entry -> {
+							if (isBooleanOp && entry.getValue() != BuildInType.BOOLEAN) {
+								error(String.format(" Boolean Operator requires nested expression(s) to return Boolean but found '%s' ", entry.getValue()), infixExp, OclxPackage.Literals.INFIX_EXP__EXPRESSIONS, INCOMPATIBLE_RETURN_TYPE);
+							} else if (isMathOp 
+									&& ( entry.getValue() != BuildInType.FLOAT && entry.getValue() != BuildInType.INTEGER) //neither float nor integer
+									) {
+								error(String.format(" Math Operator requires nested expression(s) to return FLOAT or INTEGER but found '%s' ", entry.getValue()), infixExp, OclxPackage.Literals.INFIX_EXP__EXPRESSIONS, INCOMPATIBLE_RETURN_TYPE);
+							}
+							return entry.getValue();
+						})
+						.collect(Collectors.toList());
+				// return type depends on Binary Operator, we only check first operator 
 				if (op instanceof BooleanOperator) {
 					currentType = BuildInType.BOOLEAN;
 				} else if (op instanceof MathOperator) {
-					currentType = BuildInType.FLOAT;
+					currentType = BuildInType.FLOAT; //TODO: check simultaneous use of math and logic operators!
 				} else {
 					currentType = BuildInType.METATYPE; //should not happen
 				}
 			} else {
 				currentType = checkExpressionForNavigationCorrectness(infixExp.getExpressions().get(0), varTypeMap);
 			}
-		} 
+		}  else if (exp instanceof TemporalExp) {
+			currentType = checkTemporalExpressionNavigation((TemporalExp) exp, varTypeMap);
+		}
 			
 		for (MethodExp methodExp : exp.getMethods()) {
 			log.trace("Traversing for methodCheck: "+methodExp);
@@ -212,6 +256,53 @@ public class OCLXValidator extends AbstractOCLXValidator {
 			}
 		}
 		return currentType;
+	}
+	
+	private boolean isMathOperatpr(BinaryOperator op) {
+		return (op instanceof MathOperator
+				&& grammarAccess.getMathOperatorAccess().getOpAlternatives_0().getElements().stream() 
+					.filter(Keyword.class::isInstance)
+					.map(Keyword.class::cast)
+					.map(keyword -> keyword.getValue())
+					.anyMatch(keyword -> keyword.equals(op.getOp()) )
+				);
+	}
+
+
+
+	private boolean isBooleanOperator(BinaryOperator op) {
+		return (op instanceof BooleanOperator 
+				&& ( 
+					op.getOp().equals(grammarAccess.getBooleanOperatorAccess().getOpAndKeyword_0_6().getValue() )
+				|| op.getOp().equals(grammarAccess.getBooleanOperatorAccess().getOpOrKeyword_0_7().getValue() )
+				|| op.getOp().equals(grammarAccess.getBooleanOperatorAccess().getOpXorKeyword_0_8().getValue() )
+						)		
+		) ;
+	}
+
+
+
+	private PPEInstanceType checkTemporalExpressionNavigation(TemporalExp exp, Map<String, PPEInstanceType> varTypeMap) {
+		if (exp instanceof UnaryTemporalExp) {
+			PPEInstanceType returnType = checkExpressionForNavigationCorrectness(((UnaryTemporalExp)exp).getExp(), varTypeMap);
+			if (returnType != BuildInType.BOOLEAN) {
+				error(String.format(" Temporal Expression requires nested expression to return Boolean but found '%s' ", returnType), 
+						((UnaryTemporalExp)exp), OclxPackage.Literals.UNARY_TEMPORAL_EXP__EXP, INCOMPATIBLE_RETURN_TYPE);
+			}
+		} else if (exp instanceof TriggeredTemporalExp) {
+			TriggeredTemporalExp trigExp = (TriggeredTemporalExp)exp;
+			PPEInstanceType returnTypeA = checkExpressionForNavigationCorrectness(trigExp.getA(), varTypeMap);
+			if (returnTypeA != BuildInType.BOOLEAN) {
+				error(String.format(" Temporal Expression requires nested expression(s) to return Boolean but found '%s' ", returnTypeA)
+						, trigExp, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A, INCOMPATIBLE_RETURN_TYPE);
+			}
+			PPEInstanceType returnTypeB =checkExpressionForNavigationCorrectness(trigExp.getB(), varTypeMap);
+			if (returnTypeB != BuildInType.BOOLEAN) {
+				error(String.format(" Temporal Expression requires nested expression(s) to return Boolean but found '%s' ", returnTypeB)
+						, trigExp, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B, INCOMPATIBLE_RETURN_TYPE);
+			}
+		}
+		return BuildInType.BOOLEAN;
 	}
 	
 	private PPEInstanceType checkNavigation(PPEInstanceType currentType, PropertyAccessExp expression) {

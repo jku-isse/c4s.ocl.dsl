@@ -3,7 +3,6 @@
  */
 package at.jku.isse.oclx;
 
-import org.eclipse.emf.common.util.EList;
 
 /**
  * <!-- begin-user-doc -->
@@ -14,7 +13,7 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link at.jku.isse.oclx.PrefixExp#getOperators <em>Operators</em>}</li>
+ *   <li>{@link at.jku.isse.oclx.PrefixExp#getOperator <em>Operator</em>}</li>
  *   <li>{@link at.jku.isse.oclx.PrefixExp#getExpression <em>Expression</em>}</li>
  * </ul>
  *
@@ -25,16 +24,26 @@ import org.eclipse.emf.common.util.EList;
 public interface PrefixExp extends Exp
 {
   /**
-   * Returns the value of the '<em><b>Operators</b></em>' containment reference list.
-   * The list contents are of type {@link at.jku.isse.oclx.UnaryOperator}.
+   * Returns the value of the '<em><b>Operator</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the value of the '<em>Operators</em>' containment reference list.
-   * @see at.jku.isse.oclx.OclxPackage#getPrefixExp_Operators()
+   * @return the value of the '<em>Operator</em>' containment reference.
+   * @see #setOperator(UnaryOperator)
+   * @see at.jku.isse.oclx.OclxPackage#getPrefixExp_Operator()
    * @model containment="true"
    * @generated
    */
-  EList<UnaryOperator> getOperators();
+  UnaryOperator getOperator();
+
+  /**
+   * Sets the value of the '{@link at.jku.isse.oclx.PrefixExp#getOperator <em>Operator</em>}' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @param value the new value of the '<em>Operator</em>' containment reference.
+   * @see #getOperator()
+   * @generated
+   */
+  void setOperator(UnaryOperator value);
 
   /**
    * Returns the value of the '<em><b>Expression</b></em>' containment reference.

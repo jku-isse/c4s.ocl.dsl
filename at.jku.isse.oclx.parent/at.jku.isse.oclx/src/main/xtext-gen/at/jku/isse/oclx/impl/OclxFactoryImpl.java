@@ -91,6 +91,9 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
       case OclxPackage.METHOD_CALL_EXP: return createMethodCallExp();
       case OclxPackage.TYPE_EXP: return createTypeExp();
       case OclxPackage.COLLECTION_TYPE_IDENTIFIER: return createCollectionTypeIdentifier();
+      case OclxPackage.TEMPORAL_EXP: return createTemporalExp();
+      case OclxPackage.UNARY_TEMPORAL_EXP: return createUnaryTemporalExp();
+      case OclxPackage.TRIGGERED_TEMPORAL_EXP: return createTriggeredTemporalExp();
       case OclxPackage.ARGUMENTS_EXP: return createArgumentsExp();
       case OclxPackage.INFIX_EXP: return createInfixExp();
       case OclxPackage.PREFIX_EXP: return createPrefixExp();
@@ -410,6 +413,42 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
   {
     CollectionTypeIdentifierImpl collectionTypeIdentifier = new CollectionTypeIdentifierImpl();
     return collectionTypeIdentifier;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public TemporalExp createTemporalExp()
+  {
+    TemporalExpImpl temporalExp = new TemporalExpImpl();
+    return temporalExp;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public UnaryTemporalExp createUnaryTemporalExp()
+  {
+    UnaryTemporalExpImpl unaryTemporalExp = new UnaryTemporalExpImpl();
+    return unaryTemporalExp;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public TriggeredTemporalExp createTriggeredTemporalExp()
+  {
+    TriggeredTemporalExpImpl triggeredTemporalExp = new TriggeredTemporalExpImpl();
+    return triggeredTemporalExp;
   }
 
   /**

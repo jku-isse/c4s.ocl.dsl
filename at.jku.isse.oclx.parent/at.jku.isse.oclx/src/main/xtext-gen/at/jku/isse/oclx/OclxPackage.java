@@ -1011,6 +1011,171 @@ public interface OclxPackage extends EPackage
   int COLLECTION_TYPE_IDENTIFIER_FEATURE_COUNT = 1;
 
   /**
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.TemporalExpImpl <em>Temporal Exp</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see at.jku.isse.oclx.impl.TemporalExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTemporalExp()
+   * @generated
+   */
+  int TEMPORAL_EXP = 26;
+
+  /**
+   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TEMPORAL_EXP__NAV = EXP__NAV;
+
+  /**
+   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TEMPORAL_EXP__METHODS = EXP__METHODS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TEMPORAL_EXP__NAME = EXP_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Temporal Exp</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TEMPORAL_EXP_FEATURE_COUNT = EXP_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.UnaryTemporalExpImpl <em>Unary Temporal Exp</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see at.jku.isse.oclx.impl.UnaryTemporalExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getUnaryTemporalExp()
+   * @generated
+   */
+  int UNARY_TEMPORAL_EXP = 27;
+
+  /**
+   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_TEMPORAL_EXP__NAV = TEMPORAL_EXP__NAV;
+
+  /**
+   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_TEMPORAL_EXP__METHODS = TEMPORAL_EXP__METHODS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_TEMPORAL_EXP__NAME = TEMPORAL_EXP__NAME;
+
+  /**
+   * The feature id for the '<em><b>Exp</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_TEMPORAL_EXP__EXP = TEMPORAL_EXP_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Unary Temporal Exp</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int UNARY_TEMPORAL_EXP_FEATURE_COUNT = TEMPORAL_EXP_FEATURE_COUNT + 1;
+
+  /**
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.TriggeredTemporalExpImpl <em>Triggered Temporal Exp</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see at.jku.isse.oclx.impl.TriggeredTemporalExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTriggeredTemporalExp()
+   * @generated
+   */
+  int TRIGGERED_TEMPORAL_EXP = 28;
+
+  /**
+   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TRIGGERED_TEMPORAL_EXP__NAV = TEMPORAL_EXP__NAV;
+
+  /**
+   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TRIGGERED_TEMPORAL_EXP__METHODS = TEMPORAL_EXP__METHODS;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TRIGGERED_TEMPORAL_EXP__NAME = TEMPORAL_EXP__NAME;
+
+  /**
+   * The feature id for the '<em><b>B</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TRIGGERED_TEMPORAL_EXP__B = TEMPORAL_EXP_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>A</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TRIGGERED_TEMPORAL_EXP__A = TEMPORAL_EXP_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Triggered Temporal Exp</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TRIGGERED_TEMPORAL_EXP_FEATURE_COUNT = TEMPORAL_EXP_FEATURE_COUNT + 2;
+
+  /**
    * The meta object id for the '{@link at.jku.isse.oclx.impl.ArgumentsExpImpl <em>Arguments Exp</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1018,7 +1183,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getArgumentsExp()
    * @generated
    */
-  int ARGUMENTS_EXP = 26;
+  int ARGUMENTS_EXP = 29;
 
   /**
    * The feature id for the '<em><b>Operators</b></em>' containment reference list.
@@ -1046,7 +1211,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getInfixExp()
    * @generated
    */
-  int INFIX_EXP = 27;
+  int INFIX_EXP = 30;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1101,7 +1266,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getPrefixExp()
    * @generated
    */
-  int PREFIX_EXP = 28;
+  int PREFIX_EXP = 31;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1122,13 +1287,13 @@ public interface OclxPackage extends EPackage
   int PREFIX_EXP__METHODS = EXP__METHODS;
 
   /**
-   * The feature id for the '<em><b>Operators</b></em>' containment reference list.
+   * The feature id for the '<em><b>Operator</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int PREFIX_EXP__OPERATORS = EXP_FEATURE_COUNT + 0;
+  int PREFIX_EXP__OPERATOR = EXP_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Expression</b></em>' containment reference.
@@ -1156,7 +1321,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNullLiteralExpCS()
    * @generated
    */
-  int NULL_LITERAL_EXP_CS = 29;
+  int NULL_LITERAL_EXP_CS = 32;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1810,6 +1975,80 @@ public interface OclxPackage extends EPackage
   EAttribute getCollectionTypeIdentifier_Name();
 
   /**
+   * Returns the meta object for class '{@link at.jku.isse.oclx.TemporalExp <em>Temporal Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Temporal Exp</em>'.
+   * @see at.jku.isse.oclx.TemporalExp
+   * @generated
+   */
+  EClass getTemporalExp();
+
+  /**
+   * Returns the meta object for the attribute '{@link at.jku.isse.oclx.TemporalExp#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see at.jku.isse.oclx.TemporalExp#getName()
+   * @see #getTemporalExp()
+   * @generated
+   */
+  EAttribute getTemporalExp_Name();
+
+  /**
+   * Returns the meta object for class '{@link at.jku.isse.oclx.UnaryTemporalExp <em>Unary Temporal Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Unary Temporal Exp</em>'.
+   * @see at.jku.isse.oclx.UnaryTemporalExp
+   * @generated
+   */
+  EClass getUnaryTemporalExp();
+
+  /**
+   * Returns the meta object for the containment reference '{@link at.jku.isse.oclx.UnaryTemporalExp#getExp <em>Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>Exp</em>'.
+   * @see at.jku.isse.oclx.UnaryTemporalExp#getExp()
+   * @see #getUnaryTemporalExp()
+   * @generated
+   */
+  EReference getUnaryTemporalExp_Exp();
+
+  /**
+   * Returns the meta object for class '{@link at.jku.isse.oclx.TriggeredTemporalExp <em>Triggered Temporal Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Triggered Temporal Exp</em>'.
+   * @see at.jku.isse.oclx.TriggeredTemporalExp
+   * @generated
+   */
+  EClass getTriggeredTemporalExp();
+
+  /**
+   * Returns the meta object for the containment reference '{@link at.jku.isse.oclx.TriggeredTemporalExp#getB <em>B</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>B</em>'.
+   * @see at.jku.isse.oclx.TriggeredTemporalExp#getB()
+   * @see #getTriggeredTemporalExp()
+   * @generated
+   */
+  EReference getTriggeredTemporalExp_B();
+
+  /**
+   * Returns the meta object for the containment reference '{@link at.jku.isse.oclx.TriggeredTemporalExp#getA <em>A</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference '<em>A</em>'.
+   * @see at.jku.isse.oclx.TriggeredTemporalExp#getA()
+   * @see #getTriggeredTemporalExp()
+   * @generated
+   */
+  EReference getTriggeredTemporalExp_A();
+
+  /**
    * Returns the meta object for class '{@link at.jku.isse.oclx.ArgumentsExp <em>Arguments Exp</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1873,15 +2112,15 @@ public interface OclxPackage extends EPackage
   EClass getPrefixExp();
 
   /**
-   * Returns the meta object for the containment reference list '{@link at.jku.isse.oclx.PrefixExp#getOperators <em>Operators</em>}'.
+   * Returns the meta object for the containment reference '{@link at.jku.isse.oclx.PrefixExp#getOperator <em>Operator</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Operators</em>'.
-   * @see at.jku.isse.oclx.PrefixExp#getOperators()
+   * @return the meta object for the containment reference '<em>Operator</em>'.
+   * @see at.jku.isse.oclx.PrefixExp#getOperator()
    * @see #getPrefixExp()
    * @generated
    */
-  EReference getPrefixExp_Operators();
+  EReference getPrefixExp_Operator();
 
   /**
    * Returns the meta object for the containment reference '{@link at.jku.isse.oclx.PrefixExp#getExpression <em>Expression</em>}'.
@@ -2452,6 +2691,68 @@ public interface OclxPackage extends EPackage
     EAttribute COLLECTION_TYPE_IDENTIFIER__NAME = eINSTANCE.getCollectionTypeIdentifier_Name();
 
     /**
+     * The meta object literal for the '{@link at.jku.isse.oclx.impl.TemporalExpImpl <em>Temporal Exp</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see at.jku.isse.oclx.impl.TemporalExpImpl
+     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTemporalExp()
+     * @generated
+     */
+    EClass TEMPORAL_EXP = eINSTANCE.getTemporalExp();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TEMPORAL_EXP__NAME = eINSTANCE.getTemporalExp_Name();
+
+    /**
+     * The meta object literal for the '{@link at.jku.isse.oclx.impl.UnaryTemporalExpImpl <em>Unary Temporal Exp</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see at.jku.isse.oclx.impl.UnaryTemporalExpImpl
+     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getUnaryTemporalExp()
+     * @generated
+     */
+    EClass UNARY_TEMPORAL_EXP = eINSTANCE.getUnaryTemporalExp();
+
+    /**
+     * The meta object literal for the '<em><b>Exp</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference UNARY_TEMPORAL_EXP__EXP = eINSTANCE.getUnaryTemporalExp_Exp();
+
+    /**
+     * The meta object literal for the '{@link at.jku.isse.oclx.impl.TriggeredTemporalExpImpl <em>Triggered Temporal Exp</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see at.jku.isse.oclx.impl.TriggeredTemporalExpImpl
+     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTriggeredTemporalExp()
+     * @generated
+     */
+    EClass TRIGGERED_TEMPORAL_EXP = eINSTANCE.getTriggeredTemporalExp();
+
+    /**
+     * The meta object literal for the '<em><b>B</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TRIGGERED_TEMPORAL_EXP__B = eINSTANCE.getTriggeredTemporalExp_B();
+
+    /**
+     * The meta object literal for the '<em><b>A</b></em>' containment reference feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference TRIGGERED_TEMPORAL_EXP__A = eINSTANCE.getTriggeredTemporalExp_A();
+
+    /**
      * The meta object literal for the '{@link at.jku.isse.oclx.impl.ArgumentsExpImpl <em>Arguments Exp</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2506,12 +2807,12 @@ public interface OclxPackage extends EPackage
     EClass PREFIX_EXP = eINSTANCE.getPrefixExp();
 
     /**
-     * The meta object literal for the '<em><b>Operators</b></em>' containment reference list feature.
+     * The meta object literal for the '<em><b>Operator</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference PREFIX_EXP__OPERATORS = eINSTANCE.getPrefixExp_Operators();
+    EReference PREFIX_EXP__OPERATOR = eINSTANCE.getPrefixExp_Operator();
 
     /**
      * The meta object literal for the '<em><b>Expression</b></em>' containment reference feature.

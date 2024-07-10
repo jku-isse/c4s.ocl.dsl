@@ -485,22 +485,22 @@ rulePrefixedExp returns [EObject current=null]
 			(
 				(
 					{
-						newCompositeNode(grammarAccess.getPrefixedExpAccess().getOperatorsUnaryOperatorParserRuleCall_0_1_0());
+						newCompositeNode(grammarAccess.getPrefixedExpAccess().getOperatorUnaryOperatorParserRuleCall_0_1_0());
 					}
-					lv_operators_1_0=ruleUnaryOperator
+					lv_operator_1_0=ruleUnaryOperator
 					{
 						if ($current==null) {
 							$current = createModelElementForParent(grammarAccess.getPrefixedExpRule());
 						}
-						add(
+						set(
 							$current,
-							"operators",
-							lv_operators_1_0,
+							"operator",
+							lv_operator_1_0,
 							"at.jku.isse.OCLX.UnaryOperator");
 						afterParserOrEnumRuleCall();
 					}
 				)
-			)+
+			)
 			(
 				(
 					{
@@ -962,6 +962,15 @@ rulePrimaryExp returns [EObject current=null]
 		this_PrimitiveLiteralExp_4=rulePrimitiveLiteralExp
 		{
 			$current = $this_PrimitiveLiteralExp_4.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getPrimaryExpAccess().getTemporalExpParserRuleCall_3());
+		}
+		this_TemporalExp_5=ruleTemporalExp
+		{
+			$current = $this_TemporalExp_5.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
@@ -1987,6 +1996,561 @@ ruleCollectionTypeIdentifier returns [EObject current=null]
 				}
 			)
 		)
+	)
+;
+
+// Entry rule entryRuleTemporalExp
+entryRuleTemporalExp returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTemporalExpRule()); }
+	iv_ruleTemporalExp=ruleTemporalExp
+	{ $current=$iv_ruleTemporalExp.current; }
+	EOF;
+
+// Rule TemporalExp
+ruleTemporalExp returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		{
+			newCompositeNode(grammarAccess.getTemporalExpAccess().getUnaryTemporalExpParserRuleCall_0());
+		}
+		this_UnaryTemporalExp_0=ruleUnaryTemporalExp
+		{
+			$current = $this_UnaryTemporalExp_0.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getTemporalExpAccess().getTriggeredTemporalExpParserRuleCall_1());
+		}
+		this_TriggeredTemporalExp_1=ruleTriggeredTemporalExp
+		{
+			$current = $this_TriggeredTemporalExp_1.current;
+			afterParserOrEnumRuleCall();
+		}
+	)
+;
+
+// Entry rule entryRuleUnaryTemporalExp
+entryRuleUnaryTemporalExp returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getUnaryTemporalExpRule()); }
+	iv_ruleUnaryTemporalExp=ruleUnaryTemporalExp
+	{ $current=$iv_ruleUnaryTemporalExp.current; }
+	EOF;
+
+// Rule UnaryTemporalExp
+ruleUnaryTemporalExp returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getUnaryTemporalExpAccess().getNameUnaryTemporalOpParserRuleCall_0_0());
+				}
+				lv_name_0_0=ruleUnaryTemporalOp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getUnaryTemporalExpRule());
+					}
+					set(
+						$current,
+						"name",
+						lv_name_0_0,
+						"at.jku.isse.OCLX.UnaryTemporalOp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getUnaryTemporalExpAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getUnaryTemporalExpAccess().getExpExpParserRuleCall_2_0());
+				}
+				lv_exp_2_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getUnaryTemporalExpRule());
+					}
+					set(
+						$current,
+						"exp",
+						lv_exp_2_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getUnaryTemporalExpAccess().getRightParenthesisKeyword_3());
+		}
+	)
+;
+
+// Entry rule entryRuleUnaryTemporalOp
+entryRuleUnaryTemporalOp returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getUnaryTemporalOpRule()); }
+	iv_ruleUnaryTemporalOp=ruleUnaryTemporalOp
+	{ $current=$iv_ruleUnaryTemporalOp.current.getText(); }
+	EOF;
+
+// Rule UnaryTemporalOp
+ruleUnaryTemporalOp returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		kw='next'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getUnaryTemporalOpAccess().getNextKeyword_0());
+		}
+		    |
+		kw='always'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getUnaryTemporalOpAccess().getAlwaysKeyword_1());
+		}
+		    |
+		kw='eventually'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getUnaryTemporalOpAccess().getEventuallyKeyword_2());
+		}
+	)
+;
+
+// Entry rule entryRuleTriggeredTemporalExp
+entryRuleTriggeredTemporalExp returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTriggeredTemporalExpRule()); }
+	iv_ruleTriggeredTemporalExp=ruleTriggeredTemporalExp
+	{ $current=$iv_ruleTriggeredTemporalExp.current; }
+	EOF;
+
+// Rule TriggeredTemporalExp
+ruleTriggeredTemporalExp returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		{
+			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalAsLongAsParserRuleCall_0());
+		}
+		this_TemporalAsLongAs_0=ruleTemporalAsLongAs
+		{
+			$current = $this_TemporalAsLongAs_0.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalUntilParserRuleCall_1());
+		}
+		this_TemporalUntil_1=ruleTemporalUntil
+		{
+			$current = $this_TemporalUntil_1.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalEverytimeParserRuleCall_2());
+		}
+		this_TemporalEverytime_2=ruleTemporalEverytime
+		{
+			$current = $this_TemporalEverytime_2.current;
+			afterParserOrEnumRuleCall();
+		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalAtLeastOnceParserRuleCall_3());
+		}
+		this_TemporalAtLeastOnce_3=ruleTemporalAtLeastOnce
+		{
+			$current = $this_TemporalAtLeastOnce_3.current;
+			afterParserOrEnumRuleCall();
+		}
+	)
+;
+
+// Entry rule entryRuleTemporalAsLongAs
+entryRuleTemporalAsLongAs returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTemporalAsLongAsRule()); }
+	iv_ruleTemporalAsLongAs=ruleTemporalAsLongAs
+	{ $current=$iv_ruleTemporalAsLongAs.current; }
+	EOF;
+
+// Rule TemporalAsLongAs
+ruleTemporalAsLongAs returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			(
+				lv_name_0_0='asLongAs'
+				{
+					newLeafNode(lv_name_0_0, grammarAccess.getTemporalAsLongAsAccess().getNameAsLongAsKeyword_0_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getTemporalAsLongAsRule());
+					}
+					setWithLastConsumed($current, "name", lv_name_0_0, "asLongAs");
+				}
+			)
+		)
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getTemporalAsLongAsAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalAsLongAsAccess().getBExpParserRuleCall_2_0());
+				}
+				lv_b_2_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalAsLongAsRule());
+					}
+					set(
+						$current,
+						"b",
+						lv_b_2_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getTemporalAsLongAsAccess().getRightParenthesisKeyword_3());
+		}
+		otherlv_4='ensureThat'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getTemporalAsLongAsAccess().getEnsureThatKeyword_4());
+		}
+		otherlv_5='('
+		{
+			newLeafNode(otherlv_5, grammarAccess.getTemporalAsLongAsAccess().getLeftParenthesisKeyword_5());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalAsLongAsAccess().getAExpParserRuleCall_6_0());
+				}
+				lv_a_6_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalAsLongAsRule());
+					}
+					set(
+						$current,
+						"a",
+						lv_a_6_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_7=')'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getTemporalAsLongAsAccess().getRightParenthesisKeyword_7());
+		}
+	)
+;
+
+// Entry rule entryRuleTemporalUntil
+entryRuleTemporalUntil returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTemporalUntilRule()); }
+	iv_ruleTemporalUntil=ruleTemporalUntil
+	{ $current=$iv_ruleTemporalUntil.current; }
+	EOF;
+
+// Rule TemporalUntil
+ruleTemporalUntil returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			(
+				lv_name_0_0='ensureThat'
+				{
+					newLeafNode(lv_name_0_0, grammarAccess.getTemporalUntilAccess().getNameEnsureThatKeyword_0_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getTemporalUntilRule());
+					}
+					setWithLastConsumed($current, "name", lv_name_0_0, "ensureThat");
+				}
+			)
+		)
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getTemporalUntilAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalUntilAccess().getAExpParserRuleCall_2_0());
+				}
+				lv_a_2_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalUntilRule());
+					}
+					set(
+						$current,
+						"a",
+						lv_a_2_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getTemporalUntilAccess().getRightParenthesisKeyword_3());
+		}
+		otherlv_4='asLongAs'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getTemporalUntilAccess().getAsLongAsKeyword_4());
+		}
+		otherlv_5='('
+		{
+			newLeafNode(otherlv_5, grammarAccess.getTemporalUntilAccess().getLeftParenthesisKeyword_5());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalUntilAccess().getBExpParserRuleCall_6_0());
+				}
+				lv_b_6_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalUntilRule());
+					}
+					set(
+						$current,
+						"b",
+						lv_b_6_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_7=')'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getTemporalUntilAccess().getRightParenthesisKeyword_7());
+		}
+	)
+;
+
+// Entry rule entryRuleTemporalEverytime
+entryRuleTemporalEverytime returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTemporalEverytimeRule()); }
+	iv_ruleTemporalEverytime=ruleTemporalEverytime
+	{ $current=$iv_ruleTemporalEverytime.current; }
+	EOF;
+
+// Rule TemporalEverytime
+ruleTemporalEverytime returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			(
+				lv_name_0_0='everytime'
+				{
+					newLeafNode(lv_name_0_0, grammarAccess.getTemporalEverytimeAccess().getNameEverytimeKeyword_0_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getTemporalEverytimeRule());
+					}
+					setWithLastConsumed($current, "name", lv_name_0_0, "everytime");
+				}
+			)
+		)
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getTemporalEverytimeAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalEverytimeAccess().getAExpParserRuleCall_2_0());
+				}
+				lv_a_2_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalEverytimeRule());
+					}
+					set(
+						$current,
+						"a",
+						lv_a_2_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getTemporalEverytimeAccess().getRightParenthesisKeyword_3());
+		}
+		otherlv_4='then'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getTemporalEverytimeAccess().getThenKeyword_4());
+		}
+		otherlv_5='('
+		{
+			newLeafNode(otherlv_5, grammarAccess.getTemporalEverytimeAccess().getLeftParenthesisKeyword_5());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalEverytimeAccess().getBExpParserRuleCall_6_0());
+				}
+				lv_b_6_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalEverytimeRule());
+					}
+					set(
+						$current,
+						"b",
+						lv_b_6_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_7=')'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getTemporalEverytimeAccess().getRightParenthesisKeyword_7());
+		}
+	)
+;
+
+// Entry rule entryRuleTemporalAtLeastOnce
+entryRuleTemporalAtLeastOnce returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTemporalAtLeastOnceRule()); }
+	iv_ruleTemporalAtLeastOnce=ruleTemporalAtLeastOnce
+	{ $current=$iv_ruleTemporalAtLeastOnce.current; }
+	EOF;
+
+// Rule TemporalAtLeastOnce
+ruleTemporalAtLeastOnce returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		(
+			(
+				lv_name_0_0='whenOnce'
+				{
+					newLeafNode(lv_name_0_0, grammarAccess.getTemporalAtLeastOnceAccess().getNameWhenOnceKeyword_0_0());
+				}
+				{
+					if ($current==null) {
+						$current = createModelElement(grammarAccess.getTemporalAtLeastOnceRule());
+					}
+					setWithLastConsumed($current, "name", lv_name_0_0, "whenOnce");
+				}
+			)
+		)
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getTemporalAtLeastOnceAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalAtLeastOnceAccess().getAExpParserRuleCall_2_0());
+				}
+				lv_a_2_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalAtLeastOnceRule());
+					}
+					set(
+						$current,
+						"a",
+						lv_a_2_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getTemporalAtLeastOnceAccess().getRightParenthesisKeyword_3());
+		}
+		otherlv_4='thenAtLeastOnce'
+		{
+			newLeafNode(otherlv_4, grammarAccess.getTemporalAtLeastOnceAccess().getThenAtLeastOnceKeyword_4());
+		}
+		otherlv_5='('
+		{
+			newLeafNode(otherlv_5, grammarAccess.getTemporalAtLeastOnceAccess().getLeftParenthesisKeyword_5());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTemporalAtLeastOnceAccess().getBExpParserRuleCall_6_0());
+				}
+				lv_b_6_0=ruleExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTemporalAtLeastOnceRule());
+					}
+					set(
+						$current,
+						"b",
+						lv_b_6_0,
+						"at.jku.isse.OCLX.Exp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_7=')'
+		{
+			newLeafNode(otherlv_7, grammarAccess.getTemporalAtLeastOnceAccess().getRightParenthesisKeyword_7());
+		}
 	)
 ;
 

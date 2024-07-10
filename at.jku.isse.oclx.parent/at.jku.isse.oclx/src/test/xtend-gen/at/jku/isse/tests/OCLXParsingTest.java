@@ -212,6 +212,60 @@ public class OCLXParsingTest {
   }
 
   @Test
+  public void loadDuplicateVarDeclaration2() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule2 {");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("description: \"just some test\"");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("is overrulable: false");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("expression: ( ");
+      _builder.newLine();
+      _builder.append("\t            ");
+      _builder.append("self.downstream ");
+      _builder.newLine();
+      _builder.append("\t                ");
+      _builder.append("->EXISTS(req | req.bugs.size() > 0)");
+      _builder.newLine();
+      _builder.append("\t        ");
+      _builder.append("and ");
+      _builder.newLine();
+      _builder.append("\t            ");
+      _builder.append("self->isDefined()");
+      _builder.newLine();
+      _builder.append("\t        ");
+      _builder.append("and self.downstream->FORALL( req |  req.isEmpty() )  )");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      final Model result = this.parseHelper.parse(_builder);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.ITERATOR_VAR_DECLARATION, 
+        OCLXValidator.DUPLICATE_VAR_NAME);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
   public void loadKnownPropertyUsage() {
     try {
       StringConcatenation _builder = new StringConcatenation();
@@ -363,6 +417,106 @@ public class OCLXParsingTest {
       this.validationTestHelper.assertError(result, 
         OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
         OCLXValidator.UNKNOWN_PROPERTY);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testTemporalNestedReturnType() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("description: \"testing\"");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("expression: next(self.requirements) ");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final Model result = this.parseHelper.parse(_builder);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.EXP, 
+        OCLXValidator.INCOMPATIBLE_RETURN_TYPE);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testTriggeredTemporalNestedReturnType() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("description: \"testing\"");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("expression: everytime(self.requirements) then(self.requirements.size() > 0)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final Model result = this.parseHelper.parse(_builder);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.EXP, 
+        OCLXValidator.INCOMPATIBLE_RETURN_TYPE);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testTriggeredTemporalNestedReturnTypeSuccess() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("description: \"testing\"");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("expression: asLongAs(self.requirements.isEmpty()) ensureThat(self.requirements.size() > 0)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final Model result = this.parseHelper.parse(_builder);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertNoErrors(result);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
       boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder_1 = new StringConcatenation();

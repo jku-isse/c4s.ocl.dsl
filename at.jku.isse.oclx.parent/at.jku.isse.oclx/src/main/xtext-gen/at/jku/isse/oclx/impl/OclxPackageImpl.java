@@ -31,8 +31,11 @@ import at.jku.isse.oclx.PrimitiveLiteralExp;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.StringLiteralExp;
+import at.jku.isse.oclx.TemporalExp;
+import at.jku.isse.oclx.TriggeredTemporalExp;
 import at.jku.isse.oclx.TypeExp;
 import at.jku.isse.oclx.UnaryOperator;
+import at.jku.isse.oclx.UnaryTemporalExp;
 import at.jku.isse.oclx.VarDeclaration;
 import at.jku.isse.oclx.VarReference;
 
@@ -232,6 +235,27 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   private EClass collectionTypeIdentifierEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass temporalExpEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass unaryTemporalExpEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass triggeredTemporalExpEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -979,6 +1003,83 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
+  public EClass getTemporalExp()
+  {
+    return temporalExpEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getTemporalExp_Name()
+  {
+    return (EAttribute)temporalExpEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getUnaryTemporalExp()
+  {
+    return unaryTemporalExpEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getUnaryTemporalExp_Exp()
+  {
+    return (EReference)unaryTemporalExpEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getTriggeredTemporalExp()
+  {
+    return triggeredTemporalExpEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getTriggeredTemporalExp_B()
+  {
+    return (EReference)triggeredTemporalExpEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getTriggeredTemporalExp_A()
+  {
+    return (EReference)triggeredTemporalExpEClass.getEStructuralFeatures().get(1);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
   public EClass getArgumentsExp()
   {
     return argumentsExpEClass;
@@ -1045,7 +1146,7 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EReference getPrefixExp_Operators()
+  public EReference getPrefixExp_Operator()
   {
     return (EReference)prefixExpEClass.getEStructuralFeatures().get(0);
   }
@@ -1188,6 +1289,16 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     collectionTypeIdentifierEClass = createEClass(COLLECTION_TYPE_IDENTIFIER);
     createEAttribute(collectionTypeIdentifierEClass, COLLECTION_TYPE_IDENTIFIER__NAME);
 
+    temporalExpEClass = createEClass(TEMPORAL_EXP);
+    createEAttribute(temporalExpEClass, TEMPORAL_EXP__NAME);
+
+    unaryTemporalExpEClass = createEClass(UNARY_TEMPORAL_EXP);
+    createEReference(unaryTemporalExpEClass, UNARY_TEMPORAL_EXP__EXP);
+
+    triggeredTemporalExpEClass = createEClass(TRIGGERED_TEMPORAL_EXP);
+    createEReference(triggeredTemporalExpEClass, TRIGGERED_TEMPORAL_EXP__B);
+    createEReference(triggeredTemporalExpEClass, TRIGGERED_TEMPORAL_EXP__A);
+
     argumentsExpEClass = createEClass(ARGUMENTS_EXP);
     createEReference(argumentsExpEClass, ARGUMENTS_EXP__OPERATORS);
 
@@ -1196,7 +1307,7 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     createEReference(infixExpEClass, INFIX_EXP__OPERATORS);
 
     prefixExpEClass = createEClass(PREFIX_EXP);
-    createEReference(prefixExpEClass, PREFIX_EXP__OPERATORS);
+    createEReference(prefixExpEClass, PREFIX_EXP__OPERATOR);
     createEReference(prefixExpEClass, PREFIX_EXP__EXPRESSION);
 
     nullLiteralExpCSEClass = createEClass(NULL_LITERAL_EXP_CS);
@@ -1244,6 +1355,9 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     iteratorExpEClass.getESuperTypes().add(this.getMethodExp());
     propertyAccessExpEClass.getESuperTypes().add(this.getMethodExp());
     methodCallExpEClass.getESuperTypes().add(this.getMethodExp());
+    temporalExpEClass.getESuperTypes().add(this.getExp());
+    unaryTemporalExpEClass.getESuperTypes().add(this.getTemporalExp());
+    triggeredTemporalExpEClass.getESuperTypes().add(this.getTemporalExp());
     infixExpEClass.getESuperTypes().add(this.getExp());
     prefixExpEClass.getESuperTypes().add(this.getExp());
     nullLiteralExpCSEClass.getESuperTypes().add(this.getNullLiteralExp());
@@ -1334,6 +1448,16 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     initEClass(collectionTypeIdentifierEClass, CollectionTypeIdentifier.class, "CollectionTypeIdentifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getCollectionTypeIdentifier_Name(), ecorePackage.getEString(), "name", null, 0, 1, CollectionTypeIdentifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
+    initEClass(temporalExpEClass, TemporalExp.class, "TemporalExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getTemporalExp_Name(), ecorePackage.getEString(), "name", null, 0, 1, TemporalExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(unaryTemporalExpEClass, UnaryTemporalExp.class, "UnaryTemporalExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getUnaryTemporalExp_Exp(), this.getExp(), null, "exp", null, 0, 1, UnaryTemporalExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(triggeredTemporalExpEClass, TriggeredTemporalExp.class, "TriggeredTemporalExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getTriggeredTemporalExp_B(), this.getExp(), null, "b", null, 0, 1, TriggeredTemporalExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTriggeredTemporalExp_A(), this.getExp(), null, "a", null, 0, 1, TriggeredTemporalExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
     initEClass(argumentsExpEClass, ArgumentsExp.class, "ArgumentsExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getArgumentsExp_Operators(), this.getExp(), null, "operators", null, 0, -1, ArgumentsExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
@@ -1342,7 +1466,7 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     initEReference(getInfixExp_Operators(), this.getBinaryOperator(), null, "operators", null, 0, -1, InfixExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(prefixExpEClass, PrefixExp.class, "PrefixExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getPrefixExp_Operators(), this.getUnaryOperator(), null, "operators", null, 0, -1, PrefixExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getPrefixExp_Operator(), this.getUnaryOperator(), null, "operator", null, 0, 1, PrefixExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getPrefixExp_Expression(), this.getExp(), null, "expression", null, 0, 1, PrefixExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(nullLiteralExpCSEClass, NullLiteralExpCS.class, "NullLiteralExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
