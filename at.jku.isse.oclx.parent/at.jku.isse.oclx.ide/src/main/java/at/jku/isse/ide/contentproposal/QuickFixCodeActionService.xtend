@@ -3,23 +3,19 @@ package at.jku.isse.ide.contentproposal
 import at.jku.isse.oclx.PropertyAccessExp
 import at.jku.isse.validation.OCLXValidator
 import com.google.inject.Inject
-import java.nio.file.Files
-import java.nio.file.Paths
 import java.util.Collections
+import java.util.List
 import org.eclipse.emf.common.util.URI
 import org.eclipse.lsp4j.CodeAction
 import org.eclipse.lsp4j.CodeActionKind
+import org.eclipse.lsp4j.Diagnostic
 import org.eclipse.lsp4j.TextEdit
 import org.eclipse.lsp4j.WorkspaceEdit
 import org.eclipse.lsp4j.jsonrpc.messages.Either
-import org.eclipse.xtext.ide.server.Document
+import org.eclipse.xtext.ide.server.ILanguageServerAccess
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2
 import org.eclipse.xtext.resource.EObjectAtOffsetHelper
 import org.eclipse.xtext.resource.XtextResource
-import org.eclipse.xtext.resource.XtextResourceSet
-import org.eclipse.xtext.ide.server.ILanguageServerAccess
-import org.eclipse.lsp4j.Diagnostic
-import java.util.List
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -38,20 +34,20 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		
 		for (d : params.context.diagnostics) {
 			if (d.code.get == OCLXValidator.UNKNOWN_PROPERTY) {
-				System.out.println(d)
-				if (document === null) { // then resource mostlikely also null
+				//System.out.println(d)
+				if (document === null) { // then resource most likely also null
 					//val content = getFileContent(params.textDocument.uri)
 					//System.out.println(content)
+					//document = new Document(1, content)
 					val lsCtx = options.languageServerAccess.doSyncRead(params.textDocument.uri, [lsCtx |  return lsCtx] )
 					document = lsCtx.document
-					resource = lsCtx.resource as XtextResource
-					//document = new Document(1, content)
-					
+					resource = lsCtx.resource as XtextResource		
 				}
 				if (document !== null) {
 					//resource = extractResource(options)
 					val propertyString = document.getSubstring(d.range)
-					val choices = findMostSimilarProperties(propertyString, resource, d.range.start.character)
+					val offset = document.getOffSet(d.range.start)
+					val choices = findMostSimilarProperties(propertyString, resource, offset)
 					if (choices.size() > 0) {
 						val newProp = choices.get(0)
 						getCodeAction(d, resource, newProp, result)
@@ -61,8 +57,6 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		}
 		return result.map[Either.forRight(it)]
 	}
-	
-	
 
 	def ILanguageServerAccess.Context process(ILanguageServerAccess.Context ctx) {
 		return ctx
@@ -71,7 +65,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	def getCodeAction(Diagnostic d, XtextResource resource, String newProp, List<CodeAction> result) {	
 							result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Replace with most similar property "+newProp
+						title = "Replace with most similar property '"+newProp+"' "
 						diagnostics = #[d]
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
@@ -80,6 +74,28 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 							])
 						]
 					]
+	}
+	
+	protected def findMostSimilarProperties(String partialPropertyName, XtextResource resource, int offset) {
+		val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset)
+		if (modelElement !== null) {
+			val el2TypeMap = typeExtractor.extractElementToTypeMap(modelElement).get()
+			if (modelElement instanceof PropertyAccessExp) {
+				val prevNav = ASTUtils.findPrecedingOperatorFor(modelElement);
+				if (prevNav !== null) {
+					val completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
+					if (completeWithType !== null) {
+						val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName)
+						return choices
+					}
+				}
+			}
+		}
+		return Collections.emptyList()
+	}
+	
+	protected def addTextEdit(WorkspaceEdit edit, URI uri, TextEdit... textEdit) {
+		edit.changes.put(uri.toString, textEdit)
 	}
 	
 //	protected def URI extractURI(Options options) {
@@ -91,9 +107,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 //		}
 //	}
 	
-	protected def addTextEdit(WorkspaceEdit edit, URI uri, TextEdit... textEdit) {
-		edit.changes.put(uri.toString, textEdit)
-	}
+
 	
 //	protected def getFileContent(String uriAsString) {
 //		val uri = new java.net.URI(uriAsString)
@@ -120,23 +134,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 //			return resource
 //	}
 
-	protected def findMostSimilarProperties(String partialPropertyName, XtextResource resource, int offset) {
-		val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset)
-		if (modelElement !== null) {
-			val el2TypeMap = typeExtractor.extractElementToTypeMap(modelElement).get()
-			if (modelElement instanceof PropertyAccessExp) {
-				val prevNav = ASTUtils.findPrecedingOperatorFor(modelElement);
-				if (prevNav !== null) {
-					val completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
-					if (completeWithType !== null) {
-						val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName)
-						return choices
-					}
-				}
-			}
-		}
-		return Collections.emptyList()
-	}
+
 	
 
 	

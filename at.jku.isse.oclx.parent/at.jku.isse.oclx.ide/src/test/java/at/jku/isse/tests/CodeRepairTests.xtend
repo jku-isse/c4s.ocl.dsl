@@ -70,6 +70,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("downstream"))
 	}
 	
 	

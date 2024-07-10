@@ -68,6 +68,7 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
       final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
       System.out.println(codeActions);
+      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("downstream"));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

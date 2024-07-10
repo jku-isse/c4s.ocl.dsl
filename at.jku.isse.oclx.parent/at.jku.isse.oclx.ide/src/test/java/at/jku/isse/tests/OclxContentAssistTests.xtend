@@ -108,8 +108,6 @@ class OclxContentAssistTests extends AbstractContentAssistTest{
 		val completions = getCompletions(text, -2, 1)
 		System.out.println(completions);
 		Assertions.assertTrue(assertCompletionContainsProposal(completions, "->"))
-		
-		//TODO ensure no use of "."
 	}
 	
 		@Test

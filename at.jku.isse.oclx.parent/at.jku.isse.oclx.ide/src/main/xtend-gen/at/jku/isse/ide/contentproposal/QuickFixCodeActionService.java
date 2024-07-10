@@ -52,7 +52,6 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
       Object _get = d.getCode().get();
       boolean _equals = Objects.equal(_get, OCLXValidator.UNKNOWN_PROPERTY);
       if (_equals) {
-        System.out.println(d);
         if ((document == null)) {
           final Function<ILanguageServerAccess.Context, ILanguageServerAccess.Context> _function = (ILanguageServerAccess.Context lsCtx) -> {
             return lsCtx;
@@ -64,7 +63,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
         }
         if ((document != null)) {
           final String propertyString = document.getSubstring(d.getRange());
-          final List<String> choices = this.findMostSimilarProperties(propertyString, resource, d.getRange().getStart().getCharacter());
+          final int offset = document.getOffSet(d.getRange().getStart());
+          final List<String> choices = this.findMostSimilarProperties(propertyString, resource, offset);
           int _size = choices.size();
           boolean _greaterThan = (_size > 0);
           if (_greaterThan) {
@@ -88,7 +88,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     CodeAction _codeAction = new CodeAction();
     final Procedure1<CodeAction> _function = (CodeAction it) -> {
       it.setKind(CodeActionKind.QuickFix);
-      it.setTitle(("Replace with most similar property " + newProp));
+      it.setTitle((("Replace with most similar property \'" + newProp) + "\' "));
       it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
       WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
       final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
@@ -108,10 +108,6 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     return result.add(_doubleArrow);
   }
 
-  protected List<TextEdit> addTextEdit(final WorkspaceEdit edit, final URI uri, final TextEdit... textEdit) {
-    return edit.getChanges().put(uri.toString(), ((List<TextEdit>)Conversions.doWrapArray(textEdit)));
-  }
-
   protected List<String> findMostSimilarProperties(final String partialPropertyName, final XtextResource resource, final int offset) {
     final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
     if ((modelElement != null)) {
@@ -128,5 +124,9 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
       }
     }
     return Collections.<String>emptyList();
+  }
+
+  protected List<TextEdit> addTextEdit(final WorkspaceEdit edit, final URI uri, final TextEdit... textEdit) {
+    return edit.getChanges().put(uri.toString(), ((List<TextEdit>)Conversions.doWrapArray(textEdit)));
   }
 }
