@@ -1,0 +1,154 @@
+grammar at.jku.isse.OCLX with org.eclipse.xtext.common.Terminals
+
+generate oclx "http://www.jku.at/isse/OCLX"
+
+Model:
+	constraints+=Constraint*;
+	
+	
+Constraint:
+	'rule' name=ID '{'
+		('description:'  description=DESCRIPTION )?
+		('is' 'overrulable:' overrulable?=BooleanLiteralExp)?
+		'context:' context=Context
+		'expression:' expression=Exp
+		
+	"}";
+	
+
+QualifiedName:
+    ID ('.' ID)*;
+
+SimpleName:
+	ID;
+
+terminal DESCRIPTION:
+	'\"' -> '\"' 
+;
+
+Context:
+	name = QualifiedName
+;
+
+Exp returns Exp: //if there are more expressions, make sure that the initial PrefixedExp in the following line is added to the list of expressions via 'current'
+	PrefixedExp ( 
+		{InfixExp.expressions+=current} operators+=BinaryOperator expressions+=PrefixedExp 
+		(operators+=BinaryOperator expressions+=PrefixedExp)*
+	)?;
+
+/*
+ * Expression can start with a varref (that might be prefixed with a 'not' or '-' )
+ * 
+ */
+PrefixedExp returns Exp:
+	({PrefixExp} operators+=UnaryOperator+ expression=PrimaryExp)
+	| 	PrimaryExp
+;
+
+BinaryOperator returns BinaryOperator: // we need to split these, as after a navigation we can no longer use a var ref, while we cannot use a property access upon an infix operator
+	InfixOperator // | NavigationOperator
+;	
+
+InfixOperator returns BinaryOperator:
+	BooleanOperator | MathOperator;	
+
+BooleanOperator returns BooleanOperator:
+	op=('>' | '<' | '>=' | '<=' | '=' | '<>' | 'and' | 'or' | 'xor' | 'implies');
+	
+MathOperator returns MathOperator:
+	op=('*' | '/' | '+' | '-');
+	
+NavigationOperator:
+	name=('.' | '->');
+	
+UnaryOperator: 
+	name=('-' | 'not');
+
+PrimaryExp returns Exp:
+	NestedExp
+| 	VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
+//| 	VarReference (nav+=NavigationOperator methods+=MethodExp)*
+| 	PrimitiveLiteralExp
+;
+
+NestedExp returns NestedExp:
+	'(' source=Exp ')';
+
+VarOrSelfExp returns Exp:
+	SelfExp | VarReference
+;
+
+SelfExp:
+	{SelfExp} name='self';
+
+VarDeclaration:
+	name=SimpleName
+;
+
+VarReference: // variable reference
+	ref=[VarDeclaration]
+;
+
+PrimitiveLiteralExp:
+	NumberLiteralExp
+	| StringLiteralExp
+	| BooleanLiteralExp
+	| NullLiteralExp
+;	
+	
+NumberLiteralExp:
+	value=INT;
+StringLiteralExp:
+	value=STRING;
+BooleanLiteralExp:
+	value='true'
+	| value='false';	
+NullLiteralExp:
+	{NullLiteralExpCS} 'null';	
+
+MethodExp:		
+	 PropertyAccess	
+	| MethodCall
+//	| name=IteratorName '(' body=Exp ')'
+	| CollectionIterator
+//	| iterSource=OperatorExp '->' iter=IteratorName '(' itervar=IteratorVarDeclaration ',' itervar2=IteratorVarDeclaration '|' body=OperatorExp ')'
+	//| OperatorExp '->' IteratorName '(' IteratorVarDeclaration ';' InitVarDeclaration '|' OperatorExp ')'
+	//| OperatorExp '->' IteratorName '(' InitVarDeclaration '|' OperatorExp ')'
+;
+
+CollectionIterator returns IteratorExp: 
+	name=IteratorName '(' itervar=IteratorVarDeclaration '|' body=Exp ')'
+;
+
+IteratorName:
+	name=('FORALL'|'EXISTS'|'COLLECT'|'REJECT'|'SELECT');
+
+IteratorVarDeclaration:
+	name=VarDeclaration | name=VarDeclaration ':' type=TypeExp;
+
+PropertyAccess returns PropertyAccessExp:
+	name=SimpleName
+;
+
+MethodCall returns MethodCallExp:
+	name=SimpleName '()' 		// operation call
+	| name=SimpleName '('args=ArgumentsExp')' // operation call
+	| name=SimpleName '('type=TypeExp')'	// type operation call
+;
+
+TypeExp :
+	 {TypeExp} '<' name=Path '>' // eventually we want to replace this with . notated FQN
+	| collectionType=CollectionTypeIdentifier type=TypeExp;
+
+CollectionTypeIdentifier: // not really used yet, as only needed to define literals
+	name=('SET'|'LIST'|'MAP'|'COLLECTION')
+;
+
+Path:
+	 SimpleName ( '/'  SimpleName)*
+;
+
+ArgumentsExp:
+	operators+=Exp (',' operators+=Exp)*
+;
+	
