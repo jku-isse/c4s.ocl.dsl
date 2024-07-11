@@ -1,7 +1,8 @@
 package at.jku.isse.tests;
 
+import com.google.common.base.Objects;
+import com.google.inject.Inject;
 import java.util.function.Predicate;
-
 import org.eclipse.lsp4j.CompletionItem;
 import org.eclipse.lsp4j.CompletionList;
 import org.eclipse.lsp4j.CompletionParams;
@@ -17,9 +18,6 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import com.google.common.base.Objects;
-import com.google.inject.Inject;
 
 @ExtendWith(InjectionExtension.class)
 @InjectWith(OCLXInjectorProvider.class)
@@ -54,7 +52,7 @@ public class OclxContentAssistTests extends AbstractContentAssistTest {
     final String text = _builder.toString();
     final CompletionList completions = this.getCompletions(text, (-3));
     System.out.println(completions);
-    Assertions.assertTrue(this.assertCompletionContainsProposal(completions, "bugs"));
+    Assertions.assertFalse(this.assertCompletionContainsProposal(completions, "bugs"));
   }
 
   @Test

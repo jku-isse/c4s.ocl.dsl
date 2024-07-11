@@ -3,17 +3,14 @@
  */
 package at.jku.isse.ide.contentassist.antlr;
 
-import java.util.Map;
-
-import org.eclipse.xtext.AbstractElement;
-import org.eclipse.xtext.ide.editor.contentassist.antlr.AbstractContentAssistParser;
-
+import at.jku.isse.ide.contentassist.antlr.internal.InternalOCLXParser;
+import at.jku.isse.services.OCLXGrammarAccess;
 import com.google.common.collect.ImmutableMap;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-
-import at.jku.isse.ide.contentassist.antlr.internal.InternalOCLXParser;
-import at.jku.isse.services.OCLXGrammarAccess;
+import java.util.Map;
+import org.eclipse.xtext.AbstractElement;
+import org.eclipse.xtext.ide.editor.contentassist.antlr.AbstractContentAssistParser;
 
 public class OCLXParser extends AbstractContentAssistParser {
 
@@ -79,6 +76,9 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getTemporalUntilAccess().getGroup(), "rule__TemporalUntil__Group__0");
 			builder.put(grammarAccess.getTemporalEverytimeAccess().getGroup(), "rule__TemporalEverytime__Group__0");
 			builder.put(grammarAccess.getTemporalAtLeastOnceAccess().getGroup(), "rule__TemporalAtLeastOnce__Group__0");
+			builder.put(grammarAccess.getLegacyUntilAccess().getGroup(), "rule__LegacyUntil__Group__0");
+			builder.put(grammarAccess.getLegacyAsSoonAsAccess().getGroup(), "rule__LegacyAsSoonAs__Group__0");
+			builder.put(grammarAccess.getLegacyEverytimeAccess().getGroup(), "rule__LegacyEverytime__Group__0");
 			builder.put(grammarAccess.getPathAccess().getGroup(), "rule__Path__Group__0");
 			builder.put(grammarAccess.getPathAccess().getGroup_1(), "rule__Path__Group_1__0");
 			builder.put(grammarAccess.getArgumentsExpAccess().getGroup(), "rule__ArgumentsExp__Group__0");
@@ -141,6 +141,15 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getTemporalAtLeastOnceAccess().getNameAssignment_0(), "rule__TemporalAtLeastOnce__NameAssignment_0");
 			builder.put(grammarAccess.getTemporalAtLeastOnceAccess().getAAssignment_2(), "rule__TemporalAtLeastOnce__AAssignment_2");
 			builder.put(grammarAccess.getTemporalAtLeastOnceAccess().getBAssignment_6(), "rule__TemporalAtLeastOnce__BAssignment_6");
+			builder.put(grammarAccess.getLegacyUntilAccess().getNameAssignment_0(), "rule__LegacyUntil__NameAssignment_0");
+			builder.put(grammarAccess.getLegacyUntilAccess().getAAssignment_2(), "rule__LegacyUntil__AAssignment_2");
+			builder.put(grammarAccess.getLegacyUntilAccess().getBAssignment_4(), "rule__LegacyUntil__BAssignment_4");
+			builder.put(grammarAccess.getLegacyAsSoonAsAccess().getNameAssignment_0(), "rule__LegacyAsSoonAs__NameAssignment_0");
+			builder.put(grammarAccess.getLegacyAsSoonAsAccess().getAAssignment_2(), "rule__LegacyAsSoonAs__AAssignment_2");
+			builder.put(grammarAccess.getLegacyAsSoonAsAccess().getBAssignment_4(), "rule__LegacyAsSoonAs__BAssignment_4");
+			builder.put(grammarAccess.getLegacyEverytimeAccess().getNameAssignment_0(), "rule__LegacyEverytime__NameAssignment_0");
+			builder.put(grammarAccess.getLegacyEverytimeAccess().getAAssignment_2(), "rule__LegacyEverytime__AAssignment_2");
+			builder.put(grammarAccess.getLegacyEverytimeAccess().getBAssignment_4(), "rule__LegacyEverytime__BAssignment_4");
 			builder.put(grammarAccess.getArgumentsExpAccess().getOperatorsAssignment_0(), "rule__ArgumentsExp__OperatorsAssignment_0");
 			builder.put(grammarAccess.getArgumentsExpAccess().getOperatorsAssignment_1_1(), "rule__ArgumentsExp__OperatorsAssignment_1_1");
 		}

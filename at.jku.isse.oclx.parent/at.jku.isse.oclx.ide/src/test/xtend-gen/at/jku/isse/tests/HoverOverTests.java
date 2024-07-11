@@ -1,5 +1,6 @@
 package at.jku.isse.tests;
 
+import com.google.inject.Inject;
 import org.eclipse.lsp4j.Hover;
 import org.eclipse.lsp4j.HoverParams;
 import org.eclipse.lsp4j.Position;
@@ -14,8 +15,6 @@ import org.eclipse.xtext.xbase.lib.Exceptions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import com.google.inject.Inject;
 
 @ExtendWith(InjectionExtension.class)
 @InjectWith(OCLXInjectorProvider.class)

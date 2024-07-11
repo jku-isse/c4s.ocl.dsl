@@ -139,7 +139,19 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 						|| rule == grammarAccess.getPrimaryExpRule()
 						|| rule == grammarAccess.getTemporalExpRule()
 						|| rule == grammarAccess.getTriggeredTemporalExpRule()) {
-					sequence_TemporalAsLongAs_TemporalAtLeastOnce_TemporalEverytime_TemporalUntil(context, (TriggeredTemporalExp) semanticObject); 
+					sequence_LegacyAsSoonAs_LegacyEverytime_LegacyUntil_TemporalAsLongAs_TemporalAtLeastOnce_TemporalEverytime_TemporalUntil(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getLegacyAsSoonAsRule()) {
+					sequence_LegacyAsSoonAs(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getLegacyEverytimeRule()) {
+					sequence_LegacyEverytime(context, (TriggeredTemporalExp) semanticObject); 
+					return; 
+				}
+				else if (rule == grammarAccess.getLegacyUntilRule()) {
+					sequence_LegacyUntil(context, (TriggeredTemporalExp) semanticObject); 
 					return; 
 				}
 				else if (rule == grammarAccess.getTemporalAsLongAsRule()) {
@@ -364,6 +376,111 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 */
 	protected void sequence_IteratorVarDeclaration(ISerializationContext context, IteratorVarDeclaration semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     Exp returns TriggeredTemporalExp
+	 *     Exp.InfixExp_1_0 returns TriggeredTemporalExp
+	 *     PrefixedExp returns TriggeredTemporalExp
+	 *     PrimaryExp returns TriggeredTemporalExp
+	 *     TemporalExp returns TriggeredTemporalExp
+	 *     TriggeredTemporalExp returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (
+	 *         (name='asLongAs' b=Exp a=Exp) | 
+	 *         (name='ensureThat' a=Exp b=Exp) | 
+	 *         (name='everyTime' a=Exp b=Exp) | 
+	 *         (name='whenOnce' a=Exp b=Exp) | 
+	 *         (name='until' a=Exp b=Exp) | 
+	 *         (name='asSoonAs' a=Exp b=Exp) | 
+	 *         (name='everytime' a=Exp b=Exp)
+	 *     )
+	 * </pre>
+	 */
+	protected void sequence_LegacyAsSoonAs_LegacyEverytime_LegacyUntil_TemporalAsLongAs_TemporalAtLeastOnce_TemporalEverytime_TemporalUntil(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     LegacyAsSoonAs returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (name='asSoonAs' a=Exp b=Exp)
+	 * </pre>
+	 */
+	protected void sequence_LegacyAsSoonAs(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getLegacyAsSoonAsAccess().getNameAsSoonAsKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getLegacyAsSoonAsAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
+		feeder.accept(grammarAccess.getLegacyAsSoonAsAccess().getBExpParserRuleCall_4_0(), semanticObject.getB());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     LegacyEverytime returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (name='everytime' a=Exp b=Exp)
+	 * </pre>
+	 */
+	protected void sequence_LegacyEverytime(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getLegacyEverytimeAccess().getNameEverytimeKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getLegacyEverytimeAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
+		feeder.accept(grammarAccess.getLegacyEverytimeAccess().getBExpParserRuleCall_4_0(), semanticObject.getB());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     LegacyUntil returns TriggeredTemporalExp
+	 *
+	 * Constraint:
+	 *     (name='until' a=Exp b=Exp)
+	 * </pre>
+	 */
+	protected void sequence_LegacyUntil(ISerializationContext context, TriggeredTemporalExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TEMPORAL_EXP__NAME));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A));
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getLegacyUntilAccess().getNameUntilKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getLegacyUntilAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
+		feeder.accept(grammarAccess.getLegacyUntilAccess().getBExpParserRuleCall_4_0(), semanticObject.getB());
+		feeder.finish();
 	}
 	
 	
@@ -623,25 +740,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     Exp returns TriggeredTemporalExp
-	 *     Exp.InfixExp_1_0 returns TriggeredTemporalExp
-	 *     PrefixedExp returns TriggeredTemporalExp
-	 *     PrimaryExp returns TriggeredTemporalExp
-	 *     TemporalExp returns TriggeredTemporalExp
-	 *     TriggeredTemporalExp returns TriggeredTemporalExp
-	 *
-	 * Constraint:
-	 *     ((name='asLongAs' b=Exp a=Exp) | (name='ensureThat' a=Exp b=Exp) | (name='everytime' a=Exp b=Exp) | (name='whenOnce' a=Exp b=Exp))
-	 * </pre>
-	 */
-	protected void sequence_TemporalAsLongAs_TemporalAtLeastOnce_TemporalEverytime_TemporalUntil(ISerializationContext context, TriggeredTemporalExp semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
 	 *     TemporalAsLongAs returns TriggeredTemporalExp
 	 *
 	 * Constraint:
@@ -697,7 +795,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     TemporalEverytime returns TriggeredTemporalExp
 	 *
 	 * Constraint:
-	 *     (name='everytime' a=Exp b=Exp)
+	 *     (name='everyTime' a=Exp b=Exp)
 	 * </pre>
 	 */
 	protected void sequence_TemporalEverytime(ISerializationContext context, TriggeredTemporalExp semanticObject) {
@@ -710,7 +808,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B));
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getNameEverytimeKeyword_0_0(), semanticObject.getName());
+		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getNameEveryTimeKeyword_0_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
 		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getBExpParserRuleCall_6_0(), semanticObject.getB());
 		feeder.finish();

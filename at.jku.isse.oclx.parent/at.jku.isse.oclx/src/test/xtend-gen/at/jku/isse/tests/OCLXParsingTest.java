@@ -476,7 +476,7 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: everytime(self.requirements) then(self.requirements.size() > 0)");
+      _builder.append("expression: everyTime(self.requirements) then(self.requirements.size() > 0)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();

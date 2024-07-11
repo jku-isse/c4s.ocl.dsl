@@ -7,6 +7,9 @@ import org.eclipse.xtext.ide.editor.contentassist.IdeContentProposalProvider;
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2;
 import org.eclipse.xtext.ide.server.hover.HoverService;
 
+import com.google.inject.Binder;
+
+import at.jku.isse.ide.contentproposal.MethodRegistry;
 import at.jku.isse.ide.contentproposal.OclxContentProposalProvider;
 import at.jku.isse.ide.contentproposal.QuickFixCodeActionService;
 import at.jku.isse.ide.contentproposal.TypeExtractor;
@@ -16,7 +19,12 @@ import at.jku.isse.ide.contentproposal.TypeHoverService;
  * Use this class to register ide components.
  */
 public class OCLXIdeModule extends AbstractOCLXIdeModule {
+
+	final MethodRegistry methodRegistry;
 	
+	public OCLXIdeModule() {
+		methodRegistry = new MethodRegistry();
+	}
 	
 	// add quickfix service
 	public Class<? extends ICodeActionService2> bindCodeActionService2() {
@@ -34,6 +42,12 @@ public class OCLXIdeModule extends AbstractOCLXIdeModule {
 	
 	public Class<? extends HoverService> bindHoverService() {
 		return TypeHoverService.class;
+	}
+	
+	@Override
+	public void configure(Binder binder) {
+		super.configure(binder);
+		binder.bind(MethodRegistry.class).toInstance(methodRegistry);
 	}
 	
 }

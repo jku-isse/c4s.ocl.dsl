@@ -1,8 +1,11 @@
 package at.jku.isse.tests;
 
+import at.jku.isse.oclx.Model;
+import at.jku.isse.oclx.OclxPackage;
+import at.jku.isse.validation.OCLXValidator;
+import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.List;
-
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.lsp4j.CodeAction;
@@ -30,12 +33,6 @@ import org.eclipse.xtext.xbase.lib.IterableExtensions;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-
-import com.google.inject.Inject;
-
-import at.jku.isse.oclx.Model;
-import at.jku.isse.oclx.OclxPackage;
-import at.jku.isse.validation.OCLXValidator;
 
 @ExtendWith(InjectionExtension.class)
 @InjectWith(OCLXInjectorProvider.class)

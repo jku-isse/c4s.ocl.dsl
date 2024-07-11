@@ -48,7 +48,7 @@ class OclxContentAssistTests extends AbstractContentAssistTest{
 		'''
 		val completions = getCompletions(text, -3)
 		System.out.println(completions)
-		Assertions.assertTrue(assertCompletionContainsProposal(completions, "bugs"))
+		Assertions.assertFalse(assertCompletionContainsProposal(completions, "bugs"))
 	}
 	
 	@Test

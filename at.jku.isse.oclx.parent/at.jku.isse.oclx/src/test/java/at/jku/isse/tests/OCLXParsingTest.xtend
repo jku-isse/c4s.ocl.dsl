@@ -243,7 +243,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: everytime(self.requirements) then(self.requirements.size() > 0)
+				expression: everyTime(self.requirements) then(self.requirements.size() > 0)
 			}
 		''')
 		Assertions.assertNotNull(result)

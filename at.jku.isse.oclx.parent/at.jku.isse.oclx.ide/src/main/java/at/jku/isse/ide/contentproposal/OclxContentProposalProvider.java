@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.text.similarity.JaroWinklerDistance;
@@ -23,6 +24,8 @@ import org.eclipse.xtext.util.TextRegion;
 
 import com.google.inject.Inject;
 
+import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression;
+import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression.OperationDeclaration;
 import at.jku.isse.ide.contentproposal.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.PropertyAccessExp;
@@ -54,6 +57,9 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 	
 	@Inject
 	private TypeExtractor typeExtractor;
+	
+	@Inject
+	private MethodRegistry methodRegistry;
 
 	@Override
 	protected boolean filterKeyword(Keyword keyword, ContentAssistContext context) {
@@ -124,26 +130,27 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 	private boolean resolveExpression(EObject completeFrom, ContentAssistContext context,
 			IIdeContentProposalAcceptor acceptor) {
 		AtomicBoolean proposalCreated = new AtomicBoolean(false);
-		if (completeFrom instanceof SelfExp
-				|| completeFrom instanceof VarReference
-				|| completeFrom instanceof NavigationOperator
+		if (//completeFrom instanceof SelfExp
+				//|| completeFrom instanceof VarReference
+				//|| 
+				completeFrom instanceof NavigationOperator
 				|| completeFrom instanceof PropertyAccessExp) {
 			Optional<ElementToTypeMap> optMap = typeExtractor.extractElementToTypeMap(completeFrom);
 			optMap.ifPresent(elementToTypeMap -> {
 				TypeAndCardinality completeWithType = elementToTypeMap.getReturnTypeMap().get(completeFrom);
 					if (completeWithType != null) {
-						if (isACollectionProperty(completeWithType.getCardinality())) 
+						if (isACollectionProperty(completeWithType.getCardinality())) { // we dont recommend a property on a collection property, Collection Operators done separately via filterKeyword 
+							proposeIndividualMethods(acceptor, completeWithType, context); // but we recommend collection methods
+							proposalCreated.set(true);
 							return;
-						// prefixing with '.' navigation when Var, Self, or PropertyAccess
-						//String prefix = "";//getNavigationPrefix(completeFrom, context.getPrefix());
-						//String selection = createJointPropertySelection(completeWithType, prefix);
-						//proposeProperties(acceptor, selection, context);
+						}
 						Set<String> choices = completeWithType.getType().getPropertyNamesIncludingSuperClasses()
 								.stream()
 								.filter(name -> !name.startsWith("@"))
 								.sorted()
 								.collect(Collectors.toSet());
 						proposeIndividualProperties(acceptor, choices, context);
+						proposeIndividualMethods(acceptor, completeWithType, context);
 						proposalCreated.set(true);
 					} else {// might be an incomplete varref or property or method call --> this is better a QuickFix, not a completion
 						if (completeFrom instanceof PropertyAccessExp) {
@@ -165,6 +172,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 											.map(entry -> entry.getValue())
 											.collect(Collectors.toList());
 									proposeReplaceIndividualProperties(acceptor, choices, context, partialName);
+									//TODO perhaps these are methods, replace then with methodCall
 									proposalCreated.set(true);
 								}
 							}
@@ -177,9 +185,9 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 		return proposalCreated.get();
 	}
 	
-	private void proposeProperties(IIdeContentProposalAcceptor acceptor, String selection, ContentAssistContext context) {
-		acceptor.accept(getProposalCreator().createSnippet(selection, "Select from existing properties",  context), 0);
-	}
+//	private void proposeProperties(IIdeContentProposalAcceptor acceptor, String selection, ContentAssistContext context) {
+//		acceptor.accept(getProposalCreator().createSnippet(selection, "Select from existing properties",  context), 0);
+//	}
 	
 	private void proposeIndividualProperties(IIdeContentProposalAcceptor acceptor, Collection<String> choices, ContentAssistContext context) {
 		choices.stream().forEach(selection -> 
@@ -219,42 +227,57 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 				);
 	}
 	
-//	private String getNavigationPrefix(EObject completeFrom, String prefix) {
-//		// prefixing with '.' navigation when Var, Self, or PropertyAccess unless there is already one thereafter
-//		if (prefix.equals("."))
-//			return "."; 
-//		if (prefix.equals("->") || prefix.equals("-"))
-//			return "->";
-//		
-////		if (completeFrom instanceof NavigationOperator)
-////			return "";
-//		if (ASTUtils.findSuccessorNavigationOperator(completeFrom).isPresent()) {
-//			return "";
-//		} else return ".";
-//		
-//	}
-	
 	private String createInstanceTypesSelection() {
 		return schemaReg.getAllNonDeletedInstanceTypes().stream()
 		.map(type -> type.getName())
 		.collect(Collectors.joining(",", "${1|", "|}"));
 	}
 	
-	private String createJointPropertySelection(PPEInstanceType type, String navPrefix) {
-		return type.getPropertyNamesIncludingSuperClasses()
-				.stream()
-				.filter(name -> !name.startsWith("@"))
-				.sorted()
-				.map(prop -> navPrefix+prop)
-				.collect(Collectors.joining(",", "${1|", "|}"));
+//	private String createJointPropertySelection(PPEInstanceType type, String navPrefix) {
+//		return type.getPropertyNamesIncludingSuperClasses()
+//				.stream()
+//				.filter(name -> !name.startsWith("@"))
+//				.sorted()
+//				.map(prop -> navPrefix+prop)
+//				.collect(Collectors.joining(",", "${1|", "|}"));
+//	}
+//	
+//	private String createSimilaritySortedPropertySelection(PPEInstanceType type, String compareTo, String navPrefix) {
+//		return getSimilaritySortedProperties(type, compareTo).stream()
+//				.map(prop -> navPrefix+prop)
+//				.collect(Collectors.joining(",", "${1|", "|}"));
+//	}
+	
+	private void proposeIndividualMethods(IIdeContentProposalAcceptor acceptor, TypeAndCardinality forType, ContentAssistContext context) {
+		Set<OperationDeclaration> opDecls;
+		if (forType.getCardinality().equals(CARDINALITIES.SINGLE)) {
+			opDecls = methodRegistry.getOperationsForSingleType(forType.getType());
+		} else {
+			opDecls = methodRegistry.getOperationsForCollection(forType.getCardinality());
+		}
+		opDecls.stream()
+			.sorted(methodComp)
+			.forEach(decl -> {
+				TypeAndCardinality returnType = methodRegistry.getReturnType(decl, forType.getType());
+				acceptor.accept(getProposalCreator().createSnippet(
+						String.format("%s(%s)", decl.name, createParamPlaceholders(decl, forType.getType())), 
+					String.format("returns %s %s", returnType.getCardinality().toString(), returnType.getType().getName() ),  
+					context), 1);
+		});
 	}
 	
-	private String createSimilaritySortedPropertySelection(PPEInstanceType type, String compareTo, String navPrefix) {
-		return getSimilaritySortedProperties(type, compareTo).stream()
-				.map(prop -> navPrefix+prop)
-				.collect(Collectors.joining(",", "${1|", "|}"));
+	
+	private String createParamPlaceholders(OperationDeclaration decl, PPEInstanceType typeHint) {
+		AtomicInteger counter = new AtomicInteger(0);
+		return methodRegistry.getParameterTypesFor(decl, typeHint).stream()
+			.map(tAc -> createParameterTemplate(tAc, counter))
+			.collect(Collectors.joining(","));
 	}
 	
+	private String createParameterTemplate(TypeAndCardinality tAc, AtomicInteger counter) {
+		return "${"+counter.incrementAndGet()+":paramOf"+tAc.getCardinality().toString()+tAc.getType().getName()+"}" ; 
+	}
+
 	public static List<String> getSimilaritySortedProperties(PPEInstanceType type, String compareTo) {
 		return type.getPropertyNamesIncludingSuperClasses()
 				.stream()
@@ -275,9 +298,17 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 			return o2.getKey().compareTo(o1.getKey());
 		}
 	}
+
 	
+	public static MethodComparator methodComp = new MethodComparator();
 	
-	
+	private static class MethodComparator implements Comparator<OperationDeclaration> {
+
+		@Override
+		public int compare(OperationDeclaration o1, OperationDeclaration o2) { 
+			return o2.name.compareTo(o1.name);
+		}
+	}
 	
 	
 	

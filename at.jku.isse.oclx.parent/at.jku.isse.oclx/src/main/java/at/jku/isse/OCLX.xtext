@@ -161,6 +161,7 @@ UnaryTemporalOp:
 
 TriggeredTemporalExp returns TriggeredTemporalExp:
 	TemporalAsLongAs | TemporalUntil | TemporalEverytime | TemporalAtLeastOnce
+	| LegacyUntil | LegacyAsSoonAs | LegacyEverytime
 ;
 
 /* Alternative Until, interpret: asLongAs(A) ensureThat(B) => as long as A is true, ensure that B is true , A must become true at some time in the future */
@@ -174,13 +175,24 @@ TemporalUntil returns TriggeredTemporalExp:
 ;
 
 TemporalEverytime returns TriggeredTemporalExp:
-	name='everytime' '(' a=Exp ')' 'then' '(' b=Exp ')'
+	name='everyTime' '(' a=Exp ')' 'then' '(' b=Exp ')'
 ;
 
 TemporalAtLeastOnce returns TriggeredTemporalExp:
 	name='whenOnce' '(' a=Exp ')' 'thenAtLeastOnce' '(' b=Exp ')'
 ;
 
+LegacyUntil returns TriggeredTemporalExp:
+	name='until' '('a=Exp ',' b=Exp')'
+;
+
+LegacyAsSoonAs returns TriggeredTemporalExp:
+	name='asSoonAs' '('a=Exp ',' b=Exp')'
+;
+
+LegacyEverytime returns TriggeredTemporalExp:
+	name='everytime' '('a=Exp ',' b=Exp')'
+;
 //DeclarePatternExp:
 //	'atMostOnce' | 
 //	'bothOrNeither' | // coexistence
