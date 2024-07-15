@@ -1,4 +1,4 @@
-package at.jku.isse.ide.contentproposal;
+package at.jku.isse.ide.assistance;
 
 import java.util.Optional;
 
@@ -12,7 +12,7 @@ import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.VarReference;
 
-public class ASTUtils {
+public class OclxASTUtils {
 	
 	public static Optional<Constraint> getRootConstraint(EObject object) {
 		if (object == null)

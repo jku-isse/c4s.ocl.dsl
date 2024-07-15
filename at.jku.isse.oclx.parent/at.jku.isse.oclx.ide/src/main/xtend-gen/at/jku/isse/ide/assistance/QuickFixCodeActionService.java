@@ -1,4 +1,4 @@
-package at.jku.isse.ide.contentproposal;
+package at.jku.isse.ide.assistance;
 
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.PropertyAccessExp;
@@ -113,7 +113,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     if ((modelElement != null)) {
       final ElementToTypeMap el2TypeMap = this.typeExtractor.extractElementToTypeMap(modelElement).get();
       if ((modelElement instanceof PropertyAccessExp)) {
-        final NavigationOperator prevNav = ASTUtils.findPrecedingOperatorFor(((PropertyAccessExp)modelElement));
+        final NavigationOperator prevNav = OclxASTUtils.findPrecedingOperatorFor(((PropertyAccessExp)modelElement));
         if ((prevNav != null)) {
           final ElementToTypeMap.TypeAndCardinality completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
           if ((completeWithType != null)) {
