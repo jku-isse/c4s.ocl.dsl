@@ -261,7 +261,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 				TypeAndCardinality returnType = methodRegistry.getReturnType(decl, forType.getType());
 				acceptor.accept(getProposalCreator().createSnippet(
 						String.format("%s(%s)", decl.name, createParamPlaceholders(decl, forType.getType())), 
-					String.format("returns %s %s", returnType.getCardinality().toString(), returnType.getType().getName() ),  
+					String.format("%s returns %s %s", decl.name, returnType.getCardinality().toString(), returnType.getType().getName() ),  
 					context), 1);
 		});
 	}

@@ -5,8 +5,10 @@ package at.jku.isse.ide;
 
 import org.eclipse.xtext.ide.editor.contentassist.IdeContentProposalProvider;
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2;
+import org.eclipse.xtext.ide.server.commands.IExecutableCommandService;
 import org.eclipse.xtext.ide.server.hover.HoverService;
 
+import at.jku.isse.ide.assistance.CommandService;
 import at.jku.isse.ide.assistance.MethodRegistry;
 import at.jku.isse.ide.assistance.OclxContentProposalProvider;
 import at.jku.isse.ide.assistance.QuickFixCodeActionService;
@@ -23,7 +25,10 @@ public class OCLXIdeModule extends AbstractOCLXIdeModule {
 
 	}
 	
-	// add quickfix service
+	public Class<? extends IExecutableCommandService> bindIExecutableCommandService() {
+		return CommandService.class;
+	}
+	
 	public Class<? extends ICodeActionService2> bindCodeActionService2() {
 		return QuickFixCodeActionService.class;
 	}
