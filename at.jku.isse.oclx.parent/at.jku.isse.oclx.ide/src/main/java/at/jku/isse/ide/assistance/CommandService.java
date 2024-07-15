@@ -10,14 +10,16 @@ import org.eclipse.xtext.util.CancelIndicator;
 
 public class CommandService implements IExecutableCommandService {
 
+	private static final String CMD_EVALUATE_OCLX = "oclx.evaluate";
+
 	@Override
 	public List<String> initialize() {
-		return List.of("execute.oclx");
+		return List.of(CMD_EVALUATE_OCLX);
 	}
 
 	@Override
 	public Object execute(ExecuteCommandParams params, ILanguageServerAccess access, CancelIndicator cancelIndicator) {
-		if ("execute.oclx".equals(params.getCommand())) {
+		if (CMD_EVALUATE_OCLX.equals(params.getCommand())) {
 			if (params.getArguments().isEmpty()) {
 				return "Param URI missing";
 			}
@@ -37,7 +39,7 @@ public class CommandService implements IExecutableCommandService {
 		
 		
 		
-		return "executed";
+		return "evaluated";
 	}
 
 }
