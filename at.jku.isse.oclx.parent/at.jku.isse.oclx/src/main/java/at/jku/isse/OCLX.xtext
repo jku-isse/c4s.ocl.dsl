@@ -166,20 +166,20 @@ TriggeredTemporalExp returns TriggeredTemporalExp:
 
 /* Alternative Until, interpret: asLongAs(A) ensureThat(B) => as long as A is true, ensure that B is true , A must become true at some time in the future */
 TemporalAsLongAs returns TriggeredTemporalExp:
-	name='asLongAs' '(' b=Exp ')' 'ensureThat' '(' a=Exp ')'
+	name='asLongAs' '(' b=Exp 'ensureThat' a=Exp ')'
 ;
 
 /* Regular Until, interpret: ensureThat(B) asLongAs(A)  => ensure that A is true as long as B is true , B must become true at some time in the future */
 TemporalUntil returns TriggeredTemporalExp:
-	name='ensureThat' '(' a=Exp ')' 'asLongAs' '(' b=Exp ')'
+	name='ensureThat' '(' a=Exp 'asLongAs'  b=Exp ')'
 ;
 
 TemporalEverytime returns TriggeredTemporalExp:
-	name='everyTime' '(' a=Exp ')' 'then' '(' b=Exp ')'
+	name='everyTime' '(' a=Exp 'then'  b=Exp ')'
 ;
 
 TemporalAtLeastOnce returns TriggeredTemporalExp:
-	name='whenOnce' '(' a=Exp ')' 'thenAtLeastOnce' '(' b=Exp ')'
+	name='whenOnce' '(' a=Exp  'thenAtLeastOnce'  b=Exp ')'
 ;
 
 LegacyUntil returns TriggeredTemporalExp:

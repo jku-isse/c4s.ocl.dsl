@@ -20,10 +20,10 @@ import at.jku.isse.ide.contentproposal.TypeHoverService;
  */
 public class OCLXIdeModule extends AbstractOCLXIdeModule {
 
-	final MethodRegistry methodRegistry;
+	//final MethodRegistry methodRegistry;
 	
 	public OCLXIdeModule() {
-		methodRegistry = new MethodRegistry();
+		//methodRegistry = new MethodRegistry();
 	}
 	
 	// add quickfix service
@@ -44,10 +44,14 @@ public class OCLXIdeModule extends AbstractOCLXIdeModule {
 		return TypeHoverService.class;
 	}
 	
-	@Override
-	public void configure(Binder binder) {
-		super.configure(binder);
-		binder.bind(MethodRegistry.class).toInstance(methodRegistry);
+	public Class<? extends MethodRegistry> bindMethodRegistry() {
+		return MethodRegistry.class;
 	}
+	
+//	@Override
+//	public void configure(Binder binder) {
+//		super.configure(binder);
+//		binder.bind(MethodRegistry.class).toInstance(methodRegistry);
+//	}
 	
 }

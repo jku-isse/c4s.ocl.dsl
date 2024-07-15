@@ -31,7 +31,7 @@ public class OCLXParsingTest {
   private ValidationTestHelper validationTestHelper;
 
   @Test
-  public void loadKnownBasicContext() {
+  public void loadAtomicContextFail() {
     try {
       StringConcatenation _builder = new StringConcatenation();
       _builder.append("rule TestRule {");
@@ -40,7 +40,7 @@ public class OCLXParsingTest {
       _builder.append("description: \"ignored\"");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("context: String");
+      _builder.append("context: STRING");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("expression: self.isDefined() ");
@@ -49,7 +49,9 @@ public class OCLXParsingTest {
       _builder.newLine();
       final Model result = this.parseHelper.parse(_builder);
       Assertions.assertNotNull(result);
-      this.validationTestHelper.assertNoErrors(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.CONSTRAINT, 
+        OCLXValidator.UNKNOWN_TYPE);
       final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
       boolean _isEmpty = errors.isEmpty();
       StringConcatenation _builder_1 = new StringConcatenation();
@@ -476,7 +478,7 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: everyTime(self.requirements) then(self.requirements.size() > 0)");
+      _builder.append("expression: everyTime(self.requirements then self.requirements.size() > 0)");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -510,7 +512,42 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: asLongAs(self.requirements.isEmpty()) ensureThat(self.requirements.size() > 0)");
+      _builder.append("expression: asLongAs(self.requirements.isEmpty() ensureThat self.requirements.size() > 0)");
+      _builder.newLine();
+      _builder.append("}");
+      _builder.newLine();
+      final Model result = this.parseHelper.parse(_builder);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertNoErrors(result);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testCommentInlineSuccess() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule {");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("description: \"testing\"");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("expression: asLongAs(self.requirements.isEmpty()  // this is just for testing, does not make sense");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("ensureThat self.requirements.size() > 0) // as this can never be true");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();

@@ -758,7 +758,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getTemporalAsLongAsAccess().getNameAsLongAsKeyword_0_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getTemporalAsLongAsAccess().getBExpParserRuleCall_2_0(), semanticObject.getB());
-		feeder.accept(grammarAccess.getTemporalAsLongAsAccess().getAExpParserRuleCall_6_0(), semanticObject.getA());
+		feeder.accept(grammarAccess.getTemporalAsLongAsAccess().getAExpParserRuleCall_4_0(), semanticObject.getA());
 		feeder.finish();
 	}
 	
@@ -784,7 +784,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getTemporalAtLeastOnceAccess().getNameWhenOnceKeyword_0_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getTemporalAtLeastOnceAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
-		feeder.accept(grammarAccess.getTemporalAtLeastOnceAccess().getBExpParserRuleCall_6_0(), semanticObject.getB());
+		feeder.accept(grammarAccess.getTemporalAtLeastOnceAccess().getBExpParserRuleCall_4_0(), semanticObject.getB());
 		feeder.finish();
 	}
 	
@@ -810,7 +810,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getNameEveryTimeKeyword_0_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
-		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getBExpParserRuleCall_6_0(), semanticObject.getB());
+		feeder.accept(grammarAccess.getTemporalEverytimeAccess().getBExpParserRuleCall_4_0(), semanticObject.getB());
 		feeder.finish();
 	}
 	
@@ -836,7 +836,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getTemporalUntilAccess().getNameEnsureThatKeyword_0_0(), semanticObject.getName());
 		feeder.accept(grammarAccess.getTemporalUntilAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
-		feeder.accept(grammarAccess.getTemporalUntilAccess().getBExpParserRuleCall_6_0(), semanticObject.getB());
+		feeder.accept(grammarAccess.getTemporalUntilAccess().getBExpParserRuleCall_4_0(), semanticObject.getB());
 		feeder.finish();
 	}
 	

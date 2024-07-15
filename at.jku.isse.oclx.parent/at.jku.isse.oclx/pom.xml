@@ -221,8 +221,8 @@
 		</dependency>
 		<dependency>
 			<groupId>at.jku.isse.designspace</groupId>
-			<artifactId>artifact-connector.ds4wrapper</artifactId>
-			<version>1.0.1</version>
+			<artifactId>artifact-connector.ds5wrapper</artifactId>
+			<version>1.0.3</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency> <!-- for computing text similarity in ContentProposalProvider-->

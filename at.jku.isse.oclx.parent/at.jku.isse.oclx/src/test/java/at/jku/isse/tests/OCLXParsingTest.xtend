@@ -26,16 +26,19 @@ class OCLXParsingTest {
 	
 	
 	@Test
-	def void loadKnownBasicContext() {
+	def void loadAtomicContextFail() {
 		val result = parseHelper.parse('''
 			rule TestRule {
 				description: "ignored"
-				context: String
+				context: STRING
 				expression: self.isDefined() 
 			}
 		''')
 		Assertions.assertNotNull(result)
-		validationTestHelper.assertNoErrors(result);
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.CONSTRAINT, 
+			OCLXValidator.UNKNOWN_TYPE
+		);
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
@@ -243,7 +246,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: everyTime(self.requirements) then(self.requirements.size() > 0)
+				expression: everyTime(self.requirements then self.requirements.size() > 0)
 			}
 		''')
 		Assertions.assertNotNull(result)
@@ -261,7 +264,23 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: asLongAs(self.requirements.isEmpty()) ensureThat(self.requirements.size() > 0)
+				expression: asLongAs(self.requirements.isEmpty() ensureThat self.requirements.size() > 0)
+			}
+		''')
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertNoErrors(result);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+	}
+	
+				@Test
+	def void testCommentInlineSuccess() {
+		val result = parseHelper.parse('''
+			rule TestRule {
+				description: "testing"
+				context: DemoIssue
+				expression: asLongAs(self.requirements.isEmpty()  // this is just for testing, does not make sense
+				ensureThat self.requirements.size() > 0) // as this can never be true
 			}
 		''')
 		Assertions.assertNotNull(result)

@@ -1,13 +1,16 @@
 package at.jku.isse.ide.contentproposal;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
+import at.jku.isse.designspace.rule.arl.expressions.LiteralExpression;
+import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression;
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression.OperationDeclaration;
 import at.jku.isse.designspace.rule.arl.parser.ArlType;
 import at.jku.isse.designspace.rule.arl.parser.ArlType.CollectionKind;
@@ -18,36 +21,40 @@ import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 
 public class MethodRegistry {
 	
+	private AtomicBoolean doInit = new AtomicBoolean(true);
 	Map<PPEInstanceType, Set<OperationDeclaration>> sourceTypeIndex = new HashMap<>();
 	Map<CARDINALITIES, Set<OperationDeclaration>> sourceCardinalityIndex = new HashMap<>();
 	
 	public MethodRegistry() {
-		// OperationCallExpression.OperationDeclaration.operationDeclarations.
-		initRegistry(insertDummyData());
+		initRegistry(); 
 	}
 
-	private void initRegistry(List<OperationDeclaration> declarations) {
-		declarations.stream().forEach(decl -> {
-			if (decl.sourceType.collection.equals(CollectionKind.SINGLE)) {
-				insertSingleOperation(decl);
-			} else {
-				insertCollectionOperation(decl);
-			}
-		});
+	private void initRegistry() {
+		if (doInit.compareAndExchange(true, false)) {
+			new OperationCallExpression(new LiteralExpression("SomeString"), "size", Collections.emptyList()); // we need to ensure that OperationDeclarations are initiated, by creating some arbitrary correct expression
+			List<OperationDeclaration> declarations = OperationCallExpression.OperationDeclaration.getOperationDeclarations();
+			declarations.stream().forEach(decl -> {
+				if (decl.sourceType.collection.equals(CollectionKind.SINGLE)) {
+					insertSingleOperation(decl);
+				} else {
+					insertCollectionOperation(decl);
+				}
+			});
+		}
 	}
 	
-	private List<OperationDeclaration> insertDummyData() {
-		List<OperationDeclaration> declarations = new ArrayList<>();
-		declarations.add(new OperationDeclaration(ArlType.BOOLEAN, "includes", ArlType.COLLECTION, ArlType.ANY));
-		declarations.add(new OperationDeclaration(ArlType.ANY, "any", ArlType.COLLECTION));
-		declarations.add(new OperationDeclaration(ArlType.SET, "union", ArlType.SET, ArlType.SET));
-		declarations.add(new OperationDeclaration(ArlType.BOOLEAN, "isDefined", ArlType.INSTANCE));
-		declarations.add(new OperationDeclaration(ArlType.INTEGER, "count", ArlType.COLLECTION, ArlType.ANY));
-		declarations.add(new OperationDeclaration(ArlType.INTEGER, "size", ArlType.COLLECTION));
-		declarations.add(new OperationDeclaration(ArlType.LIST, "characters", ArlType.STRING));
-		declarations.add(new OperationDeclaration(ArlType.BOOLEAN, "startsWith", ArlType.STRING, ArlType.STRING));
-		return declarations;
-	}
+//	private List<OperationDeclaration> insertDummyData() {
+//		List<OperationDeclaration> declarations = new ArrayList<>();
+//		declarations.add(new OperationDeclaration(ArlType.BOOLEAN, "includes", ArlType.COLLECTION, ArlType.ANY));
+//		declarations.add(new OperationDeclaration(ArlType.ANY, "any", ArlType.COLLECTION));
+//		declarations.add(new OperationDeclaration(ArlType.SET, "union", ArlType.SET, ArlType.SET));
+//		declarations.add(new OperationDeclaration(ArlType.BOOLEAN, "isDefined", ArlType.INSTANCE));
+//		declarations.add(new OperationDeclaration(ArlType.INTEGER, "count", ArlType.COLLECTION, ArlType.ANY));
+//		declarations.add(new OperationDeclaration(ArlType.INTEGER, "size", ArlType.COLLECTION));
+//		declarations.add(new OperationDeclaration(ArlType.LIST, "characters", ArlType.STRING));
+//		declarations.add(new OperationDeclaration(ArlType.BOOLEAN, "startsWith", ArlType.STRING, ArlType.STRING));
+//		return declarations;
+//	}
 	
 	private void insertCollectionOperation(OperationDeclaration decl) {
 		switch(decl.sourceType.collection) {
@@ -111,6 +118,7 @@ public class MethodRegistry {
 		
 	
 	public Set<OperationDeclaration> getOperationsForSingleType(PPEInstanceType type) {
+		//initRegistry();
 		if (BuildInType.isAtomicType(type)) {
 			return sourceTypeIndex.get(type);
 		} else
@@ -118,10 +126,12 @@ public class MethodRegistry {
 	}
 	
 	public Set<OperationDeclaration> getOperationsForCollection(CARDINALITIES cardinality) {
+		//initRegistry();
 		return sourceCardinalityIndex.get(cardinality);
 	}
 	
 	public List<TypeAndCardinality> getParameterTypesFor(OperationDeclaration opDec, PPEInstanceType sourceTypeHint) {
+		//initRegistry();
 		return opDec.parameterTypes.stream().map(param -> {
 			PPEInstanceType type = convertSingle(param, sourceTypeHint != null ? sourceTypeHint : BuildInType.METATYPE); // parameters typically need to be compatible with source type for collections / ANY
 			CARDINALITIES cardinality = convertCardinality(param);
@@ -130,6 +140,7 @@ public class MethodRegistry {
 	}
 	
 	public TypeAndCardinality getReturnType(OperationDeclaration opDec, PPEInstanceType sourceTypeHint) {
+	//	initRegistry();
 		ArlType arlType = opDec.returnType;
 		PPEInstanceType type = convertSingle(arlType, sourceTypeHint != null ? sourceTypeHint : BuildInType.METATYPE); //sourceType needed where collections operation are agnostic of collection content
 		CARDINALITIES cardinality = convertCardinality(arlType);
