@@ -1,48 +1,58 @@
 'use strict';
 
-import * as net from 'net';
-
-import { Trace } from 'vscode-jsonrpc';
-import { workspace, ExtensionContext } from 'vscode';
-import { LanguageClient, LanguageClientOptions, StreamInfo, Position as LSPosition, Location as LSLocation } from 'vscode-languageclient/node';
+import { window, ExtensionContext } from 'vscode';
 import AbstractCommand from "./commands/AbstractCommand";
 import OclxEvaluateConstraintsCommand from "./commands/EvaluateConstraintsCommand";
+import OclxLanguageClient from "./OclxLanguageClient";
 
-let lc: LanguageClient;
 
-export function activate(context: ExtensionContext) {
-    // The server is a started as a separate app and listens on port 5007
-    let connectionInfo = {
-        port: 5007
-    };
-    let serverOptions = () => {
-        // Connect to language server via socket
-        let socket = net.connect(connectionInfo);
-        let result: StreamInfo = {
-            writer: socket,
-            reader: socket
-        };
-        return Promise.resolve(result);
-    };
+class OclxClientExtension {
 
-    let clientOptions: LanguageClientOptions = {
-        documentSelector: ['oclx'],
-        synchronize: {
-            fileEvents: workspace.createFileSystemWatcher('**/*.*')
-        },
-        outputChannelName: 'OCLX Language Server'
-    };
+    private context: ExtensionContext;
+    private languageClient: OclxLanguageClient;
+    private commands: AbstractCommand[];
+    
 
-    // Create the language client and start the client.
-    lc = new LanguageClient('Xtext Server', serverOptions, clientOptions);
+    public constructor (context: ExtensionContext) {
+        this.context = context;
+        // The server is a started as a separate app and listens on port 5007
+        this.languageClient = new OclxLanguageClient(context, 5007);
 
-    let evalCommand = new OclxEvaluateConstraintsCommand(lc);
-    this.context.subscriptions.push(evalCommand.registerCommand());
+        this.commands = [
+            new OclxEvaluateConstraintsCommand(this.languageClient),
+        ];
+    }
 
-    lc.setTrace(Trace.Verbose);
-    let disposable = lc.start();
+    public async start(): Promise<void> {
+        console.log('Starting oclx client');
+        await this.languageClient.startViaWebsocket('ws://localhost:7171/lsp');
+        this.commands.forEach(command =>
+            this.context.subscriptions.push(command.registerCommand())
+            );  
+    }
+
+    public async stop(): Promise<void> {
+        await this.languageClient.stop();
+    }
+
+    public getLanguageClient(): OclxLanguageClient {
+        return this.languageClient;
+    }
 }
 
-export function deactivate() {
-    return lc.stop();
+let client: OclxClientExtension;
+
+export async function activate(context: ExtensionContext) {
+    try {
+		client = new OclxClientExtension(context);
+		await client.start();
+	} catch (ex) {
+        window.showErrorMessage(`Failed to initialize Oclx client extension: ${ex}`);
+	}
+}
+
+export async function deactivate(): Promise<void> {
+	if (client) {
+		await client.stop();
+	}
 }

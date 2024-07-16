@@ -11,9 +11,10 @@ export default abstract class AbstractCommand {
     public registerCommand(): Disposable {
         return vscode.commands.registerCommand(this.command, async () => {
             console.log(`Invoke command ${this.command}`);
+            //await this.runCommand();
             await this.runCommand();
         });
     }
 
-    protected abstract runCommand(): Thenable<void>;
+    protected abstract runCommand(): Promise<void>;
 }

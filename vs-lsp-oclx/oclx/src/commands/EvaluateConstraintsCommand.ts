@@ -1,11 +1,11 @@
 import AbstractCommand from "./AbstractCommand";
-import { window, workspace, commands, ExtensionContext, Uri, ProgressLocation } from 'vscode';
-import { LanguageClient, LanguageClientOptions, StreamInfo, Position as LSPosition, Location as LSLocation } from 'vscode-languageclient/node';
+import { window } from 'vscode';
+import  OclxLanguageClient from "../OclxLanguageClient";
 
 export default class EvaluateConstraintsCommand extends AbstractCommand {
-    private languageClient: LanguageClient;
+    private languageClient: OclxLanguageClient;
 
-    constructor(languageClient: LanguageClient) {
+    constructor(languageClient: OclxLanguageClient) {
         super('oclx.evaluate');
         this.languageClient = languageClient;
     }
@@ -16,15 +16,14 @@ export default class EvaluateConstraintsCommand extends AbstractCommand {
         if (!activeEditor || !activeEditor.document || activeEditor.document.languageId !== 'oclx') {
             return;
         }
-
         try {
-            await window.withProgress({
-                location: ProgressLocation.Notification,
-                title: "Please wait until constraint evaluation operation completes"
-            }, async () => {
-                const evalInfo = await this.languageClient.sendRequest('oclx.evaluate', activeEditor.document.uri.toString());
+                let uri = activeEditor.document.uri.toString();
+                let pos = activeEditor.selection.active.toString();
+                let test = "Test"
+                console.log(`Requesting execution for: ${uri} at pos: ${pos}`);
+                const evalInfo = await this.languageClient.requestEvalAllConstraints(uri);
+                console.log(`Constraint Evaluation Result: ${evalInfo}`);
                 window.showInformationMessage(`Constraint Evaluation Result: ${evalInfo}`);
-            })
         } catch (ex) {
             console.log('error', `Failed to perform constraint evaluation: ${ex}`);
             window.showErrorMessage(`Failed to perform constraint evaluation: ${ex}`);
