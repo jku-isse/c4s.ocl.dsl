@@ -52,7 +52,7 @@ export default class OclxLanguageClient {
         let serverOptions = () => {
             // Connect to language server via websocket
             const ws = new WebSocket(endpoint);
-            const connection = WebSocket.createWebSocketStream(ws);
+            const connection = WebSocket.createWebSocketStream(ws, { encoding: 'utf8' });
             // connection.on("data", function (chunk) {
             //     console.log(new TextDecoder().decode(chunk));
             // });

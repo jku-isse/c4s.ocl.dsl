@@ -6,6 +6,12 @@
 	<artifactId>at.jku.isse.oclx.parent</artifactId>
 	<packaging>pom</packaging>
 
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.7.18</version>
+	</parent>
+
 	<properties>
 		<xtextVersion>2.34.0</xtextVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

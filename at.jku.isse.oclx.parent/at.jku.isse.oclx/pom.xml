@@ -236,18 +236,6 @@
 			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
-	<!-- Dependencies for code completion/assists/fixes 
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.ide</artifactId>
-			<version>${xtextVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.xbase.ide</artifactId>
-			<version>${xtextVersion}</version>
-		</dependency> -->
-
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>

@@ -9,6 +9,11 @@
 	<artifactId>at.jku.isse.oclx.ide</artifactId>
 	<packaging>jar</packaging>
 
+	<properties>
+		<ppe.rest.version>2.0.3-SNAPSHOT</ppe.rest.version>	
+		<connector.core.version>2.0.3</connector.core.version>
+	</properties>
+
 	<distributionManagement>
 		<repository>
 			<id>JKU.ISSE</id>
@@ -133,7 +138,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -151,6 +155,23 @@
 			<artifactId>org.eclipse.xtext.xbase.ide</artifactId>
 			<version>${xtextVersion}</version>
 		</dependency>
+		<!-- PPE integration -->
+		<dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-websocket</artifactId>
+        	<version>3.3.0</version> 
+    	</dependency>
+		<dependency>
+			<groupId>at.jku.isse.passiveprocessengine</groupId>
+			<artifactId>ppe-rest-frontend</artifactId>
+			<version>${ppe.rest.version}</version>	
+		</dependency>
+		<dependency>
+			<groupId>at.jku.isse.designspace</groupId>
+			<artifactId>artifact-connector.core</artifactId>
+			<version>${connector.core.version}</version>
+		</dependency>		
+		
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

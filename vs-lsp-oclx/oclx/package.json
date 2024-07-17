@@ -15,7 +15,8 @@
       {
         "command": "oclx.evaluate",
         "title": "OCLX Evaluate All"
-      }],
+      }
+    ],
     "languages": [
       {
         "id": "oclx",
@@ -40,10 +41,11 @@
   "devDependencies": {
     "@types/node": "^20.14.9",
     "@types/vscode": "^1.90.0",
-    "typescript": "^5.5.2",
+    "typescript": "^5.5.3",
     "vscode-test": "^1.6.1"
   },
   "dependencies": {
+    "tsc": "^2.0.4",
     "vscode-languageclient": "^9.0.1",
     "ws": "8.12.0"
   }

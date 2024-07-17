@@ -26,6 +26,7 @@ class OclxClientExtension {
     public async start(): Promise<void> {
         console.log('Starting oclx client');
         await this.languageClient.startViaWebsocket('ws://localhost:7171/lsp');
+        console.log('client started');
         this.commands.forEach(command =>
             this.context.subscriptions.push(command.registerCommand())
             );  
