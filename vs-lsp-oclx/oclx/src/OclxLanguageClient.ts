@@ -3,14 +3,17 @@ import { WebSocket } from 'ws';
 import { Trace } from 'vscode-jsonrpc';
 import { workspace, ExtensionContext } from 'vscode';
 import { integer, LanguageClient, LanguageClientOptions, StreamInfo } from "vscode-languageclient/node";
+import { rejects } from 'assert';
 
 
 export default class OclxLanguageClient {
-    private lc?: LanguageClient;
+    private lc: LanguageClient;
     private port;
+    private context: ExtensionContext;
 
     constructor(context: ExtensionContext, port: integer) {
         this.port = port;
+        this.context = context;
     }
 
     public async start(): Promise<void> {
@@ -40,6 +43,7 @@ export default class OclxLanguageClient {
         // Create the language client and start the client.
         this.lc = new LanguageClient('OCLX Xtext LSP', serverOptions, clientOptions);
         this.lc.setTrace(Trace.Verbose);
+        console.log('About to start language client:');
         await this.lc.start();
         
     }
@@ -49,19 +53,17 @@ export default class OclxLanguageClient {
             throw new Error('Oclx Language client has already been initialized');
         }
         
-        let serverOptions = () => {
-            // Connect to language server via websocket
-            const ws = new WebSocket(endpoint);
-            const connection = WebSocket.createWebSocketStream(ws, { encoding: 'utf8' });
-            // connection.on("data", function (chunk) {
-            //     console.log(new TextDecoder().decode(chunk));
-            // });
-            let result: StreamInfo = {
-                reader: connection,
-                writer: connection
-            };
-            return Promise.resolve(result);
-        };
+        // Connect to language server via websocket
+        const ws = new WebSocket(endpoint);
+        console.log('Websocket connecting ...');
+       // const connection = WebSocket.createWebSocketStream(ws, { encoding: 'utf8' });
+       const connection = WebSocket.createWebSocketStream(ws);
+        console.log('Websocket connected');
+
+        let serverOptions = () => Promise.resolve<StreamInfo>({
+            reader: connection,
+            writer: connection,
+        });
 
         let clientOptions: LanguageClientOptions = {
             documentSelector: ['oclx'],
@@ -69,12 +71,19 @@ export default class OclxLanguageClient {
                 fileEvents: workspace.createFileSystemWatcher('**/*.*')
             },
         };
-
+        console.log('Language client setting up ...');
         // Create the language client and start the client.
         this.lc = new LanguageClient('OCLX Xtext LSP', serverOptions, clientOptions);
+        console.log('Language client setup, starting ...');
         this.lc.setTrace(Trace.Verbose);
-        await this.lc.start();
-        
+        //Promise.resolve<void>(this.lc.start());
+         //return this.lc.start()
+            //.then(() => console.log("success") )
+            //.catch(err => console.log("error "+err))
+        console.log("State: "+this.lc.state);
+        Promise.resolve<void>(this.lc.start());
+        console.log("State: "+this.lc.state);
+        //await this.lc.start()
     }
 
     public async stop(): Promise<void> {

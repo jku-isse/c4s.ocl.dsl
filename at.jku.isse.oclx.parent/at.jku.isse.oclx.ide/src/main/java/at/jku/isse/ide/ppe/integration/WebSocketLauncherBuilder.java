@@ -10,7 +10,7 @@ import org.eclipse.lsp4j.services.LanguageClient;
 import org.springframework.web.socket.WebSocketSession;
 
 public class WebSocketLauncherBuilder extends Launcher.Builder<LanguageClient> {
-    protected WebSocketMessageHandler messageHandler;
+    protected WebSocketIncomingMessageHandler messageHandler;
     protected WebSocketSession session;
 
     @Override
@@ -26,7 +26,7 @@ public class WebSocketLauncherBuilder extends Launcher.Builder<LanguageClient> {
 
     @Override
     protected RemoteEndpoint createRemoteEndpoint(MessageJsonHandler jsonHandler) {
-        MessageConsumer outgoingMessageStream = new WebSocketMessageConsumer(jsonHandler, session);
+        MessageConsumer outgoingMessageStream = new WebSocketOutgoingMessageConsumer(jsonHandler, session);
         outgoingMessageStream = wrapMessageConsumer(outgoingMessageStream);
         Endpoint localEndpoint = ServiceEndpoints.toEndpoint(localServices);
         RemoteEndpoint remoteEndpoint;
@@ -45,7 +45,7 @@ public class WebSocketLauncherBuilder extends Launcher.Builder<LanguageClient> {
         return this;
     }
 
-    public WebSocketLauncherBuilder setMessageHandler(WebSocketMessageHandler messageHandler) {
+    public WebSocketLauncherBuilder setMessageHandler(WebSocketIncomingMessageHandler messageHandler) {
         this.messageHandler = messageHandler;
         return this;
     }

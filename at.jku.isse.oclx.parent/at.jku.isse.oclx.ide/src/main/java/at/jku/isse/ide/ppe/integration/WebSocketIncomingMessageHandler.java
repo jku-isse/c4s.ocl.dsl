@@ -6,7 +6,7 @@ import org.eclipse.lsp4j.jsonrpc.MessageIssueHandler;
 import org.eclipse.lsp4j.jsonrpc.json.MessageJsonHandler;
 import org.eclipse.lsp4j.jsonrpc.messages.Message;
 
-public class WebSocketMessageHandler {
+public class WebSocketIncomingMessageHandler {
     private MessageConsumer consumer;
     private MessageJsonHandler jsonHandler;
     private MessageIssueHandler issueHandler;

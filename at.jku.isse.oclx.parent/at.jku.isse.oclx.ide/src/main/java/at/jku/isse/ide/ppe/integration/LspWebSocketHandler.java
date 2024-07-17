@@ -8,6 +8,7 @@ import org.eclipse.lsp4j.services.LanguageClientAware;
 import org.eclipse.lsp4j.services.LanguageServer;
 import org.eclipse.xtext.ide.server.ServerModule;
 import org.springframework.web.socket.BinaryMessage;
+import org.springframework.web.socket.PongMessage;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.AbstractWebSocketHandler;
@@ -27,11 +28,11 @@ public class LspWebSocketHandler extends AbstractWebSocketHandler{
 
 	static final Injector injector = Guice.createInjector(new ServerModule());
     private final LanguageServer languageServer;
-    private final WebSocketMessageHandler messageJsonHandler;
+    private final WebSocketIncomingMessageHandler messageJsonHandler;
 
     public LspWebSocketHandler() {
         this.languageServer = injector.getInstance(LanguageServer.class);
-        this.messageJsonHandler = new WebSocketMessageHandler();
+        this.messageJsonHandler = new WebSocketIncomingMessageHandler();
         log.info("Started Language Server Session");
     }
 
@@ -64,10 +65,14 @@ public class LspWebSocketHandler extends AbstractWebSocketHandler{
 	protected void handleBinaryMessage(WebSocketSession session, BinaryMessage message) throws Exception {
 		String strMsg = new String(message.getPayload().array(), Charset.forName("UTF-8"));
 		//super.handleBinaryMessage(session, message);
+		
 		if (strMsg.startsWith("Content-Length")) {
 			//skip
 		} else {
+		//	Thread.sleep(10_000l); //for debug purpose
 			this.messageJsonHandler.onMessage(strMsg);
 		}
 	}
+	
+	
 }

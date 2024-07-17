@@ -11,11 +11,11 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.BinaryMessage;
 
-public class WebSocketMessageConsumer implements MessageConsumer {
+public class WebSocketOutgoingMessageConsumer implements MessageConsumer {
     private final MessageJsonHandler jsonHandler;
     private final WebSocketSession session;
 
-    public WebSocketMessageConsumer(MessageJsonHandler jsonHandler, WebSocketSession session) {
+    public WebSocketOutgoingMessageConsumer(MessageJsonHandler jsonHandler, WebSocketSession session) {
         this.session = session;
         this.jsonHandler = jsonHandler;
     }
@@ -28,7 +28,7 @@ public class WebSocketMessageConsumer implements MessageConsumer {
             	BinaryMessage binaryMessage = new BinaryMessage(content.getBytes());
             	session.sendMessage(binaryMessage);
             	//TextMessage textMessage = new TextMessage(content);
-                //session.sendMessage(textMessage);
+               // session.sendMessage(textMessage);
             }
         } catch (IOException exception) {
             throw new JsonRpcException(exception);
