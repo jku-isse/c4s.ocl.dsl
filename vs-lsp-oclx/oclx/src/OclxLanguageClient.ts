@@ -56,7 +56,7 @@ export default class OclxLanguageClient {
         // Connect to language server via websocket
         const ws = new WebSocket(endpoint);
         console.log('Websocket connecting ...');
-       // const connection = WebSocket.createWebSocketStream(ws, { encoding: 'utf8' });
+        //const connection = WebSocket.createWebSocketStream(ws, { encoding: 'utf8' });
        const connection = WebSocket.createWebSocketStream(ws);
         console.log('Websocket connected');
 
@@ -80,10 +80,10 @@ export default class OclxLanguageClient {
          //return this.lc.start()
             //.then(() => console.log("success") )
             //.catch(err => console.log("error "+err))
-        console.log("State: "+this.lc.state);
-        Promise.resolve<void>(this.lc.start());
-        console.log("State: "+this.lc.state);
-        //await this.lc.start()
+        //console.log("State: "+this.lc.state);
+        //Promise.resolve<void>(this.lc.start());
+        //console.log("State: "+this.lc.state);
+        await this.lc.start()
     }
 
     public async stop(): Promise<void> {

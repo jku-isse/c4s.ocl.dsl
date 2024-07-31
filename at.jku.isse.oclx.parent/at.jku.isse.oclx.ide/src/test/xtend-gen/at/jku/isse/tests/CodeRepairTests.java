@@ -1,13 +1,8 @@
 package at.jku.isse.tests;
 
-import at.jku.isse.oclx.Model;
-import at.jku.isse.oclx.OclxPackage;
-import at.jku.isse.validation.OCLXValidator;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.List;
-import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionContext;
 import org.eclipse.lsp4j.CodeActionParams;
@@ -18,7 +13,6 @@ import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
-import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.ide.server.Document;
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2;
 import org.eclipse.xtext.resource.XtextResource;
@@ -29,8 +23,6 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper;
 import org.eclipse.xtext.validation.Issue;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
 import org.eclipse.xtext.xbase.lib.Exceptions;
-import org.eclipse.xtext.xbase.lib.IterableExtensions;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -39,7 +31,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 @SuppressWarnings("all")
 public class CodeRepairTests extends AbstractContentAssistTest {
   @Inject
-  private ParseHelper<Model> parseHelper;
+  private /* ParseHelper<Model> */Object parseHelper;
 
   @Inject
   private ValidationTestHelper validationTestHelper;
@@ -49,32 +41,19 @@ public class CodeRepairTests extends AbstractContentAssistTest {
 
   @Test
   public void testRepairProperty() {
-    try {
-      StringConcatenation _builder = new StringConcatenation();
-      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.downstre.size() > 0 }");
-      _builder.newLine();
-      final String content = _builder.toString();
-      final Model result = this.parseHelper.parse(content);
-      Assertions.assertNotNull(result);
-      this.validationTestHelper.assertError(result, 
-        OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
-        OCLXValidator.UNKNOWN_PROPERTY);
-      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
-      boolean _isEmpty = errors.isEmpty();
-      StringConcatenation _builder_1 = new StringConcatenation();
-      _builder_1.append("Unexpected errors: ");
-      String _join = IterableExtensions.join(errors, ", \r\n");
-      _builder_1.append(_join);
-      Assertions.assertTrue(_isEmpty, _builder_1.toString());
-      final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
-      System.out.println(codeActions);
-      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("downstream"));
-    } catch (Throwable _e) {
-      throw Exceptions.sneakyThrow(_e);
-    }
+    throw new Error("Unresolved compilation problems:"
+      + "\nThe method or field OclxPackage is undefined"
+      + "\nThe field CodeRepairTests.parseHelper refers to the missing type Model"
+      + "\nThe method error2CodeAction(String, Model) from the type CodeRepairTests refers to the missing type Model"
+      + "\nLiterals cannot be resolved"
+      + "\nPROPERTY_ACCESS_EXP cannot be resolved"
+      + "\neResource cannot be resolved"
+      + "\nerrors cannot be resolved"
+      + "\nisEmpty cannot be resolved"
+      + "\njoin cannot be resolved");
   }
 
-  public List<Either<Command, CodeAction>> error2CodeAction(final String content, final Model result) {
+  public List<Either<Command, CodeAction>> error2CodeAction(final String content, final /* Model */Object result) {
     try {
       final Issue issue = this.validationTestHelper.validate(result).get(0);
       Integer _lineNumber = issue.getLineNumber();

@@ -15,6 +15,8 @@ public class WebSocketOutgoingMessageConsumer implements MessageConsumer {
     private final MessageJsonHandler jsonHandler;
     private final WebSocketSession session;
 
+    private static final String CONTENTHEADERPREFIX = "Content-Length: ";
+    
     public WebSocketOutgoingMessageConsumer(MessageJsonHandler jsonHandler, WebSocketSession session) {
         this.session = session;
         this.jsonHandler = jsonHandler;
@@ -25,8 +27,12 @@ public class WebSocketOutgoingMessageConsumer implements MessageConsumer {
         try {
             String content = jsonHandler.serialize(message);
             if (session.isOpen()) {
-            	BinaryMessage binaryMessage = new BinaryMessage(content.getBytes());
+            	String inclHeader = CONTENTHEADERPREFIX+content.length()+"\n\n";
+            	BinaryMessage binaryMessage = new BinaryMessage(inclHeader.getBytes());
             	session.sendMessage(binaryMessage);
+            	//String overall = inclHeader+content;
+            	BinaryMessage binaryMessage2 = new BinaryMessage(content.getBytes());
+            	session.sendMessage(binaryMessage2);
             	//TextMessage textMessage = new TextMessage(content);
                // session.sendMessage(textMessage);
             }

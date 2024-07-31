@@ -25,7 +25,8 @@ class OclxClientExtension {
 
     public async start(): Promise<void> {
         console.log('Starting oclx client');
-        await this.languageClient.startViaWebsocket('ws://localhost:7171/lsp');
+        //await this.languageClient.startViaWebsocket('ws://localhost:7171/lsp');
+        await this.languageClient.start();
         console.log("completed starting");
         this.commands.forEach(command =>
             this.context.subscriptions.push(command.registerCommand())
@@ -43,10 +44,10 @@ class OclxClientExtension {
 
 let client: OclxClientExtension;
 
-export async function activate(context: ExtensionContext) {
+export function activate(context: ExtensionContext) {
     try {
 		client = new OclxClientExtension(context);
-		await client.start();
+		client.start();
 	} catch (ex) {
         window.showErrorMessage(`Failed to initialize Oclx client extension: ${ex}`);
 	}

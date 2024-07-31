@@ -67,8 +67,10 @@ public class LspWebSocketHandler extends AbstractWebSocketHandler{
 		//super.handleBinaryMessage(session, message);
 		
 		if (strMsg.startsWith("Content-Length")) {
+			System.out.println(strMsg);
 			//skip
 		} else {
+			//System.out.println("Length: "+strMsg.length());
 		//	Thread.sleep(10_000l); //for debug purpose
 			this.messageJsonHandler.onMessage(strMsg);
 		}

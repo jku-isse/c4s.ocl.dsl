@@ -1,7 +1,5 @@
 package at.jku.isse.ide.assistance;
 
-import at.jku.isse.oclx.NavigationOperator;
-import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.validation.OCLXValidator;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
@@ -10,7 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionKind;
@@ -109,21 +106,10 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
   }
 
   protected List<String> findMostSimilarProperties(final String partialPropertyName, final XtextResource resource, final int offset) {
-    final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
-    if ((modelElement != null)) {
-      final ElementToTypeMap el2TypeMap = this.typeExtractor.extractElementToTypeMap(modelElement).get();
-      if ((modelElement instanceof PropertyAccessExp)) {
-        final NavigationOperator prevNav = OclxASTUtils.findPrecedingOperatorFor(((PropertyAccessExp)modelElement));
-        if ((prevNav != null)) {
-          final ElementToTypeMap.TypeAndCardinality completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
-          if ((completeWithType != null)) {
-            final List<String> choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName);
-            return choices;
-          }
-        }
-      }
-    }
-    return Collections.<String>emptyList();
+    throw new Error("Unresolved compilation problems:"
+      + "\nPropertyAccessExp cannot be resolved to a type."
+      + "\nThe method findPrecedingOperatorFor(EObject) is undefined for the type Class<OclxASTUtils>"
+      + "\n!== cannot be resolved");
   }
 
   protected List<TextEdit> addTextEdit(final WorkspaceEdit edit, final URI uri, final TextEdit... textEdit) {
