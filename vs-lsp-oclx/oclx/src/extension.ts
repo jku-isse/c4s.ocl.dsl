@@ -28,9 +28,9 @@ class OclxClientExtension {
         //await this.languageClient.startViaWebsocket('ws://localhost:7171/lsp');
         await this.languageClient.start();
         console.log("completed starting");
-        this.commands.forEach(command =>
-            this.context.subscriptions.push(command.registerCommand())
-            );  
+        // this.commands.forEach(command =>
+        //     this.context.subscriptions.push(command.registerCommand())
+        //     );  
     }
 
     public async stop(): Promise<void> {
