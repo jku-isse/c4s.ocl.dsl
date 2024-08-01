@@ -1,7 +1,5 @@
-package at.jku.isse.ide.contentproposal
+package at.jku.isse.ide.assistance
 
-import at.jku.isse.oclx.PropertyAccessExp
-import at.jku.isse.validation.OCLXValidator
 import com.google.inject.Inject
 import java.util.Collections
 import java.util.List
@@ -16,6 +14,8 @@ import org.eclipse.xtext.ide.server.ILanguageServerAccess
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2
 import org.eclipse.xtext.resource.EObjectAtOffsetHelper
 import org.eclipse.xtext.resource.XtextResource
+import at.jku.isse.validation.OCLXValidator
+import at.jku.isse.oclx.PropertyAccessExp
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -81,7 +81,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		if (modelElement !== null) {
 			val el2TypeMap = typeExtractor.extractElementToTypeMap(modelElement).get()
 			if (modelElement instanceof PropertyAccessExp) {
-				val prevNav = ASTUtils.findPrecedingOperatorFor(modelElement);
+				val prevNav = OclxASTUtils.findPrecedingOperatorFor(modelElement);
 				if (prevNav !== null) {
 					val completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
 					if (completeWithType !== null) {

@@ -1,4 +1,4 @@
-package at.jku.isse.ide.contentproposal;
+package at.jku.isse.ide.assistance;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression;
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression.OperationDeclaration;
 import at.jku.isse.designspace.rule.arl.parser.ArlType;
 import at.jku.isse.designspace.rule.arl.parser.ArlType.CollectionKind;
-import at.jku.isse.ide.contentproposal.ElementToTypeMap.TypeAndCardinality;
+import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;

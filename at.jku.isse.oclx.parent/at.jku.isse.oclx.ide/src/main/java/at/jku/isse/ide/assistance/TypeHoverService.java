@@ -1,4 +1,4 @@
-package at.jku.isse.ide.contentproposal;
+package at.jku.isse.ide.assistance;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -9,7 +9,7 @@ import org.eclipse.xtext.ide.server.hover.HoverService;
 
 import com.google.inject.Inject;
 
-import at.jku.isse.ide.contentproposal.ElementToTypeMap.TypeAndCardinality;
+import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.oclx.Constraint;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
@@ -29,7 +29,7 @@ public class TypeHoverService extends HoverService {
 				|| hoverOver instanceof VarReference
 				|| hoverOver instanceof VarDeclaration
 				|| hoverOver instanceof PropertyAccessExp) {
-			Optional<Constraint> optRoot = ASTUtils.getRootConstraint(hoverOver);
+			Optional<Constraint> optRoot = OclxASTUtils.getRootConstraint(hoverOver);
 			if (optRoot.isPresent()) {
 				Constraint root = optRoot.get();
 				Optional<PPEInstanceType> optCtx = typeExtractor.resolveContext(root);

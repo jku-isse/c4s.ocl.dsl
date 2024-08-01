@@ -1,0 +1,51 @@
+{
+  "name": "oclx",
+  "displayName": "oclx",
+  "description": "OCLextended Constraint Language Support",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "main": "out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "oclx.evaluate",
+        "title": "OCLX Evaluate All"
+      }
+    ],
+    "languages": [
+      {
+        "id": "oclx",
+        "aliases": [
+          "OCLX",
+          "oclx"
+        ],
+        "extensions": [
+          ".oclx"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "oclx",
+        "scopeName": "source.oclx",
+        "path": "./syntaxes/oclx.tmLanguage.json"
+      }
+    ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.9",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.5.3",
+    "vscode-test": "^1.6.1"
+  },
+  "dependencies": {
+    "vscode-languageclient": "^9.0.1",
+    "ws": "8.12.0"
+  }
+}

@@ -5,13 +5,13 @@
 	<parent>
 		<groupId>at.jku.isse.oclx</groupId>
 		<artifactId>at.jku.isse.oclx.parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>at.jku.isse.oclx</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
-		<connector.core.version>2.0.1</connector.core.version>
+		<connector.core.version>2.0.5</connector.core.version>
 	</properties>
 
 	<distributionManagement>
@@ -176,6 +176,13 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <configuration>
+                        <skip>true</skip>
+                    </configuration>
+                </plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -222,7 +229,7 @@
 		<dependency>
 			<groupId>at.jku.isse.designspace</groupId>
 			<artifactId>artifact-connector.ds5wrapper</artifactId>
-			<version>1.0.3</version>
+			<version>1.0.5</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency> <!-- for computing text similarity in ContentProposalProvider-->
@@ -236,18 +243,6 @@
 			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
-	<!-- Dependencies for code completion/assists/fixes 
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.ide</artifactId>
-			<version>${xtextVersion}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.xtext</groupId>
-			<artifactId>org.eclipse.xtext.xbase.ide</artifactId>
-			<version>${xtextVersion}</version>
-		</dependency> -->
-
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>

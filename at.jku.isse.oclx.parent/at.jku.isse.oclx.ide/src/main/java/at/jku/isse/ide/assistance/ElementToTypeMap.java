@@ -1,4 +1,4 @@
-package at.jku.isse.ide.contentproposal;
+package at.jku.isse.ide.assistance;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package at.jku.isse.ide.contentproposal;
+package at.jku.isse.ide.assistance;
 
 import java.util.AbstractMap;
 import java.util.Collection;
@@ -26,7 +26,7 @@ import com.google.inject.Inject;
 
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression;
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression.OperationDeclaration;
-import at.jku.isse.ide.contentproposal.ElementToTypeMap.TypeAndCardinality;
+import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
@@ -156,7 +156,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 						if (completeFrom instanceof PropertyAccessExp) {
 							PropertyAccessExp propertyAccess = (PropertyAccessExp) completeFrom;
 							String partialName = propertyAccess.getName();
-							NavigationOperator prevNav = ASTUtils.findPrecedingOperatorFor(propertyAccess);
+							NavigationOperator prevNav = OclxASTUtils.findPrecedingOperatorFor(propertyAccess);
 							if (prevNav != null) {
 								completeWithType = elementToTypeMap.getReturnTypeMap().get(prevNav);
 								if (completeWithType != null) {
@@ -261,7 +261,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 				TypeAndCardinality returnType = methodRegistry.getReturnType(decl, forType.getType());
 				acceptor.accept(getProposalCreator().createSnippet(
 						String.format("%s(%s)", decl.name, createParamPlaceholders(decl, forType.getType())), 
-					String.format("returns %s %s", returnType.getCardinality().toString(), returnType.getType().getName() ),  
+					String.format("%s returns %s %s", decl.name, returnType.getCardinality().toString(), returnType.getType().getName() ),  
 					context), 1);
 		});
 	}

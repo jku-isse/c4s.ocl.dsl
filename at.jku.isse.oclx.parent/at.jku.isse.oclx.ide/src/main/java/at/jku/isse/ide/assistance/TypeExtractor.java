@@ -1,4 +1,4 @@
-package at.jku.isse.ide.contentproposal;
+package at.jku.isse.ide.assistance;
 
 import java.util.Optional;
 
@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.google.inject.Inject;
 
-import at.jku.isse.ide.contentproposal.ElementToTypeMap.TypeAndCardinality;
+import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.oclx.BinaryOperator;
 import at.jku.isse.oclx.BooleanOperator;
 import at.jku.isse.oclx.Constraint;
@@ -42,7 +42,7 @@ public class TypeExtractor {
 	
 	
 	public Optional<ElementToTypeMap> extractElementToTypeMap(EObject eobject) {
-		Optional<Constraint> optRoot = ASTUtils.getRootConstraint(eobject);
+		Optional<Constraint> optRoot = OclxASTUtils.getRootConstraint(eobject);
 		return optRoot.flatMap(root -> {
 			Optional<PPEInstanceType> optCtx = this.resolveContext(root);
 			return optCtx.flatMap(ctx -> {

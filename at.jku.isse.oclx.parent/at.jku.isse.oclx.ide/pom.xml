@@ -4,10 +4,16 @@
 	<parent>
 		<groupId>at.jku.isse.oclx</groupId>
 		<artifactId>at.jku.isse.oclx.parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>at.jku.isse.oclx.ide</artifactId>
 	<packaging>jar</packaging>
+
+	<properties>
+		<ppe.rest.version>2.0.5-SNAPSHOT</ppe.rest.version>	
+		<connector.core.version>2.0.5</connector.core.version>
+		<start-class>at.jku.isse.DslEnabledRestFrontend</start-class>
+	</properties>
 
 	<distributionManagement>
 		<repository>
@@ -71,20 +77,24 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
+		  <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+		<!--	<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.4.1</version>
+				<version>3.4.1</version> 
 				<configuration>
 					<transformers>
-						<transformer
-							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-							<mainClass>at.jku.isse.ide.ServerLauncher</mainClass> <!-- org.eclipse.xtext.ide.server.ServerLauncher -->
-						</transformer>
 						<transformer
 							implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
 							<resource>plugin.properties</resource>
 						</transformer>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer"> when using spring boot, need to set via properties above, see also: https://stackoverflow.com/questions/49215416/maven-shade-plugin-cannot-find-resource-in-class-org-apache-maven-plugins-sh
+							<mainClass>at.jku.isse.DslEnabledRestFrontend</mainClass>   
+						</transformer> 
 						<transformer 
 							implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
 						</transformer>
@@ -119,13 +129,14 @@
 				</configuration>
 				<executions>
 					<execution>
+						 <id>shade-jar-with-dependencies</id>
 						<phase>package</phase>
 						<goals>
 							<goal>shade</goal>
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
+			</plugin>--> 
 		</plugins>
 	</build>
 
@@ -133,7 +144,6 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<version>1.18.34</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -151,6 +161,23 @@
 			<artifactId>org.eclipse.xtext.xbase.ide</artifactId>
 			<version>${xtextVersion}</version>
 		</dependency>
+		<!-- PPE integration -->
+		<dependency>
+        	<groupId>org.springframework.boot</groupId>
+        	<artifactId>spring-boot-starter-websocket</artifactId>
+        	<version>3.3.0</version> 
+    	</dependency>
+		<dependency>
+			<groupId>at.jku.isse.passiveprocessengine</groupId>
+			<artifactId>ppe-rest-frontend</artifactId>
+			<version>${ppe.rest.version}</version>	
+		</dependency>
+		<dependency>
+			<groupId>at.jku.isse.designspace</groupId>
+			<artifactId>artifact-connector.core</artifactId>
+			<version>${connector.core.version}</version>
+		</dependency>		
+		
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
