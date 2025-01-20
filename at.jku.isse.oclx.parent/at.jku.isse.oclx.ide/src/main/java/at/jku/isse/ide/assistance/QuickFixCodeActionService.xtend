@@ -47,10 +47,11 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 					//resource = extractResource(options)
 					val propertyString = document.getSubstring(d.range)
 					val offset = document.getOffSet(d.range.start)
+					getCodeActionReplaceWithSubtype(d, resource, offset, propertyString, result)
 					val choices = findMostSimilarProperties(propertyString, resource, offset)
 					if (choices.size() > 0) {
 						val newProp = choices.get(0)
-						getCodeAction(d, resource, newProp, result)
+						getCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result)
 					}
 				}
 			}
@@ -61,9 +62,50 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	def ILanguageServerAccess.Context process(ILanguageServerAccess.Context ctx) {
 		return ctx
 	}
-	
-	def getCodeAction(Diagnostic d, XtextResource resource, String newProp, List<CodeAction> result) {	
-							result += new CodeAction => [
+
+	def getCodeActionReplaceWithSubtype(Diagnostic d, XtextResource resource, int offset, String partialPropertyName, List<CodeAction> result) {
+		val subclasses = findSubclassWithProperty(partialPropertyName, resource, offset)
+		if (subclasses.isEmpty()) return
+		val subclass = subclasses.get(0)
+
+		val precIterator = findPreceedingIterator(resource, offset)
+		if (precIterator == null) {
+		// for simple navigation we need to add the asType() operator
+		result += new CodeAction => [
+						kind = CodeActionKind.QuickFix
+						title = "Access property in subtype '"+subclass.name+"' "
+						diagnostics = #[d]
+						edit = new WorkspaceEdit() => [
+							addTextEdit(resource.URI, new TextEdit => [
+								range = d.range
+								newText = "asType(<"+subclass.name+">)."+partialPropertyName
+							])
+						]
+					]
+		} else {
+		// of use in collections we need to do a select with typeOf operator
+		}
+	}
+
+	protected def findSubclassWithProperty(String propertyName, XtextResource resource, int offset) {
+		var completeWithType = resolveResourceToType(resource, offset)
+		if (completeWithType !== null) {
+			return completeWithType.type.allSubtypesRecursively.stream().filter(subtype | subtype.hasPropertyType(propertyName)).toList()
+		}
+		return Collections.emptyList()
+	}
+
+
+	protected def findPreceedingIterator(XtextResource resource, int offset) {
+		val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset)
+		// is preceeding propertyAccess --> no
+		// operation: only some may qualify to have another property access thereafter
+		// some iterator operation
+		return null
+	}
+
+	def getCodeActionReplaceWithMostSimilarProperty(Diagnostic d, XtextResource resource, String newProp, List<CodeAction> result) {	
+		result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
 						title = "Replace with most similar property '"+newProp+"' "
 						diagnostics = #[d]
@@ -77,6 +119,15 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	}
 	
 	protected def findMostSimilarProperties(String partialPropertyName, XtextResource resource, int offset) {
+		var completeWithType = resolveResourceToType(resource, offset);
+		if (completeWithType !== null) {
+			val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName)
+			return choices
+		}
+		return Collections.emptyList()
+	}
+	
+	protected def resolveResourceToType(XtextResource resource, int offset) {
 		val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset)
 		if (modelElement !== null) {
 			val el2TypeMap = typeExtractor.extractElementToTypeMap(modelElement).get()
@@ -84,14 +135,11 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 				val prevNav = OclxASTUtils.findPrecedingOperatorFor(modelElement);
 				if (prevNav !== null) {
 					val completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
-					if (completeWithType !== null) {
-						val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName)
-						return choices
-					}
+					return completeWithType;
 				}
 			}
 		}
-		return Collections.emptyList()
+		return null;
 	}
 	
 	protected def addTextEdit(WorkspaceEdit edit, URI uri, TextEdit... textEdit) {

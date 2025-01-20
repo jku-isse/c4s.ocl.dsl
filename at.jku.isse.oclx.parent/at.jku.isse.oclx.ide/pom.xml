@@ -4,14 +4,14 @@
 	<parent>
 		<groupId>at.jku.isse.oclx</groupId>
 		<artifactId>at.jku.isse.oclx.parent</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.2-SNAPSHOT</version>
 	</parent>
 	<artifactId>at.jku.isse.oclx.ide</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
-		<ppe.rest.version>2.0.5-SNAPSHOT</ppe.rest.version>	
-		<connector.core.version>2.0.5</connector.core.version>
+		<ppe.rest.version>2.0.6-SNAPSHOT</ppe.rest.version>	
+		<connector.core.version>2.0.7</connector.core.version>
 		<start-class>at.jku.isse.DslEnabledRestFrontend</start-class>
 	</properties>
 

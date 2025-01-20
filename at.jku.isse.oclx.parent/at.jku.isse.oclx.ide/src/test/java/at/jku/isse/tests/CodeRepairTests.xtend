@@ -73,6 +73,25 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("downstream"))
 	}
 	
+		@Test
+	def void testRepairPropertyViaSubtyping() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesSingle.referencesGroup.size() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("DemoIssue"))
+	}
 	
 	def error2CodeAction(String content, Model result) {
 		val issue = validationTestHelper.validate(result).get(0);

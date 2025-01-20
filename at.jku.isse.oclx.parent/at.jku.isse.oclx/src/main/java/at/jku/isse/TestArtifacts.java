@@ -13,7 +13,7 @@ import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 public class TestArtifacts {
 
 	public static final String DEMOISSUETYPE = "DemoIssue";
-	public static enum CoreProperties { state, requirements, bugs, parent, html_url, upstream, downstream }
+	public static enum CoreProperties { state, requirements, bugs, parent, html_url, upstream, downstream, referencesSingle, referencesGroup }
 	public static enum JiraStates { Open, InProgress, Closed, ReadyForReview, Released}
 
 	InstanceRepository repository;
@@ -26,10 +26,11 @@ public class TestArtifacts {
 	
 	public PPEInstanceType getJiraInstanceType() {
 		Optional<PPEInstanceType> thisType = schemaRegistry.findNonDeletedInstanceTypeByFQN(DEMOISSUETYPE);
+		var baseType =  schemaRegistry.getTypeByName(CoreTypeFactory.BASE_TYPE_NAME);
 			if (thisType.isPresent())
 				return thisType.get();
 			else {
-				PPEInstanceType typeJira = schemaRegistry.createNewInstanceType(DEMOISSUETYPE, schemaRegistry.getTypeByName(CoreTypeFactory.BASE_TYPE_NAME));				
+				PPEInstanceType typeJira = schemaRegistry.createNewInstanceType(DEMOISSUETYPE, baseType);				
 				schemaRegistry.registerTypeByName(typeJira);
 				typeJira.createSinglePropertyType(CoreProperties.state.toString(), BuildInType.STRING);
 				typeJira.createSetPropertyType(CoreProperties.requirements.toString(), typeJira);
@@ -37,6 +38,9 @@ public class TestArtifacts {
 				typeJira.createSinglePropertyType(CoreProperties.parent.toString(),  typeJira);
 				typeJira.createSetPropertyType(CoreProperties.upstream.toString(),  typeJira);
 				typeJira.createSetPropertyType(CoreProperties.downstream.toString(),  typeJira);
+				
+				typeJira.createSinglePropertyType(CoreProperties.referencesSingle.toString(),  baseType);
+				typeJira.createSetPropertyType(CoreProperties.referencesGroup.toString(),  baseType);
 				//typeJira.createOpposablePropertyType(CoreProperties.upstream.toString(), Cardinality.SET, typeJira, CoreProperties.downstream.toString(), Cardinality.SET);				
 				//typeJira.createSinglePropertyType(CoreProperties.html_url.toString(), BuildInType.STRING);
 				return typeJira;
