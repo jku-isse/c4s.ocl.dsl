@@ -16,8 +16,8 @@
 
 	<distributionManagement>
 		<repository>
-			<id>JKU.ISSE</id>
-			<url>http://3.66.206.6:9999/snapshots</url>
+			<id>JKU.ISSE.MAVEN</id>
+            <url>https://isse.jku.at/reposilite/snapshots</url>
 		</repository>
 	</distributionManagement>
 	<repositories>
@@ -33,8 +33,8 @@
 		</repository>
 		<!-- own ones -->
 		<repository>
-			<id>JKU.ISSE</id>
-			<url>http://3.66.206.6:9999/snapshots</url>
+			<id>JKU.ISSE.MAVEN</id>
+            <url>https://isse.jku.at/reposilite/snapshots</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
@@ -229,7 +229,7 @@
 		<dependency>
 			<groupId>at.jku.isse.designspace</groupId>
 			<artifactId>artifact-connector.ds5wrapper</artifactId>
-			<version>1.0.5</version>
+			<version>1.0.7</version>
 			<scope>compile</scope>
 		</dependency>
 		<dependency> <!-- for computing text similarity in ContentProposalProvider-->

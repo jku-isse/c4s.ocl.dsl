@@ -233,6 +233,11 @@ public class OCLXValidator extends AbstractOCLXValidator {
 								varTypeMap.put(varName, optType.get());
 								log.trace(String.format("Adding new variable %s of type %s " ,varName, optType.get().getName()));
 							}
+						} else {
+							if (currentType != null) {
+								varTypeMap.put(varName, currentType);
+							// determine var type based on previous method/property access, otherwise checking var type leads to NPE
+							}
 						}
 					}
 				}

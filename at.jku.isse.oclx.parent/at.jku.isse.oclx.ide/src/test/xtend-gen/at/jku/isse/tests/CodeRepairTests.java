@@ -101,6 +101,33 @@ public class CodeRepairTests extends AbstractContentAssistTest {
     }
   }
 
+  @Test
+  public void testRepairSetPropertyViaSubtyping() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+        OCLXValidator.UNKNOWN_PROPERTY);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+      final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
+      System.out.println(codeActions);
+      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("DemoIssue"));
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
   public List<Either<Command, CodeAction>> error2CodeAction(final String content, final Model result) {
     try {
       final Issue issue = this.validationTestHelper.validate(result).get(0);

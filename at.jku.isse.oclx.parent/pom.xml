@@ -25,8 +25,8 @@
 	
 	<distributionManagement>
 		<repository>
-			<id>JKU.ISSE</id>
-			<url>http://3.66.206.6:9999/snapshots</url>
+			<id>JKU.ISSE.MAVEN</id>
+            <url>https://isse.jku.at/reposilite/snapshots</url>
 		</repository>
 	</distributionManagement>
 	<repositories>
@@ -53,8 +53,8 @@
 		</repository>
 		<!-- own ones -->
 		<repository>
-			<id>JKU.ISSE</id>
-			<url>http://3.66.206.6:9999/snapshots</url>
+			<id>JKU.ISSE.MAVEN</id>
+            <url>https://isse.jku.at/reposilite/snapshots</url>
 			<snapshots>
 				<enabled>true</enabled>
 			</snapshots>
