@@ -16,6 +16,16 @@ import org.eclipse.xtext.resource.EObjectAtOffsetHelper
 import org.eclipse.xtext.resource.XtextResource
 import at.jku.isse.validation.OCLXValidator
 import at.jku.isse.oclx.PropertyAccessExp
+import at.jku.isse.oclx.SelfExp
+import at.jku.isse.oclx.MethodCallExp
+import at.jku.isse.oclx.VarReference
+import at.jku.isse.passiveprocessengine.core.PPEInstanceType
+import at.jku.isse.oclx.Exp
+import org.eclipse.emf.ecore.EObject
+import at.jku.isse.oclx.Constraint
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils
+import org.eclipse.lsp4j.Range
+import org.eclipse.lsp4j.Position
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -67,24 +77,8 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		val subclasses = findSubclassWithProperty(partialPropertyName, resource, offset)
 		if (subclasses.isEmpty()) return
 		val subclass = subclasses.get(0)
-
-		val precIterator = findPreceedingIterator(resource, offset)
-		if (precIterator == null) {
-		// for simple navigation we need to add the asType() operator
-		result += new CodeAction => [
-						kind = CodeActionKind.QuickFix
-						title = "Access property in subtype '"+subclass.name+"' "
-						diagnostics = #[d]
-						edit = new WorkspaceEdit() => [
-							addTextEdit(resource.URI, new TextEdit => [
-								range = d.range
-								newText = "asType(<"+subclass.name+">)."+partialPropertyName
-							])
-						]
-					]
-		} else {
-		// of use in collections we need to do a select with typeOf operator
-		}
+		val precedingElement = getPrecedingElement(resource, offset)
+		dispatchByPreceedingElement(precedingElement, d, resource, subclass, partialPropertyName, result)
 	}
 
 	protected def findSubclassWithProperty(String propertyName, XtextResource resource, int offset) {
@@ -96,12 +90,73 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	}
 
 
-	protected def findPreceedingIterator(XtextResource resource, int offset) {
+	protected def getPrecedingElement(XtextResource resource, int offset) {
 		val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset)
-		// is preceeding propertyAccess --> no
-		// operation: only some may qualify to have another property access thereafter
-		// some iterator operation
-		return null
+		val varOrSelfContainer = modelElement.eContainer
+		if (varOrSelfContainer instanceof SelfExp) {
+			val thisIndex = varOrSelfContainer.methods.indexOf(modelElement)
+			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex)
+			else return varOrSelfContainer
+		} else if (varOrSelfContainer instanceof VarReference) { 
+			val thisIndex = varOrSelfContainer.methods.indexOf(modelElement)
+			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex)
+			else return varOrSelfContainer
+		}
+	}
+
+	protected def dispatchByPreceedingElement(EObject modelElement, Diagnostic d, XtextResource resource,  PPEInstanceType subclass, String propertyName, List<CodeAction> result) {
+		
+		if (modelElement instanceof SelfExp) {
+			// we cant really suggest a cast of context, rather make context more precise
+						result += new CodeAction => [
+						kind = CodeActionKind.QuickFix
+						title = "Use '"+subclass.name+"' as a more specialized context element"
+						edit = new WorkspaceEdit() => [
+							addTextEdit(resource.URI, new TextEdit => [
+								range = getRangeOfContext(modelElement)
+								newText = subclass.name
+							])
+						]
+					]
+		} else
+		if (modelElement instanceof PropertyAccessExp) {
+			// cast the property
+			result += new CodeAction => [
+						kind = CodeActionKind.QuickFix
+						title = "Access property in subtype '"+subclass.name+"' "
+						diagnostics = #[d]
+						edit = new WorkspaceEdit() => [
+							addTextEdit(resource.URI, new TextEdit => [
+								range = d.range
+								newText = "asType(<"+subclass.name+">)."+propertyName
+							])
+						]
+					]
+		} else
+		if (modelElement instanceof MethodCallExp) {
+			// a method that returns a single instance can only happen over collection --> need to cast/filter collection
+			// not supported yet as we dont analyse method return types yet
+		} else
+		if (modelElement instanceof VarReference) {
+			// a reference to an iterator variable, need to find the declaration of that var and cast/filter collection there
+		} else {
+			System.out.println("ERROR in QuickFixCodeActionService: Unexpected preceding element: "+modelElement.toString);
+		}
+	}
+
+	protected def Range getRangeOfContext(EObject exp) {
+		if (exp === null) return null;
+		if (exp instanceof Constraint) {
+			val ctx = exp.context
+			val inode = NodeModelUtils.findActualNodeFor(ctx)
+			val startPos = inode.offset
+			val startLine = inode.startLine-1 // we need zero based lines for Range
+			val endPos = inode.endOffset
+			val endLine = inode.endLine-1
+			return new Range(new Position(startLine, startPos), new Position(endLine, endPos))
+		} else {
+			return getRangeOfContext(exp.eContainer)
+		}
 	}
 
 	def getCodeActionReplaceWithMostSimilarProperty(Diagnostic d, XtextResource resource, String newProp, List<CodeAction> result) {	

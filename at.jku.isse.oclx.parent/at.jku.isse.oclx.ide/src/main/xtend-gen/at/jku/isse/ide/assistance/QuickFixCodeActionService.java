@@ -1,7 +1,12 @@
 package at.jku.isse.ide.assistance;
 
+import at.jku.isse.oclx.Constraint;
+import at.jku.isse.oclx.Context;
+import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.PropertyAccessExp;
+import at.jku.isse.oclx.SelfExp;
+import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.validation.OCLXValidator;
 import com.google.common.base.Objects;
@@ -19,12 +24,16 @@ import org.eclipse.lsp4j.CodeActionKind;
 import org.eclipse.lsp4j.CodeActionParams;
 import org.eclipse.lsp4j.Command;
 import org.eclipse.lsp4j.Diagnostic;
+import org.eclipse.lsp4j.Position;
+import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.lsp4j.WorkspaceEdit;
 import org.eclipse.lsp4j.jsonrpc.messages.Either;
 import org.eclipse.xtext.ide.server.Document;
 import org.eclipse.xtext.ide.server.ILanguageServerAccess;
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2;
+import org.eclipse.xtext.nodemodel.ICompositeNode;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.resource.EObjectAtOffsetHelper;
 import org.eclipse.xtext.resource.XtextResource;
 import org.eclipse.xtext.xbase.lib.CollectionLiterals;
@@ -94,39 +103,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
       return;
     }
     final PPEInstanceType subclass = subclasses.get(0);
-    final Object precIterator = this.findPreceedingIterator(resource, offset);
-    boolean _equals = Objects.equal(precIterator, null);
-    if (_equals) {
-      CodeAction _codeAction = new CodeAction();
-      final Procedure1<CodeAction> _function = (CodeAction it) -> {
-        it.setKind(CodeActionKind.QuickFix);
-        String _name = subclass.getName();
-        String _plus = ("Access property in subtype \'" + _name);
-        String _plus_1 = (_plus + "\' ");
-        it.setTitle(_plus_1);
-        it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
-        WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
-        final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
-          URI _uRI = resource.getURI();
-          TextEdit _textEdit = new TextEdit();
-          final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
-            it_2.setRange(d.getRange());
-            String _name_1 = subclass.getName();
-            String _plus_2 = ("asType(<" + _name_1);
-            String _plus_3 = (_plus_2 + ">).");
-            String _plus_4 = (_plus_3 + partialPropertyName);
-            it_2.setNewText(_plus_4);
-          };
-          TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
-          this.addTextEdit(it_1, _uRI, _doubleArrow);
-        };
-        WorkspaceEdit _doubleArrow = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_1);
-        it.setEdit(_doubleArrow);
-      };
-      CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
-      result.add(_doubleArrow);
-    } else {
-    }
+    final EObject precedingElement = this.getPrecedingElement(resource, offset);
+    this.dispatchByPreceedingElement(precedingElement, d, resource, subclass, partialPropertyName, result);
   }
 
   protected List<PPEInstanceType> findSubclassWithProperty(final String propertyName, final XtextResource resource, final int offset) {
@@ -140,9 +118,127 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     return Collections.<PPEInstanceType>emptyList();
   }
 
-  protected Object findPreceedingIterator(final XtextResource resource, final int offset) {
+  protected EObject getPrecedingElement(final XtextResource resource, final int offset) {
     final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+    final EObject varOrSelfContainer = modelElement.eContainer();
+    if ((varOrSelfContainer instanceof SelfExp)) {
+      final int thisIndex = ((SelfExp)varOrSelfContainer).getMethods().indexOf(modelElement);
+      if ((thisIndex > 0)) {
+        return ((SelfExp)varOrSelfContainer).getMethods().get(thisIndex);
+      } else {
+        return varOrSelfContainer;
+      }
+    } else {
+      if ((varOrSelfContainer instanceof VarReference)) {
+        final int thisIndex_1 = ((VarReference)varOrSelfContainer).getMethods().indexOf(modelElement);
+        if ((thisIndex_1 > 0)) {
+          return ((VarReference)varOrSelfContainer).getMethods().get(thisIndex_1);
+        } else {
+          return varOrSelfContainer;
+        }
+      }
+    }
     return null;
+  }
+
+  protected Boolean dispatchByPreceedingElement(final EObject modelElement, final Diagnostic d, final XtextResource resource, final PPEInstanceType subclass, final String propertyName, final List<CodeAction> result) {
+    Boolean _xifexpression = null;
+    if ((modelElement instanceof SelfExp)) {
+      CodeAction _codeAction = new CodeAction();
+      final Procedure1<CodeAction> _function = (CodeAction it) -> {
+        it.setKind(CodeActionKind.QuickFix);
+        String _name = subclass.getName();
+        String _plus = ("Use \'" + _name);
+        String _plus_1 = (_plus + "\' as a more specialized context element");
+        it.setTitle(_plus_1);
+        WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+        final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
+          URI _uRI = resource.getURI();
+          TextEdit _textEdit = new TextEdit();
+          final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
+            it_2.setRange(this.getRangeOfContext(modelElement));
+            it_2.setNewText(subclass.getName());
+          };
+          TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
+          this.addTextEdit(it_1, _uRI, _doubleArrow);
+        };
+        WorkspaceEdit _doubleArrow = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_1);
+        it.setEdit(_doubleArrow);
+      };
+      CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
+      _xifexpression = Boolean.valueOf(result.add(_doubleArrow));
+    } else {
+      Boolean _xifexpression_1 = null;
+      if ((modelElement instanceof PropertyAccessExp)) {
+        CodeAction _codeAction_1 = new CodeAction();
+        final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
+          it.setKind(CodeActionKind.QuickFix);
+          String _name = subclass.getName();
+          String _plus = ("Access property in subtype \'" + _name);
+          String _plus_1 = (_plus + "\' ");
+          it.setTitle(_plus_1);
+          it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
+          WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+          final Procedure1<WorkspaceEdit> _function_2 = (WorkspaceEdit it_1) -> {
+            URI _uRI = resource.getURI();
+            TextEdit _textEdit = new TextEdit();
+            final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
+              it_2.setRange(d.getRange());
+              String _name_1 = subclass.getName();
+              String _plus_2 = ("asType(<" + _name_1);
+              String _plus_3 = (_plus_2 + ">).");
+              String _plus_4 = (_plus_3 + propertyName);
+              it_2.setNewText(_plus_4);
+            };
+            TextEdit _doubleArrow_1 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_3);
+            this.addTextEdit(it_1, _uRI, _doubleArrow_1);
+          };
+          WorkspaceEdit _doubleArrow_1 = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_2);
+          it.setEdit(_doubleArrow_1);
+        };
+        CodeAction _doubleArrow_1 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_1, _function_1);
+        _xifexpression_1 = Boolean.valueOf(result.add(_doubleArrow_1));
+      } else {
+        Object _xifexpression_2 = null;
+        if ((modelElement instanceof MethodCallExp)) {
+          _xifexpression_2 = null;
+        } else {
+          Object _xifexpression_3 = null;
+          if ((modelElement instanceof VarReference)) {
+            _xifexpression_3 = null;
+          } else {
+            String _string = modelElement.toString();
+            String _plus = ("ERROR in QuickFixCodeActionService: Unexpected preceding element: " + _string);
+            System.out.println(_plus);
+          }
+          _xifexpression_2 = _xifexpression_3;
+        }
+        _xifexpression_1 = ((Boolean)_xifexpression_2);
+      }
+      _xifexpression = _xifexpression_1;
+    }
+    return _xifexpression;
+  }
+
+  protected Range getRangeOfContext(final EObject exp) {
+    if ((exp == null)) {
+      return null;
+    }
+    if ((exp instanceof Constraint)) {
+      final Context ctx = ((Constraint)exp).getContext();
+      final ICompositeNode inode = NodeModelUtils.findActualNodeFor(ctx);
+      final int startPos = inode.getOffset();
+      int _startLine = inode.getStartLine();
+      final int startLine = (_startLine - 1);
+      final int endPos = inode.getEndOffset();
+      int _endLine = inode.getEndLine();
+      final int endLine = (_endLine - 1);
+      Position _position = new Position(startLine, startPos);
+      Position _position_1 = new Position(endLine, endPos);
+      return new Range(_position, _position_1);
+    } else {
+      return this.getRangeOfContext(exp.eContainer());
+    }
   }
 
   public boolean getCodeActionReplaceWithMostSimilarProperty(final Diagnostic d, final XtextResource resource, final String newProp, final List<CodeAction> result) {
