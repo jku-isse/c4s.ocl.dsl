@@ -2,12 +2,16 @@ package at.jku.isse.ide.assistance;
 
 import at.jku.isse.oclx.Constraint;
 import at.jku.isse.oclx.Context;
+import at.jku.isse.oclx.IteratorExp;
 import at.jku.isse.oclx.MethodCallExp;
+import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
+import at.jku.isse.validation.ElementToTypeMap;
+import at.jku.isse.validation.MethodRegistry;
 import at.jku.isse.validation.OCLXValidator;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
@@ -51,6 +55,9 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
   @Inject
   private EObjectAtOffsetHelper eObjectAtOffsetHelper;
 
+  @Inject
+  private MethodRegistry methodReg;
+
   @Override
   public List<Either<Command, CodeAction>> getCodeActions(final ICodeActionService2.Options options) {
     Document document = options.getDocument();
@@ -58,30 +65,44 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     final ArrayList<CodeAction> result = CollectionLiterals.<CodeAction>newArrayList();
     Resource _resource = options.getResource();
     XtextResource resource = ((XtextResource) _resource);
-    List<Diagnostic> _diagnostics = params.getContext().getDiagnostics();
-    for (final Diagnostic d : _diagnostics) {
-      Object _get = d.getCode().get();
-      boolean _equals = Objects.equal(_get, OCLXValidator.UNKNOWN_PROPERTY);
-      if (_equals) {
-        if ((document == null)) {
-          final Function<ILanguageServerAccess.Context, ILanguageServerAccess.Context> _function = (ILanguageServerAccess.Context lsCtx) -> {
-            return lsCtx;
-          };
-          final ILanguageServerAccess.Context lsCtx = options.getLanguageServerAccess().<ILanguageServerAccess.Context>doSyncRead(params.getTextDocument().getUri(), _function);
-          document = lsCtx.getDocument();
-          Resource _resource_1 = lsCtx.getResource();
-          resource = ((XtextResource) _resource_1);
-        }
-        if ((document != null)) {
-          final String propertyString = document.getSubstring(d.getRange());
+    if ((document == null)) {
+      final Function<ILanguageServerAccess.Context, ILanguageServerAccess.Context> _function = (ILanguageServerAccess.Context lsCtx) -> {
+        return lsCtx;
+      };
+      final ILanguageServerAccess.Context lsCtx = options.getLanguageServerAccess().<ILanguageServerAccess.Context>doSyncRead(params.getTextDocument().getUri(), _function);
+      document = lsCtx.getDocument();
+      Resource _resource_1 = lsCtx.getResource();
+      resource = ((XtextResource) _resource_1);
+    }
+    if ((document != null)) {
+      List<Diagnostic> _diagnostics = params.getContext().getDiagnostics();
+      for (final Diagnostic d : _diagnostics) {
+        {
+          final String stringToRepair = document.getSubstring(d.getRange());
           final int offset = document.getOffSet(d.getRange().getStart());
-          this.getCodeActionReplaceWithSubtype(d, resource, offset, propertyString, result);
-          final List<String> choices = this.findMostSimilarProperties(propertyString, resource, offset);
-          int _size = choices.size();
-          boolean _greaterThan = (_size > 0);
-          if (_greaterThan) {
-            final String newProp = choices.get(0);
-            this.getCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result);
+          Object _get = d.getCode().get();
+          boolean _equals = Objects.equal(_get, OCLXValidator.UNKNOWN_PROPERTY);
+          if (_equals) {
+            this.generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result);
+            final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset);
+            int _size = choices.size();
+            boolean _greaterThan = (_size > 0);
+            if (_greaterThan) {
+              final String newProp = choices.get(0);
+              this.generateCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result);
+            }
+          } else {
+            Object _get_1 = d.getCode().get();
+            boolean _equals_1 = Objects.equal(_get_1, OCLXValidator.UNKNOWN_OPERATION);
+            if (_equals_1) {
+              List<String> choices_1 = this.findMostSimilarOperations(resource, offset, stringToRepair);
+              int _size_1 = choices_1.size();
+              boolean _greaterThan_1 = (_size_1 > 0);
+              if (_greaterThan_1) {
+                final String newOp = choices_1.get(0);
+                this.generateCodeActionReplaceWithMostSimilarOperation(d, resource, newOp, result);
+              }
+            }
           }
         }
       }
@@ -96,7 +117,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     return ctx;
   }
 
-  public void getCodeActionReplaceWithSubtype(final Diagnostic d, final XtextResource resource, final int offset, final String partialPropertyName, final List<CodeAction> result) {
+  public void generatorCodeActionReplaceWithSubtype(final Diagnostic d, final XtextResource resource, final int offset, final String partialPropertyName, final List<CodeAction> result) {
     final List<PPEInstanceType> subclasses = this.findSubclassWithProperty(partialPropertyName, resource, offset);
     boolean _isEmpty = subclasses.isEmpty();
     if (_isEmpty) {
@@ -108,7 +129,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
   }
 
   protected List<PPEInstanceType> findSubclassWithProperty(final String propertyName, final XtextResource resource, final int offset) {
-    ElementToTypeMap.TypeAndCardinality completeWithType = this.resolveResourceToType(resource, offset);
+    ElementToTypeMap.TypeAndCardinality completeWithType = this.resolvePropertyAccessOrMethodResourceToType(resource, offset);
     if ((completeWithType != null)) {
       final Predicate<PPEInstanceType> _function = (PPEInstanceType subtype) -> {
         return subtype.hasPropertyType(propertyName);
@@ -199,21 +220,61 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
         CodeAction _doubleArrow_1 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_1, _function_1);
         _xifexpression_1 = Boolean.valueOf(result.add(_doubleArrow_1));
       } else {
-        Object _xifexpression_2 = null;
+        Boolean _xifexpression_2 = null;
         if ((modelElement instanceof MethodCallExp)) {
           _xifexpression_2 = null;
         } else {
-          Object _xifexpression_3 = null;
+          boolean _xifexpression_3 = false;
           if ((modelElement instanceof VarReference)) {
-            _xifexpression_3 = null;
+            boolean _xblockexpression = false;
+            {
+              final String refName = ((VarReference)modelElement).getRef().getName();
+              Range iterRange = this.getRangeOfIterator(((VarReference)modelElement), refName);
+              boolean _xifexpression_4 = false;
+              boolean _notEquals = (!Objects.equal(iterRange, null));
+              if (_notEquals) {
+                CodeAction _codeAction_2 = new CodeAction();
+                final Procedure1<CodeAction> _function_2 = (CodeAction it) -> {
+                  it.setKind(CodeActionKind.QuickFix);
+                  String _name = subclass.getName();
+                  String _plus = ("Add a filter for instances of subtype \'" + _name);
+                  String _plus_1 = (_plus + "\' before iterator");
+                  it.setTitle(_plus_1);
+                  it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
+                  WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+                  final Procedure1<WorkspaceEdit> _function_3 = (WorkspaceEdit it_1) -> {
+                    URI _uRI = resource.getURI();
+                    TextEdit _textEdit = new TextEdit();
+                    final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
+                      Position _start = d.getRange().getStart();
+                      Position _start_1 = d.getRange().getStart();
+                      Range _range = new Range(_start, _start_1);
+                      it_2.setRange(_range);
+                      String _name_1 = subclass.getName();
+                      String _plus_2 = ((((("-->SELECT(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _name_1);
+                      String _plus_3 = (_plus_2 + ">)");
+                      it_2.setNewText(_plus_3);
+                    };
+                    TextEdit _doubleArrow_2 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_4);
+                    this.addTextEdit(it_1, _uRI, _doubleArrow_2);
+                  };
+                  WorkspaceEdit _doubleArrow_2 = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_3);
+                  it.setEdit(_doubleArrow_2);
+                };
+                CodeAction _doubleArrow_2 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_2, _function_2);
+                _xifexpression_4 = result.add(_doubleArrow_2);
+              }
+              _xblockexpression = _xifexpression_4;
+            }
+            _xifexpression_3 = _xblockexpression;
           } else {
             String _string = modelElement.toString();
             String _plus = ("ERROR in QuickFixCodeActionService: Unexpected preceding element: " + _string);
             System.out.println(_plus);
           }
-          _xifexpression_2 = _xifexpression_3;
+          _xifexpression_2 = Boolean.valueOf(_xifexpression_3);
         }
-        _xifexpression_1 = ((Boolean)_xifexpression_2);
+        _xifexpression_1 = _xifexpression_2;
       }
       _xifexpression = _xifexpression_1;
     }
@@ -241,7 +302,57 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     }
   }
 
-  public boolean getCodeActionReplaceWithMostSimilarProperty(final Diagnostic d, final XtextResource resource, final String newProp, final List<CodeAction> result) {
+  protected Range getRangeOfIterator(final VarReference exp, final String iterVarName) {
+    if ((exp == null)) {
+      return null;
+    }
+    if ((exp instanceof IteratorExp)) {
+      final String varName = ((IteratorExp)exp).getItervar().getName().getName();
+      boolean _equals = varName.equals(iterVarName);
+      if (_equals) {
+        final ICompositeNode inode = NodeModelUtils.findActualNodeFor(exp);
+        final int startPos = inode.getOffset();
+        int _startLine = inode.getStartLine();
+        final int startLine = (_startLine - 1);
+        final int endPos = inode.getEndOffset();
+        int _endLine = inode.getEndLine();
+        final int endLine = (_endLine - 1);
+        Position _position = new Position(startLine, startPos);
+        Position _position_1 = new Position(endLine, endPos);
+        return new Range(_position, _position_1);
+      } else {
+        return this.getRangeOfContext(exp.eContainer());
+      }
+    } else {
+      return this.getRangeOfContext(exp.eContainer());
+    }
+  }
+
+  protected List<String> findMostSimilarProperties(final String partialPropertyName, final XtextResource resource, final int offset) {
+    ElementToTypeMap.TypeAndCardinality completeWithType = this.resolvePropertyAccessOrMethodResourceToType(resource, offset);
+    if ((completeWithType != null)) {
+      final List<String> choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName);
+      return choices;
+    }
+    return Collections.<String>emptyList();
+  }
+
+  protected ElementToTypeMap.TypeAndCardinality resolvePropertyAccessOrMethodResourceToType(final XtextResource resource, final int offset) {
+    final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+    if ((modelElement != null)) {
+      final ElementToTypeMap el2TypeMap = this.typeExtractor.extractElementToTypeMap(modelElement).get();
+      if ((modelElement instanceof MethodExp)) {
+        final NavigationOperator prevNav = OclxASTUtils.findPrecedingOperatorFor(((MethodExp)modelElement));
+        if ((prevNav != null)) {
+          final ElementToTypeMap.TypeAndCardinality completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
+          return completeWithType;
+        }
+      }
+    }
+    return null;
+  }
+
+  public boolean generateCodeActionReplaceWithMostSimilarProperty(final Diagnostic d, final XtextResource resource, final String newProp, final List<CodeAction> result) {
     CodeAction _codeAction = new CodeAction();
     final Procedure1<CodeAction> _function = (CodeAction it) -> {
       it.setKind(CodeActionKind.QuickFix);
@@ -265,28 +376,37 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     return result.add(_doubleArrow);
   }
 
-  protected List<String> findMostSimilarProperties(final String partialPropertyName, final XtextResource resource, final int offset) {
-    ElementToTypeMap.TypeAndCardinality completeWithType = this.resolveResourceToType(resource, offset);
-    if ((completeWithType != null)) {
-      final List<String> choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName);
+  protected List<String> findMostSimilarOperations(final XtextResource resource, final int offset, final String partialOpName) {
+    ElementToTypeMap.TypeAndCardinality inputOfType = this.resolvePropertyAccessOrMethodResourceToType(resource, offset);
+    if ((inputOfType != null)) {
+      final List<String> choices = OclxContentProposalProvider.getSimilaritySortedMethods(this.methodReg, partialOpName, inputOfType);
       return choices;
     }
     return Collections.<String>emptyList();
   }
 
-  protected ElementToTypeMap.TypeAndCardinality resolveResourceToType(final XtextResource resource, final int offset) {
-    final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
-    if ((modelElement != null)) {
-      final ElementToTypeMap el2TypeMap = this.typeExtractor.extractElementToTypeMap(modelElement).get();
-      if ((modelElement instanceof PropertyAccessExp)) {
-        final NavigationOperator prevNav = OclxASTUtils.findPrecedingOperatorFor(((PropertyAccessExp)modelElement));
-        if ((prevNav != null)) {
-          final ElementToTypeMap.TypeAndCardinality completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
-          return completeWithType;
-        }
-      }
-    }
-    return null;
+  public boolean generateCodeActionReplaceWithMostSimilarOperation(final Diagnostic d, final XtextResource resource, final String newMethod, final List<CodeAction> result) {
+    CodeAction _codeAction = new CodeAction();
+    final Procedure1<CodeAction> _function = (CodeAction it) -> {
+      it.setKind(CodeActionKind.QuickFix);
+      it.setTitle((("Replace with most similar operation \'" + newMethod) + "\' "));
+      it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
+      WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+      final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
+        URI _uRI = resource.getURI();
+        TextEdit _textEdit = new TextEdit();
+        final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
+          it_2.setRange(d.getRange());
+          it_2.setNewText(newMethod);
+        };
+        TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
+        this.addTextEdit(it_1, _uRI, _doubleArrow);
+      };
+      WorkspaceEdit _doubleArrow = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_1);
+      it.setEdit(_doubleArrow);
+    };
+    CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
+    return result.add(_doubleArrow);
   }
 
   protected List<TextEdit> addTextEdit(final WorkspaceEdit edit, final URI uri, final TextEdit... textEdit) {

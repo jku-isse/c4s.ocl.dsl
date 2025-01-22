@@ -147,13 +147,51 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
-		
+		//TODO: needs impl for forALL prefixing with select
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("DemoIssue"))
 	}
 	
+	@Test
+	def void testRepairOfCollectionMethodViaReplacement() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup.sizes() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.UNKNOWN_OPERATION
+		);
 	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("size"))
+	}
+	
+		@Test
+	def void testRepairOfSingleMethodViaReplacement() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.state.chars().size() = 1 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.UNKNOWN_OPERATION
+		);
+	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("characters"))
+	}
 	
 	def error2CodeAction(String content, Model result) {
 		val issue = validationTestHelper.validate(result).get(0);

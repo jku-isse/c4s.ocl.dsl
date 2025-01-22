@@ -19,13 +19,14 @@ import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
+import lombok.Getter;
 
 public class MethodRegistry {
 	
 	private AtomicBoolean doInit = new AtomicBoolean(true);
 	private final Map<PPEInstanceType, Set<OperationDeclaration>> sourceTypeIndex = new HashMap<>();
 	private final Map<CARDINALITIES, Set<OperationDeclaration>> sourceCardinalityIndex = new HashMap<>();
-	private List<OperationDeclaration> declarations;
+	@Getter private List<OperationDeclaration> declarations;
 	
 	public MethodRegistry() {
 		initRegistry(); 

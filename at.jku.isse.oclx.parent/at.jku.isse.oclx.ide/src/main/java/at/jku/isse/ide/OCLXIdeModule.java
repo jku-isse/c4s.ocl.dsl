@@ -9,11 +9,11 @@ import org.eclipse.xtext.ide.server.commands.IExecutableCommandService;
 import org.eclipse.xtext.ide.server.hover.HoverService;
 
 import at.jku.isse.ide.assistance.CommandService;
-import at.jku.isse.ide.assistance.MethodRegistry;
 import at.jku.isse.ide.assistance.OclxContentProposalProvider;
 import at.jku.isse.ide.assistance.QuickFixCodeActionService;
 import at.jku.isse.ide.assistance.TypeExtractor;
 import at.jku.isse.ide.assistance.TypeHoverService;
+import at.jku.isse.validation.MethodRegistry;
 
 /**
  * Use this class to register ide components.
@@ -46,8 +46,6 @@ public class OCLXIdeModule extends AbstractOCLXIdeModule {
 		return TypeHoverService.class;
 	}
 	
-	public Class<? extends MethodRegistry> bindMethodRegistry() {
-		return MethodRegistry.class;
-	}
+
 	
 }

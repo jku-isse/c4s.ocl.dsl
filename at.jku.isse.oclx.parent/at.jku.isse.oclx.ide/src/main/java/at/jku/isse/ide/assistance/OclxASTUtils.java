@@ -24,7 +24,7 @@ public class OclxASTUtils {
 		return Optional.empty();
 	}
 	
-	public static NavigationOperator findPrecedingOperatorFor(PropertyAccessExp propExp) {
+	public static NavigationOperator findPrecedingOperatorFor(MethodExp propExp) {
 		EList<NavigationOperator> navOps;
 		EList<MethodExp> methods;
 		if (propExp.eContainer() instanceof SelfExp) {

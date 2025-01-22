@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.EObject;
 
 import com.google.inject.Inject;
 
-import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.oclx.BinaryOperator;
 import at.jku.isse.oclx.BooleanOperator;
 import at.jku.isse.oclx.Constraint;
@@ -30,6 +29,8 @@ import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
+import at.jku.isse.validation.ElementToTypeMap;
+import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 
 public class TypeExtractor {

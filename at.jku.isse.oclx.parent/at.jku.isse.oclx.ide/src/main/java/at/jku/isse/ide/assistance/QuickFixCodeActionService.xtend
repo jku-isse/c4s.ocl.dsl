@@ -20,12 +20,14 @@ import at.jku.isse.oclx.SelfExp
 import at.jku.isse.oclx.MethodCallExp
 import at.jku.isse.oclx.VarReference
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType
-import at.jku.isse.oclx.Exp
 import org.eclipse.emf.ecore.EObject
 import at.jku.isse.oclx.Constraint
 import org.eclipse.xtext.nodemodel.util.NodeModelUtils
 import org.eclipse.lsp4j.Range
 import org.eclipse.lsp4j.Position
+import at.jku.isse.validation.MethodRegistry
+import at.jku.isse.oclx.MethodExp
+import at.jku.isse.oclx.IteratorExp
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -33,7 +35,8 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	TypeExtractor typeExtractor
 	@Inject
 	EObjectAtOffsetHelper eObjectAtOffsetHelper;
-	
+	@Inject 
+	MethodRegistry methodReg;
 	
 	override getCodeActions(Options options) {
 		
@@ -42,29 +45,34 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		val result = <CodeAction>newArrayList
 		var resource = options.resource as XtextResource
 		
-		for (d : params.context.diagnostics) {
-			if (d.code.get == OCLXValidator.UNKNOWN_PROPERTY) {
-				//System.out.println(d)
-				if (document === null) { // then resource most likely also null
+		if (document === null) { // then resource most likely also null
 					//val content = getFileContent(params.textDocument.uri)
 					//System.out.println(content)
 					//document = new Document(1, content)
-					val lsCtx = options.languageServerAccess.doSyncRead(params.textDocument.uri, [lsCtx |  return lsCtx] )
-					document = lsCtx.document
-					resource = lsCtx.resource as XtextResource		
-				}
-				if (document !== null) {
-					//resource = extractResource(options)
-					val propertyString = document.getSubstring(d.range)
-					val offset = document.getOffSet(d.range.start)
-					getCodeActionReplaceWithSubtype(d, resource, offset, propertyString, result)
-					val choices = findMostSimilarProperties(propertyString, resource, offset)
+			val lsCtx = options.languageServerAccess.doSyncRead(params.textDocument.uri, [lsCtx |  return lsCtx] )
+			document = lsCtx.document
+			resource = lsCtx.resource as XtextResource		
+		}
+		if (document !== null) {
+			for (d : params.context.diagnostics) {
+				val stringToRepair = document.getSubstring(d.range)
+				val offset = document.getOffSet(d.range.start)
+				if (d.code.get == OCLXValidator.UNKNOWN_PROPERTY) {																	
+					generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result)
+					val choices = findMostSimilarProperties(stringToRepair, resource, offset)
 					if (choices.size() > 0) {
 						val newProp = choices.get(0)
-						getCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result)
+						generateCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result)
+					}			
+				} else if (d.code.get == OCLXValidator.UNKNOWN_OPERATION) {
+					var choices = findMostSimilarOperations(resource, offset, stringToRepair)
+					if (choices.size() > 0) {
+						val newOp = choices.get(0)
+						generateCodeActionReplaceWithMostSimilarOperation(d, resource, newOp, result)
 					}
 				}
 			}
+		
 		}
 		return result.map[Either.forRight(it)]
 	}
@@ -73,7 +81,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		return ctx
 	}
 
-	def getCodeActionReplaceWithSubtype(Diagnostic d, XtextResource resource, int offset, String partialPropertyName, List<CodeAction> result) {
+	def generatorCodeActionReplaceWithSubtype(Diagnostic d, XtextResource resource, int offset, String partialPropertyName, List<CodeAction> result) {
 		val subclasses = findSubclassWithProperty(partialPropertyName, resource, offset)
 		if (subclasses.isEmpty()) return
 		val subclass = subclasses.get(0)
@@ -82,7 +90,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	}
 
 	protected def findSubclassWithProperty(String propertyName, XtextResource resource, int offset) {
-		var completeWithType = resolveResourceToType(resource, offset)
+		var completeWithType = resolvePropertyAccessOrMethodResourceToType(resource, offset)
 		if (completeWithType !== null) {
 			return completeWithType.type.allSubtypesRecursively.stream().filter(subtype | subtype.hasPropertyType(propertyName)).toList()
 		}
@@ -138,7 +146,23 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			// not supported yet as we dont analyse method return types yet
 		} else
 		if (modelElement instanceof VarReference) {
-			// a reference to an iterator variable, need to find the declaration of that var and cast/filter collection there
+			// find iterator that declared that variable, prefix with:
+			// -->SELECT( varnameUNTYPED | varnameUNTYPED.isKindOf(< TYPE >)
+			val refName = modelElement.ref.name;
+			var iterRange = getRangeOfIterator(modelElement, refName);
+			if (iterRange != null) {
+				result += new CodeAction => [
+						kind = CodeActionKind.QuickFix
+						title = "Add a filter for instances of subtype '"+subclass.name+"' before iterator"
+						diagnostics = #[d]
+						edit = new WorkspaceEdit() => [
+							addTextEdit(resource.URI, new TextEdit => [
+								range = new Range(d.range.start, d.range.start) // start and end are equal as we want to insert
+								newText = "-->SELECT("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+subclass.name+">)"
+							])
+						]
+					]			
+			}
 		} else {
 			System.out.println("ERROR in QuickFixCodeActionService: Unexpected preceding element: "+modelElement.toString);
 		}
@@ -159,7 +183,50 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		}
 	}
 
-	def getCodeActionReplaceWithMostSimilarProperty(Diagnostic d, XtextResource resource, String newProp, List<CodeAction> result) {	
+	protected def Range getRangeOfIterator(VarReference exp, String iterVarName) {
+		if (exp === null) return null;
+		if (exp instanceof IteratorExp) {
+			val varName = exp.itervar.name.name
+			if (varName.equals(iterVarName)) {
+				val inode = NodeModelUtils.findActualNodeFor(exp)
+				val startPos = inode.offset
+				val startLine = inode.startLine-1 // we need zero based lines for Range
+				val endPos = inode.endOffset
+				val endLine = inode.endLine-1
+				return new Range(new Position(startLine, startPos), new Position(endLine, endPos))
+			} else { //another nested iterator
+				return getRangeOfContext(exp.eContainer)
+			}
+		} else {
+			return getRangeOfContext(exp.eContainer)
+		}
+	}
+
+	protected def findMostSimilarProperties(String partialPropertyName, XtextResource resource, int offset) {
+		var completeWithType = resolvePropertyAccessOrMethodResourceToType(resource, offset);
+		if (completeWithType !== null) {
+			val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName)
+			return choices
+		}
+		return Collections.emptyList()
+	}
+
+	protected def resolvePropertyAccessOrMethodResourceToType(XtextResource resource, int offset) {
+		val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset)
+		if (modelElement !== null) {
+			val el2TypeMap = typeExtractor.extractElementToTypeMap(modelElement).get()
+			if (modelElement instanceof MethodExp) {
+				val prevNav = OclxASTUtils.findPrecedingOperatorFor(modelElement);
+				if (prevNav !== null) {
+					val completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
+					return completeWithType;
+				}
+			}
+		}
+		return null;
+	}
+
+	def generateCodeActionReplaceWithMostSimilarProperty(Diagnostic d, XtextResource resource, String newProp, List<CodeAction> result) {	
 		result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
 						title = "Replace with most similar property '"+newProp+"' "
@@ -173,28 +240,27 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 					]
 	}
 	
-	protected def findMostSimilarProperties(String partialPropertyName, XtextResource resource, int offset) {
-		var completeWithType = resolveResourceToType(resource, offset);
-		if (completeWithType !== null) {
-			val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName)
+	protected def findMostSimilarOperations(XtextResource resource, int offset, String partialOpName) {
+		var inputOfType = resolvePropertyAccessOrMethodResourceToType(resource, offset);
+		if (inputOfType !== null) {
+			val choices = OclxContentProposalProvider.getSimilaritySortedMethods(methodReg, partialOpName, inputOfType)
 			return choices
 		}
 		return Collections.emptyList()
 	}
 	
-	protected def resolveResourceToType(XtextResource resource, int offset) {
-		val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset)
-		if (modelElement !== null) {
-			val el2TypeMap = typeExtractor.extractElementToTypeMap(modelElement).get()
-			if (modelElement instanceof PropertyAccessExp) {
-				val prevNav = OclxASTUtils.findPrecedingOperatorFor(modelElement);
-				if (prevNav !== null) {
-					val completeWithType = el2TypeMap.getReturnTypeMap().get(prevNav);
-					return completeWithType;
-				}
-			}
-		}
-		return null;
+	def generateCodeActionReplaceWithMostSimilarOperation(Diagnostic d, XtextResource resource, String newMethod, List<CodeAction> result) {	
+		result += new CodeAction => [
+						kind = CodeActionKind.QuickFix
+						title = "Replace with most similar operation '"+newMethod+"' "
+						diagnostics = #[d]
+						edit = new WorkspaceEdit() => [
+							addTextEdit(resource.URI, new TextEdit => [
+								range = d.range
+								newText = newMethod
+							])
+						]
+					]
 	}
 	
 	protected def addTextEdit(WorkspaceEdit edit, URI uri, TextEdit... textEdit) {

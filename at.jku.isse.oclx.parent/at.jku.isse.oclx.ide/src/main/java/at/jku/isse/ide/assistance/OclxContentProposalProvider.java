@@ -26,7 +26,6 @@ import com.google.inject.Inject;
 
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression;
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression.OperationDeclaration;
-import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
@@ -35,6 +34,9 @@ import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 import at.jku.isse.services.OCLXGrammarAccess;
+import at.jku.isse.validation.ElementToTypeMap;
+import at.jku.isse.validation.MethodRegistry;
+import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 
 /**
  * Proposals are provided for:
@@ -249,12 +251,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 //	}
 	
 	private void proposeIndividualMethods(IIdeContentProposalAcceptor acceptor, TypeAndCardinality forType, ContentAssistContext context) {
-		Set<OperationDeclaration> opDecls;
-		if (forType.getCardinality().equals(CARDINALITIES.SINGLE)) {
-			opDecls = methodRegistry.getOperationsForSingleType(forType.getType());
-		} else {
-			opDecls = methodRegistry.getOperationsForCollection(forType.getCardinality());
-		}
+		Set<OperationDeclaration> opDecls = proposeIndividualMethods(methodRegistry, forType);
 		opDecls.stream()
 			.sorted(methodComp)
 			.forEach(decl -> {
@@ -264,6 +261,16 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 					String.format("%s returns %s %s", decl.name, returnType.getCardinality().toString(), returnType.getType().getName() ),  
 					context), 1);
 		});
+	}
+	
+	private static Set<OperationDeclaration> proposeIndividualMethods(MethodRegistry methodRegistry, TypeAndCardinality forType) {
+		Set<OperationDeclaration> opDecls;
+		if (forType.getCardinality().equals(CARDINALITIES.SINGLE)) {
+			opDecls = methodRegistry.getOperationsForSingleType(forType.getType());
+		} else {
+			opDecls = methodRegistry.getOperationsForCollection(forType.getCardinality());
+		}
+		return opDecls;
 	}
 	
 	
@@ -282,6 +289,17 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 		return type.getPropertyNamesIncludingSuperClasses()
 				.stream()
 				.filter(name -> !name.startsWith("@"))
+				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
+						.apply(str, compareTo), str) )
+				.sorted(textComp)
+				.map(entry -> entry.getValue())
+				.collect(Collectors.toList());
+	}
+	
+	public static List<String> getSimilaritySortedMethods(MethodRegistry methodRegistry, String compareTo, TypeAndCardinality inputType) {
+		var matchingMethods = proposeIndividualMethods(methodRegistry, inputType);
+		return matchingMethods.stream() // get methods that can work on the provided inputtype				
+				.map(decl -> decl.name)				
 				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
 						.apply(str, compareTo), str) )
 				.sorted(textComp)

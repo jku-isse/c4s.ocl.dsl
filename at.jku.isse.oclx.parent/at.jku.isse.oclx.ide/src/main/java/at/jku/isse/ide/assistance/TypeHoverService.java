@@ -9,13 +9,14 @@ import org.eclipse.xtext.ide.server.hover.HoverService;
 
 import com.google.inject.Inject;
 
-import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.oclx.Constraint;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.VarDeclaration;
 import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
+import at.jku.isse.validation.ElementToTypeMap;
+import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 
 public class TypeHoverService extends HoverService {
 
