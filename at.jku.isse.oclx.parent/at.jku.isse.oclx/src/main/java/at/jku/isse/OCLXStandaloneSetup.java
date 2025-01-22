@@ -10,6 +10,6 @@ package at.jku.isse;
 public class OCLXStandaloneSetup extends OCLXStandaloneSetupGenerated {
 
 	public static void doSetup() {
-		new OCLXStandaloneSetup().createInjectorAndDoEMFRegistration();
+		new OCLXStandaloneSetup().createInjectorAndDoEMFRegistration(); 
 	}
 }

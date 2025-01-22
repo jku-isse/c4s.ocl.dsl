@@ -18,6 +18,7 @@ import org.eclipse.xtext.validation.CheckType;
 
 import com.google.inject.Inject;
 
+import at.jku.isse.designspace.core.foundation.Cardinality;
 import at.jku.isse.oclx.BinaryOperator;
 import at.jku.isse.oclx.BooleanOperator;
 import at.jku.isse.oclx.Constraint;
@@ -40,7 +41,9 @@ import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
+import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.services.OCLXGrammarAccess;
+import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 
 /**
  * This class contains custom validation rules. 
@@ -55,11 +58,14 @@ public class OCLXValidator extends AbstractOCLXValidator {
 	private OCLXGrammarAccess grammarAccess;
 	@Inject
 	protected SchemaRegistry schemaReg;
+	@Inject MethodRegistry methodReg;
 	
 	public static final String DUPLICATE_VAR_NAME = "duplicateVarName";
 	public static final String UNKNOWN_PROPERTY = "unknownProperty";
+	public static final String UNKNOWN_OPERATION = "unknownOperation";
 	public static final String UNKNOWN_TYPE = "unknownType";
 	public static final String INCOMPATIBLE_RETURN_TYPE = "incompatibleReturnType";
+	public static final String INCOMPATIBLE_INPUT_TYPE = "incompatibleInputType";
 	
 	
 	@Check(CheckType.FAST)
@@ -148,71 +154,85 @@ public class OCLXValidator extends AbstractOCLXValidator {
 		if (optType.isPresent()) {
 			Map<String, PPEInstanceType> var2type = new HashMap<>();
 			var2type.put("self", optType.get());
+			Map<String, CARDINALITIES> var2Cardinality = new HashMap<>();
+			var2Cardinality.put("self", CARDINALITIES.SINGLE);
 			// for each navigation we check if the current type allows that method or property navigation
-			checkExpressionForNavigationCorrectness(constraint.getExpression(), var2type);
+			checkExpressionForNavigationCorrectness(constraint.getExpression(), var2type, var2Cardinality);
 		}
 	}
 	
-	private PPEInstanceType checkExpressionForNavigationCorrectness(Exp exp, Map<String, PPEInstanceType> varTypeMap) {
+	private TypeAndCardinality checkExpressionForNavigationCorrectness(Exp exp, Map<String, PPEInstanceType> varTypeMap, Map<String, CARDINALITIES> varCardinalityMap) {
 		if (exp == null) return null;
 		log.trace(exp.toString());
 		
-		PPEInstanceType currentType = null;
+		TypeAndCardinality currentTypeAndCardinality = null;
+//		PPEInstanceType currentType = null;
+//		CARDINALITIES currentCardinality = null;
 		if (exp instanceof VarReference) { 	//  getting type of var
 			VarReference varRef = (VarReference)exp;
 			String varName = varRef.getRef().getName();
-			currentType = varTypeMap.get(varName);
-			log.trace(String.format("Setting current context type %s via var %s ",currentType.getName(), varName));
+			currentTypeAndCardinality = new TypeAndCardinality(varTypeMap.get(varName), varCardinalityMap.get(varName));
+			log.trace(String.format("Setting current context type %s via var %s ",currentTypeAndCardinality.getType().getName(), varName));
 		} else if (exp instanceof SelfExp) { 
-			currentType = varTypeMap.get("self");
+			currentTypeAndCardinality = new TypeAndCardinality(varTypeMap.get("self"), varCardinalityMap.get("self"));
 		} else
 			if (exp instanceof PrefixExp) {
-			PrefixExp prefixExp = (PrefixExp)exp;
-			currentType = checkExpressionForNavigationCorrectness(prefixExp.getExpression(), varTypeMap);
-			if (prefixExp.getOperator().getName().equals(grammarAccess.getUnaryOperatorAccess().getNameNotKeyword_0_1().getValue())
-					&& currentType != BuildInType.BOOLEAN) {
-				error(String.format(" Expression prefixed with 'not' operator requires Boolean return type but found '%s' ", currentType), prefixExp.getExpression(), OclxPackage.Literals.PREFIX_EXP__EXPRESSION, INCOMPATIBLE_RETURN_TYPE);
-			}
-		} else if (exp instanceof NestedExp) {
-			currentType = checkExpressionForNavigationCorrectness(((NestedExp) exp).getSource(), varTypeMap);
+				PrefixExp prefixExp = (PrefixExp)exp;
+				currentTypeAndCardinality = checkExpressionForNavigationCorrectness(prefixExp.getExpression(), varTypeMap, varCardinalityMap); 
+				if (prefixExp.getOperator().getName().equals(grammarAccess.getUnaryOperatorAccess().getNameNotKeyword_0_1().getValue())
+						&& currentTypeAndCardinality.getType() != BuildInType.BOOLEAN) {
+					error(String.format(" Expression prefixed with 'not' operator requires Boolean return type but found '%s' ", currentTypeAndCardinality.getType())
+							, prefixExp, OclxPackage.Literals.PREFIX_EXP__EXPRESSION, INCOMPATIBLE_RETURN_TYPE);
+				}
+			} else if (exp instanceof NestedExp) {
+				currentTypeAndCardinality = checkExpressionForNavigationCorrectness(((NestedExp) exp).getSource(), varTypeMap, varCardinalityMap);
 		} else if (exp instanceof InfixExp) {
 			InfixExp infixExp = (InfixExp)exp;
 			if (infixExp.getExpressions().size() > 1) {
 				BinaryOperator op = infixExp.getOperators().get(0);
 				boolean isBooleanOp = isBooleanOperator(op);
 				boolean isMathOp = isMathOperatpr(op);
-				List<PPEInstanceType> returnTypes = infixExp.getExpressions().stream()
-						.map(childExp -> new AbstractMap.SimpleEntry<Exp, PPEInstanceType>(childExp, checkExpressionForNavigationCorrectness(childExp, varTypeMap)))
+				List<TypeAndCardinality> returnTypes = infixExp.getExpressions().stream()
+						.map(childExp -> new AbstractMap.SimpleEntry<Exp, TypeAndCardinality>(childExp, checkExpressionForNavigationCorrectness(childExp, varTypeMap, varCardinalityMap)))
 						.map(entry -> {
-							if (isBooleanOp && entry.getValue() != BuildInType.BOOLEAN) {
-								error(String.format(" Boolean Operator requires nested expression(s) to return Boolean but found '%s' ", entry.getValue()), infixExp, OclxPackage.Literals.INFIX_EXP__EXPRESSIONS, INCOMPATIBLE_RETURN_TYPE);
+							if (isBooleanOp && entry.getValue().getType() != BuildInType.BOOLEAN && entry.getValue().getCardinality() != CARDINALITIES.SINGLE) {
+								error(String.format(" Boolean Operator requires nested expression(s) to return single Boolean but found '%s' ", entry.getValue())
+										, infixExp, OclxPackage.Literals.INFIX_EXP__EXPRESSIONS, INCOMPATIBLE_RETURN_TYPE);
 							} else if (isMathOp 
-									&& ( entry.getValue() != BuildInType.FLOAT && entry.getValue() != BuildInType.INTEGER) //neither float nor integer
+									&& ( entry.getValue().getType() != BuildInType.FLOAT && entry.getValue().getType() != BuildInType.INTEGER && entry.getValue().getCardinality() != CARDINALITIES.SINGLE) //neither float nor integer nor SINGLE
 									) {
-								error(String.format(" Math Operator requires nested expression(s) to return FLOAT or INTEGER but found '%s' ", entry.getValue()), infixExp, OclxPackage.Literals.INFIX_EXP__EXPRESSIONS, INCOMPATIBLE_RETURN_TYPE);
+								error(String.format(" Math Operator requires nested expression(s) to return single FLOAT or INTEGER but found '%s' ", entry.getValue())
+										, infixExp, OclxPackage.Literals.INFIX_EXP__EXPRESSIONS, INCOMPATIBLE_RETURN_TYPE);
 							}
 							return entry.getValue();
 						})
 						.collect(Collectors.toList());
 				// return type depends on Binary Operator, we only check first operator 
 				if (op instanceof BooleanOperator) {
-					currentType = BuildInType.BOOLEAN;
+					currentTypeAndCardinality = new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE);					
 				} else if (op instanceof MathOperator) {
-					currentType = BuildInType.FLOAT; //TODO: check simultaneous use of math and logic operators!
+					currentTypeAndCardinality = new TypeAndCardinality(BuildInType.FLOAT, CARDINALITIES.SINGLE);
+					//TODO: check simultaneous use of math and logic operators!
 				} else {
-					currentType = BuildInType.METATYPE; //should not happen
+					currentTypeAndCardinality = new TypeAndCardinality(BuildInType.METATYPE, CARDINALITIES.SINGLE);
+					//should not happen
 				}
 			} else {
-				currentType = checkExpressionForNavigationCorrectness(infixExp.getExpressions().get(0), varTypeMap);
+				currentTypeAndCardinality = checkExpressionForNavigationCorrectness(infixExp.getExpressions().get(0), varTypeMap, varCardinalityMap);
 			}
 		}  else if (exp instanceof TemporalExp) {
-			currentType = checkTemporalExpressionNavigation((TemporalExp) exp, varTypeMap);
+			currentTypeAndCardinality = checkTemporalExpressionNavigation((TemporalExp) exp, varTypeMap, varCardinalityMap);
 		}
 			
 		for (MethodExp methodExp : exp.getMethods()) {
 			log.trace("Traversing for methodCheck: "+methodExp);
 			if (methodExp instanceof IteratorExp) {
 				IteratorExp iterExp = (IteratorExp)methodExp;
+				// check if iterator can be called on current input
+				if (currentTypeAndCardinality == null || currentTypeAndCardinality.getCardinality().equals(CARDINALITIES.SINGLE)) {
+					error(String.format("Iterator '%s' cannot be called on SINGLE input, requires SET, LIST, or COLLECTION", iterExp.getName().getName())
+						, iterExp, OclxPackage.Literals.ITERATOR_EXP__NAME, INCOMPATIBLE_INPUT_TYPE);
+				}
 				
 				Optional<IteratorVarDeclaration> varOpt = Optional.ofNullable(iterExp.getItervar());
 				if (varOpt.isPresent()) {
@@ -234,32 +254,43 @@ public class OCLXValidator extends AbstractOCLXValidator {
 								log.trace(String.format("Adding new variable %s of type %s " ,varName, optType.get().getName()));
 							}
 						} else {
-							if (currentType != null) {
-								varTypeMap.put(varName, currentType);
 							// determine var type based on previous method/property access, otherwise checking var type leads to NPE
-							}
+							varTypeMap.put(varName, currentTypeAndCardinality.getType());																						
 						}
+						// iterator variable is always a single as we dont support Collections of Collections
+						varCardinalityMap.put(varName, CARDINALITIES.SINGLE);
 					}
 				}
 				// we update the currentType with the return type from the iterator
-				currentType = checkExpressionForNavigationCorrectness(iterExp.getBody(), varTypeMap);
+				var tempCurrentTypeAndCardinality = checkExpressionForNavigationCorrectness(iterExp.getBody(), varTypeMap, varCardinalityMap);
+				// now we need to override the cardinality based on the iterator type:
+				var iterType = iterExp.getName().getName();
+				if (iterType.equals(grammarAccess.getIteratorNameAccess().getNameCOLLECTKeyword_0_2().getValue())  
+						|| iterType.equals(grammarAccess.getIteratorNameAccess().getNameREJECTKeyword_0_3().getValue())
+						|| iterType.equals(grammarAccess.getIteratorNameAccess().getNameSELECTKeyword_0_4().getValue())
+						) {
+					currentTypeAndCardinality = new TypeAndCardinality(tempCurrentTypeAndCardinality.getType(), currentTypeAndCardinality.getCardinality()); // same cardinality, potentially different type
+				} else if (iterType.equals(grammarAccess.getIteratorNameAccess().getNameEXISTSKeyword_0_1().getValue())
+						|| iterType.equals(grammarAccess.getIteratorNameAccess().getNameFORALLKeyword_0_0().getValue())) {
+					currentTypeAndCardinality = new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE);
+				}												
 			} else if (methodExp instanceof MethodCallExp) {
 				MethodCallExp callExp = (MethodCallExp)methodExp;
 				// we update the currentType
-				currentType = checkNextNavigation(currentType, callExp);
-				log.trace("new current type via method: "+currentType.toString());
+				currentTypeAndCardinality = checkNextNavigation(currentTypeAndCardinality, callExp);
+				log.trace("new current type via method: "+currentTypeAndCardinality.toString());
 				if (callExp.getArgs() != null) {
 					callExp.getArgs().getOperators().stream() 
-						.forEach(childExp -> checkExpressionForNavigationCorrectness(childExp, varTypeMap));
+						.forEach(childExp -> checkExpressionForNavigationCorrectness(childExp, varTypeMap, varCardinalityMap));
 				}
 			} else if (methodExp instanceof PropertyAccessExp) {
 				// we update the currentType
 				PropertyAccessExp propExp = (PropertyAccessExp)methodExp;
-				currentType = checkNavigation(currentType, propExp);
-				log.trace("new current type via property: "+currentType.toString());
+				currentTypeAndCardinality = checkNavigation(currentTypeAndCardinality.getType(), propExp);
+				log.trace("new current type via property: "+currentTypeAndCardinality.toString());
 			}
 		}
-		return currentType;
+		return currentTypeAndCardinality;
 	}
 	
 	private boolean isMathOperatpr(BinaryOperator op) {
@@ -286,52 +317,71 @@ public class OCLXValidator extends AbstractOCLXValidator {
 
 
 
-	private PPEInstanceType checkTemporalExpressionNavigation(TemporalExp exp, Map<String, PPEInstanceType> varTypeMap) {
+	private TypeAndCardinality checkTemporalExpressionNavigation(TemporalExp exp, Map<String, PPEInstanceType> varTypeMap, Map<String, CARDINALITIES> varCardinalityMap) {
 		if (exp instanceof UnaryTemporalExp) {
-			PPEInstanceType returnType = checkExpressionForNavigationCorrectness(((UnaryTemporalExp)exp).getExp(), varTypeMap);
-			if (returnType != BuildInType.BOOLEAN) {
-				error(String.format(" Temporal Expression requires nested expression to return Boolean but found '%s' ", returnType), 
+			var returnType = checkExpressionForNavigationCorrectness(((UnaryTemporalExp)exp).getExp(), varTypeMap, varCardinalityMap);
+			if (returnType.getType() != BuildInType.BOOLEAN || returnType.getCardinality() != CARDINALITIES.SINGLE) {
+				error(String.format(" Temporal Expression requires nested expression to return single Boolean but found '%s' ", returnType), 
 						((UnaryTemporalExp)exp), OclxPackage.Literals.UNARY_TEMPORAL_EXP__EXP, INCOMPATIBLE_RETURN_TYPE);
 			}
 		} else if (exp instanceof TriggeredTemporalExp) {
 			TriggeredTemporalExp trigExp = (TriggeredTemporalExp)exp;
-			PPEInstanceType returnTypeA = checkExpressionForNavigationCorrectness(trigExp.getA(), varTypeMap);
-			if (returnTypeA != BuildInType.BOOLEAN) {
-				error(String.format(" Temporal Expression requires nested expression(s) to return Boolean but found '%s' ", returnTypeA)
+			var returnTypeA = checkExpressionForNavigationCorrectness(trigExp.getA(), varTypeMap, varCardinalityMap);
+			if (returnTypeA.getType() != BuildInType.BOOLEAN || returnTypeA.getCardinality() != CARDINALITIES.SINGLE) {
+				error(String.format(" Temporal Expression requires nested expression(s) to return single Boolean but found '%s' ", returnTypeA)
 						, trigExp, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__A, INCOMPATIBLE_RETURN_TYPE);
 			}
-			PPEInstanceType returnTypeB =checkExpressionForNavigationCorrectness(trigExp.getB(), varTypeMap);
-			if (returnTypeB != BuildInType.BOOLEAN) {
-				error(String.format(" Temporal Expression requires nested expression(s) to return Boolean but found '%s' ", returnTypeB)
+			var returnTypeB =checkExpressionForNavigationCorrectness(trigExp.getB(), varTypeMap, varCardinalityMap);
+			if (returnTypeB.getType() != BuildInType.BOOLEAN || returnTypeB.getCardinality() != CARDINALITIES.SINGLE) {
+				error(String.format(" Temporal Expression requires nested expression(s) to return single Boolean but found '%s' ", returnTypeB)
 						, trigExp, OclxPackage.Literals.TRIGGERED_TEMPORAL_EXP__B, INCOMPATIBLE_RETURN_TYPE);
 			}
 		}
-		return BuildInType.BOOLEAN;
+		return new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE);
 	}
 	
-	private PPEInstanceType checkNavigation(PPEInstanceType currentType, PropertyAccessExp expression) {
+	private TypeAndCardinality checkNavigation(PPEInstanceType currentType, PropertyAccessExp expression) {
 		String method = expression.getName();
 		if (!currentType.hasPropertyType(method)) {
-			error(String.format("'%s' is not a known property for InstanceType '%s'", method, currentType.getName() ), expression, OclxPackage.Literals.PROPERTY_ACCESS_EXP__NAME, UNKNOWN_PROPERTY);
+			error(String.format("'%s' is not a known property for InstanceType '%s'", method, currentType.getName() )
+					, expression, OclxPackage.Literals.PROPERTY_ACCESS_EXP__NAME, UNKNOWN_PROPERTY);
 			return null;
 		} else {
-			return currentType.getPropertyType(method).getInstanceType();
+			var prop = currentType.getPropertyType(method);
+			return new TypeAndCardinality(prop.getInstanceType(), prop.getCardinality());
 		}
 	}
 	
-	private PPEInstanceType checkNextNavigation(PPEInstanceType currentType, MethodCallExp expression) {
+	private TypeAndCardinality checkNextNavigation(TypeAndCardinality currentTypeAndCardinality, MethodCallExp expression) {
 		if (expression.getType() != null) {
 			//we dont support typing to Collections
 			String typeName = expression.getType().getName();
 			Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);
 			if (optType.isEmpty()) {
-				error(String.format(" Provided type '%s' is not a known InstanceType", typeName), expression.getType(), OclxPackage.Literals.TYPE_EXP__NAME, UNKNOWN_TYPE);
+				error(String.format(" Provided type '%s' is not a known InstanceType", typeName)
+						, expression.getType(), OclxPackage.Literals.TYPE_EXP__NAME, UNKNOWN_TYPE);
+				return null;
 			} else {
-				return optType.get();
+				return new TypeAndCardinality(optType.get(), CARDINALITIES.SINGLE);
 			}
+		} else {
+		// we have a regular method						
+			// if ANY return value, reuse current type (as this is then a collection accessor operation or collection transformation operation			
+			var methodReturnType = methodReg.getReturnTypeForMethodName(expression.getName(), currentTypeAndCardinality.getType());			
+			if (methodReturnType == null) {
+				error(String.format("'%s' is not a known operation/method ", expression.getName())
+						, expression, OclxPackage.Literals.METHOD_CALL_EXP__NAME, UNKNOWN_OPERATION);
+				return null;
+			} else {
+				// check if method can be called on current type (see ARL OperatorExpression)
+				var isCompatibleType = methodReg.canMethodBeCalledOnType(expression.getName(), currentTypeAndCardinality);		
+				if (!isCompatibleType) {
+					error(String.format("'%s' cannot be called on type '%s' of cardinality '%s' ", expression.getName(), currentTypeAndCardinality.getType(), currentTypeAndCardinality.getCardinality())
+							, expression, OclxPackage.Literals.METHOD_CALL_EXP__NAME, INCOMPATIBLE_INPUT_TYPE);
+				}				
+				return methodReturnType;
+			}			
 		}
-			// we have a regular method
-			return null; //TODO: handle method return types --> this needs something more sophisticated to know which method can be called on which type (see ARL OperatorExpression)
 	}
 	
 	private Optional<PPEInstanceType> resolveType(String typeName) {

@@ -100,7 +100,7 @@ rule AnotherRule {
 	context: nosu
 	expression: self.downstream->FORALL(x | (x.isDefined() 
 												and 
-											self->SELECT( x | x.size() > 0)
+											self->EXISTS( x | x.size() > 0)
 											) 
 										)  
 }
@@ -222,7 +222,7 @@ rule AnotherRule {
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
-		@Test
+	@Test
 	def void testTemporalNestedReturnType() {
 		val result = parseHelper.parse('''
 			rule TestRule {
@@ -240,7 +240,7 @@ rule AnotherRule {
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
-			@Test
+	@Test
 	def void testTriggeredTemporalNestedReturnType() {
 		val result = parseHelper.parse('''
 			rule TestRule {
@@ -258,7 +258,7 @@ rule AnotherRule {
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
-			@Test
+	@Test
 	def void testTriggeredTemporalNestedReturnTypeSuccess() {
 		val result = parseHelper.parse('''
 			rule TestRule {
@@ -273,7 +273,7 @@ rule AnotherRule {
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
-				@Test
+	@Test
 	def void testCommentInlineSuccess() {
 		val result = parseHelper.parse('''
 			rule TestRule {
@@ -288,4 +288,109 @@ rule AnotherRule {
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
+	
+	@Test
+	def void testPropertyInSubclass() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesSingle.referencesGroup.size() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	}
+	
+	@Test
+	def void testPropertyInSubclass2() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup.any().referencesGroup.size() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	}
+	
+	@Test
+	def void testPropertyInSubclassViaIterator() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	}
+	
+	@Test
+	def void testUnknownOperation() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesSingle.siz() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.UNKNOWN_OPERATION
+		);
+	}
+	
+	@Test
+	def void testIncompatibleSingleInputToCollectionOperation() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesSingle.size() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.INCOMPATIBLE_INPUT_TYPE
+		);
+	}
+	
+	@Test
+	def void testIncompatibleCollectionInputToSingleOperation() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup.toString() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.INCOMPATIBLE_INPUT_TYPE
+		);
+	}
+	
+		@Test
+	def void testIncompatibleIteratorInputToSingleOperation() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->SELECT(x | x.isDefined()).toString() > 0 }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.INCOMPATIBLE_INPUT_TYPE
+		);
+	}
+	
+	@Test
+	def void testIncompatibleSingleInputToIterator() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesSingle->FORALL(x | x.isDefined() ) }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.ITERATOR_EXP, 
+			OCLXValidator.INCOMPATIBLE_INPUT_TYPE
+		);
+	}
+	
 }

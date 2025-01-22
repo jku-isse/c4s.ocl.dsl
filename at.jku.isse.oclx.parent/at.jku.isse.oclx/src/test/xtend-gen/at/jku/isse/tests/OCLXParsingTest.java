@@ -186,7 +186,7 @@ public class OCLXParsingTest {
       _builder.append("and ");
       _builder.newLine();
       _builder.append("\t\t\t\t\t\t\t\t\t\t\t");
-      _builder.append("self->SELECT( x | x.size() > 0)");
+      _builder.append("self->EXISTS( x | x.size() > 0)");
       _builder.newLine();
       _builder.append("\t\t\t\t\t\t\t\t\t\t\t");
       _builder.append(") ");
@@ -561,6 +561,142 @@ public class OCLXParsingTest {
       String _join = IterableExtensions.join(errors, ", \r\n");
       _builder_1.append(_join);
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testPropertyInSubclass() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesSingle.referencesGroup.size() > 0 }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+        OCLXValidator.UNKNOWN_PROPERTY);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testPropertyInSubclass2() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup.any().referencesGroup.size() > 0 }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+        OCLXValidator.UNKNOWN_PROPERTY);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testPropertyInSubclassViaIterator() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+        OCLXValidator.UNKNOWN_PROPERTY);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testUnknownOperation() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesSingle.siz() > 0 }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.METHOD_CALL_EXP, 
+        OCLXValidator.UNKNOWN_OPERATION);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testIncompatibleSingleInputToCollectionOperation() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesSingle.size() > 0 }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.METHOD_CALL_EXP, 
+        OCLXValidator.INCOMPATIBLE_INPUT_TYPE);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testIncompatibleCollectionInputToSingleOperation() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup.toString() > 0 }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.METHOD_CALL_EXP, 
+        OCLXValidator.INCOMPATIBLE_INPUT_TYPE);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testIncompatibleIteratorInputToSingleOperation() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->SELECT(x | x.isDefined()).toString() > 0 }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.METHOD_CALL_EXP, 
+        OCLXValidator.INCOMPATIBLE_INPUT_TYPE);
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testIncompatibleSingleInputToIterator() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesSingle->FORALL(x | x.isDefined() ) }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.ITERATOR_EXP, 
+        OCLXValidator.INCOMPATIBLE_INPUT_TYPE);
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

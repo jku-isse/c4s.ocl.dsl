@@ -1,4 +1,4 @@
-package at.jku.isse.ide.assistance;
+package at.jku.isse.validation;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,16 +14,18 @@ import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression;
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression.OperationDeclaration;
 import at.jku.isse.designspace.rule.arl.parser.ArlType;
 import at.jku.isse.designspace.rule.arl.parser.ArlType.CollectionKind;
-import at.jku.isse.ide.assistance.ElementToTypeMap.TypeAndCardinality;
+
 import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
+import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 
 public class MethodRegistry {
 	
 	private AtomicBoolean doInit = new AtomicBoolean(true);
-	Map<PPEInstanceType, Set<OperationDeclaration>> sourceTypeIndex = new HashMap<>();
-	Map<CARDINALITIES, Set<OperationDeclaration>> sourceCardinalityIndex = new HashMap<>();
+	private final Map<PPEInstanceType, Set<OperationDeclaration>> sourceTypeIndex = new HashMap<>();
+	private final Map<CARDINALITIES, Set<OperationDeclaration>> sourceCardinalityIndex = new HashMap<>();
+	private List<OperationDeclaration> declarations;
 	
 	public MethodRegistry() {
 		initRegistry(); 
@@ -32,7 +34,7 @@ public class MethodRegistry {
 	private void initRegistry() {
 		if (doInit.compareAndExchange(true, false)) {
 			new OperationCallExpression(new LiteralExpression("SomeString"), "size", Collections.emptyList()); // we need to ensure that OperationDeclarations are initiated, by creating some arbitrary correct expression
-			List<OperationDeclaration> declarations = OperationCallExpression.OperationDeclaration.getOperationDeclarations();
+			declarations = OperationCallExpression.OperationDeclaration.getOperationDeclarations();
 			declarations.stream().forEach(decl -> {
 				if (decl.sourceType.collection.equals(CollectionKind.SINGLE)) {
 					insertSingleOperation(decl);
@@ -140,7 +142,6 @@ public class MethodRegistry {
 	}
 	
 	public TypeAndCardinality getReturnType(OperationDeclaration opDec, PPEInstanceType sourceTypeHint) {
-	//	initRegistry();
 		ArlType arlType = opDec.returnType;
 		PPEInstanceType type = convertSingle(arlType, sourceTypeHint != null ? sourceTypeHint : BuildInType.METATYPE); //sourceType needed where collections operation are agnostic of collection content
 		CARDINALITIES cardinality = convertCardinality(arlType);
@@ -162,16 +163,16 @@ public class MethodRegistry {
 	}
 
 	private PPEInstanceType convertSingle(ArlType arlType, PPEInstanceType typeHint) {
-		if (arlType.equals(ArlType.INTEGER)) {
-			return BuildInType.INTEGER;
+		if (arlType.equals(ArlType.STRING)) {
+				return BuildInType.STRING;		
 		} else if (arlType.equals(ArlType.BOOLEAN)) {
 			return BuildInType.BOOLEAN;
-		} else if (arlType.equals(ArlType.DATE)) {
-			return BuildInType.DATE;
+		//} else if (arlType.equals(ArlType.DATE)) { //checking this runs into EvaluationException
+		//	return BuildInType.DATE;
 		} else if (arlType.equals(ArlType.REAL)) {
 			return BuildInType.FLOAT;
-		} else if (arlType.equals(ArlType.NUMBER)) {
-			return BuildInType.FLOAT; // to be on the safe side
+		//} else if (arlType.equals(ArlType.NUMBER)) { //checking this runs into EvaluationException
+		//	return BuildInType.FLOAT; // to be on the safe side
 		} else if (arlType.equals(ArlType.INTEGER)) {
 			return BuildInType.INTEGER;
 		} else if ( arlType.equals(ArlType.LIST) //collection operations or ANY typically need to be compatible with (source) type
@@ -184,6 +185,45 @@ public class MethodRegistry {
 		} 
 		else //lets see if that works 
 			return BuildInType.METATYPE; // serves as ANY replacement, when we are unable to infer anything
+	}
+
+	public TypeAndCardinality getReturnTypeForMethodName(String name, PPEInstanceType typeMethodCalledOn) {
+		var optDecl = declarations.stream().filter(decl -> decl.name.equals(name)).findAny();
+		if (optDecl.isPresent()) {
+			return getReturnType(optDecl.get(), typeMethodCalledOn);
+		} else
+			return null;
+		
+	}
+
+	public boolean canMethodBeCalledOnType(String name, TypeAndCardinality source) {
+		return declarations.stream()
+				.filter(decl -> decl.name.equals(name))
+				.anyMatch(decl -> {		
+			if (source.getCardinality().equals(CARDINALITIES.SINGLE)) { //compare type
+				if (!decl.sourceType.collection.equals(CollectionKind.SINGLE)) // requires collection as input
+					return false;
+				var validType = convertSingle(decl.sourceType, source.getType());
+				return source.getType().equals(validType);
+			} else { // compare collection type
+				if (decl.sourceType.collection.equals(CollectionKind.SINGLE)) // requires single as input
+					return false;
+				var methodCollectionKind = decl.sourceType.collection;
+				switch(source.getCardinality()) {					
+				case LIST:
+					return methodCollectionKind.equals(CollectionKind.LIST) || methodCollectionKind.equals(CollectionKind.COLLECTION);					
+				case MAP:
+					return methodCollectionKind.equals(CollectionKind.MAP) || methodCollectionKind.equals(CollectionKind.COLLECTION);
+				case SET:
+					return methodCollectionKind.equals(CollectionKind.SET) || methodCollectionKind.equals(CollectionKind.COLLECTION);
+//				case SINGLE: wont happen as checked above
+//					break;
+				default:
+					return false;					
+				}				
+			}
+		});
+
 	}
 	
 }

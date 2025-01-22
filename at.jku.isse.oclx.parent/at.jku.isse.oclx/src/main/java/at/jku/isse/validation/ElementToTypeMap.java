@@ -1,4 +1,4 @@
-package at.jku.isse.ide.assistance;
+package at.jku.isse.validation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,6 +9,7 @@ import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
+import lombok.Data;
 import lombok.NonNull;
 
 public class ElementToTypeMap {
@@ -42,21 +43,22 @@ public class ElementToTypeMap {
 		return propertyAccessMap;
 	}
 	
+	@Data
 	public static class TypeAndCardinality {
 		private final PPEInstanceType type;
 		private final CARDINALITIES cardinality;
 		
-		public TypeAndCardinality(PPEInstanceType type, CARDINALITIES cardinality) {
-			super();
-			this.type = type;
-			this.cardinality = cardinality;
-		}
-		public PPEInstanceType getType() {
-			return type;
-		}
-		public CARDINALITIES getCardinality() {
-			return cardinality;
-		}
+//		public TypeAndCardinality(PPEInstanceType type, CARDINALITIES cardinality) {
+//			super();
+//			this.type = type;
+//			this.cardinality = cardinality;
+//		}
+//		public PPEInstanceType getType() {
+//			return type;
+//		}
+//		public CARDINALITIES getCardinality() {
+//			return cardinality;
+//		}
 
 		
 	}

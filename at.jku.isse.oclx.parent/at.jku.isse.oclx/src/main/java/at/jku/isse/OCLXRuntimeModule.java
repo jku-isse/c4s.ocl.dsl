@@ -8,6 +8,7 @@ import com.google.inject.Binder;
 import at.jku.isse.designspace.artifactconnector.core.repository.CoreTypeFactory;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 import at.jku.isse.passiveprocessengine.designspace.DesignSpaceSchemaRegistry;
+import at.jku.isse.validation.MethodRegistry;
 
 /**
  * Use this class to register components to be used at runtime / without the Equinox extension registry.
@@ -27,6 +28,10 @@ public class OCLXRuntimeModule extends AbstractOCLXRuntimeModule {
 		//designspace.getAllNonDeletedInstanceTypes().stream().forEach(type -> System.out.println(type.getName()));
 	}
 
+	public Class<? extends MethodRegistry> bindMethodRegistry() {
+		return MethodRegistry.class;
+	}
+	
 	@Override
 	public void configure(Binder binder) {
 		super.configure(binder);
