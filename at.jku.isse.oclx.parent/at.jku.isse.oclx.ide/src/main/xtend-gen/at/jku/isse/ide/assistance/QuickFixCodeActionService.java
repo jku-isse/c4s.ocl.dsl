@@ -145,7 +145,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     if ((varOrSelfContainer instanceof SelfExp)) {
       final int thisIndex = ((SelfExp)varOrSelfContainer).getMethods().indexOf(modelElement);
       if ((thisIndex > 0)) {
-        return ((SelfExp)varOrSelfContainer).getMethods().get(thisIndex);
+        return ((SelfExp)varOrSelfContainer).getMethods().get((thisIndex - 1));
       } else {
         return varOrSelfContainer;
       }
@@ -153,7 +153,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
       if ((varOrSelfContainer instanceof VarReference)) {
         final int thisIndex_1 = ((VarReference)varOrSelfContainer).getMethods().indexOf(modelElement);
         if ((thisIndex_1 > 0)) {
-          return ((VarReference)varOrSelfContainer).getMethods().get(thisIndex_1);
+          return ((VarReference)varOrSelfContainer).getMethods().get((thisIndex_1 - 1));
         } else {
           return varOrSelfContainer;
         }
@@ -163,7 +163,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
   }
 
   protected Boolean dispatchByPreceedingElement(final EObject modelElement, final Diagnostic d, final XtextResource resource, final PPEInstanceType subclass, final String propertyName, final List<CodeAction> result) {
-    Boolean _xifexpression = null;
+    boolean _xifexpression = false;
     if ((modelElement instanceof SelfExp)) {
       CodeAction _codeAction = new CodeAction();
       final Procedure1<CodeAction> _function = (CodeAction it) -> {
@@ -187,15 +187,15 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
         it.setEdit(_doubleArrow);
       };
       CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
-      _xifexpression = Boolean.valueOf(result.add(_doubleArrow));
+      _xifexpression = result.add(_doubleArrow);
     } else {
-      Boolean _xifexpression_1 = null;
+      boolean _xifexpression_1 = false;
       if ((modelElement instanceof PropertyAccessExp)) {
         CodeAction _codeAction_1 = new CodeAction();
         final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
           it.setKind(CodeActionKind.QuickFix);
           String _name = subclass.getName();
-          String _plus = ("Access property in subtype \'" + _name);
+          String _plus = ((("Access property \'" + propertyName) + "\' in subtype \'") + _name);
           String _plus_1 = (_plus + "\' ");
           it.setTitle(_plus_1);
           it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
@@ -218,15 +218,58 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
           it.setEdit(_doubleArrow_1);
         };
         CodeAction _doubleArrow_1 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_1, _function_1);
-        _xifexpression_1 = Boolean.valueOf(result.add(_doubleArrow_1));
+        _xifexpression_1 = result.add(_doubleArrow_1);
       } else {
-        Boolean _xifexpression_2 = null;
+        boolean _xifexpression_2 = false;
         if ((modelElement instanceof MethodCallExp)) {
-          _xifexpression_2 = null;
+          boolean _xblockexpression = false;
+          {
+            Range methodRange = this.getRangeOfElement(modelElement);
+            boolean _xifexpression_3 = false;
+            if ((methodRange != null)) {
+              CodeAction _codeAction_2 = new CodeAction();
+              final Procedure1<CodeAction> _function_2 = (CodeAction it) -> {
+                it.setKind(CodeActionKind.QuickFix);
+                String _name = subclass.getName();
+                String _plus = ("Add a filter for instances of subtype \'" + _name);
+                String _plus_1 = (_plus + "\' before method/operation call \'");
+                String _name_1 = ((MethodCallExp)modelElement).getName();
+                String _plus_2 = (_plus_1 + _name_1);
+                String _plus_3 = (_plus_2 + "\'");
+                it.setTitle(_plus_3);
+                it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
+                int _line = d.getRange().getStart().getLine();
+                int _character = d.getRange().getStart().getCharacter();
+                int _minus = (_character - 1);
+                final Position pos = new Position(_line, _minus);
+                WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+                final Procedure1<WorkspaceEdit> _function_3 = (WorkspaceEdit it_1) -> {
+                  URI _uRI = resource.getURI();
+                  TextEdit _textEdit = new TextEdit();
+                  final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
+                    Range _range = new Range(pos, pos);
+                    it_2.setRange(_range);
+                    String _name_2 = subclass.getName();
+                    String _plus_4 = ("->SELECT(object | object.isKindOf(<" + _name_2);
+                    String _plus_5 = (_plus_4 + ">)");
+                    it_2.setNewText(_plus_5);
+                  };
+                  TextEdit _doubleArrow_2 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_4);
+                  this.addTextEdit(it_1, _uRI, _doubleArrow_2);
+                };
+                WorkspaceEdit _doubleArrow_2 = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_3);
+                it.setEdit(_doubleArrow_2);
+              };
+              CodeAction _doubleArrow_2 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_2, _function_2);
+              _xifexpression_3 = result.add(_doubleArrow_2);
+            }
+            _xblockexpression = _xifexpression_3;
+          }
+          _xifexpression_2 = _xblockexpression;
         } else {
           boolean _xifexpression_3 = false;
           if ((modelElement instanceof VarReference)) {
-            boolean _xblockexpression = false;
+            boolean _xblockexpression_1 = false;
             {
               final String refName = ((VarReference)modelElement).getRef().getName();
               Range iterRange = this.getRangeOfIterator(((VarReference)modelElement), refName);
@@ -251,7 +294,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                       Range _range = new Range(_start, _start_1);
                       it_2.setRange(_range);
                       String _name_1 = subclass.getName();
-                      String _plus_2 = ((((("-->SELECT(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _name_1);
+                      String _plus_2 = ((((("->SELECT(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _name_1);
                       String _plus_3 = (_plus_2 + ">)");
                       it_2.setNewText(_plus_3);
                     };
@@ -264,21 +307,37 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                 CodeAction _doubleArrow_2 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_2, _function_2);
                 _xifexpression_4 = result.add(_doubleArrow_2);
               }
-              _xblockexpression = _xifexpression_4;
+              _xblockexpression_1 = _xifexpression_4;
             }
-            _xifexpression_3 = _xblockexpression;
+            _xifexpression_3 = _xblockexpression_1;
           } else {
             String _string = modelElement.toString();
             String _plus = ("ERROR in QuickFixCodeActionService: Unexpected preceding element: " + _string);
             System.out.println(_plus);
           }
-          _xifexpression_2 = Boolean.valueOf(_xifexpression_3);
+          _xifexpression_2 = _xifexpression_3;
         }
         _xifexpression_1 = _xifexpression_2;
       }
       _xifexpression = _xifexpression_1;
     }
-    return _xifexpression;
+    return Boolean.valueOf(_xifexpression);
+  }
+
+  protected Range getRangeOfElement(final EObject exp) {
+    if ((exp == null)) {
+      return null;
+    }
+    final ICompositeNode inode = NodeModelUtils.findActualNodeFor(exp);
+    final int startPos = inode.getOffset();
+    int _startLine = inode.getStartLine();
+    final int startLine = (_startLine - 1);
+    final int endPos = inode.getEndOffset();
+    int _endLine = inode.getEndLine();
+    final int endLine = (_endLine - 1);
+    Position _position = new Position(startLine, startPos);
+    Position _position_1 = new Position(endLine, endPos);
+    return new Range(_position, _position_1);
   }
 
   protected Range getRangeOfContext(final EObject exp) {

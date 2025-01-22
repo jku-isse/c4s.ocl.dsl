@@ -17,6 +17,7 @@ import at.jku.isse.oclx.MathOperator;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.NestedExp;
+import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
@@ -31,12 +32,14 @@ import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
 import at.jku.isse.validation.ElementToTypeMap;
 import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
+import at.jku.isse.validation.MethodRegistry;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 
 public class TypeExtractor {
 	@Inject
 	private SchemaRegistry schemaReg;
-
+	@Inject
+	private MethodRegistry methodReg;
 	
 	public TypeExtractor() {
 	}
@@ -135,7 +138,7 @@ public class TypeExtractor {
 				MethodCallExp callExp = (MethodCallExp)methodExp;
 				// we update the currentType
 				if (currentType != null) {
-					currentType = checkNextNavigation(currentType.getType(), callExp);
+					currentType = checkNextNavigation(currentType, callExp);
 					elementToTypeMap.getReturnTypeMap().put(methodExp, currentType);
 				}
 				if (callExp.getArgs() != null) {
@@ -185,17 +188,19 @@ public class TypeExtractor {
 		}
 	}
 	
-	private TypeAndCardinality checkNextNavigation(PPEInstanceType currentType, MethodCallExp expression) {
+	private TypeAndCardinality checkNextNavigation(TypeAndCardinality currentTypeAndCardinality, MethodCallExp expression) {
 		if (expression.getType() != null) {
 			//we dont support typing to Collections, just single values
 			String typeName = expression.getType().getName();
 			Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);
 			if (optType.isPresent())  {
 				return new TypeAndCardinality(optType.get(), CARDINALITIES.SINGLE);
-			}
+			} else
+				return null;
+		} else {
+			var returnType = methodReg.getReturnTypeForMethodName(expression.getName(), currentTypeAndCardinality.getType());			
+			return returnType;
 		}
-		// we have a regular method
-		return null; //TODO: handle method return types --> this needs something more sophisticated to know which method can be called on which type (see ARL OperatorExpression)
 	}
 	
 	

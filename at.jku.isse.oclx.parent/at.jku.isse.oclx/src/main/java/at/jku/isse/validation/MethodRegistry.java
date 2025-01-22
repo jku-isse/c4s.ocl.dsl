@@ -164,6 +164,8 @@ public class MethodRegistry {
 	}
 
 	private PPEInstanceType convertSingle(ArlType arlType, PPEInstanceType typeHint) {
+		if (arlType.equals(ArlType.ANY))
+			return typeHint;
 		if (arlType.equals(ArlType.STRING)) {
 				return BuildInType.STRING;		
 		} else if (arlType.equals(ArlType.BOOLEAN)) {
@@ -176,11 +178,10 @@ public class MethodRegistry {
 		//	return BuildInType.FLOAT; // to be on the safe side
 		} else if (arlType.equals(ArlType.INTEGER)) {
 			return BuildInType.INTEGER;
-		} else if ( arlType.equals(ArlType.LIST) //collection operations or ANY typically need to be compatible with (source) type
+		} else if ( arlType.equals(ArlType.LIST) //collection operations typically need to be compatible with (source) type
 				 || arlType.equals(ArlType.MAP)
 			     || arlType.equals(ArlType.SET) 
 			    || arlType.equals(ArlType.COLLECTION)
-			    || arlType.equals(ArlType.ANY)
 				) { 
 				return typeHint;
 		} 

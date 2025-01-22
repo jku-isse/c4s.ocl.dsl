@@ -103,11 +103,11 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		val varOrSelfContainer = modelElement.eContainer
 		if (varOrSelfContainer instanceof SelfExp) {
 			val thisIndex = varOrSelfContainer.methods.indexOf(modelElement)
-			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex)
+			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex-1)
 			else return varOrSelfContainer
 		} else if (varOrSelfContainer instanceof VarReference) { 
 			val thisIndex = varOrSelfContainer.methods.indexOf(modelElement)
-			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex)
+			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex-1)
 			else return varOrSelfContainer
 		}
 	}
@@ -131,7 +131,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			// cast the property
 			result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Access property in subtype '"+subclass.name+"' "
+						title = "Access property '"+propertyName+"' in subtype '"+subclass.name+"' "
 						diagnostics = #[d]
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
@@ -143,11 +143,25 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		} else
 		if (modelElement instanceof MethodCallExp) {
 			// a method that returns a single instance can only happen over collection --> need to cast/filter collection
-			// not supported yet as we dont analyse method return types yet
+			// get range of methodcall,
+			var methodRange = getRangeOfElement(modelElement);
+			// insert select
+			if (methodRange !== null) {
+				result += new CodeAction => [
+						kind = CodeActionKind.QuickFix
+						title = "Add a filter for instances of subtype '"+subclass.name+"' before method/operation call '"+modelElement.name+"'";
+						diagnostics = #[d]
+						val pos = new Position(d.range.start.line, d.range.start.character-1)  // start and end are equal as we want to insert, shifted by 1: the . navigation character
+						edit = new WorkspaceEdit() => [
+							addTextEdit(resource.URI, new TextEdit => [
+								range = new Range(pos, pos)
+								newText = "->SELECT(object | object.isKindOf(<"+subclass.name+">)"
+							])
+						]
+					]			
+			}
 		} else
 		if (modelElement instanceof VarReference) {
-			// find iterator that declared that variable, prefix with:
-			// -->SELECT( varnameUNTYPED | varnameUNTYPED.isKindOf(< TYPE >)
 			val refName = modelElement.ref.name;
 			var iterRange = getRangeOfIterator(modelElement, refName);
 			if (iterRange != null) {
@@ -158,7 +172,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(d.range.start, d.range.start) // start and end are equal as we want to insert
-								newText = "-->SELECT("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+subclass.name+">)"
+								newText = "->SELECT("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+subclass.name+">)"
 							])
 						]
 					]			
@@ -166,6 +180,16 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		} else {
 			System.out.println("ERROR in QuickFixCodeActionService: Unexpected preceding element: "+modelElement.toString);
 		}
+	}
+
+	protected def Range getRangeOfElement(EObject exp) {
+		if (exp === null) return null;
+		val inode = NodeModelUtils.findActualNodeFor(exp)
+		val startPos = inode.offset
+		val startLine = inode.startLine-1 // we need zero based lines for Range
+		val endPos = inode.endOffset
+		val endLine = inode.endLine-1
+		return new Range(new Position(startLine, startPos), new Position(endLine, endPos))
 	}
 
 	protected def Range getRangeOfContext(EObject exp) {

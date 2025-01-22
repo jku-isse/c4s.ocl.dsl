@@ -18,7 +18,6 @@ import org.eclipse.xtext.validation.CheckType;
 
 import com.google.inject.Inject;
 
-import at.jku.isse.designspace.core.foundation.Cardinality;
 import at.jku.isse.oclx.BinaryOperator;
 import at.jku.isse.oclx.BooleanOperator;
 import at.jku.isse.oclx.Constraint;
@@ -58,7 +57,8 @@ public class OCLXValidator extends AbstractOCLXValidator {
 	private OCLXGrammarAccess grammarAccess;
 	@Inject
 	protected SchemaRegistry schemaReg;
-	@Inject MethodRegistry methodReg;
+	@Inject 
+	protected MethodRegistry methodReg;
 	
 	public static final String DUPLICATE_VAR_NAME = "duplicateVarName";
 	public static final String UNKNOWN_PROPERTY = "unknownProperty";
