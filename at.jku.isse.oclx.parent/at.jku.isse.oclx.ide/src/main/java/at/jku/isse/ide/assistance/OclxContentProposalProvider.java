@@ -36,6 +36,8 @@ import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 import at.jku.isse.services.OCLXGrammarAccess;
 import at.jku.isse.validation.ElementToTypeMap;
 import at.jku.isse.validation.MethodRegistry;
+import at.jku.isse.validation.OclxASTUtils;
+import at.jku.isse.validation.TypeExtractor;
 import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 
 /**

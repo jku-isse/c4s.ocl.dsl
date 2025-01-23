@@ -16,6 +16,8 @@ import at.jku.isse.oclx.VarDeclaration;
 import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.validation.ElementToTypeMap;
+import at.jku.isse.validation.OclxASTUtils;
+import at.jku.isse.validation.TypeExtractor;
 import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 
 public class TypeHoverService extends HoverService {
@@ -37,7 +39,7 @@ public class TypeHoverService extends HoverService {
 				if (optCtx.isPresent()) {
 					PPEInstanceType ctx = optCtx.get();
 					ElementToTypeMap elementToTypeMap = new ElementToTypeMap(ctx);
-					typeExtractor.fillTypeMapAndReturnCurrent(root.getExpression(), elementToTypeMap);
+					typeExtractor.checkExpressionForNavigationCorrectness(root.getExpression(), elementToTypeMap);
 					TypeAndCardinality hoverType = elementToTypeMap.getReturnTypeMap().get(hoverOver);
 					if (hoverType != null) {
 						Map.Entry<String, String> prepostfix = getPreAndPostFix(hoverType);

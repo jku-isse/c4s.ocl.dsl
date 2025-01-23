@@ -10,6 +10,7 @@ import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NonNull;
 
 public class ElementToTypeMap {
@@ -18,6 +19,8 @@ public class ElementToTypeMap {
 	private final TypeAndCardinality selfType;
 	private final Map<EObject, TypeAndCardinality> returnTypeMap = new HashMap<>();	
 	private final Map<PropertyAccessExp, PPEPropertyType> propertyAccessMap = new HashMap<>();
+//	@Getter
+//	private final Map<String, TypeAndCardinality> varMap = new HashMap(); // collects types of variable references to type/cardinality
 	
 	
 	public ElementToTypeMap(PPEInstanceType ctxType) {
@@ -25,9 +28,9 @@ public class ElementToTypeMap {
 		this.selfType = new TypeAndCardinality(ctxType, CARDINALITIES.SINGLE);
 	}
 
-	public void tryAddToReturnTypeMap(@NonNull EObject object, TypeAndCardinality copyTypeOnly, CARDINALITIES cardinality) {
-		if (copyTypeOnly != null && copyTypeOnly.getType() != null) {
-			returnTypeMap.put(object, new TypeAndCardinality(copyTypeOnly.getType(), cardinality));
+	public void tryAddToReturnTypeMap(@NonNull EObject object, PPEInstanceType type, CARDINALITIES cardinality) {
+		if (type != null) {
+			returnTypeMap.put(object, new TypeAndCardinality(type, cardinality));
 		}
 	}
 

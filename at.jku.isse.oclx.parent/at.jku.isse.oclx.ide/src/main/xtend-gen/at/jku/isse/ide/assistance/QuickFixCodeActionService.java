@@ -13,6 +13,8 @@ import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.validation.ElementToTypeMap;
 import at.jku.isse.validation.MethodRegistry;
 import at.jku.isse.validation.OCLXValidator;
+import at.jku.isse.validation.OclxASTUtils;
+import at.jku.isse.validation.TypeExtractor;
 import com.google.common.base.Objects;
 import com.google.inject.Inject;
 import java.util.ArrayList;

@@ -28,7 +28,8 @@ import org.eclipse.lsp4j.Position
 import at.jku.isse.validation.MethodRegistry
 import at.jku.isse.oclx.MethodExp
 import at.jku.isse.oclx.IteratorExp
-import java.util.LinkedList
+import at.jku.isse.validation.OclxASTUtils
+import at.jku.isse.validation.TypeExtractor
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
