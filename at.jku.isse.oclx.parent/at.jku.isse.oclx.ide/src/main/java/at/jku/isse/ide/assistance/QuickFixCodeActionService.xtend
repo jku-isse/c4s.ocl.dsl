@@ -28,6 +28,7 @@ import org.eclipse.lsp4j.Position
 import at.jku.isse.validation.MethodRegistry
 import at.jku.isse.oclx.MethodExp
 import at.jku.isse.oclx.IteratorExp
+import java.util.LinkedList
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -85,8 +86,10 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		val subclasses = findSubclassWithProperty(partialPropertyName, resource, offset)
 		if (subclasses.isEmpty()) return
 		val subclass = subclasses.get(0)
-		val precedingElement = getPrecedingElement(resource, offset)
-		dispatchByPreceedingElement(precedingElement, d, resource, subclass, partialPropertyName, result)
+		val selfAndPrecedingElement = getPrecedingElement(resource, offset)
+		dispatchByPreceedingElement(selfAndPrecedingElement.get(0), selfAndPrecedingElement.get(1)
+									, d, resource, subclass, partialPropertyName, result
+		)
 	}
 
 	protected def findSubclassWithProperty(String propertyName, XtextResource resource, int offset) {
@@ -103,35 +106,37 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		val varOrSelfContainer = modelElement.eContainer
 		if (varOrSelfContainer instanceof SelfExp) {
 			val thisIndex = varOrSelfContainer.methods.indexOf(modelElement)
-			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex-1)
-			else return varOrSelfContainer
+			if (thisIndex > 0) return List.of(modelElement, varOrSelfContainer.methods.get(thisIndex-1))
+			else return List.of(modelElement, varOrSelfContainer)
 		} else if (varOrSelfContainer instanceof VarReference) { 
 			val thisIndex = varOrSelfContainer.methods.indexOf(modelElement)
-			if (thisIndex > 0) return varOrSelfContainer.methods.get(thisIndex-1)
-			else return varOrSelfContainer
+			if (thisIndex > 0) return List.of(modelElement, varOrSelfContainer.methods.get(thisIndex-1))
+			else return List.of(modelElement, varOrSelfContainer)
 		}
 	}
 
-	protected def dispatchByPreceedingElement(EObject modelElement, Diagnostic d, XtextResource resource,  PPEInstanceType subclass, String propertyName, List<CodeAction> result) {
+	protected def dispatchByPreceedingElement(EObject affectedElement, EObject precedingElement, Diagnostic d, XtextResource resource
+											, PPEInstanceType subclass, String propertyName, List<CodeAction> result) {
 		
-		if (modelElement instanceof SelfExp) {
+		if (precedingElement instanceof SelfExp) {
 			// we cant really suggest a cast of context, rather make context more precise
+				val ctx = getContext(precedingElement);
 						result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
 						title = "Use '"+subclass.name+"' as a more specialized context element"
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
-								range = getRangeOfContext(modelElement)
+								range = getRangeOfElement(ctx)
 								newText = subclass.name
 							])
 						]
 					]
 		} else
-		if (modelElement instanceof PropertyAccessExp) {
+		if (precedingElement instanceof PropertyAccessExp) {
 			// cast the property
 			result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Access property '"+propertyName+"' in subtype '"+subclass.name+"' "
+						title = "Access property '"+propertyName+"' in the more specialized type '"+subclass.name+"' "
 						diagnostics = #[d]
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
@@ -141,44 +146,52 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 						]
 					]
 		} else
-		if (modelElement instanceof MethodCallExp) {
-			// a method that returns a single instance can only happen over collection --> need to cast/filter collection
+		if (precedingElement instanceof MethodCallExp) {
+			// a method that returns a single instance can only happen over collection --> need to filter collection then cast object
 			// get range of methodcall,
-			val methodRange = getRangeOfElement(modelElement);
+			val methodRange = getRangeOfElement(precedingElement);
 			// insert select
 			if (methodRange !== null) {
 				result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Add a filter for instances of subtype '"+subclass.name+"' before method/operation call '"+modelElement.name+"'";
+						title = "Add a filter for instances of the more specialize type '"+subclass.name+"' before method/operation call '"+precedingElement.name+"'";
 						diagnostics = #[d]
 						val pos = new Position(methodRange.start.line, methodRange.start.character-1)  // start and end are equal as we want to insert, shifted by 1: the . navigation character
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(pos, pos)
-								newText = "->SELECT(object | object.isKindOf(<"+subclass.name+">)"
+								newText = "->select(object | object.isKindOf(<"+subclass.name+">))"
+							], new TextEdit => [
+								range = d.range
+								newText = "asType(<"+subclass.name+">)."+propertyName
 							])
 						]
 					]			
 			}
 		} else
-		if (modelElement instanceof VarReference) {
-			val refName = modelElement.ref.name;
-			var iterRange = getRangeOfIterator(modelElement, refName);
-			if (iterRange != null) {
+		if (precedingElement instanceof VarReference) {
+			val refName = precedingElement.ref.name;
+			val iter = getIterator(precedingElement, refName);
+			if (iter !== null) {
+				val iterRange = getRangeOfElement(iter);
 				result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Add a filter for instances of subtype '"+subclass.name+"' before iterator"
+						title = "Add a filter for instances of the more specialize subtype '"+subclass.name+"' before iterator"
 						diagnostics = #[d]
+						val pos = new Position(iterRange.start.line, iterRange.start.character-2)  // start and end are equal as we want to insert, shifted by 2: the -> navigation characters
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
-								range = new Range(d.range.start, d.range.start) // start and end are equal as we want to insert
-								newText = "->SELECT("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+subclass.name+">)"
+								range = new Range(pos, pos) // start and end are equal as we want to insert
+								newText = "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+subclass.name+">))"
+							], new TextEdit => [
+								range = d.range
+								newText = "asType(<"+subclass.name+">)."+propertyName
 							])
 						]
 					]			
 			}
 		} else {
-			System.out.println("ERROR in QuickFixCodeActionService: Unexpected preceding element: "+modelElement.toString);
+			System.out.println("ERROR in QuickFixCodeActionService: Unexpected preceding element: "+precedingElement.toString);
 		}
 	}
 
@@ -192,37 +205,27 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		return new Range(new Position(startLine, startPos), new Position(endLine, endPos))
 	}
 
-	protected def Range getRangeOfContext(EObject exp) {
+	protected def EObject getContext(EObject exp) {
 		if (exp === null) return null;
 		if (exp instanceof Constraint) {
 			val ctx = exp.context
-			val inode = NodeModelUtils.findActualNodeFor(ctx)
-			val startPos = inode.offset
-			val startLine = inode.startLine-1 // we need zero based lines for Range
-			val endPos = inode.endOffset
-			val endLine = inode.endLine-1
-			return new Range(new Position(startLine, startPos), new Position(endLine, endPos))
+			return ctx
 		} else {
-			return getRangeOfContext(exp.eContainer)
+			return getContext(exp.eContainer)
 		}
 	}
 
-	protected def Range getRangeOfIterator(VarReference exp, String iterVarName) {
+	protected def EObject getIterator(EObject exp, String iterVarName) {
 		if (exp === null) return null;
 		if (exp instanceof IteratorExp) {
 			val varName = exp.itervar.name.name
 			if (varName.equals(iterVarName)) {
-				val inode = NodeModelUtils.findActualNodeFor(exp)
-				val startPos = inode.offset
-				val startLine = inode.startLine-1 // we need zero based lines for Range
-				val endPos = inode.endOffset
-				val endLine = inode.endLine-1
-				return new Range(new Position(startLine, startPos), new Position(endLine, endPos))
+				return exp;
 			} else { //another nested iterator
-				return getRangeOfContext(exp.eContainer)
+				return getIterator(exp.eContainer, iterVarName)
 			}
 		} else {
-			return getRangeOfContext(exp.eContainer)
+			return getIterator(exp.eContainer, iterVarName)
 		}
 	}
 
@@ -287,48 +290,10 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 					]
 	}
 	
-	protected def addTextEdit(WorkspaceEdit edit, URI uri, TextEdit... textEdit) {
+	protected def addTextEdit(WorkspaceEdit edit, URI uri, TextEdit... textEdit) {		
+		//map.computeIfAbsent(key, k -> new HashSet<V>()).add(v);
+		//edit.changes.computeIfAbsent(uri.toString, k -> new LinkedList<>()).add(textEdit);
 		edit.changes.put(uri.toString, textEdit)
 	}
-	
-//	protected def URI extractURI(Options options) {
-//		if (options.URI === null) { 
-//			val resource2 = parse(URI.createFileURI(options.codeActionParams.textDocument.uri))
-//			return resource2.URI
-//		} else {
-//			return URI.createURI(options.URI)
-//		}
-//	}
-	
-
-	
-//	protected def getFileContent(String uriAsString) {
-//		val uri = new java.net.URI(uriAsString)
-//		val path = Paths.get(uri)
-//		val text = Files.readString(path);
-//		return text			
-//	}
-//	
-//	protected def parse(URI uri)  {
-//		val resource = new XtextResourceSet().createResource(uri)
-//		resource.contents
-//		//var resource //= resourceHelper.resource(text);
-//		if (resource instanceof XtextResource) {
-//			return resource;
-//		} else
-//			return null;
-//	}
-//
-//	protected def extractResource(Options options) {
-//		val resource = options.resource as XtextResource
-//		if (resource === null) {
-//			return parse(URI.createFileURI(options.codeActionParams.textDocument.uri))
-//		} else
-//			return resource
-//	}
-
-
-	
-
-	
+		
 }

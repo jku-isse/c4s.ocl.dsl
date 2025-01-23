@@ -1408,6 +1408,15 @@ ruleMethodExp returns [EObject current=null]
 			$current = $this_CollectionIterator_2.current;
 			afterParserOrEnumRuleCall();
 		}
+		    |
+		{
+			newCompositeNode(grammarAccess.getMethodExpAccess().getTypeCallParserRuleCall_3());
+		}
+		this_TypeCall_3=ruleTypeCall
+		{
+			$current = $this_TypeCall_3.current;
+			afterParserOrEnumRuleCall();
+		}
 	)
 ;
 
@@ -1517,9 +1526,9 @@ ruleIteratorName returns [EObject current=null]
 	(
 		(
 			(
-				lv_name_0_1='FORALL'
+				lv_name_0_1='forAll'
 				{
-					newLeafNode(lv_name_0_1, grammarAccess.getIteratorNameAccess().getNameFORALLKeyword_0_0());
+					newLeafNode(lv_name_0_1, grammarAccess.getIteratorNameAccess().getNameForAllKeyword_0_0());
 				}
 				{
 					if ($current==null) {
@@ -1528,9 +1537,9 @@ ruleIteratorName returns [EObject current=null]
 					setWithLastConsumed($current, "name", lv_name_0_1, null);
 				}
 				    |
-				lv_name_0_2='EXISTS'
+				lv_name_0_2='exists'
 				{
-					newLeafNode(lv_name_0_2, grammarAccess.getIteratorNameAccess().getNameEXISTSKeyword_0_1());
+					newLeafNode(lv_name_0_2, grammarAccess.getIteratorNameAccess().getNameExistsKeyword_0_1());
 				}
 				{
 					if ($current==null) {
@@ -1539,9 +1548,9 @@ ruleIteratorName returns [EObject current=null]
 					setWithLastConsumed($current, "name", lv_name_0_2, null);
 				}
 				    |
-				lv_name_0_3='COLLECT'
+				lv_name_0_3='collect'
 				{
-					newLeafNode(lv_name_0_3, grammarAccess.getIteratorNameAccess().getNameCOLLECTKeyword_0_2());
+					newLeafNode(lv_name_0_3, grammarAccess.getIteratorNameAccess().getNameCollectKeyword_0_2());
 				}
 				{
 					if ($current==null) {
@@ -1550,9 +1559,9 @@ ruleIteratorName returns [EObject current=null]
 					setWithLastConsumed($current, "name", lv_name_0_3, null);
 				}
 				    |
-				lv_name_0_4='REJECT'
+				lv_name_0_4='reject'
 				{
-					newLeafNode(lv_name_0_4, grammarAccess.getIteratorNameAccess().getNameREJECTKeyword_0_3());
+					newLeafNode(lv_name_0_4, grammarAccess.getIteratorNameAccess().getNameRejectKeyword_0_3());
 				}
 				{
 					if ($current==null) {
@@ -1561,9 +1570,9 @@ ruleIteratorName returns [EObject current=null]
 					setWithLastConsumed($current, "name", lv_name_0_4, null);
 				}
 				    |
-				lv_name_0_5='SELECT'
+				lv_name_0_5='select'
 				{
-					newLeafNode(lv_name_0_5, grammarAccess.getIteratorNameAccess().getNameSELECTKeyword_0_4());
+					newLeafNode(lv_name_0_5, grammarAccess.getIteratorNameAccess().getNameSelectKeyword_0_4());
 				}
 				{
 					if ($current==null) {
@@ -1785,55 +1794,90 @@ ruleMethodCall returns [EObject current=null]
 				newLeafNode(otherlv_5, grammarAccess.getMethodCallAccess().getRightParenthesisKeyword_1_3());
 			}
 		)
-		    |
+	)
+;
+
+// Entry rule entryRuleTypeCall
+entryRuleTypeCall returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getTypeCallRule()); }
+	iv_ruleTypeCall=ruleTypeCall
+	{ $current=$iv_ruleTypeCall.current; }
+	EOF;
+
+// Rule TypeCall
+ruleTypeCall returns [EObject current=null]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
 		(
 			(
 				(
+					lv_name_0_1='asType'
 					{
-						newCompositeNode(grammarAccess.getMethodCallAccess().getNameSimpleNameParserRuleCall_2_0_0());
+						newLeafNode(lv_name_0_1, grammarAccess.getTypeCallAccess().getNameAsTypeKeyword_0_0_0());
 					}
-					lv_name_6_0=ruleSimpleName
 					{
 						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getMethodCallRule());
+							$current = createModelElement(grammarAccess.getTypeCallRule());
 						}
-						set(
-							$current,
-							"name",
-							lv_name_6_0,
-							"at.jku.isse.OCLX.SimpleName");
-						afterParserOrEnumRuleCall();
+						setWithLastConsumed($current, "name", lv_name_0_1, null);
+					}
+					    |
+					lv_name_0_2='isTypeOf'
+					{
+						newLeafNode(lv_name_0_2, grammarAccess.getTypeCallAccess().getNameIsTypeOfKeyword_0_0_1());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getTypeCallRule());
+						}
+						setWithLastConsumed($current, "name", lv_name_0_2, null);
+					}
+					    |
+					lv_name_0_3='isKindOf'
+					{
+						newLeafNode(lv_name_0_3, grammarAccess.getTypeCallAccess().getNameIsKindOfKeyword_0_0_2());
+					}
+					{
+						if ($current==null) {
+							$current = createModelElement(grammarAccess.getTypeCallRule());
+						}
+						setWithLastConsumed($current, "name", lv_name_0_3, null);
 					}
 				)
 			)
-			otherlv_7='('
-			{
-				newLeafNode(otherlv_7, grammarAccess.getMethodCallAccess().getLeftParenthesisKeyword_2_1());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getMethodCallAccess().getTypeTypeExpParserRuleCall_2_2_0());
-					}
-					lv_type_8_0=ruleTypeExp
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getMethodCallRule());
-						}
-						set(
-							$current,
-							"type",
-							lv_type_8_0,
-							"at.jku.isse.OCLX.TypeExp");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			otherlv_9=')'
-			{
-				newLeafNode(otherlv_9, grammarAccess.getMethodCallAccess().getRightParenthesisKeyword_2_3());
-			}
 		)
+		otherlv_1='('
+		{
+			newLeafNode(otherlv_1, grammarAccess.getTypeCallAccess().getLeftParenthesisKeyword_1());
+		}
+		(
+			(
+				{
+					newCompositeNode(grammarAccess.getTypeCallAccess().getTypeTypeExpParserRuleCall_2_0());
+				}
+				lv_type_2_0=ruleTypeExp
+				{
+					if ($current==null) {
+						$current = createModelElementForParent(grammarAccess.getTypeCallRule());
+					}
+					set(
+						$current,
+						"type",
+						lv_type_2_0,
+						"at.jku.isse.OCLX.TypeExp");
+					afterParserOrEnumRuleCall();
+				}
+			)
+		)
+		otherlv_3=')'
+		{
+			newLeafNode(otherlv_3, grammarAccess.getTypeCallAccess().getRightParenthesisKeyword_3());
+		}
 	)
 ;
 
@@ -1951,9 +1995,9 @@ ruleCollectionTypeIdentifier returns [EObject current=null]
 	(
 		(
 			(
-				lv_name_0_1='SET'
+				lv_name_0_1='set'
 				{
-					newLeafNode(lv_name_0_1, grammarAccess.getCollectionTypeIdentifierAccess().getNameSETKeyword_0_0());
+					newLeafNode(lv_name_0_1, grammarAccess.getCollectionTypeIdentifierAccess().getNameSetKeyword_0_0());
 				}
 				{
 					if ($current==null) {
@@ -1962,9 +2006,9 @@ ruleCollectionTypeIdentifier returns [EObject current=null]
 					setWithLastConsumed($current, "name", lv_name_0_1, null);
 				}
 				    |
-				lv_name_0_2='LIST'
+				lv_name_0_2='list'
 				{
-					newLeafNode(lv_name_0_2, grammarAccess.getCollectionTypeIdentifierAccess().getNameLISTKeyword_0_1());
+					newLeafNode(lv_name_0_2, grammarAccess.getCollectionTypeIdentifierAccess().getNameListKeyword_0_1());
 				}
 				{
 					if ($current==null) {
@@ -1973,9 +2017,9 @@ ruleCollectionTypeIdentifier returns [EObject current=null]
 					setWithLastConsumed($current, "name", lv_name_0_2, null);
 				}
 				    |
-				lv_name_0_3='MAP'
+				lv_name_0_3='map'
 				{
-					newLeafNode(lv_name_0_3, grammarAccess.getCollectionTypeIdentifierAccess().getNameMAPKeyword_0_2());
+					newLeafNode(lv_name_0_3, grammarAccess.getCollectionTypeIdentifierAccess().getNameMapKeyword_0_2());
 				}
 				{
 					if ($current==null) {
@@ -1984,9 +2028,9 @@ ruleCollectionTypeIdentifier returns [EObject current=null]
 					setWithLastConsumed($current, "name", lv_name_0_3, null);
 				}
 				    |
-				lv_name_0_4='COLLECTION'
+				lv_name_0_4='collection'
 				{
-					newLeafNode(lv_name_0_4, grammarAccess.getCollectionTypeIdentifierAccess().getNameCOLLECTIONKeyword_0_3());
+					newLeafNode(lv_name_0_4, grammarAccess.getCollectionTypeIdentifierAccess().getNameCollectionKeyword_0_3());
 				}
 				{
 					if ($current==null) {

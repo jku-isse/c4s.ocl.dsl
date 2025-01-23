@@ -919,22 +919,50 @@ public interface OclxPackage extends EPackage
   int METHOD_CALL_EXP__ARGS = METHOD_EXP_FEATURE_COUNT + 1;
 
   /**
-   * The feature id for the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int METHOD_CALL_EXP__TYPE = METHOD_EXP_FEATURE_COUNT + 2;
-
-  /**
    * The number of structural features of the '<em>Method Call Exp</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int METHOD_CALL_EXP_FEATURE_COUNT = METHOD_EXP_FEATURE_COUNT + 3;
+  int METHOD_CALL_EXP_FEATURE_COUNT = METHOD_EXP_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.TypeCallExpImpl <em>Type Call Exp</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see at.jku.isse.oclx.impl.TypeCallExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTypeCallExp()
+   * @generated
+   */
+  int TYPE_CALL_EXP = 24;
+
+  /**
+   * The feature id for the '<em><b>Name</b></em>' attribute.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_CALL_EXP__NAME = METHOD_EXP_FEATURE_COUNT + 0;
+
+  /**
+   * The feature id for the '<em><b>Type</b></em>' containment reference.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_CALL_EXP__TYPE = METHOD_EXP_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Type Call Exp</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int TYPE_CALL_EXP_FEATURE_COUNT = METHOD_EXP_FEATURE_COUNT + 2;
 
   /**
    * The meta object id for the '{@link at.jku.isse.oclx.impl.TypeExpImpl <em>Type Exp</em>}' class.
@@ -944,7 +972,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTypeExp()
    * @generated
    */
-  int TYPE_EXP = 24;
+  int TYPE_EXP = 25;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -990,7 +1018,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getCollectionTypeIdentifier()
    * @generated
    */
-  int COLLECTION_TYPE_IDENTIFIER = 25;
+  int COLLECTION_TYPE_IDENTIFIER = 26;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1018,7 +1046,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTemporalExp()
    * @generated
    */
-  int TEMPORAL_EXP = 26;
+  int TEMPORAL_EXP = 27;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1064,7 +1092,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getUnaryTemporalExp()
    * @generated
    */
-  int UNARY_TEMPORAL_EXP = 27;
+  int UNARY_TEMPORAL_EXP = 28;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1119,7 +1147,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTriggeredTemporalExp()
    * @generated
    */
-  int TRIGGERED_TEMPORAL_EXP = 28;
+  int TRIGGERED_TEMPORAL_EXP = 29;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1183,7 +1211,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getArgumentsExp()
    * @generated
    */
-  int ARGUMENTS_EXP = 29;
+  int ARGUMENTS_EXP = 30;
 
   /**
    * The feature id for the '<em><b>Operators</b></em>' containment reference list.
@@ -1211,7 +1239,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getInfixExp()
    * @generated
    */
-  int INFIX_EXP = 30;
+  int INFIX_EXP = 31;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1266,7 +1294,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getPrefixExp()
    * @generated
    */
-  int PREFIX_EXP = 31;
+  int PREFIX_EXP = 32;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1321,7 +1349,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNullLiteralExpCS()
    * @generated
    */
-  int NULL_LITERAL_EXP_CS = 32;
+  int NULL_LITERAL_EXP_CS = 33;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -1900,15 +1928,36 @@ public interface OclxPackage extends EPackage
   EReference getMethodCallExp_Args();
 
   /**
-   * Returns the meta object for the containment reference '{@link at.jku.isse.oclx.MethodCallExp#getType <em>Type</em>}'.
+   * Returns the meta object for class '{@link at.jku.isse.oclx.TypeCallExp <em>Type Call Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Type Call Exp</em>'.
+   * @see at.jku.isse.oclx.TypeCallExp
+   * @generated
+   */
+  EClass getTypeCallExp();
+
+  /**
+   * Returns the meta object for the attribute '{@link at.jku.isse.oclx.TypeCallExp#getName <em>Name</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Name</em>'.
+   * @see at.jku.isse.oclx.TypeCallExp#getName()
+   * @see #getTypeCallExp()
+   * @generated
+   */
+  EAttribute getTypeCallExp_Name();
+
+  /**
+   * Returns the meta object for the containment reference '{@link at.jku.isse.oclx.TypeCallExp#getType <em>Type</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the containment reference '<em>Type</em>'.
-   * @see at.jku.isse.oclx.MethodCallExp#getType()
-   * @see #getMethodCallExp()
+   * @see at.jku.isse.oclx.TypeCallExp#getType()
+   * @see #getTypeCallExp()
    * @generated
    */
-  EReference getMethodCallExp_Type();
+  EReference getTypeCallExp_Type();
 
   /**
    * Returns the meta object for class '{@link at.jku.isse.oclx.TypeExp <em>Type Exp</em>}'.
@@ -2631,12 +2680,30 @@ public interface OclxPackage extends EPackage
     EReference METHOD_CALL_EXP__ARGS = eINSTANCE.getMethodCallExp_Args();
 
     /**
+     * The meta object literal for the '{@link at.jku.isse.oclx.impl.TypeCallExpImpl <em>Type Call Exp</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see at.jku.isse.oclx.impl.TypeCallExpImpl
+     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTypeCallExp()
+     * @generated
+     */
+    EClass TYPE_CALL_EXP = eINSTANCE.getTypeCallExp();
+
+    /**
+     * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute TYPE_CALL_EXP__NAME = eINSTANCE.getTypeCallExp_Name();
+
+    /**
      * The meta object literal for the '<em><b>Type</b></em>' containment reference feature.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
      * @generated
      */
-    EReference METHOD_CALL_EXP__TYPE = eINSTANCE.getMethodCallExp_Type();
+    EReference TYPE_CALL_EXP__TYPE = eINSTANCE.getTypeCallExp_Type();
 
     /**
      * The meta object literal for the '{@link at.jku.isse.oclx.impl.TypeExpImpl <em>Type Exp</em>}' class.

@@ -240,6 +240,15 @@ public interface OclxFactory extends EFactory
   MethodCallExp createMethodCallExp();
 
   /**
+   * Returns a new object of class '<em>Type Call Exp</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Type Call Exp</em>'.
+   * @generated
+   */
+  TypeCallExp createTypeCallExp();
+
+  /**
    * Returns a new object of class '<em>Type Exp</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

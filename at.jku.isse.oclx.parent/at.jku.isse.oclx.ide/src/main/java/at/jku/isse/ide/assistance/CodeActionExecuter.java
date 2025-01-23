@@ -17,6 +17,7 @@ import org.eclipse.lsp4j.DiagnosticSeverity;
 import org.eclipse.lsp4j.Position;
 import org.eclipse.lsp4j.Range;
 import org.eclipse.lsp4j.TextDocumentIdentifier;
+import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.LookAheadInfo;
 import org.eclipse.xtext.nodemodel.impl.InvariantChecker;
@@ -104,16 +105,42 @@ public class CodeActionExecuter {
 		return repairService.getCodeActions(options).stream().map(either -> either.getRight()).toList();
 	}
 	
+	/**
+	 * executing single-line repairs only for now
+	 * */
 	private void executeRepair(CodeAction codeAction, String constraint) {
-		// we support only a single edit for now
-		var edit = codeAction.getEdit().getChanges().values().iterator().next().get(0);
-		var range = edit.getRange();
-		var newText = edit.getNewText();
-		// TODO handling line numbers other than 0
-		String before = constraint.substring(0, range.getStart().getCharacter());
-		String after = constraint.substring(range.getEnd().getCharacter());
-		repairedConstraint = before+newText+after;
+		// we support only a single change with multiple edits for now		
+
+		// assuming edits come in left to right order and are non-overlapping
+		var edits = codeAction.getEdit().getChanges().values().iterator().next();		
+		if (edits.isEmpty()) return;
+						
+		StringBuffer sb = new StringBuffer();				
+		for (int i = 0; i < edits.size() ; i++ ) {
+			var edit = edits.get(i);
+			var range = edit.getRange();
+			var newText = edit.getNewText();
+			// TODO handling line numbers other than 0
+			if (i == 0) { // special case for first edit
+				sb.append(constraint.substring(0, range.getStart().getCharacter()));
+			}
+			sb.append(newText);
+			// test to next edit pos or end of sting
+			int keepUntil = getPosOfNextEditOrEoF(edits, i, constraint);
+			sb.append(constraint.substring(range.getEnd().getCharacter(), keepUntil));
+		}
+		repairedConstraint = sb.toString();
 		executedCodeAction = codeAction;
+	}
+	
+	private int getPosOfNextEditOrEoF(List<TextEdit> edits, int justProcessedEditPos, String constraint) {
+		if (justProcessedEditPos >= edits.size()-1) // finished all edits
+			return constraint.length();
+		else {
+			//TODO: also here eventually support line numbers not just characters
+			var nextEdit = edits.get(justProcessedEditPos+1);
+			return nextEdit.getRange().getStart().getCharacter();
+		}
 	}
 	
 	private Model parse(String dslString) {

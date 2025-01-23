@@ -43,7 +43,7 @@ public class HoverOverTests extends AbstractContentAssistTest {
     _builder.append("rule TestRule {description: \"ignored\" \tcontext: DemoIssue \t");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("expression: self.requirements->FORALL(req | req )}");
+    _builder.append("expression: self.requirements->forAll(req | req )}");
     _builder.newLine();
     final String text = _builder.toString();
     final Hover hovers = this.getHoverOver(text, (-5), 1);

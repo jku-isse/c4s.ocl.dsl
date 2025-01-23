@@ -759,12 +759,14 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final RuleCall cPropertyAccessParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cMethodCallParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cCollectionIteratorParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final RuleCall cTypeCallParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//MethodExp:
 		//     PropertyAccess
 		//    | MethodCall
 		////    | name=IteratorName '(' body=Exp ')'
 		//    | CollectionIterator
+		//    | TypeCall
 		////    | iterSource=OperatorExp '->' iter=IteratorName '(' itervar=IteratorVarDeclaration ',' itervar2=IteratorVarDeclaration '|' body=OperatorExp ')'
 		//    //| OperatorExp '->' IteratorName '(' IteratorVarDeclaration ';' InitVarDeclaration '|' OperatorExp ')'
 		//    //| OperatorExp '->' IteratorName '(' InitVarDeclaration '|' OperatorExp ')'
@@ -775,6 +777,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//    | MethodCall
 		////    | name=IteratorName '(' body=Exp ')'
 		//    | CollectionIterator
+		//    | TypeCall
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//PropertyAccess
@@ -785,6 +788,9 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//CollectionIterator
 		public RuleCall getCollectionIteratorParserRuleCall_2() { return cCollectionIteratorParserRuleCall_2; }
+		
+		//TypeCall
+		public RuleCall getTypeCallParserRuleCall_3() { return cTypeCallParserRuleCall_3; }
 	}
 	public class CollectionIteratorElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.CollectionIterator");
@@ -838,36 +844,36 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.IteratorName");
 		private final Assignment cNameAssignment = (Assignment)rule.eContents().get(1);
 		private final Alternatives cNameAlternatives_0 = (Alternatives)cNameAssignment.eContents().get(0);
-		private final Keyword cNameFORALLKeyword_0_0 = (Keyword)cNameAlternatives_0.eContents().get(0);
-		private final Keyword cNameEXISTSKeyword_0_1 = (Keyword)cNameAlternatives_0.eContents().get(1);
-		private final Keyword cNameCOLLECTKeyword_0_2 = (Keyword)cNameAlternatives_0.eContents().get(2);
-		private final Keyword cNameREJECTKeyword_0_3 = (Keyword)cNameAlternatives_0.eContents().get(3);
-		private final Keyword cNameSELECTKeyword_0_4 = (Keyword)cNameAlternatives_0.eContents().get(4);
+		private final Keyword cNameForAllKeyword_0_0 = (Keyword)cNameAlternatives_0.eContents().get(0);
+		private final Keyword cNameExistsKeyword_0_1 = (Keyword)cNameAlternatives_0.eContents().get(1);
+		private final Keyword cNameCollectKeyword_0_2 = (Keyword)cNameAlternatives_0.eContents().get(2);
+		private final Keyword cNameRejectKeyword_0_3 = (Keyword)cNameAlternatives_0.eContents().get(3);
+		private final Keyword cNameSelectKeyword_0_4 = (Keyword)cNameAlternatives_0.eContents().get(4);
 		
 		//IteratorName:
-		//    name=('FORALL'|'EXISTS'|'COLLECT'|'REJECT'|'SELECT');
+		//    name=('forAll'|'exists'|'collect'|'reject'|'select');
 		@Override public ParserRule getRule() { return rule; }
 		
-		//name=('FORALL'|'EXISTS'|'COLLECT'|'REJECT'|'SELECT')
+		//name=('forAll'|'exists'|'collect'|'reject'|'select')
 		public Assignment getNameAssignment() { return cNameAssignment; }
 		
-		//('FORALL'|'EXISTS'|'COLLECT'|'REJECT'|'SELECT')
+		//('forAll'|'exists'|'collect'|'reject'|'select')
 		public Alternatives getNameAlternatives_0() { return cNameAlternatives_0; }
 		
-		//'FORALL'
-		public Keyword getNameFORALLKeyword_0_0() { return cNameFORALLKeyword_0_0; }
+		//'forAll'
+		public Keyword getNameForAllKeyword_0_0() { return cNameForAllKeyword_0_0; }
 		
-		//'EXISTS'
-		public Keyword getNameEXISTSKeyword_0_1() { return cNameEXISTSKeyword_0_1; }
+		//'exists'
+		public Keyword getNameExistsKeyword_0_1() { return cNameExistsKeyword_0_1; }
 		
-		//'COLLECT'
-		public Keyword getNameCOLLECTKeyword_0_2() { return cNameCOLLECTKeyword_0_2; }
+		//'collect'
+		public Keyword getNameCollectKeyword_0_2() { return cNameCollectKeyword_0_2; }
 		
-		//'REJECT'
-		public Keyword getNameREJECTKeyword_0_3() { return cNameREJECTKeyword_0_3; }
+		//'reject'
+		public Keyword getNameRejectKeyword_0_3() { return cNameRejectKeyword_0_3; }
 		
-		//'SELECT'
-		public Keyword getNameSELECTKeyword_0_4() { return cNameSELECTKeyword_0_4; }
+		//'select'
+		public Keyword getNameSelectKeyword_0_4() { return cNameSelectKeyword_0_4; }
 	}
 	public class IteratorVarDeclarationElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.IteratorVarDeclaration");
@@ -942,24 +948,16 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cArgsAssignment_1_2 = (Assignment)cGroup_1.eContents().get(2);
 		private final RuleCall cArgsArgumentsExpParserRuleCall_1_2_0 = (RuleCall)cArgsAssignment_1_2.eContents().get(0);
 		private final Keyword cRightParenthesisKeyword_1_3 = (Keyword)cGroup_1.eContents().get(3);
-		private final Group cGroup_2 = (Group)cAlternatives.eContents().get(2);
-		private final Assignment cNameAssignment_2_0 = (Assignment)cGroup_2.eContents().get(0);
-		private final RuleCall cNameSimpleNameParserRuleCall_2_0_0 = (RuleCall)cNameAssignment_2_0.eContents().get(0);
-		private final Keyword cLeftParenthesisKeyword_2_1 = (Keyword)cGroup_2.eContents().get(1);
-		private final Assignment cTypeAssignment_2_2 = (Assignment)cGroup_2.eContents().get(2);
-		private final RuleCall cTypeTypeExpParserRuleCall_2_2_0 = (RuleCall)cTypeAssignment_2_2.eContents().get(0);
-		private final Keyword cRightParenthesisKeyword_2_3 = (Keyword)cGroup_2.eContents().get(3);
 		
 		//MethodCall returns MethodCallExp:
 		//    name=SimpleName '()'         // operation call
 		//    | name=SimpleName '('args=ArgumentsExp')' // operation call
-		//    | name=SimpleName '('type=TypeExp')'    // type operation call
+		////    | name=SimpleName '('type=TypeExp')'    // type operation call
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//name=SimpleName '()'         // operation call
-		//| name=SimpleName '('args=ArgumentsExp')' // operation call
-		//| name=SimpleName '('type=TypeExp')'
+		//| name=SimpleName '('args=ArgumentsExp')'
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//name=SimpleName '()'
@@ -994,27 +992,54 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		
 		//')'
 		public Keyword getRightParenthesisKeyword_1_3() { return cRightParenthesisKeyword_1_3; }
+	}
+	public class TypeCallElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TypeCall");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Assignment cNameAssignment_0 = (Assignment)cGroup.eContents().get(0);
+		private final Alternatives cNameAlternatives_0_0 = (Alternatives)cNameAssignment_0.eContents().get(0);
+		private final Keyword cNameAsTypeKeyword_0_0_0 = (Keyword)cNameAlternatives_0_0.eContents().get(0);
+		private final Keyword cNameIsTypeOfKeyword_0_0_1 = (Keyword)cNameAlternatives_0_0.eContents().get(1);
+		private final Keyword cNameIsKindOfKeyword_0_0_2 = (Keyword)cNameAlternatives_0_0.eContents().get(2);
+		private final Keyword cLeftParenthesisKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final Assignment cTypeAssignment_2 = (Assignment)cGroup.eContents().get(2);
+		private final RuleCall cTypeTypeExpParserRuleCall_2_0 = (RuleCall)cTypeAssignment_2.eContents().get(0);
+		private final Keyword cRightParenthesisKeyword_3 = (Keyword)cGroup.eContents().get(3);
 		
-		//name=SimpleName '('type=TypeExp')'
-		public Group getGroup_2() { return cGroup_2; }
+		//TypeCall returns TypeCallExp:
+		//    name=('asType'|'isTypeOf'|'isKindOf')'('type=TypeExp')'
+		//;
+		@Override public ParserRule getRule() { return rule; }
 		
-		//name=SimpleName
-		public Assignment getNameAssignment_2_0() { return cNameAssignment_2_0; }
+		//name=('asType'|'isTypeOf'|'isKindOf')'('type=TypeExp')'
+		public Group getGroup() { return cGroup; }
 		
-		//SimpleName
-		public RuleCall getNameSimpleNameParserRuleCall_2_0_0() { return cNameSimpleNameParserRuleCall_2_0_0; }
+		//name=('asType'|'isTypeOf'|'isKindOf')
+		public Assignment getNameAssignment_0() { return cNameAssignment_0; }
+		
+		//('asType'|'isTypeOf'|'isKindOf')
+		public Alternatives getNameAlternatives_0_0() { return cNameAlternatives_0_0; }
+		
+		//'asType'
+		public Keyword getNameAsTypeKeyword_0_0_0() { return cNameAsTypeKeyword_0_0_0; }
+		
+		//'isTypeOf'
+		public Keyword getNameIsTypeOfKeyword_0_0_1() { return cNameIsTypeOfKeyword_0_0_1; }
+		
+		//'isKindOf'
+		public Keyword getNameIsKindOfKeyword_0_0_2() { return cNameIsKindOfKeyword_0_0_2; }
 		
 		//'('
-		public Keyword getLeftParenthesisKeyword_2_1() { return cLeftParenthesisKeyword_2_1; }
+		public Keyword getLeftParenthesisKeyword_1() { return cLeftParenthesisKeyword_1; }
 		
 		//type=TypeExp
-		public Assignment getTypeAssignment_2_2() { return cTypeAssignment_2_2; }
+		public Assignment getTypeAssignment_2() { return cTypeAssignment_2; }
 		
 		//TypeExp
-		public RuleCall getTypeTypeExpParserRuleCall_2_2_0() { return cTypeTypeExpParserRuleCall_2_2_0; }
+		public RuleCall getTypeTypeExpParserRuleCall_2_0() { return cTypeTypeExpParserRuleCall_2_0; }
 		
 		//')'
-		public Keyword getRightParenthesisKeyword_2_3() { return cRightParenthesisKeyword_2_3; }
+		public Keyword getRightParenthesisKeyword_3() { return cRightParenthesisKeyword_3; }
 	}
 	public class TypeExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TypeExp");
@@ -1077,34 +1102,34 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.CollectionTypeIdentifier");
 		private final Assignment cNameAssignment = (Assignment)rule.eContents().get(1);
 		private final Alternatives cNameAlternatives_0 = (Alternatives)cNameAssignment.eContents().get(0);
-		private final Keyword cNameSETKeyword_0_0 = (Keyword)cNameAlternatives_0.eContents().get(0);
-		private final Keyword cNameLISTKeyword_0_1 = (Keyword)cNameAlternatives_0.eContents().get(1);
-		private final Keyword cNameMAPKeyword_0_2 = (Keyword)cNameAlternatives_0.eContents().get(2);
-		private final Keyword cNameCOLLECTIONKeyword_0_3 = (Keyword)cNameAlternatives_0.eContents().get(3);
+		private final Keyword cNameSetKeyword_0_0 = (Keyword)cNameAlternatives_0.eContents().get(0);
+		private final Keyword cNameListKeyword_0_1 = (Keyword)cNameAlternatives_0.eContents().get(1);
+		private final Keyword cNameMapKeyword_0_2 = (Keyword)cNameAlternatives_0.eContents().get(2);
+		private final Keyword cNameCollectionKeyword_0_3 = (Keyword)cNameAlternatives_0.eContents().get(3);
 		
 		//CollectionTypeIdentifier: // not really used yet, as only needed to define literals
-		//    name=('SET'|'LIST'|'MAP'|'COLLECTION')
+		//    name=('set'|'list'|'map'|'collection')
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//// not really used yet, as only needed to define literals
-		//   name=('SET'|'LIST'|'MAP'|'COLLECTION')
+		//   name=('set'|'list'|'map'|'collection')
 		public Assignment getNameAssignment() { return cNameAssignment; }
 		
-		//('SET'|'LIST'|'MAP'|'COLLECTION')
+		//('set'|'list'|'map'|'collection')
 		public Alternatives getNameAlternatives_0() { return cNameAlternatives_0; }
 		
-		//'SET'
-		public Keyword getNameSETKeyword_0_0() { return cNameSETKeyword_0_0; }
+		//'set'
+		public Keyword getNameSetKeyword_0_0() { return cNameSetKeyword_0_0; }
 		
-		//'LIST'
-		public Keyword getNameLISTKeyword_0_1() { return cNameLISTKeyword_0_1; }
+		//'list'
+		public Keyword getNameListKeyword_0_1() { return cNameListKeyword_0_1; }
 		
-		//'MAP'
-		public Keyword getNameMAPKeyword_0_2() { return cNameMAPKeyword_0_2; }
+		//'map'
+		public Keyword getNameMapKeyword_0_2() { return cNameMapKeyword_0_2; }
 		
-		//'COLLECTION'
-		public Keyword getNameCOLLECTIONKeyword_0_3() { return cNameCOLLECTIONKeyword_0_3; }
+		//'collection'
+		public Keyword getNameCollectionKeyword_0_3() { return cNameCollectionKeyword_0_3; }
 	}
 	public class TemporalExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TemporalExp");
@@ -1671,6 +1696,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final IteratorVarDeclarationElements pIteratorVarDeclaration;
 	private final PropertyAccessElements pPropertyAccess;
 	private final MethodCallElements pMethodCall;
+	private final TypeCallElements pTypeCall;
 	private final TypeExpElements pTypeExp;
 	private final CollectionTypeIdentifierElements pCollectionTypeIdentifier;
 	private final TemporalExpElements pTemporalExp;
@@ -1727,6 +1753,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pIteratorVarDeclaration = new IteratorVarDeclarationElements();
 		this.pPropertyAccess = new PropertyAccessElements();
 		this.pMethodCall = new MethodCallElements();
+		this.pTypeCall = new TypeCallElements();
 		this.pTypeExp = new TypeExpElements();
 		this.pCollectionTypeIdentifier = new CollectionTypeIdentifierElements();
 		this.pTemporalExp = new TemporalExpElements();
@@ -2052,6 +2079,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	//    | MethodCall
 	////    | name=IteratorName '(' body=Exp ')'
 	//    | CollectionIterator
+	//    | TypeCall
 	////    | iterSource=OperatorExp '->' iter=IteratorName '(' itervar=IteratorVarDeclaration ',' itervar2=IteratorVarDeclaration '|' body=OperatorExp ')'
 	//    //| OperatorExp '->' IteratorName '(' IteratorVarDeclaration ';' InitVarDeclaration '|' OperatorExp ')'
 	//    //| OperatorExp '->' IteratorName '(' InitVarDeclaration '|' OperatorExp ')'
@@ -2076,7 +2104,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//IteratorName:
-	//    name=('FORALL'|'EXISTS'|'COLLECT'|'REJECT'|'SELECT');
+	//    name=('forAll'|'exists'|'collect'|'reject'|'select');
 	public IteratorNameElements getIteratorNameAccess() {
 		return pIteratorName;
 	}
@@ -2109,7 +2137,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	//MethodCall returns MethodCallExp:
 	//    name=SimpleName '()'         // operation call
 	//    | name=SimpleName '('args=ArgumentsExp')' // operation call
-	//    | name=SimpleName '('type=TypeExp')'    // type operation call
+	////    | name=SimpleName '('type=TypeExp')'    // type operation call
 	//;
 	public MethodCallElements getMethodCallAccess() {
 		return pMethodCall;
@@ -2117,6 +2145,17 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	
 	public ParserRule getMethodCallRule() {
 		return getMethodCallAccess().getRule();
+	}
+	
+	//TypeCall returns TypeCallExp:
+	//    name=('asType'|'isTypeOf'|'isKindOf')'('type=TypeExp')'
+	//;
+	public TypeCallElements getTypeCallAccess() {
+		return pTypeCall;
+	}
+	
+	public ParserRule getTypeCallRule() {
+		return getTypeCallAccess().getRule();
 	}
 	
 	//TypeExp :
@@ -2131,7 +2170,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//CollectionTypeIdentifier: // not really used yet, as only needed to define literals
-	//    name=('SET'|'LIST'|'MAP'|'COLLECTION')
+	//    name=('set'|'list'|'map'|'collection')
 	//;
 	public CollectionTypeIdentifierElements getCollectionTypeIdentifierAccess() {
 		return pCollectionTypeIdentifier;

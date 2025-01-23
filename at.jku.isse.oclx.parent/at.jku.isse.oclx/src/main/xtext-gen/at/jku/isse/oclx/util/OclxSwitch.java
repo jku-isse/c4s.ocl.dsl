@@ -258,6 +258,14 @@ public class OclxSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case OclxPackage.TYPE_CALL_EXP:
+      {
+        TypeCallExp typeCallExp = (TypeCallExp)theEObject;
+        T result = caseTypeCallExp(typeCallExp);
+        if (result == null) result = caseMethodExp(typeCallExp);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case OclxPackage.TYPE_EXP:
       {
         TypeExp typeExp = (TypeExp)theEObject;
@@ -715,6 +723,22 @@ public class OclxSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseMethodCallExp(MethodCallExp object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Type Call Exp</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Type Call Exp</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseTypeCallExp(TypeCallExp object)
   {
     return null;
   }

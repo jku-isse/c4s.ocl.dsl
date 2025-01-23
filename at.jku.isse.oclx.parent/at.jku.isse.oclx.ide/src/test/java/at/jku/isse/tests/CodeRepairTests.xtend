@@ -47,7 +47,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 //		@Test
 //	def void hoverOverRefTest() {
 //		val text = '''rule TestRule {description: "ignored" 	context: DemoIssue 	
-//		expression: self.requirements->FORALL(req | req )}
+//		expression: self.requirements->forAll(req | req )}
 //		'''
 //		val completions = getHoverOver(text, -5, 1)
 //		System.out.println(completions);
@@ -156,7 +156,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	@Test
 	def void testRepairSetPropertyViaSubtyping() {
 		val content = '''
-			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->forAll(issue | issue.bugs.size() > 0) }
 		'''
 		val result = parseHelper.parse(content)
 		Assertions.assertNotNull(result)

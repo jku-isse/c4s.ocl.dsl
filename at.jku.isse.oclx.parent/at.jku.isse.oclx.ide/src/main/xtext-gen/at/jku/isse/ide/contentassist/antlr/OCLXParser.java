@@ -45,6 +45,7 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getIteratorNameAccess().getNameAlternatives_0(), "rule__IteratorName__NameAlternatives_0");
 			builder.put(grammarAccess.getIteratorVarDeclarationAccess().getAlternatives(), "rule__IteratorVarDeclaration__Alternatives");
 			builder.put(grammarAccess.getMethodCallAccess().getAlternatives(), "rule__MethodCall__Alternatives");
+			builder.put(grammarAccess.getTypeCallAccess().getNameAlternatives_0_0(), "rule__TypeCall__NameAlternatives_0_0");
 			builder.put(grammarAccess.getTypeExpAccess().getAlternatives(), "rule__TypeExp__Alternatives");
 			builder.put(grammarAccess.getCollectionTypeIdentifierAccess().getNameAlternatives_0(), "rule__CollectionTypeIdentifier__NameAlternatives_0");
 			builder.put(grammarAccess.getTemporalExpAccess().getAlternatives(), "rule__TemporalExp__Alternatives");
@@ -68,7 +69,7 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getIteratorVarDeclarationAccess().getGroup_1(), "rule__IteratorVarDeclaration__Group_1__0");
 			builder.put(grammarAccess.getMethodCallAccess().getGroup_0(), "rule__MethodCall__Group_0__0");
 			builder.put(grammarAccess.getMethodCallAccess().getGroup_1(), "rule__MethodCall__Group_1__0");
-			builder.put(grammarAccess.getMethodCallAccess().getGroup_2(), "rule__MethodCall__Group_2__0");
+			builder.put(grammarAccess.getTypeCallAccess().getGroup(), "rule__TypeCall__Group__0");
 			builder.put(grammarAccess.getTypeExpAccess().getGroup_0(), "rule__TypeExp__Group_0__0");
 			builder.put(grammarAccess.getTypeExpAccess().getGroup_1(), "rule__TypeExp__Group_1__0");
 			builder.put(grammarAccess.getUnaryTemporalExpAccess().getGroup(), "rule__UnaryTemporalExp__Group__0");
@@ -121,8 +122,8 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMethodCallAccess().getNameAssignment_0_0(), "rule__MethodCall__NameAssignment_0_0");
 			builder.put(grammarAccess.getMethodCallAccess().getNameAssignment_1_0(), "rule__MethodCall__NameAssignment_1_0");
 			builder.put(grammarAccess.getMethodCallAccess().getArgsAssignment_1_2(), "rule__MethodCall__ArgsAssignment_1_2");
-			builder.put(grammarAccess.getMethodCallAccess().getNameAssignment_2_0(), "rule__MethodCall__NameAssignment_2_0");
-			builder.put(grammarAccess.getMethodCallAccess().getTypeAssignment_2_2(), "rule__MethodCall__TypeAssignment_2_2");
+			builder.put(grammarAccess.getTypeCallAccess().getNameAssignment_0(), "rule__TypeCall__NameAssignment_0");
+			builder.put(grammarAccess.getTypeCallAccess().getTypeAssignment_2(), "rule__TypeCall__TypeAssignment_2");
 			builder.put(grammarAccess.getTypeExpAccess().getNameAssignment_0_2(), "rule__TypeExp__NameAssignment_0_2");
 			builder.put(grammarAccess.getTypeExpAccess().getCollectionTypeAssignment_1_0(), "rule__TypeExp__CollectionTypeAssignment_1_0");
 			builder.put(grammarAccess.getTypeExpAccess().getTypeAssignment_1_1(), "rule__TypeExp__TypeAssignment_1_1");

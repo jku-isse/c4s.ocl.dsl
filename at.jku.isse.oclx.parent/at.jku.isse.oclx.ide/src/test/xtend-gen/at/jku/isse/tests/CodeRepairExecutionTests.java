@@ -109,7 +109,7 @@ public class CodeRepairExecutionTests {
   @Test
   public void testRepairSetPropertyViaSubtyping() {
     StringConcatenation _builder = new StringConcatenation();
-    _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }");
+    _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->forAll(issue | issue.bugs.size() > 0) }");
     _builder.newLine();
     final String content = _builder.toString();
     CodeActionExecuter executer = new CodeActionExecuter(content, this.resourceSetProvider, this.resourceFactory, this.invariantChecker, this.repairService);

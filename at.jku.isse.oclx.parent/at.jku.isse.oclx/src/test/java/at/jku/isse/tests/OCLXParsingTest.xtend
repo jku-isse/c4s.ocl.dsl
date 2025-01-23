@@ -85,7 +85,7 @@ class OCLXParsingTest {
 				is overrulable: false
 				context: DemoIssue
 				/* some comment here */
-				expression: not(self->FORALL(x : <test/type/decl> | x.isDefined() ) )
+				expression: not(self->forAll(x : <test/type/decl> | x.isDefined() ) )
 			}
 		''')
 		Assertions.assertNotNull(result)
@@ -98,9 +98,9 @@ class OCLXParsingTest {
 		val result = parseHelper.parse('''
 rule AnotherRule {
 	context: nosu
-	expression: self.downstream->FORALL(x | (x.isDefined() 
+	expression: self.downstream->forAll(x | (x.isDefined() 
 												and 
-											self->EXISTS( x | x.size() > 0)
+											self->exists( x | x.size() > 0)
 											) 
 										)  
 }
@@ -123,10 +123,10 @@ rule AnotherRule {
 	    context: DemoIssue
 	    expression: ( 
 	            self.downstream 
-	                ->EXISTS(req | req.bugs.size() > 0)
+	                ->exists(req | req.bugs.size() > 0)
 	        and 
 	            self->isDefined()
-	        and self.downstream->FORALL( req |  req.isEmpty() )  )
+	        and self.downstream->forAll( req |  req.isEmpty() )  )
 	
 	}''')
 		Assertions.assertNotNull(result)
@@ -162,7 +162,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: not(self.requirements->FORALL(x : <test/type/decl> | x.isDefined() ) )
+				expression: not(self.requirements->forAll(x : <test/type/decl> | x.isDefined() ) )
 			}
 		''')
 		Assertions.assertNotNull(result)
@@ -180,7 +180,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: not(self.requirements->FORALL(x : <root/types/DemoIssue> | x.parent <> null ) )
+				expression: not(self.requirements->forAll(x : <root/types/DemoIssue> | x.parent <> null ) )
 			}
 		''')
 		Assertions.assertNotNull(result)
@@ -270,6 +270,7 @@ rule AnotherRule {
 		Assertions.assertNotNull(result)
 		validationTestHelper.assertNoErrors(result);
 		val errors = result.eResource.errors
+		//TODO
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
@@ -286,6 +287,7 @@ rule AnotherRule {
 		Assertions.assertNotNull(result)
 		validationTestHelper.assertNoErrors(result);
 		val errors = result.eResource.errors
+		//TODO
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
@@ -318,7 +320,7 @@ rule AnotherRule {
 	@Test
 	def void testPropertyInSubclassViaIterator() {
 		val content = '''
-			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->forAll(issue | issue.bugs.size() > 0) }
 		'''
 		val result = parseHelper.parse(content)
 		Assertions.assertNotNull(result)
@@ -370,7 +372,7 @@ rule AnotherRule {
 		@Test
 	def void testIncompatibleIteratorInputToSingleOperation() {
 		val content = '''
-			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->SELECT(x | x.isDefined()).toString() > 0 }
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->select(x | x.isDefined()).toString() > 0 }
 		'''
 		val result = parseHelper.parse(content)
 		Assertions.assertNotNull(result)
@@ -383,7 +385,7 @@ rule AnotherRule {
 	@Test
 	def void testIncompatibleSingleInputToIterator() {
 		val content = '''
-			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesSingle->FORALL(x | x.isDefined() ) }
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesSingle->forAll(x | x.isDefined() ) }
 		'''
 		val result = parseHelper.parse(content)
 		Assertions.assertNotNull(result)

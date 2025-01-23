@@ -26,6 +26,7 @@ import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.StringLiteralExp;
 import at.jku.isse.oclx.TriggeredTemporalExp;
+import at.jku.isse.oclx.TypeCallExp;
 import at.jku.isse.oclx.TypeExp;
 import at.jku.isse.oclx.UnaryOperator;
 import at.jku.isse.oclx.UnaryTemporalExp;
@@ -171,6 +172,9 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 					return; 
 				}
 				else break;
+			case OclxPackage.TYPE_CALL_EXP:
+				sequence_TypeCall(context, (TypeCallExp) semanticObject); 
+				return; 
 			case OclxPackage.TYPE_EXP:
 				sequence_TypeExp(context, (TypeExp) semanticObject); 
 				return; 
@@ -295,7 +299,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     CollectionTypeIdentifier returns CollectionTypeIdentifier
 	 *
 	 * Constraint:
-	 *     (name='SET' | name='LIST' | name='MAP' | name='COLLECTION')
+	 *     (name='set' | name='list' | name='map' | name='collection')
 	 * </pre>
 	 */
 	protected void sequence_CollectionTypeIdentifier(ISerializationContext context, CollectionTypeIdentifier semanticObject) {
@@ -357,7 +361,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     IteratorName returns IteratorName
 	 *
 	 * Constraint:
-	 *     (name='FORALL' | name='EXISTS' | name='COLLECT' | name='REJECT' | name='SELECT')
+	 *     (name='forAll' | name='exists' | name='collect' | name='reject' | name='select')
 	 * </pre>
 	 */
 	protected void sequence_IteratorName(ISerializationContext context, IteratorName semanticObject) {
@@ -507,7 +511,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     MethodCall returns MethodCallExp
 	 *
 	 * Constraint:
-	 *     (name=SimpleName | (name=SimpleName args=ArgumentsExp) | (name=SimpleName type=TypeExp))
+	 *     (name=SimpleName | (name=SimpleName args=ArgumentsExp))
 	 * </pre>
 	 */
 	protected void sequence_MethodCall(ISerializationContext context, MethodCallExp semanticObject) {
@@ -838,6 +842,21 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		feeder.accept(grammarAccess.getTemporalUntilAccess().getAExpParserRuleCall_2_0(), semanticObject.getA());
 		feeder.accept(grammarAccess.getTemporalUntilAccess().getBExpParserRuleCall_4_0(), semanticObject.getB());
 		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     MethodExp returns TypeCallExp
+	 *     TypeCall returns TypeCallExp
+	 *
+	 * Constraint:
+	 *     ((name='asType' | name='isTypeOf' | name='isKindOf') type=TypeExp)
+	 * </pre>
+	 */
+	protected void sequence_TypeCall(ISerializationContext context, TypeCallExp semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
 	}
 	
 	

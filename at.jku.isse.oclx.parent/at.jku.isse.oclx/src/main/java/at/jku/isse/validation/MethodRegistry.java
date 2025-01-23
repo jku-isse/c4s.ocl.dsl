@@ -164,24 +164,25 @@ public class MethodRegistry {
 	}
 
 	private PPEInstanceType convertSingle(ArlType arlType, PPEInstanceType typeHint) {
-		if (arlType.equals(ArlType.ANY))
+		// we cant use equals here as as soon as we get ANY it will match!
+		if (ArlType.ANY == arlType) 
 			return typeHint;
-		if (arlType.equals(ArlType.STRING)) {
-				return BuildInType.STRING;		
-		} else if (arlType.equals(ArlType.BOOLEAN)) {
+		if (ArlType.STRING == arlType) {
+			return BuildInType.STRING;		
+		} else if (ArlType.BOOLEAN == arlType) {
 			return BuildInType.BOOLEAN;
 		//} else if (arlType.equals(ArlType.DATE)) { //checking this runs into EvaluationException
 		//	return BuildInType.DATE;
-		} else if (arlType.equals(ArlType.REAL)) {
+		} else if (ArlType.REAL == arlType) {
 			return BuildInType.FLOAT;
 		//} else if (arlType.equals(ArlType.NUMBER)) { //checking this runs into EvaluationException
 		//	return BuildInType.FLOAT; // to be on the safe side
-		} else if (arlType.equals(ArlType.INTEGER)) {
+		} else if (ArlType.INTEGER == arlType) {
 			return BuildInType.INTEGER;
-		} else if ( arlType.equals(ArlType.LIST) //collection operations typically need to be compatible with (source) type
-				 || arlType.equals(ArlType.MAP)
-			     || arlType.equals(ArlType.SET) 
-			    || arlType.equals(ArlType.COLLECTION)
+		} else if (ArlType.LIST == arlType //collection operations typically need to be compatible with (source) type
+				 || ArlType.MAP == arlType
+			     || ArlType.SET == arlType 
+			    || ArlType.COLLECTION == arlType 
 				) { 
 				return typeHint;
 		} 
@@ -206,7 +207,7 @@ public class MethodRegistry {
 				if (!decl.sourceType.collection.equals(CollectionKind.SINGLE)) // requires collection as input
 					return false;
 				var validType = convertSingle(decl.sourceType, source.getType());
-				return source.getType().equals(validType);
+				return source.getType().equals(validType) || validType.equals(BuildInType.METATYPE);
 			} else { // compare collection type
 				if (decl.sourceType.collection.equals(CollectionKind.SINGLE)) // requires single as input
 					return false;

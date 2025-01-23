@@ -35,7 +35,7 @@ class HoverOverTests extends AbstractContentAssistTest{
 		@Test
 	def void hoverOverRefTest() {
 		val text = '''rule TestRule {description: "ignored" 	context: DemoIssue 	
-		expression: self.requirements->FORALL(req | req )}
+		expression: self.requirements->forAll(req | req )}
 		'''
 		val hovers = getHoverOver(text, -5, 1)
 		System.out.println(hovers)

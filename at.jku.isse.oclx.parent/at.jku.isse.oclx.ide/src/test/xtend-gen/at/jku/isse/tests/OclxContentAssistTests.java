@@ -91,7 +91,7 @@ public class OclxContentAssistTests extends AbstractContentAssistTest {
     final String text = _builder.toString();
     final CompletionList completions = this.getCompletions(text, (-1), 1);
     System.out.println(completions);
-    Assertions.assertFalse(this.assertCompletionContainsProposal(completions, "EXISTS"));
+    Assertions.assertFalse(this.assertCompletionContainsProposal(completions, "exists"));
   }
 
   @Test
@@ -105,7 +105,7 @@ public class OclxContentAssistTests extends AbstractContentAssistTest {
     final String text = _builder.toString();
     final CompletionList completions = this.getCompletions(text, (-2), 1);
     System.out.println(completions);
-    Assertions.assertTrue(this.assertCompletionContainsProposal(completions, "EXISTS"));
+    Assertions.assertTrue(this.assertCompletionContainsProposal(completions, "exists"));
   }
 
   @Test
@@ -119,7 +119,7 @@ public class OclxContentAssistTests extends AbstractContentAssistTest {
     final String text = _builder.toString();
     final CompletionList completions = this.getCompletions(text, (-3), 1);
     System.out.println(completions);
-    Assertions.assertFalse(this.assertCompletionContainsProposal(completions, "EXISTS"));
+    Assertions.assertFalse(this.assertCompletionContainsProposal(completions, "exists"));
   }
 
   @Test
@@ -156,7 +156,7 @@ public class OclxContentAssistTests extends AbstractContentAssistTest {
     _builder.append("rule TestRule {description: \"ignored\" \tcontext: DemoIssue \t");
     _builder.newLine();
     _builder.append("\t\t");
-    _builder.append("expression: self.requirements->FORALL(req | req. )}");
+    _builder.append("expression: self.requirements->forAll(req | req. )}");
     _builder.newLine();
     final String text = _builder.toString();
     final CompletionList completions = this.getCompletions(text, (-3), 1);

@@ -23,6 +23,7 @@ import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.TemporalExp;
 import at.jku.isse.oclx.TriggeredTemporalExp;
+import at.jku.isse.oclx.TypeCallExp;
 import at.jku.isse.oclx.UnaryTemporalExp;
 import at.jku.isse.oclx.VarDeclaration;
 import at.jku.isse.oclx.VarReference;
@@ -30,6 +31,7 @@ import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
+import at.jku.isse.services.OCLXGrammarAccess;
 import at.jku.isse.validation.ElementToTypeMap;
 import at.jku.isse.validation.ElementToTypeMap.TypeAndCardinality;
 import at.jku.isse.validation.MethodRegistry;
@@ -40,6 +42,8 @@ public class TypeExtractor {
 	private SchemaRegistry schemaReg;
 	@Inject
 	private MethodRegistry methodReg;
+	@Inject 
+	private OCLXGrammarAccess grammarAccess;
 	
 	public TypeExtractor() {
 	}
@@ -57,6 +61,7 @@ public class TypeExtractor {
 		});
 	}
 	
+	//IMPORTANT: this contains almost exactly the same logic as OCLXValidator.java sync any changes with that class
 	public TypeAndCardinality fillTypeMapAndReturnCurrent(Exp exp, ElementToTypeMap elementToTypeMap) {
 		if (exp == null) return null;
 		TypeAndCardinality currentType = null;
@@ -150,6 +155,28 @@ public class TypeExtractor {
 				PropertyAccessExp propExp = (PropertyAccessExp)methodExp;
 				if (currentType != null)
 					currentType = processPropertyAccess(currentType.getType(), propExp, elementToTypeMap);
+			} else if (methodExp instanceof TypeCallExp typeCallExp ) {
+				if (typeCallExp.getType() != null) {
+					//we dont support typing to Collections
+					String typeName = typeCallExp.getType().getName();
+					Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);
+					if (optType.isEmpty()) {
+						return null;
+					} else {
+						var opName = typeCallExp.getName();
+						if (opName.equals(grammarAccess.getTypeCallAccess().getNameAsTypeKeyword_0_0_0().getValue())) {
+							return new TypeAndCardinality(optType.get(), CARDINALITIES.SINGLE);
+						} else
+						if (opName.equals(grammarAccess.getTypeCallAccess().getNameIsKindOfKeyword_0_0_2().getValue()) 
+								|| opName.equals(grammarAccess.getTypeCallAccess().getNameIsTypeOfKeyword_0_0_1().getValue()) 
+								) {
+							return new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE);
+						} 						
+						return null;
+					}
+				} else {
+					return null;
+				}
 			}
 		}
 		// if there is a trailing navigation --> also set that return type of that:
@@ -189,18 +216,10 @@ public class TypeExtractor {
 	}
 	
 	private TypeAndCardinality checkNextNavigation(TypeAndCardinality currentTypeAndCardinality, MethodCallExp expression) {
-		if (expression.getType() != null) {
-			//we dont support typing to Collections, just single values
-			String typeName = expression.getType().getName();
-			Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);
-			if (optType.isPresent())  {
-				return new TypeAndCardinality(optType.get(), CARDINALITIES.SINGLE);
-			} else
-				return null;
-		} else {
+		
 			var returnType = methodReg.getReturnTypeForMethodName(expression.getName(), currentTypeAndCardinality.getType());			
 			return returnType;
-		}
+		
 	}
 	
 	

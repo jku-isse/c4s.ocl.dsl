@@ -115,7 +115,7 @@ class CodeRepairExecutionTests {
 	@Test
 	def void testRepairSetPropertyViaSubtyping() {
 		val content = '''
-			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->forAll(issue | issue.bugs.size() > 0) }
 		'''
 		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
 		executer.checkForIssues();

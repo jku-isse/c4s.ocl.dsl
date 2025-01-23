@@ -152,7 +152,7 @@ public class OCLXParsingTest {
       _builder.append("/* some comment here */");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: not(self->FORALL(x : <test/type/decl> | x.isDefined() ) )");
+      _builder.append("expression: not(self->forAll(x : <test/type/decl> | x.isDefined() ) )");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -180,13 +180,13 @@ public class OCLXParsingTest {
       _builder.append("context: nosu");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: self.downstream->FORALL(x | (x.isDefined() ");
+      _builder.append("expression: self.downstream->forAll(x | (x.isDefined() ");
       _builder.newLine();
       _builder.append("\t\t\t\t\t\t\t\t\t\t\t\t");
       _builder.append("and ");
       _builder.newLine();
       _builder.append("\t\t\t\t\t\t\t\t\t\t\t");
-      _builder.append("self->EXISTS( x | x.size() > 0)");
+      _builder.append("self->exists( x | x.size() > 0)");
       _builder.newLine();
       _builder.append("\t\t\t\t\t\t\t\t\t\t\t");
       _builder.append(") ");
@@ -235,7 +235,7 @@ public class OCLXParsingTest {
       _builder.append("self.downstream ");
       _builder.newLine();
       _builder.append("\t                ");
-      _builder.append("->EXISTS(req | req.bugs.size() > 0)");
+      _builder.append("->exists(req | req.bugs.size() > 0)");
       _builder.newLine();
       _builder.append("\t        ");
       _builder.append("and ");
@@ -244,7 +244,7 @@ public class OCLXParsingTest {
       _builder.append("self->isDefined()");
       _builder.newLine();
       _builder.append("\t        ");
-      _builder.append("and self.downstream->FORALL( req |  req.isEmpty() )  )");
+      _builder.append("and self.downstream->forAll( req |  req.isEmpty() )  )");
       _builder.newLine();
       _builder.append("\t");
       _builder.newLine();
@@ -312,7 +312,7 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: not(self.requirements->FORALL(x : <test/type/decl> | x.isDefined() ) )");
+      _builder.append("expression: not(self.requirements->forAll(x : <test/type/decl> | x.isDefined() ) )");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -346,7 +346,7 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: not(self.requirements->FORALL(x : <root/types/DemoIssue> | x.parent <> null ) )");
+      _builder.append("expression: not(self.requirements->forAll(x : <root/types/DemoIssue> | x.parent <> null ) )");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -604,7 +604,7 @@ public class OCLXParsingTest {
   public void testPropertyInSubclassViaIterator() {
     try {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->FORALL(issue | issue.bugs.size() > 0) }");
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->forAll(issue | issue.bugs.size() > 0) }");
       _builder.newLine();
       final String content = _builder.toString();
       final Model result = this.parseHelper.parse(content);
@@ -672,7 +672,7 @@ public class OCLXParsingTest {
   public void testIncompatibleIteratorInputToSingleOperation() {
     try {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->SELECT(x | x.isDefined()).toString() > 0 }");
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->select(x | x.isDefined()).toString() > 0 }");
       _builder.newLine();
       final String content = _builder.toString();
       final Model result = this.parseHelper.parse(content);
@@ -689,7 +689,7 @@ public class OCLXParsingTest {
   public void testIncompatibleSingleInputToIterator() {
     try {
       StringConcatenation _builder = new StringConcatenation();
-      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesSingle->FORALL(x | x.isDefined() ) }");
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesSingle->forAll(x | x.isDefined() ) }");
       _builder.newLine();
       final String content = _builder.toString();
       final Model result = this.parseHelper.parse(content);

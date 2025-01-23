@@ -89,6 +89,7 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
       case OclxPackage.ITERATOR_VAR_DECLARATION: return createIteratorVarDeclaration();
       case OclxPackage.PROPERTY_ACCESS_EXP: return createPropertyAccessExp();
       case OclxPackage.METHOD_CALL_EXP: return createMethodCallExp();
+      case OclxPackage.TYPE_CALL_EXP: return createTypeCallExp();
       case OclxPackage.TYPE_EXP: return createTypeExp();
       case OclxPackage.COLLECTION_TYPE_IDENTIFIER: return createCollectionTypeIdentifier();
       case OclxPackage.TEMPORAL_EXP: return createTemporalExp();
@@ -389,6 +390,18 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
   {
     MethodCallExpImpl methodCallExp = new MethodCallExpImpl();
     return methodCallExp;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public TypeCallExp createTypeCallExp()
+  {
+    TypeCallExpImpl typeCallExp = new TypeCallExpImpl();
+    return typeCallExp;
   }
 
   /**

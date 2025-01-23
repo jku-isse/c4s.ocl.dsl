@@ -77,7 +77,7 @@ class OclxContentAssistTests extends AbstractContentAssistTest{
 		'''
 		val completions = getCompletions(text, -1, 1)
 		System.out.println(completions)
-		Assertions.assertFalse(assertCompletionContainsProposal(completions, "EXISTS"))
+		Assertions.assertFalse(assertCompletionContainsProposal(completions, "exists"))
 	}
 	
 			@Test
@@ -87,7 +87,7 @@ class OclxContentAssistTests extends AbstractContentAssistTest{
 		'''
 		val completions = getCompletions(text, -2, 1)
 		System.out.println(completions)
-		Assertions.assertTrue(assertCompletionContainsProposal(completions, "EXISTS"))
+		Assertions.assertTrue(assertCompletionContainsProposal(completions, "exists"))
 	}
 	
 				@Test
@@ -97,7 +97,7 @@ class OclxContentAssistTests extends AbstractContentAssistTest{
 		'''
 		val completions = getCompletions(text, -3, 1)
 		System.out.println(completions)
-		Assertions.assertFalse(assertCompletionContainsProposal(completions, "EXISTS"))
+		Assertions.assertFalse(assertCompletionContainsProposal(completions, "exists"))
 	}
 	
 	@Test
@@ -123,7 +123,7 @@ class OclxContentAssistTests extends AbstractContentAssistTest{
 		@Test
 	def void completeFromRefTest() {
 		val text = '''rule TestRule {description: "ignored" 	context: DemoIssue 	
-		expression: self.requirements->FORALL(req | req. )}
+		expression: self.requirements->forAll(req | req. )}
 		'''
 		val completions = getCompletions(text, -3, 1)
 		System.out.println(completions)

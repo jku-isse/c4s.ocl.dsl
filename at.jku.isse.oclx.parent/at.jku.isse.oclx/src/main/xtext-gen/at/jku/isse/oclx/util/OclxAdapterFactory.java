@@ -196,6 +196,11 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
         return createMethodCallExpAdapter();
       }
       @Override
+      public Adapter caseTypeCallExp(TypeCallExp object)
+      {
+        return createTypeCallExpAdapter();
+      }
+      @Override
       public Adapter caseTypeExp(TypeExp object)
       {
         return createTypeExpAdapter();
@@ -618,6 +623,21 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createMethodCallExpAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.TypeCallExp <em>Type Call Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see at.jku.isse.oclx.TypeCallExp
+   * @generated
+   */
+  public Adapter createTypeCallExpAdapter()
   {
     return null;
   }

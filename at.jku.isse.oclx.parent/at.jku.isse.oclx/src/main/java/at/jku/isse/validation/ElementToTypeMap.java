@@ -46,20 +46,6 @@ public class ElementToTypeMap {
 	@Data
 	public static class TypeAndCardinality {
 		private final PPEInstanceType type;
-		private final CARDINALITIES cardinality;
-		
-//		public TypeAndCardinality(PPEInstanceType type, CARDINALITIES cardinality) {
-//			super();
-//			this.type = type;
-//			this.cardinality = cardinality;
-//		}
-//		public PPEInstanceType getType() {
-//			return type;
-//		}
-//		public CARDINALITIES getCardinality() {
-//			return cardinality;
-//		}
-
-		
+		private final CARDINALITIES cardinality;		
 	}
 }

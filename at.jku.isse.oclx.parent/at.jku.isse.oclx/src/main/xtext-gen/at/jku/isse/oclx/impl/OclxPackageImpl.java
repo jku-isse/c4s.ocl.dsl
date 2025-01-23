@@ -33,6 +33,7 @@ import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.StringLiteralExp;
 import at.jku.isse.oclx.TemporalExp;
 import at.jku.isse.oclx.TriggeredTemporalExp;
+import at.jku.isse.oclx.TypeCallExp;
 import at.jku.isse.oclx.TypeExp;
 import at.jku.isse.oclx.UnaryOperator;
 import at.jku.isse.oclx.UnaryTemporalExp;
@@ -221,6 +222,13 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   private EClass methodCallExpEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass typeCallExpEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -926,9 +934,31 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EReference getMethodCallExp_Type()
+  public EClass getTypeCallExp()
   {
-    return (EReference)methodCallExpEClass.getEStructuralFeatures().get(2);
+    return typeCallExpEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getTypeCallExp_Name()
+  {
+    return (EAttribute)typeCallExpEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getTypeCallExp_Type()
+  {
+    return (EReference)typeCallExpEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1279,7 +1309,10 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     methodCallExpEClass = createEClass(METHOD_CALL_EXP);
     createEAttribute(methodCallExpEClass, METHOD_CALL_EXP__NAME);
     createEReference(methodCallExpEClass, METHOD_CALL_EXP__ARGS);
-    createEReference(methodCallExpEClass, METHOD_CALL_EXP__TYPE);
+
+    typeCallExpEClass = createEClass(TYPE_CALL_EXP);
+    createEAttribute(typeCallExpEClass, TYPE_CALL_EXP__NAME);
+    createEReference(typeCallExpEClass, TYPE_CALL_EXP__TYPE);
 
     typeExpEClass = createEClass(TYPE_EXP);
     createEAttribute(typeExpEClass, TYPE_EXP__NAME);
@@ -1355,6 +1388,7 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     iteratorExpEClass.getESuperTypes().add(this.getMethodExp());
     propertyAccessExpEClass.getESuperTypes().add(this.getMethodExp());
     methodCallExpEClass.getESuperTypes().add(this.getMethodExp());
+    typeCallExpEClass.getESuperTypes().add(this.getMethodExp());
     temporalExpEClass.getESuperTypes().add(this.getExp());
     unaryTemporalExpEClass.getESuperTypes().add(this.getTemporalExp());
     triggeredTemporalExpEClass.getESuperTypes().add(this.getTemporalExp());
@@ -1438,7 +1472,10 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     initEClass(methodCallExpEClass, MethodCallExp.class, "MethodCallExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getMethodCallExp_Name(), ecorePackage.getEString(), "name", null, 0, 1, MethodCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getMethodCallExp_Args(), this.getArgumentsExp(), null, "args", null, 0, 1, MethodCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getMethodCallExp_Type(), this.getTypeExp(), null, "type", null, 0, 1, MethodCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(typeCallExpEClass, TypeCallExp.class, "TypeCallExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getTypeCallExp_Name(), ecorePackage.getEString(), "name", null, 0, 1, TypeCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getTypeCallExp_Type(), this.getTypeExp(), null, "type", null, 0, 1, TypeCallExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(typeExpEClass, TypeExp.class, "TypeExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTypeExp_Name(), ecorePackage.getEString(), "name", null, 0, 1, TypeExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
