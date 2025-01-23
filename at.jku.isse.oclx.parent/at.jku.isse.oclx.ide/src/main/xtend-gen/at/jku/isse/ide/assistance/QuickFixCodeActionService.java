@@ -224,7 +224,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
         if ((modelElement instanceof MethodCallExp)) {
           boolean _xblockexpression = false;
           {
-            Range methodRange = this.getRangeOfElement(modelElement);
+            final Range methodRange = this.getRangeOfElement(modelElement);
             boolean _xifexpression_3 = false;
             if ((methodRange != null)) {
               CodeAction _codeAction_2 = new CodeAction();
@@ -238,8 +238,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                 String _plus_3 = (_plus_2 + "\'");
                 it.setTitle(_plus_3);
                 it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
-                int _line = d.getRange().getStart().getLine();
-                int _character = d.getRange().getStart().getCharacter();
+                int _line = methodRange.getStart().getLine();
+                int _character = methodRange.getStart().getCharacter();
                 int _minus = (_character - 1);
                 final Position pos = new Position(_line, _minus);
                 WorkspaceEdit _workspaceEdit = new WorkspaceEdit();

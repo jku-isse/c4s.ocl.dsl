@@ -144,14 +144,14 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		if (modelElement instanceof MethodCallExp) {
 			// a method that returns a single instance can only happen over collection --> need to cast/filter collection
 			// get range of methodcall,
-			var methodRange = getRangeOfElement(modelElement);
+			val methodRange = getRangeOfElement(modelElement);
 			// insert select
 			if (methodRange !== null) {
 				result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
 						title = "Add a filter for instances of subtype '"+subclass.name+"' before method/operation call '"+modelElement.name+"'";
 						diagnostics = #[d]
-						val pos = new Position(d.range.start.line, d.range.start.character-1)  // start and end are equal as we want to insert, shifted by 1: the . navigation character
+						val pos = new Position(methodRange.start.line, methodRange.start.character-1)  // start and end are equal as we want to insert, shifted by 1: the . navigation character
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(pos, pos)

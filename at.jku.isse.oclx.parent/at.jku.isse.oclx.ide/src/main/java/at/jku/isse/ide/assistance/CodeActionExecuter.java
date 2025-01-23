@@ -46,11 +46,15 @@ public class CodeActionExecuter {
 	private final InvariantChecker invariantChecker;
 	private final ICodeActionService2 repairService;
 	private final String constraint;
+	@Getter
 	private String repairedConstraint;
 	@Getter
 	private final Model model;
+	private XtextResource resource;
+	@Getter
 	private List<Issue> problems;
-	private Map<Issue, CodeAction> executedCodeActions;
+	@Getter
+	private CodeAction executedCodeAction;
 	
 	public CodeActionExecuter(@NonNull String constraintInDSLSyntax
 			, Provider<XtextResourceSet> resourceSetProvider
@@ -66,9 +70,9 @@ public class CodeActionExecuter {
 	}
 	
 	public void checkForIssues() {
-		 IResourceValidator validator = ((XtextResource) model).getResourceServiceProvider()
+		 IResourceValidator validator = resource.getResourceServiceProvider()
 				.getResourceValidator();
-		 problems = validator.validate((XtextResource)model, CheckMode.ALL, CancelIndicator.NullImpl);
+		 problems = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 	}
 	
 	public void executeRepairs() { // only for those issues that have code actions, first repair selected
@@ -85,7 +89,7 @@ public class CodeActionExecuter {
 	private List<CodeAction> getRepairs(Issue issue) {
 		var range = new Range(new Position(issue.getLineNumber()-1, issue.getColumn()-1)
 				, new Position(issue.getLineNumberEnd()-1, issue.getColumnEnd()-1));
-		var xresult = (XtextResource) model;
+		
 		var d = new Diagnostic();
 		var ctx = new CodeActionContext(List.of(d));
 		d.setCode(issue.getCode());
@@ -95,8 +99,8 @@ public class CodeActionExecuter {
 
 		var options = new Options();
 		options.setDocument(new Document(1, constraint));
-		options.setResource(xresult);
-		options.setCodeActionParams(new CodeActionParams(new TextDocumentIdentifier(xresult.getURI().toString()), range, ctx));
+		options.setResource(resource);
+		options.setCodeActionParams(new CodeActionParams(new TextDocumentIdentifier(resource.getURI().toString()), range, ctx));
 		return repairService.getCodeActions(options).stream().map(either -> either.getRight()).toList();
 	}
 	
@@ -109,6 +113,7 @@ public class CodeActionExecuter {
 		String before = constraint.substring(0, range.getStart().getCharacter());
 		String after = constraint.substring(range.getEnd().getCharacter());
 		repairedConstraint = before+newText+after;
+		executedCodeAction = codeAction;
 	}
 	
 	private Model parse(String dslString) {
@@ -116,8 +121,9 @@ public class CodeActionExecuter {
 		var resourceSet = resourceSetProvider.get();
 		var uriToUse = computeUnusedUri(resourceSet, "oclx");
 		Resource resource = loadResource(inStream, uriToUse, null, resourceSet);
-		if (resource instanceof XtextResource) {
-			IParseResult parseResult = ((XtextResource) resource).getParseResult();
+		if (resource instanceof XtextResource xtextResource) {
+			this.resource = xtextResource;
+			IParseResult parseResult = xtextResource.getParseResult();
 			if (parseResult != null) {
 				ICompositeNode rootNode = parseResult.getRootNode();
 				if (rootNode != null) {
