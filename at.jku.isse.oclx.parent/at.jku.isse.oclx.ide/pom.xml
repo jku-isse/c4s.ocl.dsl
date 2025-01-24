@@ -12,7 +12,7 @@
 	<properties>
 		<ppe.rest.version>2.0.7-SNAPSHOT</ppe.rest.version>	
 		<connector.core.version>2.0.7</connector.core.version>
-		<start-class>at.jku.isse.DslEnabledRestFrontend</start-class>
+	<!--	<start-class>at.jku.isse.DslEnabledRestFrontend</start-class>-->
 	</properties>
 
 	<distributionManagement>
@@ -167,11 +167,11 @@
         	<artifactId>spring-boot-starter-websocket</artifactId>
         	<version>3.3.0</version> 
     	</dependency>
-		<dependency>
+<!--		<dependency>
 			<groupId>at.jku.isse.passiveprocessengine</groupId>
 			<artifactId>ppe-rest-frontend</artifactId>
 			<version>${ppe.rest.version}</version>	
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>at.jku.isse.designspace</groupId>
 			<artifactId>artifact-connector.core</artifactId>

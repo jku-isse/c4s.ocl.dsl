@@ -156,6 +156,20 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+  
+  <!-- to avoid repackaging upon deployment of small ..oclx.ide to allow import in other projects -->
+   <executions>
+        <execution>
+            <id>repackage</id>
+            <goals>
+                <goal>repackage</goal>
+            </goals>
+            <configuration>
+                <skip>true</skip>
+            </configuration>
+        </execution> <!-- end of added config for avoiding fat jar repackaging -->
+    </executions>
+
             </plugin>
 			</plugins>
 		</pluginManagement>
