@@ -3,6 +3,7 @@ package at.jku.isse.ide.assistance;
 import at.jku.isse.oclx.Constraint;
 import at.jku.isse.oclx.Context;
 import at.jku.isse.oclx.IteratorExp;
+import at.jku.isse.oclx.IteratorVarDeclaration;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.NavigationOperator;
@@ -60,6 +61,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
   @Inject
   private MethodRegistry methodReg;
 
+  private DuplicateVariableQuickfixer duplicateFixer = new DuplicateVariableQuickfixer();
+
   @Override
   public List<Either<Command, CodeAction>> getCodeActions(final ICodeActionService2.Options options) {
     Document document = options.getDocument();
@@ -83,26 +86,37 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
           final String stringToRepair = document.getSubstring(d.getRange());
           final int offset = document.getOffSet(d.getRange().getStart());
           Object _get = d.getCode().get();
-          boolean _equals = Objects.equal(_get, OCLXValidator.UNKNOWN_PROPERTY);
+          boolean _equals = Objects.equal(_get, OCLXValidator.DUPLICATE_VAR_NAME);
           if (_equals) {
-            this.generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result);
-            final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset);
-            int _size = choices.size();
-            boolean _greaterThan = (_size > 0);
-            if (_greaterThan) {
-              final String newProp = choices.get(0);
-              this.generateCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result);
+            final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+            EObject iterDecl = modelElement.eContainer();
+            if ((iterDecl instanceof IteratorVarDeclaration)) {
+              CodeAction _createQuickfix = this.duplicateFixer.createQuickfix(((IteratorVarDeclaration)iterDecl), d, resource);
+              result.add(_createQuickfix);
             }
           } else {
             Object _get_1 = d.getCode().get();
-            boolean _equals_1 = Objects.equal(_get_1, OCLXValidator.UNKNOWN_OPERATION);
+            boolean _equals_1 = Objects.equal(_get_1, OCLXValidator.UNKNOWN_PROPERTY);
             if (_equals_1) {
-              List<String> choices_1 = this.findMostSimilarOperations(resource, offset, stringToRepair);
-              int _size_1 = choices_1.size();
-              boolean _greaterThan_1 = (_size_1 > 0);
-              if (_greaterThan_1) {
-                final String newOp = choices_1.get(0);
-                this.generateCodeActionReplaceWithMostSimilarOperation(d, resource, newOp, result);
+              this.generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result);
+              final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset);
+              int _size = choices.size();
+              boolean _greaterThan = (_size > 0);
+              if (_greaterThan) {
+                final String newProp = choices.get(0);
+                this.generateCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result);
+              }
+            } else {
+              Object _get_2 = d.getCode().get();
+              boolean _equals_2 = Objects.equal(_get_2, OCLXValidator.UNKNOWN_OPERATION);
+              if (_equals_2) {
+                List<String> choices_1 = this.findMostSimilarOperations(resource, offset, stringToRepair);
+                int _size_1 = choices_1.size();
+                boolean _greaterThan_1 = (_size_1 > 0);
+                if (_greaterThan_1) {
+                  final String newOp = choices_1.get(0);
+                  this.generateCodeActionReplaceWithMostSimilarOperation(d, resource, newOp, result);
+                }
               }
             }
           }
@@ -182,7 +196,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
             URI _uRI = resource.getURI();
             TextEdit _textEdit = new TextEdit();
             final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
-              it_2.setRange(this.getRangeOfElement(ctx));
+              it_2.setRange(QuickFixCodeActionService.getRangeOfElement(ctx));
               it_2.setNewText(subclass.getName());
             };
             TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
@@ -231,7 +245,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
         if ((precedingElement instanceof MethodCallExp)) {
           boolean _xblockexpression_1 = false;
           {
-            final Range methodRange = this.getRangeOfElement(precedingElement);
+            final Range methodRange = QuickFixCodeActionService.getRangeOfElement(precedingElement);
             boolean _xifexpression_3 = false;
             if ((methodRange != null)) {
               CodeAction _codeAction_1 = new CodeAction();
@@ -294,7 +308,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
               if ((iter != null)) {
                 boolean _xblockexpression_3 = false;
                 {
-                  final Range iterRange = this.getRangeOfElement(iter);
+                  final Range iterRange = QuickFixCodeActionService.getRangeOfElement(iter);
                   CodeAction _codeAction_1 = new CodeAction();
                   final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
                     it.setKind(CodeActionKind.QuickFix);
@@ -357,7 +371,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     return Boolean.valueOf(_xifexpression);
   }
 
-  protected Range getRangeOfElement(final EObject exp) {
+  public static Range getRangeOfElement(final EObject exp) {
     if ((exp == null)) {
       return null;
     }

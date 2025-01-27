@@ -88,8 +88,8 @@ public class TypeExtractor {
 		} else
 		if (exp instanceof PrefixExp prefixExp) {
 			currentTypeAndCardinality = processPrefixExp(elementToTypeMap, prefixExp);
-		} else if (exp instanceof NestedExp) {
-			currentTypeAndCardinality = checkExpressionForNavigationCorrectness(((NestedExp) exp).getSource(), elementToTypeMap);
+		} else if (exp instanceof NestedExp nestedExp) {
+			currentTypeAndCardinality = checkExpressionForNavigationCorrectness(nestedExp.getSource(), elementToTypeMap);
 		} else if (exp instanceof InfixExp infixExp) {			
 			currentTypeAndCardinality = processInfixExp(elementToTypeMap, infixExp);						
 		} else if (exp instanceof TemporalExp) {
@@ -249,11 +249,12 @@ public class TypeExtractor {
 		var tempCurrentTypeAndCardinality = checkExpressionForNavigationCorrectness(iterExp.getBody(), elementToTypeMap);
 		// now we need to override the cardinality based on the iterator type:
 		var iterType = iterExp.getName().getName();
-		if (iterType.equals(grammarAccess.getIteratorNameAccess().getNameCollectKeyword_0_2().getValue())  
-				|| iterType.equals(grammarAccess.getIteratorNameAccess().getNameRejectKeyword_0_3().getValue())
+		if (iterType.equals(grammarAccess.getIteratorNameAccess().getNameCollectKeyword_0_2().getValue())) {
+				currentTypeAndCardinality = new TypeAndCardinality(tempCurrentTypeAndCardinality.getType(), currentTypeAndCardinality.getCardinality()); // same cardinality, potentially different type
+		} else if (iterType.equals(grammarAccess.getIteratorNameAccess().getNameRejectKeyword_0_3().getValue())
 				|| iterType.equals(grammarAccess.getIteratorNameAccess().getNameSelectKeyword_0_4().getValue())
 				) {
-			currentTypeAndCardinality = new TypeAndCardinality(tempCurrentTypeAndCardinality.getType(), currentTypeAndCardinality.getCardinality()); // same cardinality, potentially different type
+			currentTypeAndCardinality = new TypeAndCardinality(currentTypeAndCardinality.getType(), currentTypeAndCardinality.getCardinality()); // same cardinality, same type as we just filter
 		} else if (iterType.equals(grammarAccess.getIteratorNameAccess().getNameExistsKeyword_0_1().getValue())
 				|| iterType.equals(grammarAccess.getIteratorNameAccess().getNameForAllKeyword_0_0().getValue())) {
 			currentTypeAndCardinality = new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE);

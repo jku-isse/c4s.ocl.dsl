@@ -169,6 +169,39 @@ class CodeRepairExecutionTests {
 		Assertions.assertTrue(isCorrect(repaired));
 	}
 	
+		@Test
+	def void testRepairOfDuplicateIterVar() {
+		var content = '''rule TestRule2 {  description: "just some test" context: DemoIssue  expression: (self.downstream->exists(req | req.bugs.size() > 0) and self->isDefined() and self.downstream->forAll( req | req.bugs.isEmpty() ) ) }'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeRepairs();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
+		
+		Assertions.assertTrue(isCorrect(repaired));
+	}
+	
+			@Test
+	def void testRepairOfDuplicateIterVar2() {
+		var content = '''rule TestRule2 {  description: "just some test" context: DemoIssue  expression: self.downstream->select(req | req.bugs.size() > 0)->forAll( req | req.bugs.isEmpty() ) }'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeRepairs();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
+		
+		Assertions.assertTrue(isCorrect(repaired));
+	}
 	
 	def isCorrect(String constraint) {
 		var executer = new CodeActionExecuter(constraint, resourceSetProvider, resourceFactory, invariantChecker, repairService);

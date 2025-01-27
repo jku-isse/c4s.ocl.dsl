@@ -30,6 +30,7 @@ import at.jku.isse.oclx.MethodExp
 import at.jku.isse.oclx.IteratorExp
 import at.jku.isse.validation.OclxASTUtils
 import at.jku.isse.validation.TypeExtractor
+import at.jku.isse.oclx.IteratorVarDeclaration
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -39,6 +40,8 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	EObjectAtOffsetHelper eObjectAtOffsetHelper;
 	@Inject 
 	MethodRegistry methodReg;
+	
+	DuplicateVariableQuickfixer duplicateFixer = new DuplicateVariableQuickfixer();
 	
 	override getCodeActions(Options options) {
 		
@@ -59,7 +62,13 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			for (d : params.context.diagnostics) {
 				val stringToRepair = document.getSubstring(d.range)
 				val offset = document.getOffSet(d.range.start)
-				if (d.code.get == OCLXValidator.UNKNOWN_PROPERTY) {																	
+				if (d.code.get == OCLXValidator.DUPLICATE_VAR_NAME) {
+					val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+					var iterDecl = modelElement.eContainer;
+					if (iterDecl instanceof IteratorVarDeclaration){
+						result += duplicateFixer.createQuickfix(iterDecl, d, resource);	
+					}
+				} else if (d.code.get == OCLXValidator.UNKNOWN_PROPERTY) {																	
 					generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result)
 					val choices = findMostSimilarProperties(stringToRepair, resource, offset)
 					if (choices.size() > 0) {
@@ -196,7 +205,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		}
 	}
 
-	protected def Range getRangeOfElement(EObject exp) {
+	static def Range getRangeOfElement(EObject exp) {
 		if (exp === null) return null;
 		val inode = NodeModelUtils.findActualNodeFor(exp)
 		val startPos = inode.offset

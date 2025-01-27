@@ -53,6 +53,8 @@ class CodeRepairTests extends AbstractContentAssistTest{
 //		System.out.println(completions);
 //	}
 
+
+
 	@Test
 	def void testRepairProperty() {
 		val content = '''
@@ -211,6 +213,34 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("characters"))
+	}
+	
+		@Test
+	def void testRepairOfDuplicateIterVar() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"
+	    is overrulable: false
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(req | req.bugs.size() > 0)
+	        and 
+	            self->isDefined()
+	        and self.downstream->forAll( req |  req.isEmpty() )  )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.ITERATOR_VAR_DECLARATION, 
+			OCLXValidator.DUPLICATE_VAR_NAME
+		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("req01"))
 	}
 	
 	def error2CodeAction(String content, Model result) {
