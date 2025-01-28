@@ -77,6 +77,7 @@ public class CodeActionExecuter {
 	}
 	
 	public void executeRepairs() { // only for those issues that have code actions, first repair selected
+		executedCodeAction = null; // resetting
 		problems.stream()
 			.map(issue -> getRepairs(issue))
 			.filter(repairs -> !repairs.isEmpty())
