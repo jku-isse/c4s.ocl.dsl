@@ -151,7 +151,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = d.range
-								newText = "asType(<"+subclass.name+">)."+propertyName
+								newText = "asType(<"+getTransformedFQN(subclass)+">)."+propertyName
 							])
 						]
 					]
@@ -170,10 +170,10 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(pos, pos)
-								newText = "->select(object | object.isKindOf(<"+subclass.name+">))"
+								newText = "->select(object | object.isKindOf(<"+getTransformedFQN(subclass)+">))"
 							], new TextEdit => [
 								range = d.range
-								newText = "asType(<"+subclass.name+">)."+propertyName
+								newText = "asType(<"+getTransformedFQN(subclass)+">)."+propertyName
 							])
 						]
 					]			
@@ -192,10 +192,10 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(pos, pos) // start and end are equal as we want to insert
-								newText = "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+subclass.name+">))"
+								newText = "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+getTransformedFQN(subclass)+">))"
 							], new TextEdit => [
 								range = d.range
-								newText = "asType(<"+subclass.name+">)."+propertyName
+								newText = "asType(<"+getTransformedFQN(subclass)+">)."+propertyName
 							])
 						]
 					]			
@@ -261,6 +261,14 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			}
 		}
 		return null;
+	}
+	
+	protected def getTransformedFQN(PPEInstanceType type) {
+		var fqn = type.fullyQualifiedName
+		if (fqn.startsWith("/"))
+			return fqn.substring(1)
+		else
+			return fqn
 	}
 
 	def generateCodeActionReplaceWithMostSimilarProperty(Diagnostic d, XtextResource resource, String newProp, List<CodeAction> result) {	

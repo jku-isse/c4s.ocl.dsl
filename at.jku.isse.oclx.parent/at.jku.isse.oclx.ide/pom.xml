@@ -11,7 +11,8 @@
 
 	<properties>
 		<ppe.rest.version>2.0.7-SNAPSHOT</ppe.rest.version>	
-		<connector.core.version>2.0.7</connector.core.version>
+		<connector.core.version>2.0.8</connector.core.version>
+		<ds5wrapper.version>1.0.8</ds5wrapper.version>
 	<!--	<start-class>at.jku.isse.DslEnabledRestFrontend</start-class>-->
 	</properties>
 
@@ -177,7 +178,12 @@
 			<artifactId>artifact-connector.core</artifactId>
 			<version>${connector.core.version}</version>
 		</dependency>		
-		
+		<dependency>
+			<groupId>at.jku.isse.designspace</groupId>
+			<artifactId>artifact-connector.ds5wrapper</artifactId>
+			<version>${ds5wrapper.version}</version>
+			<scope>compile</scope>
+		</dependency>
 		<!-- Testing -->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

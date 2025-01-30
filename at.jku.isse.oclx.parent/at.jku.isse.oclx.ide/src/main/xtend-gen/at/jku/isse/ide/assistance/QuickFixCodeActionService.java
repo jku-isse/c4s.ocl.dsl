@@ -226,8 +226,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
             TextEdit _textEdit = new TextEdit();
             final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
               it_2.setRange(d.getRange());
-              String _name_1 = subclass.getName();
-              String _plus_2 = ("asType(<" + _name_1);
+              String _transformedFQN = this.getTransformedFQN(subclass);
+              String _plus_2 = ("asType(<" + _transformedFQN);
               String _plus_3 = (_plus_2 + ">).");
               String _plus_4 = (_plus_3 + propertyName);
               it_2.setNewText(_plus_4);
@@ -270,8 +270,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                   final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
                     Range _range = new Range(pos, pos);
                     it_2.setRange(_range);
-                    String _name_2 = subclass.getName();
-                    String _plus_4 = ("->select(object | object.isKindOf(<" + _name_2);
+                    String _transformedFQN = this.getTransformedFQN(subclass);
+                    String _plus_4 = ("->select(object | object.isKindOf(<" + _transformedFQN);
                     String _plus_5 = (_plus_4 + ">))");
                     it_2.setNewText(_plus_5);
                   };
@@ -279,8 +279,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                   TextEdit _textEdit_1 = new TextEdit();
                   final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
                     it_2.setRange(d.getRange());
-                    String _name_2 = subclass.getName();
-                    String _plus_4 = ("asType(<" + _name_2);
+                    String _transformedFQN = this.getTransformedFQN(subclass);
+                    String _plus_4 = ("asType(<" + _transformedFQN);
                     String _plus_5 = (_plus_4 + ">).");
                     String _plus_6 = (_plus_5 + propertyName);
                     it_2.setNewText(_plus_6);
@@ -328,8 +328,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                       final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
                         Range _range = new Range(pos, pos);
                         it_2.setRange(_range);
-                        String _name_1 = subclass.getName();
-                        String _plus_2 = ((((("->select(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _name_1);
+                        String _transformedFQN = this.getTransformedFQN(subclass);
+                        String _plus_2 = ((((("->select(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _transformedFQN);
                         String _plus_3 = (_plus_2 + ">))");
                         it_2.setNewText(_plus_3);
                       };
@@ -337,8 +337,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                       TextEdit _textEdit_1 = new TextEdit();
                       final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
                         it_2.setRange(d.getRange());
-                        String _name_1 = subclass.getName();
-                        String _plus_2 = ("asType(<" + _name_1);
+                        String _transformedFQN = this.getTransformedFQN(subclass);
+                        String _plus_2 = ("asType(<" + _transformedFQN);
                         String _plus_3 = (_plus_2 + ">).");
                         String _plus_4 = (_plus_3 + propertyName);
                         it_2.setNewText(_plus_4);
@@ -438,6 +438,16 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
       }
     }
     return null;
+  }
+
+  protected String getTransformedFQN(final PPEInstanceType type) {
+    String fqn = type.getFullyQualifiedName();
+    boolean _startsWith = fqn.startsWith("/");
+    if (_startsWith) {
+      return fqn.substring(1);
+    } else {
+      return fqn;
+    }
   }
 
   public boolean generateCodeActionReplaceWithMostSimilarProperty(final Diagnostic d, final XtextResource resource, final String newProp, final List<CodeAction> result) {
