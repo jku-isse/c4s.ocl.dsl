@@ -10,7 +10,7 @@ import at.jku.isse.passiveprocessengine.core.PPEInstance;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 
-public class TestArtifacts {
+public class OCLXTestArtifacts {
 
 	public static final String DEMOISSUETYPE = "DemoIssue";
 	public static enum CoreProperties { state, requirements, bugs, parent, html_url, upstream, downstream, referencesSingle, referencesGroup }
@@ -19,7 +19,7 @@ public class TestArtifacts {
 	InstanceRepository repository;
 	SchemaRegistry schemaRegistry;
 	
-	public TestArtifacts(InstanceRepository repository, SchemaRegistry schemaRegistry) {
+	public OCLXTestArtifacts(InstanceRepository repository, SchemaRegistry schemaRegistry) {
 		this.repository = repository;
 		this.schemaRegistry = schemaRegistry;		
 	}
@@ -54,23 +54,23 @@ public class TestArtifacts {
 		jira.setSingleProperty(CoreTypeFactory.EXTERNAL_DEFAULT_ID.toString(), name);
 		setStateToJiraInstance(jira, JiraStates.Open);
 		for(PPEInstance inst : reqs) {
-			jira.getTypedProperty(TestArtifacts.CoreProperties.requirements.toString(), Set.class).add(inst);
+			jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.requirements.toString(), Set.class).add(inst);
 		}
 		return jira;
 	}
 
 	public void addReqsToJira(PPEInstance jira, PPEInstance... reqs) {
 		for(PPEInstance inst : reqs) {
-			jira.getTypedProperty(TestArtifacts.CoreProperties.requirements.toString(), Set.class).add(inst);
+			jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.requirements.toString(), Set.class).add(inst);
 		}
 	}
 
 	public void addJiraToRequirements(PPEInstance issue, PPEInstance reqToAdd) {
-		issue.getTypedProperty(TestArtifacts.CoreProperties.requirements.toString(), Set.class).add(reqToAdd);
+		issue.getTypedProperty(OCLXTestArtifacts.CoreProperties.requirements.toString(), Set.class).add(reqToAdd);
 	}
 	
 	public void removeJiraFromReqs(PPEInstance jira, PPEInstance reqToRemove) {
-		jira.getTypedProperty(TestArtifacts.CoreProperties.requirements.toString(), Set.class).remove(reqToRemove);
+		jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.requirements.toString(), Set.class).remove(reqToRemove);
 	}
 
 	public void setStateToJiraInstance(PPEInstance inst, JiraStates state) {
@@ -78,11 +78,11 @@ public class TestArtifacts {
 	}
 
 	public void addJiraToJiraBug(PPEInstance jira, PPEInstance bugToAdd) {
-		jira.getTypedProperty(TestArtifacts.CoreProperties.bugs.toString(), Set.class).add(bugToAdd);
+		jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.bugs.toString(), Set.class).add(bugToAdd);
 	}
 
 	public void removeJiraFromJiraBug(PPEInstance jira, PPEInstance bugToRemove) {
-		jira.getTypedProperty(TestArtifacts.CoreProperties.bugs.toString(), Set.class).remove(bugToRemove);
+		jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.bugs.toString(), Set.class).remove(bugToRemove);
 	}
 
 	public void addParentToJira(PPEInstance inst, PPEInstance parent) {
@@ -90,19 +90,19 @@ public class TestArtifacts {
 	}
 
 	public void addUpstream(PPEInstance inst, PPEInstance toAdd) {
-		inst.getTypedProperty(TestArtifacts.CoreProperties.upstream.toString(), Set.class).add(toAdd);
+		inst.getTypedProperty(OCLXTestArtifacts.CoreProperties.upstream.toString(), Set.class).add(toAdd);
 	}
 
 	public void addDownstream(PPEInstance inst, PPEInstance toAdd) {
-		inst.getTypedProperty(TestArtifacts.CoreProperties.downstream.toString(), Set.class).add(toAdd);
+		inst.getTypedProperty(OCLXTestArtifacts.CoreProperties.downstream.toString(), Set.class).add(toAdd);
 	}
 
 	public void removeUpstream(PPEInstance inst, PPEInstance toRemove) {
-		inst.getTypedProperty(TestArtifacts.CoreProperties.upstream.toString(), Set.class).remove(toRemove);
+		inst.getTypedProperty(OCLXTestArtifacts.CoreProperties.upstream.toString(), Set.class).remove(toRemove);
 	}
 
 	public void removeDownstream(PPEInstance inst, PPEInstance toRemove) {
-		inst.getTypedProperty(TestArtifacts.CoreProperties.downstream.toString(), Set.class).remove(toRemove);
+		inst.getTypedProperty(OCLXTestArtifacts.CoreProperties.downstream.toString(), Set.class).remove(toRemove);
 	}
 
 	public static JiraStates getState(PPEInstance inst) {
@@ -111,9 +111,9 @@ public class TestArtifacts {
 	}
 
 	public static String printProperties(PPEInstance jira) {
-		PPEInstance parent = jira.getTypedProperty(TestArtifacts.CoreProperties.parent.toString(), PPEInstance.class);				
-		String state = jira.getTypedProperty(TestArtifacts.CoreProperties.state.toString(), String.class);
-		Set<PPEInstance> requirements = jira.getTypedProperty(TestArtifacts.CoreProperties.requirements.toString(), Set.class);
+		PPEInstance parent = jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.parent.toString(), PPEInstance.class);				
+		String state = jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.state.toString(), String.class);
+		Set<PPEInstance> requirements = jira.getTypedProperty(OCLXTestArtifacts.CoreProperties.requirements.toString(), Set.class);
 		
 		StringBuffer sb = new StringBuffer("Issue:"+jira.getName()+"::"+getState(jira)+"\r\n");
 		if (parent != null)

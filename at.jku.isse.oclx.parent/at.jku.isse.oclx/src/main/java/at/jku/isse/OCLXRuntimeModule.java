@@ -23,7 +23,7 @@ public class OCLXRuntimeModule extends AbstractOCLXRuntimeModule {
 		//designspace = BaseSpringConfig.getSchemaRegistry(); //DS4
 		CoreTypeFactory coreType = BaseSpringConfig.getBaseTypeFactory(designspace);
 		coreType.getBaseArtifactType();
-		TestArtifacts testArt = new TestArtifacts(designspace, designspace);
+		OCLXTestArtifacts testArt = new OCLXTestArtifacts(designspace, designspace);
 		testArt.getJiraInstanceType();
 		//designspace.getAllNonDeletedInstanceTypes().stream().forEach(type -> System.out.println(type.getName()));
 	}
