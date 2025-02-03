@@ -46,7 +46,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
@@ -65,7 +65,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		//TODO select after any, rather than before
@@ -84,7 +84,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		// self.referencesGroup.asList().first()->SELECT(object | object.isKindOf(<DemoIssue>).referencesGroup.size() > 0 
@@ -105,7 +105,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
@@ -124,7 +124,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		// TODO Wrong position of SELECT -> is before property, but needs to be before iterator
@@ -143,7 +143,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
@@ -162,7 +162,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
@@ -179,7 +179,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
@@ -196,7 +196,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
@@ -213,7 +213,7 @@ class CodeRepairExecutionTests {
 		executer.executeRepairs();		
 		Assertions.assertNull(executer.executedCodeAction);
 		
-		var repaired = executer.repairedConstraint;
+		var repaired = executer.repairedOclxConstraint;
 		Assertions.assertNull(repaired);
 	}
 	

@@ -43,7 +43,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -62,7 +62,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -81,7 +81,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -100,7 +100,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -119,7 +119,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -138,7 +138,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -157,7 +157,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -175,7 +175,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -193,7 +193,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
     Assertions.assertTrue(this.isCorrect(repaired));
@@ -211,7 +211,7 @@ public class CodeRepairExecutionTests {
     Assertions.assertTrue(_greaterThan);
     executer.executeRepairs();
     Assertions.assertNull(executer.getExecutedCodeAction());
-    String repaired = executer.getRepairedConstraint();
+    String repaired = executer.getRepairedOclxConstraint();
     Assertions.assertNull(repaired);
   }
 

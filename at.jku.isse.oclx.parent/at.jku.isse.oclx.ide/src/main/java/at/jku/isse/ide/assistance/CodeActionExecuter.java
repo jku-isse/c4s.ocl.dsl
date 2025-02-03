@@ -22,6 +22,7 @@ import org.eclipse.lsp4j.TextEdit;
 import org.eclipse.xtext.nodemodel.ICompositeNode;
 import org.eclipse.xtext.nodemodel.LookAheadInfo;
 import org.eclipse.xtext.nodemodel.impl.InvariantChecker;
+import org.eclipse.xtext.nodemodel.util.NodeModelUtils;
 import org.eclipse.xtext.parser.IParseResult;
 import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.XtextResource;
@@ -48,15 +49,11 @@ public class CodeActionExecuter {
 	private final InvariantChecker invariantChecker;
 	private final ICodeActionService2 repairService;
 	private final String constraint;
-	@Getter
-	private String repairedConstraint;
-	@Getter
-	private final Model model;
+	@Getter private String repairedOclxConstraint;
+	@Getter private String repairedExpression;
 	private XtextResource resource;
-	@Getter
-	private List<Issue> problems;
-	@Getter
-	private CodeAction executedCodeAction;
+	@Getter private List<Issue> problems;
+	@Getter private CodeAction executedCodeAction;
 	
 	public CodeActionExecuter(@NonNull String constraintInDSLSyntax
 			, Provider<XtextResourceSet> resourceSetProvider
@@ -68,7 +65,7 @@ public class CodeActionExecuter {
 		this.resourceSetProvider = resourceSetProvider;
 		this.invariantChecker = invariantChecker;
 		this.repairService = repairService;
-		model = parse(constraint);
+		parse(constraint);
 	}
 	
 	public void checkForIssues() {
@@ -133,7 +130,8 @@ public class CodeActionExecuter {
 			int keepUntil = getPosOfNextEditOrEoF(edits, i, constraint);
 			sb.append(constraint.substring(range.getEnd().getCharacter(), keepUntil));
 		}
-		repairedConstraint = sb.toString();
+		repairedOclxConstraint = sb.toString();
+		repairedExpression = NodeModelUtils.findActualNodeFor(parse(repairedOclxConstraint).getConstraints().get(0).getExpression()).getText();
 		executedCodeAction = codeAction;
 	}
 	
