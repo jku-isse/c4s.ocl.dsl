@@ -186,7 +186,7 @@ class CodeRepairExecutionTests {
 		Assertions.assertTrue(isCorrect(repaired));
 	}
 	
-			@Test
+	@Test
 	def void testRepairOfDuplicateIterVar2() {
 		var content = '''rule TestRule2 {  description: "just some test" context: DemoIssue  expression: self.downstream->select(req | req.bugs.size() > 0)->forAll( req | req.bugs.isEmpty() ) }'''
 		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
@@ -201,6 +201,20 @@ class CodeRepairExecutionTests {
 		System.out.println(repaired);
 		
 		Assertions.assertTrue(isCorrect(repaired));
+	}
+	
+	@Test
+	def void testIgnoreSyntaxError() {
+		var content = '''rule TestRule2 {  description: "just some test" context: DemoIssue  expression: self.downstream->exists(req | req.isTypeOf(REQ) ) }'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeRepairs();		
+		Assertions.assertNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedConstraint;
+		Assertions.assertNull(repaired);
 	}
 	
 	def isCorrect(String constraint) {

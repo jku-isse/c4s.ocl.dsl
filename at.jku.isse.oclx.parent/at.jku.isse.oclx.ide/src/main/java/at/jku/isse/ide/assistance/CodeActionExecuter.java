@@ -2,6 +2,7 @@ package at.jku.isse.ide.assistance;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -91,6 +92,8 @@ public class CodeActionExecuter {
 	private List<CodeAction> getRepairs(Issue issue) {
 		var range = new Range(new Position(issue.getLineNumber()-1, issue.getColumn()-1)
 				, new Position(issue.getLineNumberEnd()-1, issue.getColumnEnd()-1));
+		
+		if (issue.isSyntaxError() || issue.getCode().equals("missingType")) return Collections.emptyList(); // can't repair syntax error or missing parameter/type
 		
 		var d = new Diagnostic();
 		var ctx = new CodeActionContext(List.of(d));
