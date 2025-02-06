@@ -224,7 +224,7 @@ public class TypeExtractor {
 				//error("Variable already declared.", varDec, OclxPackage.Literals.ITERATOR_VAR_DECLARATION__NAME, DUPLICATE_VAR_NAME);
 			} else {
 				if (varDec.getType() != null) {
-					String typeName = varDec.getType().getName();
+					String typeName = stripTypeBrackets(varDec.getType().getName());
 					//we dont support iterating over Collections of Collections, hence a single value
 					Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);
 					if (optType.isPresent()) {
@@ -319,7 +319,7 @@ public class TypeExtractor {
 			TypeAndCardinality currentTypeAndCardinality;
 			
 			//we dont support typing to Collections
-			String typeName = typeCallExp.getType().getName();
+			String typeName = stripTypeBrackets(typeCallExp.getType().getName());
 			Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);
 			if (optType.isEmpty()) {
 				errorCollector.error(String.format(" Provided type '%s' is not a known InstanceType", typeName)
@@ -347,6 +347,10 @@ public class TypeExtractor {
 			, typeCallExp.getType(), OclxPackage.Literals.TYPE_EXP__NAME, OCLXValidator.MISSING_TYPE);
 			return null;
 		}		
+	}
+	
+	private String stripTypeBrackets(String type) {
+		return type.substring(1, type.length()-1);
 	}
 	
 	private boolean isMathOperatpr(BinaryOperator op) {

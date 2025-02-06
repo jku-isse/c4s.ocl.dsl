@@ -180,7 +180,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: not(self.requirements->forAll(x : <root/types/DemoIssue> | x.parent <> null ) )
+				expression: not(self.requirements->forAll(x : <http://isse.jku.at/demo#DemoIssue> | x.parent != null ) )
 			}
 		''')
 		Assertions.assertNotNull(result)
@@ -195,7 +195,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: artifact
-				expression: self.asType(<root/types/DemoIssue>).requirements.size() > 0 
+				expression: self.asType(<http://isse.jku.at/demo#DemoIssue>).requirements.size() > 0 
 			}
 		''')
 		Assertions.assertNotNull(result)
@@ -210,7 +210,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: self.asType(<root/types/artifact>).requirements.size() > 0 
+				expression: self.asType(<http://isse.jku.at/passiveprocessengine#artifact>).requirements.size() > 0 
 			}
 		''')
 		Assertions.assertNotNull(result)

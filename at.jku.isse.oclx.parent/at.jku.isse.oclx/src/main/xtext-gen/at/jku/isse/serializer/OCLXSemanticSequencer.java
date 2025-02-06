@@ -253,7 +253,7 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *         op='&gt;=' | 
 	 *         op='&lt;=' | 
 	 *         op='=' | 
-	 *         op='&lt;&gt;' | 
+	 *         op='!=' | 
 	 *         op='and' | 
 	 *         op='or' | 
 	 *         op='xor' | 
@@ -866,11 +866,17 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 *     TypeExp returns TypeExp
 	 *
 	 * Constraint:
-	 *     (name=Path | (collectionType=CollectionTypeIdentifier type=TypeExp))
+	 *     name=URI
 	 * </pre>
 	 */
 	protected void sequence_TypeExp(ISerializationContext context, TypeExp semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.TYPE_EXP__NAME) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.TYPE_EXP__NAME));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getTypeExpAccess().getNameURITerminalRuleCall_1_0(), semanticObject.getName());
+		feeder.finish();
 	}
 	
 	

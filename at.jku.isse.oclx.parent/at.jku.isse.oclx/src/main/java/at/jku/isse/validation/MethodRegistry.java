@@ -37,7 +37,7 @@ public class MethodRegistry {
 			new OperationCallExpression(new LiteralExpression("SomeString"), "size", Collections.emptyList()); // we need to ensure that OperationDeclarations are initiated, by creating some arbitrary correct expression
 			declarations = OperationCallExpression.OperationDeclaration.getOperationDeclarations();
 			declarations.stream().forEach(decl -> {
-				if (decl.sourceType.collection.equals(CollectionKind.SINGLE)) {
+				if (decl.sourceType.getCollection().equals(CollectionKind.SINGLE)) {
 					insertSingleOperation(decl);
 				} else {
 					insertCollectionOperation(decl);
@@ -60,7 +60,7 @@ public class MethodRegistry {
 //	}
 	
 	private void insertCollectionOperation(OperationDeclaration decl) {
-		switch(decl.sourceType.collection) {
+		switch(decl.sourceType.getCollection()) {
 		case ANY: // not relevant here
 			break;
 		case COLLECTION:
@@ -85,7 +85,7 @@ public class MethodRegistry {
 	}
 
 	private void insertSingleOperation(OperationDeclaration decl) {
-		switch(decl.sourceType.type) {
+		switch(decl.sourceType.getType()) {
 		case ANY: //not relevant here
 			break;
 		case BOOLEAN:
@@ -204,14 +204,14 @@ public class MethodRegistry {
 				.filter(decl -> decl.name.equals(name))
 				.anyMatch(decl -> {		
 			if (source.getCardinality().equals(CARDINALITIES.SINGLE)) { //compare type
-				if (!decl.sourceType.collection.equals(CollectionKind.SINGLE)) // requires collection as input
+				if (!decl.sourceType.getCollection().equals(CollectionKind.SINGLE)) // requires collection as input
 					return false;
 				var validType = convertSingle(decl.sourceType, source.getType());
 				return source.getType().equals(validType) || validType.equals(BuildInType.METATYPE);
 			} else { // compare collection type
-				if (decl.sourceType.collection.equals(CollectionKind.SINGLE)) // requires single as input
+				if (decl.sourceType.getCollection().equals(CollectionKind.SINGLE)) // requires single as input
 					return false;
-				var methodCollectionKind = decl.sourceType.collection;
+				var methodCollectionKind = decl.sourceType.getCollection();
 				switch(source.getCardinality()) {					
 				case LIST:
 					return methodCollectionKind.equals(CollectionKind.LIST) || methodCollectionKind.equals(CollectionKind.COLLECTION);					

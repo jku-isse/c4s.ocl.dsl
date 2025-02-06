@@ -7,7 +7,7 @@ import com.google.inject.Binder;
 
 import at.jku.isse.designspace.artifactconnector.core.repository.CoreTypeFactory;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
-import at.jku.isse.passiveprocessengine.designspace.DesignSpaceSchemaRegistry;
+import at.jku.isse.passiveprocessengine.rdfwrapper.config.EventStreamingWrapperFactory;
 import at.jku.isse.validation.MethodRegistry;
 
 /**
@@ -15,17 +15,13 @@ import at.jku.isse.validation.MethodRegistry;
  */
 public class OCLXRuntimeModule extends AbstractOCLXRuntimeModule {
 
-	final DesignSpaceSchemaRegistry designspace;
+	private final EventStreamingWrapperFactory factory;
 	
 	public  OCLXRuntimeModule() {
-		
-		designspace = BaseSpringConfig.getSchemaRegistry(BaseSpringConfig.getLanguageWorkspace(), BaseSpringConfig.getProjectWorkspace()); // DS5
-		//designspace = BaseSpringConfig.getSchemaRegistry(); //DS4
-		CoreTypeFactory coreType = BaseSpringConfig.getBaseTypeFactory(designspace);
-		coreType.getBaseArtifactType();
-		OCLXTestArtifacts testArt = new OCLXTestArtifacts(designspace, designspace);
-		testArt.getJiraInstanceType();
-		//designspace.getAllNonDeletedInstanceTypes().stream().forEach(type -> System.out.println(type.getName()));
+		factory = new EventStreamingWrapperFactory.FactoryBuilder().build();	
+		factory.getCoreTypeFactory().getBaseArtifactType();
+		OCLXTestArtifacts testArt = new OCLXTestArtifacts(factory.getInstanceRepository(), factory.getSchemaRegistry());
+		testArt.getJiraInstanceType();		
 	}
 
 	public Class<? extends MethodRegistry> bindMethodRegistry() {
@@ -35,6 +31,6 @@ public class OCLXRuntimeModule extends AbstractOCLXRuntimeModule {
 	@Override
 	public void configure(Binder binder) {
 		super.configure(binder);
-		binder.bind(SchemaRegistry.class).toInstance(designspace);
+		binder.bind(SchemaRegistry.class).toInstance(factory.getSchemaRegistry());
 	}
 }

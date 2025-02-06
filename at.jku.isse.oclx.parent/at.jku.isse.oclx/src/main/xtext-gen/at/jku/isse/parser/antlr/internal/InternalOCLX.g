@@ -667,9 +667,9 @@ ruleBooleanOperator returns [EObject current=null]
 					setWithLastConsumed($current, "op", lv_op_0_5, null);
 				}
 				    |
-				lv_op_0_6='<>'
+				lv_op_0_6='!='
 				{
-					newLeafNode(lv_op_0_6, grammarAccess.getBooleanOperatorAccess().getOpLessThanSignGreaterThanSignKeyword_0_5());
+					newLeafNode(lv_op_0_6, grammarAccess.getBooleanOperatorAccess().getOpExclamationMarkEqualsSignKeyword_0_5());
 				}
 				{
 					if ($current==null) {
@@ -1898,145 +1898,27 @@ ruleTypeExp returns [EObject current=null]
 }:
 	(
 		(
-			(
-				{
-					$current = forceCreateModelElement(
-						grammarAccess.getTypeExpAccess().getTypeExpAction_0_0(),
-						$current);
-				}
-			)
-			otherlv_1='<'
 			{
-				newLeafNode(otherlv_1, grammarAccess.getTypeExpAccess().getLessThanSignKeyword_0_1());
-			}
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getTypeExpAccess().getNamePathParserRuleCall_0_2_0());
-					}
-					lv_name_2_0=rulePath
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getTypeExpRule());
-						}
-						set(
-							$current,
-							"name",
-							lv_name_2_0,
-							"at.jku.isse.OCLX.Path");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			otherlv_3='>'
-			{
-				newLeafNode(otherlv_3, grammarAccess.getTypeExpAccess().getGreaterThanSignKeyword_0_3());
+				$current = forceCreateModelElement(
+					grammarAccess.getTypeExpAccess().getTypeExpAction_0(),
+					$current);
 			}
 		)
-		    |
 		(
 			(
-				(
-					{
-						newCompositeNode(grammarAccess.getTypeExpAccess().getCollectionTypeCollectionTypeIdentifierParserRuleCall_1_0_0());
-					}
-					lv_collectionType_4_0=ruleCollectionTypeIdentifier
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getTypeExpRule());
-						}
-						set(
-							$current,
-							"collectionType",
-							lv_collectionType_4_0,
-							"at.jku.isse.OCLX.CollectionTypeIdentifier");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-			(
-				(
-					{
-						newCompositeNode(grammarAccess.getTypeExpAccess().getTypeTypeExpParserRuleCall_1_1_0());
-					}
-					lv_type_5_0=ruleTypeExp
-					{
-						if ($current==null) {
-							$current = createModelElementForParent(grammarAccess.getTypeExpRule());
-						}
-						set(
-							$current,
-							"type",
-							lv_type_5_0,
-							"at.jku.isse.OCLX.TypeExp");
-						afterParserOrEnumRuleCall();
-					}
-				)
-			)
-		)
-	)
-;
-
-// Entry rule entryRuleCollectionTypeIdentifier
-entryRuleCollectionTypeIdentifier returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getCollectionTypeIdentifierRule()); }
-	iv_ruleCollectionTypeIdentifier=ruleCollectionTypeIdentifier
-	{ $current=$iv_ruleCollectionTypeIdentifier.current; }
-	EOF;
-
-// Rule CollectionTypeIdentifier
-ruleCollectionTypeIdentifier returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		(
-			(
-				lv_name_0_1='set'
+				lv_name_1_0=RULE_URI
 				{
-					newLeafNode(lv_name_0_1, grammarAccess.getCollectionTypeIdentifierAccess().getNameSetKeyword_0_0());
+					newLeafNode(lv_name_1_0, grammarAccess.getTypeExpAccess().getNameURITerminalRuleCall_1_0());
 				}
 				{
 					if ($current==null) {
-						$current = createModelElement(grammarAccess.getCollectionTypeIdentifierRule());
+						$current = createModelElement(grammarAccess.getTypeExpRule());
 					}
-					setWithLastConsumed($current, "name", lv_name_0_1, null);
-				}
-				    |
-				lv_name_0_2='list'
-				{
-					newLeafNode(lv_name_0_2, grammarAccess.getCollectionTypeIdentifierAccess().getNameListKeyword_0_1());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getCollectionTypeIdentifierRule());
-					}
-					setWithLastConsumed($current, "name", lv_name_0_2, null);
-				}
-				    |
-				lv_name_0_3='map'
-				{
-					newLeafNode(lv_name_0_3, grammarAccess.getCollectionTypeIdentifierAccess().getNameMapKeyword_0_2());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getCollectionTypeIdentifierRule());
-					}
-					setWithLastConsumed($current, "name", lv_name_0_3, null);
-				}
-				    |
-				lv_name_0_4='collection'
-				{
-					newLeafNode(lv_name_0_4, grammarAccess.getCollectionTypeIdentifierAccess().getNameCollectionKeyword_0_3());
-				}
-				{
-					if ($current==null) {
-						$current = createModelElement(grammarAccess.getCollectionTypeIdentifierRule());
-					}
-					setWithLastConsumed($current, "name", lv_name_0_4, null);
+					setWithLastConsumed(
+						$current,
+						"name",
+						lv_name_1_0,
+						"at.jku.isse.OCLX.URI");
 				}
 			)
 		)
@@ -2842,52 +2724,6 @@ ruleLegacyEverytime returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRulePath
-entryRulePath returns [String current=null]:
-	{ newCompositeNode(grammarAccess.getPathRule()); }
-	iv_rulePath=rulePath
-	{ $current=$iv_rulePath.current.getText(); }
-	EOF;
-
-// Rule Path
-rulePath returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
-	(
-		{
-			newCompositeNode(grammarAccess.getPathAccess().getSimpleNameParserRuleCall_0());
-		}
-		this_SimpleName_0=ruleSimpleName
-		{
-			$current.merge(this_SimpleName_0);
-		}
-		{
-			afterParserOrEnumRuleCall();
-		}
-		(
-			kw='/'
-			{
-				$current.merge(kw);
-				newLeafNode(kw, grammarAccess.getPathAccess().getSolidusKeyword_1_0());
-			}
-			{
-				newCompositeNode(grammarAccess.getPathAccess().getSimpleNameParserRuleCall_1_1());
-			}
-			this_SimpleName_2=ruleSimpleName
-			{
-				$current.merge(this_SimpleName_2);
-			}
-			{
-				afterParserOrEnumRuleCall();
-			}
-		)*
-	)
-;
-
 // Entry rule entryRuleArgumentsExp
 entryRuleArgumentsExp returns [EObject current=null]:
 	{ newCompositeNode(grammarAccess.getArgumentsExpRule()); }
@@ -2952,6 +2788,8 @@ ruleArgumentsExp returns [EObject current=null]
 ;
 
 RULE_DESCRIPTION : '"' ( options {greedy=false;} : . )*'"';
+
+RULE_URI : '<' ( options {greedy=false;} : . )*'>';
 
 RULE_ID : '^'? ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'_'|'0'..'9')*;
 

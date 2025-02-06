@@ -3,6 +3,7 @@ package at.jku.isse.tests;
 import at.jku.isse.ide.assistance.CodeActionExecuter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.List;
 import org.eclipse.xtend2.lib.StringConcatenation;
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2;
 import org.eclipse.xtext.nodemodel.impl.InvariantChecker;
@@ -10,6 +11,7 @@ import org.eclipse.xtext.resource.IResourceFactory;
 import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.testing.InjectWith;
 import org.eclipse.xtext.testing.extensions.InjectionExtension;
+import org.eclipse.xtext.validation.Issue;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -46,7 +48,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -65,7 +67,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -84,7 +86,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -103,7 +105,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -122,7 +124,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -141,7 +143,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -160,7 +162,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -178,7 +180,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -196,7 +198,7 @@ public class CodeRepairExecutionTests {
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
     System.out.println(repaired);
-    Assertions.assertTrue(this.isCorrect(repaired));
+    Assertions.assertTrue(this.isCorrect(repaired, true));
   }
 
   @Test
@@ -215,9 +217,16 @@ public class CodeRepairExecutionTests {
     Assertions.assertNull(repaired);
   }
 
-  public boolean isCorrect(final String constraint) {
+  public boolean isCorrect(final String constraint, final boolean expected) {
     CodeActionExecuter executer = new CodeActionExecuter(constraint, this.resourceSetProvider, this.resourceFactory, this.invariantChecker, this.repairService);
     executer.checkForIssues();
-    return executer.getProblems().isEmpty();
+    boolean isCorrect = executer.getProblems().isEmpty();
+    if (((isCorrect != expected) && (expected == (Boolean.TRUE).booleanValue()))) {
+      List<Issue> _problems = executer.getProblems();
+      for (final Issue problem : _problems) {
+        System.out.println(problem);
+      }
+    }
+    return isCorrect;
   }
 }

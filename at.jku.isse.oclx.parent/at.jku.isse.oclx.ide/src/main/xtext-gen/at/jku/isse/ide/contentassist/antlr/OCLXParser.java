@@ -46,7 +46,7 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getIteratorVarDeclarationAccess().getAlternatives(), "rule__IteratorVarDeclaration__Alternatives");
 			builder.put(grammarAccess.getMethodCallAccess().getAlternatives(), "rule__MethodCall__Alternatives");
 			builder.put(grammarAccess.getTypeCallAccess().getNameAlternatives_0_0(), "rule__TypeCall__NameAlternatives_0_0");
-			builder.put(grammarAccess.getTypeExpAccess().getAlternatives(), "rule__TypeExp__Alternatives");
+			builder.put(grammarAccess.getURITYPEAccess().getAlternatives(), "rule__URITYPE__Alternatives");
 			builder.put(grammarAccess.getCollectionTypeIdentifierAccess().getNameAlternatives_0(), "rule__CollectionTypeIdentifier__NameAlternatives_0");
 			builder.put(grammarAccess.getTemporalExpAccess().getAlternatives(), "rule__TemporalExp__Alternatives");
 			builder.put(grammarAccess.getUnaryTemporalOpAccess().getAlternatives(), "rule__UnaryTemporalOp__Alternatives");
@@ -70,8 +70,7 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMethodCallAccess().getGroup_0(), "rule__MethodCall__Group_0__0");
 			builder.put(grammarAccess.getMethodCallAccess().getGroup_1(), "rule__MethodCall__Group_1__0");
 			builder.put(grammarAccess.getTypeCallAccess().getGroup(), "rule__TypeCall__Group__0");
-			builder.put(grammarAccess.getTypeExpAccess().getGroup_0(), "rule__TypeExp__Group_0__0");
-			builder.put(grammarAccess.getTypeExpAccess().getGroup_1(), "rule__TypeExp__Group_1__0");
+			builder.put(grammarAccess.getTypeExpAccess().getGroup(), "rule__TypeExp__Group__0");
 			builder.put(grammarAccess.getUnaryTemporalExpAccess().getGroup(), "rule__UnaryTemporalExp__Group__0");
 			builder.put(grammarAccess.getTemporalAsLongAsAccess().getGroup(), "rule__TemporalAsLongAs__Group__0");
 			builder.put(grammarAccess.getTemporalUntilAccess().getGroup(), "rule__TemporalUntil__Group__0");
@@ -80,8 +79,6 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getLegacyUntilAccess().getGroup(), "rule__LegacyUntil__Group__0");
 			builder.put(grammarAccess.getLegacyAsSoonAsAccess().getGroup(), "rule__LegacyAsSoonAs__Group__0");
 			builder.put(grammarAccess.getLegacyEverytimeAccess().getGroup(), "rule__LegacyEverytime__Group__0");
-			builder.put(grammarAccess.getPathAccess().getGroup(), "rule__Path__Group__0");
-			builder.put(grammarAccess.getPathAccess().getGroup_1(), "rule__Path__Group_1__0");
 			builder.put(grammarAccess.getArgumentsExpAccess().getGroup(), "rule__ArgumentsExp__Group__0");
 			builder.put(grammarAccess.getArgumentsExpAccess().getGroup_1(), "rule__ArgumentsExp__Group_1__0");
 			builder.put(grammarAccess.getModelAccess().getConstraintsAssignment(), "rule__Model__ConstraintsAssignment");
@@ -124,9 +121,7 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMethodCallAccess().getArgsAssignment_1_2(), "rule__MethodCall__ArgsAssignment_1_2");
 			builder.put(grammarAccess.getTypeCallAccess().getNameAssignment_0(), "rule__TypeCall__NameAssignment_0");
 			builder.put(grammarAccess.getTypeCallAccess().getTypeAssignment_2(), "rule__TypeCall__TypeAssignment_2");
-			builder.put(grammarAccess.getTypeExpAccess().getNameAssignment_0_2(), "rule__TypeExp__NameAssignment_0_2");
-			builder.put(grammarAccess.getTypeExpAccess().getCollectionTypeAssignment_1_0(), "rule__TypeExp__CollectionTypeAssignment_1_0");
-			builder.put(grammarAccess.getTypeExpAccess().getTypeAssignment_1_1(), "rule__TypeExp__TypeAssignment_1_1");
+			builder.put(grammarAccess.getTypeExpAccess().getNameAssignment_1(), "rule__TypeExp__NameAssignment_1");
 			builder.put(grammarAccess.getCollectionTypeIdentifierAccess().getNameAssignment(), "rule__CollectionTypeIdentifier__NameAssignment");
 			builder.put(grammarAccess.getUnaryTemporalExpAccess().getNameAssignment_0(), "rule__UnaryTemporalExp__NameAssignment_0");
 			builder.put(grammarAccess.getUnaryTemporalExpAccess().getExpAssignment_2(), "rule__UnaryTemporalExp__ExpAssignment_2");

@@ -351,20 +351,20 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Keyword cOpGreaterThanSignEqualsSignKeyword_0_2 = (Keyword)cOpAlternatives_0.eContents().get(2);
 		private final Keyword cOpLessThanSignEqualsSignKeyword_0_3 = (Keyword)cOpAlternatives_0.eContents().get(3);
 		private final Keyword cOpEqualsSignKeyword_0_4 = (Keyword)cOpAlternatives_0.eContents().get(4);
-		private final Keyword cOpLessThanSignGreaterThanSignKeyword_0_5 = (Keyword)cOpAlternatives_0.eContents().get(5);
+		private final Keyword cOpExclamationMarkEqualsSignKeyword_0_5 = (Keyword)cOpAlternatives_0.eContents().get(5);
 		private final Keyword cOpAndKeyword_0_6 = (Keyword)cOpAlternatives_0.eContents().get(6);
 		private final Keyword cOpOrKeyword_0_7 = (Keyword)cOpAlternatives_0.eContents().get(7);
 		private final Keyword cOpXorKeyword_0_8 = (Keyword)cOpAlternatives_0.eContents().get(8);
 		private final Keyword cOpImpliesKeyword_0_9 = (Keyword)cOpAlternatives_0.eContents().get(9);
 		
 		//BooleanOperator returns BooleanOperator:
-		//    op=('>' | '<' | '>=' | '<=' | '=' | '<>' | 'and' | 'or' | 'xor' | 'implies');
+		//    op=('>' | '<' | '>=' | '<=' | '=' | '!=' | 'and' | 'or' | 'xor' | 'implies');
 		@Override public ParserRule getRule() { return rule; }
 		
-		//op=('>' | '<' | '>=' | '<=' | '=' | '<>' | 'and' | 'or' | 'xor' | 'implies')
+		//op=('>' | '<' | '>=' | '<=' | '=' | '!=' | 'and' | 'or' | 'xor' | 'implies')
 		public Assignment getOpAssignment() { return cOpAssignment; }
 		
-		//('>' | '<' | '>=' | '<=' | '=' | '<>' | 'and' | 'or' | 'xor' | 'implies')
+		//('>' | '<' | '>=' | '<=' | '=' | '!=' | 'and' | 'or' | 'xor' | 'implies')
 		public Alternatives getOpAlternatives_0() { return cOpAlternatives_0; }
 		
 		//'>'
@@ -382,8 +382,8 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//'='
 		public Keyword getOpEqualsSignKeyword_0_4() { return cOpEqualsSignKeyword_0_4; }
 		
-		//'<>'
-		public Keyword getOpLessThanSignGreaterThanSignKeyword_0_5() { return cOpLessThanSignGreaterThanSignKeyword_0_5; }
+		//'!='
+		public Keyword getOpExclamationMarkEqualsSignKeyword_0_5() { return cOpExclamationMarkEqualsSignKeyword_0_5; }
 		
 		//'and'
 		public Keyword getOpAndKeyword_0_6() { return cOpAndKeyword_0_6; }
@@ -1043,60 +1043,99 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	public class TypeExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.TypeExp");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final Group cGroup_0 = (Group)cAlternatives.eContents().get(0);
-		private final Action cTypeExpAction_0_0 = (Action)cGroup_0.eContents().get(0);
-		private final Keyword cLessThanSignKeyword_0_1 = (Keyword)cGroup_0.eContents().get(1);
-		private final Assignment cNameAssignment_0_2 = (Assignment)cGroup_0.eContents().get(2);
-		private final RuleCall cNamePathParserRuleCall_0_2_0 = (RuleCall)cNameAssignment_0_2.eContents().get(0);
-		private final Keyword cGreaterThanSignKeyword_0_3 = (Keyword)cGroup_0.eContents().get(3);
-		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final Assignment cCollectionTypeAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
-		private final RuleCall cCollectionTypeCollectionTypeIdentifierParserRuleCall_1_0_0 = (RuleCall)cCollectionTypeAssignment_1_0.eContents().get(0);
-		private final Assignment cTypeAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
-		private final RuleCall cTypeTypeExpParserRuleCall_1_1_0 = (RuleCall)cTypeAssignment_1_1.eContents().get(0);
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Action cTypeExpAction_0 = (Action)cGroup.eContents().get(0);
+		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
+		private final RuleCall cNameURITerminalRuleCall_1_0 = (RuleCall)cNameAssignment_1.eContents().get(0);
 		
-		//TypeExp :
-		//     {TypeExp} '<' name=Path '>' // eventually we want to replace this with . notated FQN
-		//    | collectionType=CollectionTypeIdentifier type=TypeExp;
+		//TypeExp:
+		//    {TypeExp} name=URI //'<' name=URITYPE '>'
+		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		// {TypeExp} '<' name=Path '>' // eventually we want to replace this with . notated FQN
-		//| collectionType=CollectionTypeIdentifier type=TypeExp
-		public Alternatives getAlternatives() { return cAlternatives; }
-		
-		//{TypeExp} '<' name=Path '>'
-		public Group getGroup_0() { return cGroup_0; }
+		//{TypeExp} name=URI
+		public Group getGroup() { return cGroup; }
 		
 		//{TypeExp}
-		public Action getTypeExpAction_0_0() { return cTypeExpAction_0_0; }
+		public Action getTypeExpAction_0() { return cTypeExpAction_0; }
 		
-		//'<'
-		public Keyword getLessThanSignKeyword_0_1() { return cLessThanSignKeyword_0_1; }
+		//name=URI
+		public Assignment getNameAssignment_1() { return cNameAssignment_1; }
 		
-		//name=Path
-		public Assignment getNameAssignment_0_2() { return cNameAssignment_0_2; }
+		//URI
+		public RuleCall getNameURITerminalRuleCall_1_0() { return cNameURITerminalRuleCall_1_0; }
+	}
+	public class URITYPEElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.URITYPE");
+		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
+		private final RuleCall cIDTerminalRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cINTTerminalRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+		private final RuleCall cSTRINGTerminalRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
+		private final Keyword cColonKeyword_3 = (Keyword)cAlternatives.eContents().get(3);
+		private final Keyword cBackslashKeyword_4 = (Keyword)cAlternatives.eContents().get(4);
+		private final Keyword cSolidusKeyword_5 = (Keyword)cAlternatives.eContents().get(5);
+		private final Keyword cNumberSignKeyword_6 = (Keyword)cAlternatives.eContents().get(6);
+		private final Keyword cQuestionMarkKeyword_7 = (Keyword)cAlternatives.eContents().get(7);
+		private final Keyword cAmpersandKeyword_8 = (Keyword)cAlternatives.eContents().get(8);
+		private final Keyword cCommercialAtKeyword_9 = (Keyword)cAlternatives.eContents().get(9);
+		private final Keyword c_Keyword_10 = (Keyword)cAlternatives.eContents().get(10);
+		private final Keyword cHyphenMinusKeyword_11 = (Keyword)cAlternatives.eContents().get(11);
+		private final Keyword cPercentSignKeyword_12 = (Keyword)cAlternatives.eContents().get(12);
+		private final Keyword cPlusSignKeyword_13 = (Keyword)cAlternatives.eContents().get(13);
+		private final Keyword cAsteriskKeyword_14 = (Keyword)cAlternatives.eContents().get(14);
 		
-		//Path
-		public RuleCall getNamePathParserRuleCall_0_2_0() { return cNamePathParserRuleCall_0_2_0; }
+		//URITYPE:
+		//    (ID | INT | STRING | ':' | '\\' | '/' | '#' | '?' | '&' | '@' | '_' | '-' | '%' | '+' | '*')+
+		//;
+		@Override public ParserRule getRule() { return rule; }
 		
-		//'>'
-		public Keyword getGreaterThanSignKeyword_0_3() { return cGreaterThanSignKeyword_0_3; }
+		//(ID | INT | STRING | ':' | '\\' | '/' | '#' | '?' | '&' | '@' | '_' | '-' | '%' | '+' | '*')+
+		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//collectionType=CollectionTypeIdentifier type=TypeExp
-		public Group getGroup_1() { return cGroup_1; }
+		//ID
+		public RuleCall getIDTerminalRuleCall_0() { return cIDTerminalRuleCall_0; }
 		
-		//collectionType=CollectionTypeIdentifier
-		public Assignment getCollectionTypeAssignment_1_0() { return cCollectionTypeAssignment_1_0; }
+		//INT
+		public RuleCall getINTTerminalRuleCall_1() { return cINTTerminalRuleCall_1; }
 		
-		//CollectionTypeIdentifier
-		public RuleCall getCollectionTypeCollectionTypeIdentifierParserRuleCall_1_0_0() { return cCollectionTypeCollectionTypeIdentifierParserRuleCall_1_0_0; }
+		//STRING
+		public RuleCall getSTRINGTerminalRuleCall_2() { return cSTRINGTerminalRuleCall_2; }
 		
-		//type=TypeExp
-		public Assignment getTypeAssignment_1_1() { return cTypeAssignment_1_1; }
+		//':'
+		public Keyword getColonKeyword_3() { return cColonKeyword_3; }
 		
-		//TypeExp
-		public RuleCall getTypeTypeExpParserRuleCall_1_1_0() { return cTypeTypeExpParserRuleCall_1_1_0; }
+		//'\\'
+		public Keyword getBackslashKeyword_4() { return cBackslashKeyword_4; }
+		
+		//'/'
+		public Keyword getSolidusKeyword_5() { return cSolidusKeyword_5; }
+		
+		//'#'
+		public Keyword getNumberSignKeyword_6() { return cNumberSignKeyword_6; }
+		
+		//'?'
+		public Keyword getQuestionMarkKeyword_7() { return cQuestionMarkKeyword_7; }
+		
+		//'&'
+		public Keyword getAmpersandKeyword_8() { return cAmpersandKeyword_8; }
+		
+		//'@'
+		public Keyword getCommercialAtKeyword_9() { return cCommercialAtKeyword_9; }
+		
+		//'_'
+		public Keyword get_Keyword_10() { return c_Keyword_10; }
+		
+		//'-'
+		public Keyword getHyphenMinusKeyword_11() { return cHyphenMinusKeyword_11; }
+		
+		//'%'
+		public Keyword getPercentSignKeyword_12() { return cPercentSignKeyword_12; }
+		
+		//'+'
+		public Keyword getPlusSignKeyword_13() { return cPlusSignKeyword_13; }
+		
+		//'*'
+		public Keyword getAsteriskKeyword_14() { return cAsteriskKeyword_14; }
 	}
 	public class CollectionTypeIdentifierElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.CollectionTypeIdentifier");
@@ -1107,6 +1146,9 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Keyword cNameMapKeyword_0_2 = (Keyword)cNameAlternatives_0.eContents().get(2);
 		private final Keyword cNameCollectionKeyword_0_3 = (Keyword)cNameAlternatives_0.eContents().get(3);
 		
+		////TypeExp :
+		////     {TypeExp} '<' name=URI '>' //
+		////    | collectionType=CollectionTypeIdentifier type=TypeExp;
 		//CollectionTypeIdentifier: // not really used yet, as only needed to define literals
 		//    name=('set'|'list'|'map'|'collection')
 		//;
@@ -1592,41 +1634,6 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//')'
 		public Keyword getRightParenthesisKeyword_5() { return cRightParenthesisKeyword_5; }
 	}
-	public class PathElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.Path");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final RuleCall cSimpleNameParserRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
-		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
-		private final Keyword cSolidusKeyword_1_0 = (Keyword)cGroup_1.eContents().get(0);
-		private final RuleCall cSimpleNameParserRuleCall_1_1 = (RuleCall)cGroup_1.eContents().get(1);
-		
-		////DeclarePatternExp:
-		////    'atMostOnce' |
-		////    'bothOrNeither' | // coexistence
-		////    'whenever' 'eventually' | // response
-		////
-		////
-		////;
-		//Path:
-		//     SimpleName ( '/'  SimpleName)*
-		//;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//SimpleName ( '/'  SimpleName)*
-		public Group getGroup() { return cGroup; }
-		
-		//SimpleName
-		public RuleCall getSimpleNameParserRuleCall_0() { return cSimpleNameParserRuleCall_0; }
-		
-		//( '/'  SimpleName)*
-		public Group getGroup_1() { return cGroup_1; }
-		
-		//'/'
-		public Keyword getSolidusKeyword_1_0() { return cSolidusKeyword_1_0; }
-		
-		//SimpleName
-		public RuleCall getSimpleNameParserRuleCall_1_1() { return cSimpleNameParserRuleCall_1_1; }
-	}
 	public class ArgumentsExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.ArgumentsExp");
 		private final Group cGroup = (Group)rule.eContents().get(1);
@@ -1637,6 +1644,16 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cOperatorsAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
 		private final RuleCall cOperatorsExpParserRuleCall_1_1_0 = (RuleCall)cOperatorsAssignment_1_1.eContents().get(0);
 		
+		////DeclarePatternExp:
+		////    'atMostOnce' |
+		////    'bothOrNeither' | // coexistence
+		////    'whenever' 'eventually' | // response
+		////
+		////
+		////;
+		////Path:
+		////     SimpleName ( '/'  SimpleName)*
+		////;
 		//ArgumentsExp:
 		//    operators+=Exp (',' operators+=Exp)*
 		//;
@@ -1670,6 +1687,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final QualifiedNameElements pQualifiedName;
 	private final SimpleNameElements pSimpleName;
 	private final TerminalRule tDESCRIPTION;
+	private final TerminalRule tURI;
 	private final ContextElements pContext;
 	private final ExpElements pExp;
 	private final PrefixedExpElements pPrefixedExp;
@@ -1698,6 +1716,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final MethodCallElements pMethodCall;
 	private final TypeCallElements pTypeCall;
 	private final TypeExpElements pTypeExp;
+	private final URITYPEElements pURITYPE;
 	private final CollectionTypeIdentifierElements pCollectionTypeIdentifier;
 	private final TemporalExpElements pTemporalExp;
 	private final UnaryTemporalExpElements pUnaryTemporalExp;
@@ -1710,7 +1729,6 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final LegacyUntilElements pLegacyUntil;
 	private final LegacyAsSoonAsElements pLegacyAsSoonAs;
 	private final LegacyEverytimeElements pLegacyEverytime;
-	private final PathElements pPath;
 	private final ArgumentsExpElements pArgumentsExp;
 	
 	private final Grammar grammar;
@@ -1727,6 +1745,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pQualifiedName = new QualifiedNameElements();
 		this.pSimpleName = new SimpleNameElements();
 		this.tDESCRIPTION = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.DESCRIPTION");
+		this.tURI = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.URI");
 		this.pContext = new ContextElements();
 		this.pExp = new ExpElements();
 		this.pPrefixedExp = new PrefixedExpElements();
@@ -1755,6 +1774,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pMethodCall = new MethodCallElements();
 		this.pTypeCall = new TypeCallElements();
 		this.pTypeExp = new TypeExpElements();
+		this.pURITYPE = new URITYPEElements();
 		this.pCollectionTypeIdentifier = new CollectionTypeIdentifierElements();
 		this.pTemporalExp = new TemporalExpElements();
 		this.pUnaryTemporalExp = new UnaryTemporalExpElements();
@@ -1767,7 +1787,6 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pLegacyUntil = new LegacyUntilElements();
 		this.pLegacyAsSoonAs = new LegacyAsSoonAsElements();
 		this.pLegacyEverytime = new LegacyEverytimeElements();
-		this.pPath = new PathElements();
 		this.pArgumentsExp = new ArgumentsExpElements();
 	}
 	
@@ -1850,6 +1869,13 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return tDESCRIPTION;
 	}
 	
+	//terminal URI:
+	//    '<' -> '>'
+	//;
+	public TerminalRule getURIRule() {
+		return tURI;
+	}
+	
 	//Context:
 	//    name = QualifiedName
 	//;
@@ -1912,7 +1938,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//BooleanOperator returns BooleanOperator:
-	//    op=('>' | '<' | '>=' | '<=' | '=' | '<>' | 'and' | 'or' | 'xor' | 'implies');
+	//    op=('>' | '<' | '>=' | '<=' | '=' | '!=' | 'and' | 'or' | 'xor' | 'implies');
 	public BooleanOperatorElements getBooleanOperatorAccess() {
 		return pBooleanOperator;
 	}
@@ -2158,9 +2184,9 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getTypeCallAccess().getRule();
 	}
 	
-	//TypeExp :
-	//     {TypeExp} '<' name=Path '>' // eventually we want to replace this with . notated FQN
-	//    | collectionType=CollectionTypeIdentifier type=TypeExp;
+	//TypeExp:
+	//    {TypeExp} name=URI //'<' name=URITYPE '>'
+	//;
 	public TypeExpElements getTypeExpAccess() {
 		return pTypeExp;
 	}
@@ -2169,6 +2195,20 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getTypeExpAccess().getRule();
 	}
 	
+	//URITYPE:
+	//    (ID | INT | STRING | ':' | '\\' | '/' | '#' | '?' | '&' | '@' | '_' | '-' | '%' | '+' | '*')+
+	//;
+	public URITYPEElements getURITYPEAccess() {
+		return pURITYPE;
+	}
+	
+	public ParserRule getURITYPERule() {
+		return getURITYPEAccess().getRule();
+	}
+	
+	////TypeExp :
+	////     {TypeExp} '<' name=URI '>' //
+	////    | collectionType=CollectionTypeIdentifier type=TypeExp;
 	//CollectionTypeIdentifier: // not really used yet, as only needed to define literals
 	//    name=('set'|'list'|'map'|'collection')
 	//;
@@ -2312,17 +2352,9 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	////
 	////
 	////;
-	//Path:
-	//     SimpleName ( '/'  SimpleName)*
-	//;
-	public PathElements getPathAccess() {
-		return pPath;
-	}
-	
-	public ParserRule getPathRule() {
-		return getPathAccess().getRule();
-	}
-	
+	////Path:
+	////     SimpleName ( '/'  SimpleName)*
+	////;
 	//ArgumentsExp:
 	//    operators+=Exp (',' operators+=Exp)*
 	//;

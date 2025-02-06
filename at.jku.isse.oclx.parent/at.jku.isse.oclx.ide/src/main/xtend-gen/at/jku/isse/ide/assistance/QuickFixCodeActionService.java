@@ -441,7 +441,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
   }
 
   protected String getTransformedFQN(final PPEInstanceType type) {
-    String fqn = type.getFullyQualifiedName();
+    String fqn = type.getId();
     boolean _startsWith = fqn.startsWith("/");
     if (_startsWith) {
       return fqn.substring(1);

@@ -346,7 +346,7 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: not(self.requirements->forAll(x : <root/types/DemoIssue> | x.parent <> null ) )");
+      _builder.append("expression: not(self.requirements->forAll(x : <http://isse.jku.at/demo#DemoIssue> | x.parent != null ) )");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -378,7 +378,7 @@ public class OCLXParsingTest {
       _builder.append("context: artifact");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: self.asType(<root/types/DemoIssue>).requirements.size() > 0 ");
+      _builder.append("expression: self.asType(<http://isse.jku.at/demo#DemoIssue>).requirements.size() > 0 ");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
@@ -410,7 +410,7 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: self.asType(<root/types/artifact>).requirements.size() > 0 ");
+      _builder.append("expression: self.asType(<http://isse.jku.at/passiveprocessengine#artifact>).requirements.size() > 0 ");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();

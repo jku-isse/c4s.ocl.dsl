@@ -26,6 +26,10 @@ terminal DESCRIPTION:
 	'\"' -> '\"' 
 ;
 
+terminal URI:
+	'<' -> '>'
+;
+
 Context:
 	name = QualifiedName
 ;
@@ -53,7 +57,7 @@ InfixOperator returns BinaryOperator:
 	BooleanOperator | MathOperator;	
 
 BooleanOperator returns BooleanOperator:
-	op=('>' | '<' | '>=' | '<=' | '=' | '<>' | 'and' | 'or' | 'xor' | 'implies');
+	op=('>' | '<' | '>=' | '<=' | '=' | '!=' | 'and' | 'or' | 'xor' | 'implies');
 	
 MathOperator returns MathOperator:
 	op=('*' | '/' | '+' | '-');
@@ -142,9 +146,17 @@ TypeCall returns TypeCallExp:
 	name=('asType'|'isTypeOf'|'isKindOf')'('type=TypeExp')'
 ;
 
-TypeExp :
-	 {TypeExp} '<' name=Path '>' // eventually we want to replace this with . notated FQN
-	| collectionType=CollectionTypeIdentifier type=TypeExp;
+TypeExp:
+	{TypeExp} name=URI //'<' name=URITYPE '>'
+;
+
+URITYPE:
+	(ID | INT | STRING | ':' | '\\' | '/' | '#' | '?' | '&' | '@' | '_' | '-' | '%' | '+' | '*')+
+;
+
+//TypeExp :
+//	 {TypeExp} '<' name=URI '>' // 
+//	| collectionType=CollectionTypeIdentifier type=TypeExp;
 
 CollectionTypeIdentifier: // not really used yet, as only needed to define literals
 	name=('set'|'list'|'map'|'collection')
@@ -206,9 +218,10 @@ LegacyEverytime returns TriggeredTemporalExp:
 //	
 //;
 
-Path:
-	 SimpleName ( '/'  SimpleName)*
-;
+//Path:
+//	 SimpleName ( '/'  SimpleName)*
+//;
+
 
 ArgumentsExp:
 	operators+=Exp (',' operators+=Exp)*

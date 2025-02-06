@@ -3,15 +3,12 @@
  */
 package at.jku.isse.oclx.impl;
 
-import at.jku.isse.oclx.CollectionTypeIdentifier;
 import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.TypeExp;
 
 import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.common.notify.NotificationChain;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
@@ -25,8 +22,6 @@ import org.eclipse.emf.ecore.impl.MinimalEObjectImpl;
  * </p>
  * <ul>
  *   <li>{@link at.jku.isse.oclx.impl.TypeExpImpl#getName <em>Name</em>}</li>
- *   <li>{@link at.jku.isse.oclx.impl.TypeExpImpl#getCollectionType <em>Collection Type</em>}</li>
- *   <li>{@link at.jku.isse.oclx.impl.TypeExpImpl#getType <em>Type</em>}</li>
  * </ul>
  *
  * @generated
@@ -52,26 +47,6 @@ public class TypeExpImpl extends MinimalEObjectImpl.Container implements TypeExp
    * @ordered
    */
   protected String name = NAME_EDEFAULT;
-
-  /**
-   * The cached value of the '{@link #getCollectionType() <em>Collection Type</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getCollectionType()
-   * @generated
-   * @ordered
-   */
-  protected CollectionTypeIdentifier collectionType;
-
-  /**
-   * The cached value of the '{@link #getType() <em>Type</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see #getType()
-   * @generated
-   * @ordered
-   */
-  protected TypeExp type;
 
   /**
    * <!-- begin-user-doc -->
@@ -125,134 +100,12 @@ public class TypeExpImpl extends MinimalEObjectImpl.Container implements TypeExp
    * @generated
    */
   @Override
-  public CollectionTypeIdentifier getCollectionType()
-  {
-    return collectionType;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetCollectionType(CollectionTypeIdentifier newCollectionType, NotificationChain msgs)
-  {
-    CollectionTypeIdentifier oldCollectionType = collectionType;
-    collectionType = newCollectionType;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OclxPackage.TYPE_EXP__COLLECTION_TYPE, oldCollectionType, newCollectionType);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setCollectionType(CollectionTypeIdentifier newCollectionType)
-  {
-    if (newCollectionType != collectionType)
-    {
-      NotificationChain msgs = null;
-      if (collectionType != null)
-        msgs = ((InternalEObject)collectionType).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OclxPackage.TYPE_EXP__COLLECTION_TYPE, null, msgs);
-      if (newCollectionType != null)
-        msgs = ((InternalEObject)newCollectionType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OclxPackage.TYPE_EXP__COLLECTION_TYPE, null, msgs);
-      msgs = basicSetCollectionType(newCollectionType, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, OclxPackage.TYPE_EXP__COLLECTION_TYPE, newCollectionType, newCollectionType));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public TypeExp getType()
-  {
-    return type;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  public NotificationChain basicSetType(TypeExp newType, NotificationChain msgs)
-  {
-    TypeExp oldType = type;
-    type = newType;
-    if (eNotificationRequired())
-    {
-      ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, OclxPackage.TYPE_EXP__TYPE, oldType, newType);
-      if (msgs == null) msgs = notification; else msgs.add(notification);
-    }
-    return msgs;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public void setType(TypeExp newType)
-  {
-    if (newType != type)
-    {
-      NotificationChain msgs = null;
-      if (type != null)
-        msgs = ((InternalEObject)type).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - OclxPackage.TYPE_EXP__TYPE, null, msgs);
-      if (newType != null)
-        msgs = ((InternalEObject)newType).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - OclxPackage.TYPE_EXP__TYPE, null, msgs);
-      msgs = basicSetType(newType, msgs);
-      if (msgs != null) msgs.dispatch();
-    }
-    else if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, OclxPackage.TYPE_EXP__TYPE, newType, newType));
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-  {
-    switch (featureID)
-    {
-      case OclxPackage.TYPE_EXP__COLLECTION_TYPE:
-        return basicSetCollectionType(null, msgs);
-      case OclxPackage.TYPE_EXP__TYPE:
-        return basicSetType(null, msgs);
-    }
-    return super.eInverseRemove(otherEnd, featureID, msgs);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public Object eGet(int featureID, boolean resolve, boolean coreType)
   {
     switch (featureID)
     {
       case OclxPackage.TYPE_EXP__NAME:
         return getName();
-      case OclxPackage.TYPE_EXP__COLLECTION_TYPE:
-        return getCollectionType();
-      case OclxPackage.TYPE_EXP__TYPE:
-        return getType();
     }
     return super.eGet(featureID, resolve, coreType);
   }
@@ -269,12 +122,6 @@ public class TypeExpImpl extends MinimalEObjectImpl.Container implements TypeExp
     {
       case OclxPackage.TYPE_EXP__NAME:
         setName((String)newValue);
-        return;
-      case OclxPackage.TYPE_EXP__COLLECTION_TYPE:
-        setCollectionType((CollectionTypeIdentifier)newValue);
-        return;
-      case OclxPackage.TYPE_EXP__TYPE:
-        setType((TypeExp)newValue);
         return;
     }
     super.eSet(featureID, newValue);
@@ -293,12 +140,6 @@ public class TypeExpImpl extends MinimalEObjectImpl.Container implements TypeExp
       case OclxPackage.TYPE_EXP__NAME:
         setName(NAME_EDEFAULT);
         return;
-      case OclxPackage.TYPE_EXP__COLLECTION_TYPE:
-        setCollectionType((CollectionTypeIdentifier)null);
-        return;
-      case OclxPackage.TYPE_EXP__TYPE:
-        setType((TypeExp)null);
-        return;
     }
     super.eUnset(featureID);
   }
@@ -315,10 +156,6 @@ public class TypeExpImpl extends MinimalEObjectImpl.Container implements TypeExp
     {
       case OclxPackage.TYPE_EXP__NAME:
         return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
-      case OclxPackage.TYPE_EXP__COLLECTION_TYPE:
-        return collectionType != null;
-      case OclxPackage.TYPE_EXP__TYPE:
-        return type != null;
     }
     return super.eIsSet(featureID);
   }

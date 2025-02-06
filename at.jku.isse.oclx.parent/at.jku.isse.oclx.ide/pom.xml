@@ -4,15 +4,15 @@
 	<parent>
 		<groupId>at.jku.isse.oclx</groupId>
 		<artifactId>at.jku.isse.oclx.parent</artifactId>
-		<version>1.0.2-SNAPSHOT</version>
+		<version>1.1.0-SNAPSHOT</version>
 	</parent>
 	<artifactId>at.jku.isse.oclx.ide</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
-		<ppe.rest.version>2.0.7-SNAPSHOT</ppe.rest.version>	
-		<connector.core.version>2.0.8</connector.core.version>
-		<ds5wrapper.version>1.0.8</ds5wrapper.version>
+		<ppe.rest.version>3.0.0-SNAPSHOT</ppe.rest.version>	
+		<connector.core.version>3.0.0</connector.core.version>
+		<rdfwrapper.version>0.0.5-SNAPSHOT</rdfwrapper.version>
 	<!--	<start-class>at.jku.isse.DslEnabledRestFrontend</start-class>-->
 	</properties>
 
@@ -179,9 +179,9 @@
 			<version>${connector.core.version}</version>
 		</dependency>		
 		<dependency>
-			<groupId>at.jku.isse.designspace</groupId>
-			<artifactId>artifact-connector.ds5wrapper</artifactId>
-			<version>${ds5wrapper.version}</version>
+			<groupId>at.jku.isse</groupId>
+			<artifactId>artifacteventstreaming</artifactId>
+			<version>${rdfwrapper.version}</version>
 			<scope>compile</scope>
 		</dependency>
 		<!-- Testing -->

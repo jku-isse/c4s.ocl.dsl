@@ -15,8 +15,6 @@ import org.eclipse.emf.ecore.EObject;
  * </p>
  * <ul>
  *   <li>{@link at.jku.isse.oclx.TypeExp#getName <em>Name</em>}</li>
- *   <li>{@link at.jku.isse.oclx.TypeExp#getCollectionType <em>Collection Type</em>}</li>
- *   <li>{@link at.jku.isse.oclx.TypeExp#getType <em>Type</em>}</li>
  * </ul>
  *
  * @see at.jku.isse.oclx.OclxPackage#getTypeExp()
@@ -46,49 +44,5 @@ public interface TypeExp extends EObject
    * @generated
    */
   void setName(String value);
-
-  /**
-   * Returns the value of the '<em><b>Collection Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Collection Type</em>' containment reference.
-   * @see #setCollectionType(CollectionTypeIdentifier)
-   * @see at.jku.isse.oclx.OclxPackage#getTypeExp_CollectionType()
-   * @model containment="true"
-   * @generated
-   */
-  CollectionTypeIdentifier getCollectionType();
-
-  /**
-   * Sets the value of the '{@link at.jku.isse.oclx.TypeExp#getCollectionType <em>Collection Type</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Collection Type</em>' containment reference.
-   * @see #getCollectionType()
-   * @generated
-   */
-  void setCollectionType(CollectionTypeIdentifier value);
-
-  /**
-   * Returns the value of the '<em><b>Type</b></em>' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Type</em>' containment reference.
-   * @see #setType(TypeExp)
-   * @see at.jku.isse.oclx.OclxPackage#getTypeExp_Type()
-   * @model containment="true"
-   * @generated
-   */
-  TypeExp getType();
-
-  /**
-   * Sets the value of the '{@link at.jku.isse.oclx.TypeExp#getType <em>Type</em>}' containment reference.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @param value the new value of the '<em>Type</em>' containment reference.
-   * @see #getType()
-   * @generated
-   */
-  void setType(TypeExp value);
 
 } // TypeExp

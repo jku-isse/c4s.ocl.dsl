@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
 import at.jku.isse.ide.assistance.CodeActionExecuter
+import org.eclipse.xtext.validation.Issue
 
 @ExtendWith(InjectionExtension)
 @InjectWith(OCLXInjectorProvider)
@@ -50,7 +51,7 @@ class CodeRepairExecutionTests {
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 	@Test
@@ -69,7 +70,7 @@ class CodeRepairExecutionTests {
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		//TODO select after any, rather than before
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 		@Test
@@ -90,7 +91,7 @@ class CodeRepairExecutionTests {
 		// self.referencesGroup.asList().first()->SELECT(object | object.isKindOf(<DemoIssue>).referencesGroup.size() > 0 
 		
 		// TODO: select statement added before property, instead of before list
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 		@Test
@@ -109,7 +110,7 @@ class CodeRepairExecutionTests {
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 	@Test
@@ -127,8 +128,7 @@ class CodeRepairExecutionTests {
 		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
-		// TODO Wrong position of SELECT -> is before property, but needs to be before iterator
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 	@Test
@@ -147,7 +147,7 @@ class CodeRepairExecutionTests {
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 		@Test
@@ -166,7 +166,7 @@ class CodeRepairExecutionTests {
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 		@Test
@@ -183,7 +183,7 @@ class CodeRepairExecutionTests {
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 	@Test
@@ -200,7 +200,7 @@ class CodeRepairExecutionTests {
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
 		
-		Assertions.assertTrue(isCorrect(repaired));
+		Assertions.assertTrue(isCorrect(repaired, true));
 	}
 	
 	@Test
@@ -217,10 +217,17 @@ class CodeRepairExecutionTests {
 		Assertions.assertNull(repaired);
 	}
 	
-	def isCorrect(String constraint) {
+	def isCorrect(String constraint, boolean expected) {
 		var executer = new CodeActionExecuter(constraint, resourceSetProvider, resourceFactory, invariantChecker, repairService);
 		executer.checkForIssues();
-		return executer.problems.isEmpty();
+		var isCorrect = executer.problems.isEmpty();
+		if (isCorrect != expected && expected == Boolean.TRUE) {
+			for (Issue problem : executer.problems) {
+				 System.out.println(problem);
+			}
+		}
+		
+		return isCorrect;
 	}
 	
 

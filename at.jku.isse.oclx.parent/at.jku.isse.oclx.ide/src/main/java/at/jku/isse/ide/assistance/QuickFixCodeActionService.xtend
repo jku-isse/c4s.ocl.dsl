@@ -264,7 +264,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	}
 	
 	protected def getTransformedFQN(PPEInstanceType type) {
-		var fqn = type.fullyQualifiedName
+		var fqn = type.id
 		if (fqn.startsWith("/"))
 			return fqn.substring(1)
 		else

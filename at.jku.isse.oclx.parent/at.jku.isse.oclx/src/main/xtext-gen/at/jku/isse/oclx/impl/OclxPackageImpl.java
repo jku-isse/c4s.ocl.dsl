@@ -989,28 +989,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EReference getTypeExp_CollectionType()
-  {
-    return (EReference)typeExpEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getTypeExp_Type()
-  {
-    return (EReference)typeExpEClass.getEStructuralFeatures().get(2);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getCollectionTypeIdentifier()
   {
     return collectionTypeIdentifierEClass;
@@ -1316,8 +1294,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
 
     typeExpEClass = createEClass(TYPE_EXP);
     createEAttribute(typeExpEClass, TYPE_EXP__NAME);
-    createEReference(typeExpEClass, TYPE_EXP__COLLECTION_TYPE);
-    createEReference(typeExpEClass, TYPE_EXP__TYPE);
 
     collectionTypeIdentifierEClass = createEClass(COLLECTION_TYPE_IDENTIFIER);
     createEAttribute(collectionTypeIdentifierEClass, COLLECTION_TYPE_IDENTIFIER__NAME);
@@ -1479,8 +1455,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
 
     initEClass(typeExpEClass, TypeExp.class, "TypeExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getTypeExp_Name(), ecorePackage.getEString(), "name", null, 0, 1, TypeExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getTypeExp_CollectionType(), this.getCollectionTypeIdentifier(), null, "collectionType", null, 0, 1, TypeExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getTypeExp_Type(), this.getTypeExp(), null, "type", null, 0, 1, TypeExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(collectionTypeIdentifierEClass, CollectionTypeIdentifier.class, "CollectionTypeIdentifier", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getCollectionTypeIdentifier_Name(), ecorePackage.getEString(), "name", null, 0, 1, CollectionTypeIdentifier.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
