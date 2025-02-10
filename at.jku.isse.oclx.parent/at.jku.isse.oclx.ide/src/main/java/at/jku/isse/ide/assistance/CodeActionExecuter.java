@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -68,22 +69,33 @@ public class CodeActionExecuter {
 		parse(constraint);
 	}
 	
+	public CodeActionExecuter prepareForNextRepairIteration() {
+		return new CodeActionExecuter( 
+			repairedOclxConstraint != null ? repairedOclxConstraint : constraint
+					, resourceSetProvider
+					, resourceFactory
+					, invariantChecker
+					, repairService
+				);
+	}
+	
 	public void checkForIssues() {
 		 IResourceValidator validator = resource.getResourceServiceProvider()
 				.getResourceValidator();
 		 problems = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 	}
 	
-	public void executeRepairs() { // only for those issues that have code actions, first repair selected
+	public void executeFirstExecutableRepair() { // only for those issues that have code actions, first repair selected
 		executedCodeAction = null; // resetting
 		problems.stream()
-			.map(issue -> getRepairs(issue))
+			.map(this::getRepairs)
 			.filter(repairs -> !repairs.isEmpty())
 			.map(repairs -> repairs.stream()
 					.filter(repair -> repair.getKind().equals("quickfix"))
 					.findAny()) 
-			.filter(repairOpt -> repairOpt.isPresent())
-			.forEach(repairOpt -> executeRepair(repairOpt.get(), constraint));
+			.filter(Optional::isPresent)
+			.findFirst()
+			.ifPresent(repairOpt -> executeRepair(repairOpt.get(), constraint));
 	}
 	
 	private List<CodeAction> getRepairs(Issue issue) {

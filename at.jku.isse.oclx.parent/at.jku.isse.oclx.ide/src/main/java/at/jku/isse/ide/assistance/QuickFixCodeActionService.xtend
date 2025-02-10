@@ -31,6 +31,7 @@ import at.jku.isse.oclx.IteratorExp
 import at.jku.isse.validation.OclxASTUtils
 import at.jku.isse.validation.TypeExtractor
 import at.jku.isse.oclx.IteratorVarDeclaration
+import at.jku.isse.passiveprocessengine.core.SchemaRegistry
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -40,6 +41,8 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	EObjectAtOffsetHelper eObjectAtOffsetHelper;
 	@Inject 
 	MethodRegistry methodReg;
+	@Inject 
+	SchemaRegistry schemaReg;
 	
 	DuplicateVariableQuickfixer duplicateFixer = new DuplicateVariableQuickfixer();
 	
@@ -62,7 +65,13 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			for (d : params.context.diagnostics) {
 				val stringToRepair = document.getSubstring(d.range)
 				val offset = document.getOffSet(d.range.start)
-				if (d.code.get == OCLXValidator.DUPLICATE_VAR_NAME) {
+				if (d.code.get == OCLXValidator.UNKNOWN_TYPE) {
+					val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+					var repair =  new UnknownTypeQuickfixer(schemaReg).createReplaceWithMostSimilarTypeQuickFix(modelElement, stringToRepair, d, resource);
+					if (repair !== null) {
+						result += repair
+					}
+				} else if (d.code.get == OCLXValidator.DUPLICATE_VAR_NAME) {
 					val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset);
 					var iterDecl = modelElement.eContainer;
 					if (iterDecl instanceof IteratorVarDeclaration){

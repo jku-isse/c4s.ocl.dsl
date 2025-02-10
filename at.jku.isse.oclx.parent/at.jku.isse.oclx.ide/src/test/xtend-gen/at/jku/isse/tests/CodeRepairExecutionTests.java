@@ -41,7 +41,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -60,7 +60,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -79,7 +79,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -98,7 +98,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -117,7 +117,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -136,7 +136,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -155,7 +155,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -173,7 +173,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -191,7 +191,7 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNotNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     System.out.println(executer.getExecutedCodeAction());
@@ -209,10 +209,46 @@ public class CodeRepairExecutionTests {
     int _size = executer.getProblems().size();
     boolean _greaterThan = (_size > 0);
     Assertions.assertTrue(_greaterThan);
-    executer.executeRepairs();
+    executer.executeFirstExecutableRepair();
     Assertions.assertNull(executer.getExecutedCodeAction());
     String repaired = executer.getRepairedOclxConstraint();
     Assertions.assertNull(repaired);
+  }
+
+  @Test
+  public void testSimilarTypeReplaced() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("rule TestRule2 {  description: \"just some test\" context: DemoIssue  expression: self.downstream->exists(req | req.isTypeOf(<Issue>) ) }");
+    String content = _builder.toString();
+    CodeActionExecuter executer = new CodeActionExecuter(content, this.resourceSetProvider, this.resourceFactory, this.invariantChecker, this.repairService);
+    executer.checkForIssues();
+    int _size = executer.getProblems().size();
+    boolean _greaterThan = (_size > 0);
+    Assertions.assertTrue(_greaterThan);
+    executer.executeFirstExecutableRepair();
+    Assertions.assertNotNull(executer.getExecutedCodeAction());
+    String repaired = executer.getRepairedOclxConstraint();
+    System.out.println(executer.getExecutedCodeAction());
+    System.out.println(repaired);
+    Assertions.assertTrue(this.isCorrect(repaired));
+  }
+
+  @Test
+  public void testExactTypeReplaced() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("rule TestRule2 {  description: \"just some test\" context: DemoIssue  expression: self.downstream->exists(req | req.isTypeOf(<DemoIssue>) ) }");
+    String content = _builder.toString();
+    CodeActionExecuter executer = new CodeActionExecuter(content, this.resourceSetProvider, this.resourceFactory, this.invariantChecker, this.repairService);
+    executer.checkForIssues();
+    int _size = executer.getProblems().size();
+    boolean _greaterThan = (_size > 0);
+    Assertions.assertTrue(_greaterThan);
+    executer.executeFirstExecutableRepair();
+    Assertions.assertNotNull(executer.getExecutedCodeAction());
+    String repaired = executer.getRepairedOclxConstraint();
+    System.out.println(executer.getExecutedCodeAction());
+    System.out.println(repaired);
+    Assertions.assertTrue(this.isCorrect(repaired));
   }
 
   public boolean isCorrect(final String constraint) {

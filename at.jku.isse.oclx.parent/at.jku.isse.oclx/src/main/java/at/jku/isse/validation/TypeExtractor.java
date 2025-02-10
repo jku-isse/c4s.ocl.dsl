@@ -140,7 +140,8 @@ public class TypeExtractor {
 		currentTypeAndCardinality = checkExpressionForNavigationCorrectness(prefixExp.getExpression(), elementToTypeMap); 
 		if (prefixExp.getOperator().getName().equals(grammarAccess.getUnaryOperatorAccess().getNameNotKeyword_0_1().getValue())
 				&& currentTypeAndCardinality.getType() != BuildInType.BOOLEAN) {
-			errorCollector.error(String.format(" Expression prefixed with 'not' operator requires Boolean return type but found '%s' ", currentTypeAndCardinality.getType())
+			var type = currentTypeAndCardinality != null ? currentTypeAndCardinality.getType() : "null";
+			errorCollector.error(String.format(" Expression prefixed with 'not' operator requires Boolean return type but found '%s' ", type)
 					, prefixExp, OclxPackage.Literals.PREFIX_EXP__EXPRESSION, OCLXValidator.INCOMPATIBLE_RETURN_TYPE);
 		}
 		return currentTypeAndCardinality;

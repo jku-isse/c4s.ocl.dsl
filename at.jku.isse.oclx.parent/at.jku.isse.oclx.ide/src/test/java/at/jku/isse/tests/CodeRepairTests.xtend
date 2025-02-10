@@ -226,7 +226,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	                ->exists(req | req.bugs.size() > 0)
 	        and 
 	            self->isDefined()
-	        and self.downstream->forAll( req |  req.isEmpty() )  )
+	        and self.downstream->forAll( req |  req.isDefined() )  )
 	}'''
 		val result = parseHelper.parse(content)
 		Assertions.assertNotNull(result)

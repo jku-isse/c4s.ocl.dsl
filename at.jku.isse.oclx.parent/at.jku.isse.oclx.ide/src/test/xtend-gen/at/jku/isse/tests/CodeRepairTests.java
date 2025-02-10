@@ -294,7 +294,7 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       _builder.append("self->isDefined()");
       _builder.newLine();
       _builder.append("\t        ");
-      _builder.append("and self.downstream->forAll( req |  req.isEmpty() )  )");
+      _builder.append("and self.downstream->forAll( req |  req.isDefined() )  )");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("}");

@@ -13,6 +13,7 @@ import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 public class OCLXTestArtifacts {
 
 	public static final String DEMOISSUETYPE = "DemoIssue";
+	public static final String TYPEPREFIX = "root/types/demo/";
 	public static enum CoreProperties { state, requirements, bugs, parent, html_url, upstream, downstream, referencesSingle, referencesGroup }
 	public static enum JiraStates { Open, InProgress, Closed, ReadyForReview, Released}
 
@@ -25,12 +26,12 @@ public class OCLXTestArtifacts {
 	}
 	
 	public PPEInstanceType getJiraInstanceType() {
-		Optional<PPEInstanceType> thisType = schemaRegistry.findNonDeletedInstanceTypeByFQN(DEMOISSUETYPE);
+		Optional<PPEInstanceType> thisType = schemaRegistry.findNonDeletedInstanceTypeByFQN(TYPEPREFIX+DEMOISSUETYPE);
 		var baseType =  schemaRegistry.getTypeByName(CoreTypeFactory.BASE_TYPE_NAME);
 			if (thisType.isPresent())
 				return thisType.get();
 			else {
-				PPEInstanceType typeJira = schemaRegistry.createNewInstanceType(DEMOISSUETYPE, baseType);				
+				PPEInstanceType typeJira = schemaRegistry.createNewInstanceType(TYPEPREFIX+DEMOISSUETYPE, baseType);				
 				schemaRegistry.registerTypeByName(typeJira);
 				typeJira.createSinglePropertyType(CoreProperties.state.toString(), BuildInType.STRING);
 				typeJira.createSetPropertyType(CoreProperties.requirements.toString(), typeJira);

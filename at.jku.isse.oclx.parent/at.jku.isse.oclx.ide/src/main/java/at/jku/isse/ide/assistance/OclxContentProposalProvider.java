@@ -172,7 +172,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 											.filter(name -> !name.startsWith("@"))
 											.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
 													.apply(str, partialName), str) )
-											.sorted(textComp)
+											.sorted(similarityComparator)
 											.map(entry -> entry.getValue())
 											.collect(Collectors.toList());
 									proposeReplaceIndividualProperties(acceptor, choices, context, partialName);
@@ -293,7 +293,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 				.filter(name -> !name.startsWith("@"))
 				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
 						.apply(str, compareTo), str) )
-				.sorted(textComp)
+				.sorted(similarityComparator)
 				.map(entry -> entry.getValue())
 				.collect(Collectors.toList());
 	}
@@ -304,17 +304,17 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 				.map(decl -> decl.name)				
 				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
 						.apply(str, compareTo), str) )
-				.sorted(textComp)
+				.sorted(similarityComparator)
 				.map(entry -> entry.getValue())
 				.collect(Collectors.toList());
 	}
 	
-	public static TextComparator textComp = new TextComparator();
+	public static TextComparator similarityComparator = new TextComparator();
 	
-	private static class TextComparator implements Comparator<Entry<Double, String>> {
+	public static class TextComparator implements Comparator<Entry<Double, ?>> {
 
 		@Override
-		public int compare(Entry<Double, String> o1, Entry<Double, String> o2) { 
+		public int compare(Entry<Double, ?> o1, Entry<Double, ?> o2) { 
 			return o2.getKey().compareTo(o1.getKey());
 		}
 	}
