@@ -1,10 +1,11 @@
 package at.jku.isse.ide.assistance;
 
 import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.apache.commons.text.similarity.JaroWinklerDistance;
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.lsp4j.CodeAction;
 import org.eclipse.lsp4j.CodeActionKind;
@@ -52,10 +53,12 @@ public class UnknownTypeQuickfixer {
 	}
 	
 	public Optional<PPEInstanceType> findMostSimilarType(String typeName) {
-		return schemaReg.getTypeByName(CoreTypeFactory.BASE_TYPE_NAME).getAllSubtypesRecursively().stream()
-				.map(type -> new AbstractMap.SimpleEntry<Double, PPEInstanceType>( new JaroWinklerDistance()
-						.apply(type.getName(), typeName), type) )
+		List <SimpleEntry <Double, PPEInstanceType>> candidates = schemaReg.getTypeByName(CoreTypeFactory.BASE_TYPE_NAME).getAllSubtypesRecursively().stream()
+		.map(type -> new AbstractMap.SimpleEntry<Double, PPEInstanceType>( new JaroWinklerSimilarity()
+				.apply(type.getName(), typeName), type) )
 				.sorted(OclxContentProposalProvider.similarityComparator)
+				.toList();
+		return candidates.stream() 
 				.map(entry -> entry.getValue())
 				.findFirst();
 	}

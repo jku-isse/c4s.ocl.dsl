@@ -180,7 +180,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: not(self.requirements->forAll(x : <root/types/DemoIssue> | x.parent <> null ) )
+				expression: not(self.requirements->forAll(x : <root/types/demo/DemoIssue> | x.parent <> null ) )
 			}
 		''')
 		Assertions.assertNotNull(result)
@@ -195,7 +195,7 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: artifact
-				expression: self.asType(<root/types/DemoIssue>).requirements.size() > 0 
+				expression: self.asType(<root/types/demo/DemoIssue>).requirements.size() > 0 
 			}
 		''')
 		Assertions.assertNotNull(result)

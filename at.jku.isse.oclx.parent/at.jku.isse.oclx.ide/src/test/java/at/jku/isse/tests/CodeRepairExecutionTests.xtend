@@ -12,6 +12,10 @@ import org.eclipse.xtext.testing.extensions.InjectionExtension
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
+import org.junit.jupiter.api.BeforeAll
+import at.jku.isse.passiveprocessengine.core.SchemaRegistry
+import at.jku.isse.OCLXTestArtifacts
+import at.jku.isse.designspace.artifactconnector.core.repository.CoreTypeFactory
 
 @ExtendWith(InjectionExtension)
 @InjectWith(OCLXInjectorProvider)
@@ -29,7 +33,8 @@ class CodeRepairExecutionTests {
 	@Inject
 	ICodeActionService2 repairService
 	
-
+	@Inject
+	SchemaRegistry schemaRegistry
 	
 	@Test
 	def void testRepairPropertyViaSubtyping() {
@@ -217,6 +222,9 @@ class CodeRepairExecutionTests {
 	
 		@Test
 	def void testSimilarTypeReplaced() {
+		var baseType =  schemaRegistry.getTypeByName(CoreTypeFactory.BASE_TYPE_NAME);
+		schemaRegistry.createNewInstanceType(OCLXTestArtifacts.TYPEPREFIX+"XXXXX", baseType);	
+		
 		var content = '''rule TestRule2 {  description: "just some test" context: DemoIssue  expression: self.downstream->exists(req | req.isTypeOf(<Issue>) ) }'''
 		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
 		executer.checkForIssues();

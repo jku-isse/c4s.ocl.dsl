@@ -12,6 +12,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.text.similarity.JaroWinklerDistance;
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.RuleCall;
@@ -288,23 +289,27 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 	}
 
 	public static List<String> getSimilaritySortedProperties(PPEInstanceType type, String compareTo) {
-		return type.getPropertyNamesIncludingSuperClasses()
+		var sorted = type.getPropertyNamesIncludingSuperClasses()
 				.stream()
 				.filter(name -> !name.startsWith("@"))
-				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
+				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerSimilarity()
 						.apply(str, compareTo), str) )
 				.sorted(similarityComparator)
+				.toList();
+		return sorted.stream()
 				.map(entry -> entry.getValue())
 				.collect(Collectors.toList());
 	}
 	
 	public static List<String> getSimilaritySortedMethods(MethodRegistry methodRegistry, String compareTo, TypeAndCardinality inputType) {
 		var matchingMethods = proposeIndividualMethods(methodRegistry, inputType);
-		return matchingMethods.stream() // get methods that can work on the provided inputtype				
+		var sorted = matchingMethods.stream() // get methods that can work on the provided inputtype				
 				.map(decl -> decl.name)				
-				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
+				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerSimilarity()
 						.apply(str, compareTo), str) )
 				.sorted(similarityComparator)
+				.toList();
+		return  sorted.stream()
 				.map(entry -> entry.getValue())
 				.collect(Collectors.toList());
 	}

@@ -69,7 +69,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
-		
+		//TODO fix
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("downstream"))
@@ -189,7 +189,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
-		
+		//TODO fix
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("size"))
@@ -206,7 +206,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 			OclxPackage.Literals.METHOD_CALL_EXP, 
 			OCLXValidator.UNKNOWN_OPERATION
 		);
-	
+	//TODO fix
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
 		
