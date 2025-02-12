@@ -103,11 +103,10 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 
 	def generatorCodeActionReplaceWithSubtype(Diagnostic d, XtextResource resource, int offset, String partialPropertyName, List<CodeAction> result) {
 		val subclasses = findSubclassWithProperty(partialPropertyName, resource, offset)
-		if (subclasses.isEmpty()) return
-		val subclass = subclasses.get(0)
+		if (subclasses.isEmpty()) return		
 		val selfAndPrecedingElement = getPrecedingElement(resource, offset)
 		dispatchByPreceedingElement(selfAndPrecedingElement.get(0), selfAndPrecedingElement.get(1)
-									, d, resource, subclass, partialPropertyName, result
+									, d, resource, subclasses, partialPropertyName, result
 		)
 	}
 
@@ -135,8 +134,9 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	}
 
 	protected def dispatchByPreceedingElement(EObject affectedElement, EObject precedingElement, Diagnostic d, XtextResource resource
-											, PPEInstanceType subclass, String propertyName, List<CodeAction> result) {
+											, List<PPEInstanceType> subclasses, String propertyName, List<CodeAction> result) {
 		
+		val subclass = subclasses.get(0);
 		if (precedingElement instanceof SelfExp) {
 			// we cant really suggest a cast of context, rather make context more precise
 				val ctx = getContext(precedingElement);
@@ -189,22 +189,24 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			}
 		} else
 		if (precedingElement instanceof VarReference) {
-			val refName = precedingElement.ref.name;
+			val refName = precedingElement.ref.name;			
+			// find most fitting type to refname as refname often conveys meaning
+			val bestFitType = UnknownTypeQuickfixer.findMostSimilarType(refName, schemaReg).get();									
 			val iter = getIterator(precedingElement, refName);
 			if (iter !== null) {
 				val iterRange = getRangeOfElement(iter);
 				result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Add a filter for instances of the more specialize subtype '"+subclass.name+"' before iterator"
+						title = "Add a filter for instances of the more specialize subtype '"+bestFitType.name+"' before iterator"
 						diagnostics = #[d]
 						val pos = new Position(iterRange.start.line, iterRange.start.character-2)  // start and end are equal as we want to insert, shifted by 2: the -> navigation characters
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(pos, pos) // start and end are equal as we want to insert
-								newText = "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+getTransformedFQN(subclass)+">))"
+								newText = "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+getTransformedFQN(bestFitType)+">))"
 							], new TextEdit => [
 								range = d.range
-								newText = "asType(<"+getTransformedFQN(subclass)+">)."+propertyName
+								newText = "asType(<"+getTransformedFQN(bestFitType)+">)."+propertyName
 							])
 						]
 					]			
@@ -213,6 +215,8 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			System.out.println("ERROR in QuickFixCodeActionService: Unexpected preceding element: "+precedingElement.toString);
 		}
 	}
+	
+
 
 	static def Range getRangeOfElement(EObject exp) {
 		if (exp === null) return null;

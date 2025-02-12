@@ -153,9 +153,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     if (_isEmpty) {
       return;
     }
-    final PPEInstanceType subclass = subclasses.get(0);
     final List<EObject> selfAndPrecedingElement = this.getPrecedingElement(resource, offset);
-    this.dispatchByPreceedingElement(selfAndPrecedingElement.get(0), selfAndPrecedingElement.get(1), d, resource, subclass, partialPropertyName, result);
+    this.dispatchByPreceedingElement(selfAndPrecedingElement.get(0), selfAndPrecedingElement.get(1), d, resource, subclasses, partialPropertyName, result);
   }
 
   protected List<PPEInstanceType> findSubclassWithProperty(final String propertyName, final XtextResource resource, final int offset) {
@@ -192,197 +191,203 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     return null;
   }
 
-  protected Boolean dispatchByPreceedingElement(final EObject affectedElement, final EObject precedingElement, final Diagnostic d, final XtextResource resource, final PPEInstanceType subclass, final String propertyName, final List<CodeAction> result) {
-    boolean _xifexpression = false;
-    if ((precedingElement instanceof SelfExp)) {
-      boolean _xblockexpression = false;
-      {
-        final EObject ctx = this.getContext(precedingElement);
-        CodeAction _codeAction = new CodeAction();
-        final Procedure1<CodeAction> _function = (CodeAction it) -> {
-          it.setKind(CodeActionKind.QuickFix);
-          String _name = subclass.getName();
-          String _plus = ("Use \'" + _name);
-          String _plus_1 = (_plus + "\' as a more specialized context element");
-          it.setTitle(_plus_1);
-          WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
-          final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
-            URI _uRI = resource.getURI();
-            TextEdit _textEdit = new TextEdit();
-            final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
-              it_2.setRange(QuickFixCodeActionService.getRangeOfElement(ctx));
-              it_2.setNewText(subclass.getName());
-            };
-            TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
-            this.addTextEdit(it_1, _uRI, _doubleArrow);
-          };
-          WorkspaceEdit _doubleArrow = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_1);
-          it.setEdit(_doubleArrow);
-        };
-        CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
-        _xblockexpression = result.add(_doubleArrow);
-      }
-      _xifexpression = _xblockexpression;
-    } else {
-      boolean _xifexpression_1 = false;
-      if ((precedingElement instanceof PropertyAccessExp)) {
-        CodeAction _codeAction = new CodeAction();
-        final Procedure1<CodeAction> _function = (CodeAction it) -> {
-          it.setKind(CodeActionKind.QuickFix);
-          String _name = subclass.getName();
-          String _plus = ((("Access property \'" + propertyName) + "\' in the more specialized type \'") + _name);
-          String _plus_1 = (_plus + "\' ");
-          it.setTitle(_plus_1);
-          it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
-          WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
-          final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
-            URI _uRI = resource.getURI();
-            TextEdit _textEdit = new TextEdit();
-            final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
-              it_2.setRange(d.getRange());
-              String _transformedFQN = this.getTransformedFQN(subclass);
-              String _plus_2 = ("asType(<" + _transformedFQN);
-              String _plus_3 = (_plus_2 + ">).");
-              String _plus_4 = (_plus_3 + propertyName);
-              it_2.setNewText(_plus_4);
-            };
-            TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
-            this.addTextEdit(it_1, _uRI, _doubleArrow);
-          };
-          WorkspaceEdit _doubleArrow = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_1);
-          it.setEdit(_doubleArrow);
-        };
-        CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
-        _xifexpression_1 = result.add(_doubleArrow);
-      } else {
-        boolean _xifexpression_2 = false;
-        if ((precedingElement instanceof MethodCallExp)) {
-          boolean _xblockexpression_1 = false;
-          {
-            final Range methodRange = QuickFixCodeActionService.getRangeOfElement(precedingElement);
-            boolean _xifexpression_3 = false;
-            if ((methodRange != null)) {
-              CodeAction _codeAction_1 = new CodeAction();
-              final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
-                it.setKind(CodeActionKind.QuickFix);
-                String _name = subclass.getName();
-                String _plus = ("Add a filter for instances of the more specialize type \'" + _name);
-                String _plus_1 = (_plus + "\' before method/operation call \'");
-                String _name_1 = ((MethodCallExp)precedingElement).getName();
-                String _plus_2 = (_plus_1 + _name_1);
-                String _plus_3 = (_plus_2 + "\'");
-                it.setTitle(_plus_3);
-                it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
-                int _line = methodRange.getStart().getLine();
-                int _character = methodRange.getStart().getCharacter();
-                int _minus = (_character - 1);
-                final Position pos = new Position(_line, _minus);
-                WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
-                final Procedure1<WorkspaceEdit> _function_2 = (WorkspaceEdit it_1) -> {
-                  URI _uRI = resource.getURI();
-                  TextEdit _textEdit = new TextEdit();
-                  final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
-                    Range _range = new Range(pos, pos);
-                    it_2.setRange(_range);
-                    String _transformedFQN = this.getTransformedFQN(subclass);
-                    String _plus_4 = ("->select(object | object.isKindOf(<" + _transformedFQN);
-                    String _plus_5 = (_plus_4 + ">))");
-                    it_2.setNewText(_plus_5);
-                  };
-                  TextEdit _doubleArrow_1 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_3);
-                  TextEdit _textEdit_1 = new TextEdit();
-                  final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
-                    it_2.setRange(d.getRange());
-                    String _transformedFQN = this.getTransformedFQN(subclass);
-                    String _plus_4 = ("asType(<" + _transformedFQN);
-                    String _plus_5 = (_plus_4 + ">).");
-                    String _plus_6 = (_plus_5 + propertyName);
-                    it_2.setNewText(_plus_6);
-                  };
-                  TextEdit _doubleArrow_2 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit_1, _function_4);
-                  this.addTextEdit(it_1, _uRI, _doubleArrow_1, _doubleArrow_2);
-                };
-                WorkspaceEdit _doubleArrow_1 = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_2);
-                it.setEdit(_doubleArrow_1);
+  protected Boolean dispatchByPreceedingElement(final EObject affectedElement, final EObject precedingElement, final Diagnostic d, final XtextResource resource, final List<PPEInstanceType> subclasses, final String propertyName, final List<CodeAction> result) {
+    boolean _xblockexpression = false;
+    {
+      final PPEInstanceType subclass = subclasses.get(0);
+      boolean _xifexpression = false;
+      if ((precedingElement instanceof SelfExp)) {
+        boolean _xblockexpression_1 = false;
+        {
+          final EObject ctx = this.getContext(precedingElement);
+          CodeAction _codeAction = new CodeAction();
+          final Procedure1<CodeAction> _function = (CodeAction it) -> {
+            it.setKind(CodeActionKind.QuickFix);
+            String _name = subclass.getName();
+            String _plus = ("Use \'" + _name);
+            String _plus_1 = (_plus + "\' as a more specialized context element");
+            it.setTitle(_plus_1);
+            WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+            final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
+              URI _uRI = resource.getURI();
+              TextEdit _textEdit = new TextEdit();
+              final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
+                it_2.setRange(QuickFixCodeActionService.getRangeOfElement(ctx));
+                it_2.setNewText(subclass.getName());
               };
-              CodeAction _doubleArrow_1 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_1, _function_1);
-              _xifexpression_3 = result.add(_doubleArrow_1);
-            }
-            _xblockexpression_1 = _xifexpression_3;
-          }
-          _xifexpression_2 = _xblockexpression_1;
+              TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
+              this.addTextEdit(it_1, _uRI, _doubleArrow);
+            };
+            WorkspaceEdit _doubleArrow = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_1);
+            it.setEdit(_doubleArrow);
+          };
+          CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
+          _xblockexpression_1 = result.add(_doubleArrow);
+        }
+        _xifexpression = _xblockexpression_1;
+      } else {
+        boolean _xifexpression_1 = false;
+        if ((precedingElement instanceof PropertyAccessExp)) {
+          CodeAction _codeAction = new CodeAction();
+          final Procedure1<CodeAction> _function = (CodeAction it) -> {
+            it.setKind(CodeActionKind.QuickFix);
+            String _name = subclass.getName();
+            String _plus = ((("Access property \'" + propertyName) + "\' in the more specialized type \'") + _name);
+            String _plus_1 = (_plus + "\' ");
+            it.setTitle(_plus_1);
+            it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
+            WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+            final Procedure1<WorkspaceEdit> _function_1 = (WorkspaceEdit it_1) -> {
+              URI _uRI = resource.getURI();
+              TextEdit _textEdit = new TextEdit();
+              final Procedure1<TextEdit> _function_2 = (TextEdit it_2) -> {
+                it_2.setRange(d.getRange());
+                String _transformedFQN = this.getTransformedFQN(subclass);
+                String _plus_2 = ("asType(<" + _transformedFQN);
+                String _plus_3 = (_plus_2 + ">).");
+                String _plus_4 = (_plus_3 + propertyName);
+                it_2.setNewText(_plus_4);
+              };
+              TextEdit _doubleArrow = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_2);
+              this.addTextEdit(it_1, _uRI, _doubleArrow);
+            };
+            WorkspaceEdit _doubleArrow = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_1);
+            it.setEdit(_doubleArrow);
+          };
+          CodeAction _doubleArrow = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction, _function);
+          _xifexpression_1 = result.add(_doubleArrow);
         } else {
-          boolean _xifexpression_3 = false;
-          if ((precedingElement instanceof VarReference)) {
+          boolean _xifexpression_2 = false;
+          if ((precedingElement instanceof MethodCallExp)) {
             boolean _xblockexpression_2 = false;
             {
-              final String refName = ((VarReference)precedingElement).getRef().getName();
-              final EObject iter = this.getIterator(precedingElement, refName);
-              boolean _xifexpression_4 = false;
-              if ((iter != null)) {
-                boolean _xblockexpression_3 = false;
-                {
-                  final Range iterRange = QuickFixCodeActionService.getRangeOfElement(iter);
-                  CodeAction _codeAction_1 = new CodeAction();
-                  final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
-                    it.setKind(CodeActionKind.QuickFix);
-                    String _name = subclass.getName();
-                    String _plus = ("Add a filter for instances of the more specialize subtype \'" + _name);
-                    String _plus_1 = (_plus + "\' before iterator");
-                    it.setTitle(_plus_1);
-                    it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
-                    int _line = iterRange.getStart().getLine();
-                    int _character = iterRange.getStart().getCharacter();
-                    int _minus = (_character - 2);
-                    final Position pos = new Position(_line, _minus);
-                    WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
-                    final Procedure1<WorkspaceEdit> _function_2 = (WorkspaceEdit it_1) -> {
-                      URI _uRI = resource.getURI();
-                      TextEdit _textEdit = new TextEdit();
-                      final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
-                        Range _range = new Range(pos, pos);
-                        it_2.setRange(_range);
-                        String _transformedFQN = this.getTransformedFQN(subclass);
-                        String _plus_2 = ((((("->select(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _transformedFQN);
-                        String _plus_3 = (_plus_2 + ">))");
-                        it_2.setNewText(_plus_3);
-                      };
-                      TextEdit _doubleArrow_1 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_3);
-                      TextEdit _textEdit_1 = new TextEdit();
-                      final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
-                        it_2.setRange(d.getRange());
-                        String _transformedFQN = this.getTransformedFQN(subclass);
-                        String _plus_2 = ("asType(<" + _transformedFQN);
-                        String _plus_3 = (_plus_2 + ">).");
-                        String _plus_4 = (_plus_3 + propertyName);
-                        it_2.setNewText(_plus_4);
-                      };
-                      TextEdit _doubleArrow_2 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit_1, _function_4);
-                      this.addTextEdit(it_1, _uRI, _doubleArrow_1, _doubleArrow_2);
+              final Range methodRange = QuickFixCodeActionService.getRangeOfElement(precedingElement);
+              boolean _xifexpression_3 = false;
+              if ((methodRange != null)) {
+                CodeAction _codeAction_1 = new CodeAction();
+                final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
+                  it.setKind(CodeActionKind.QuickFix);
+                  String _name = subclass.getName();
+                  String _plus = ("Add a filter for instances of the more specialize type \'" + _name);
+                  String _plus_1 = (_plus + "\' before method/operation call \'");
+                  String _name_1 = ((MethodCallExp)precedingElement).getName();
+                  String _plus_2 = (_plus_1 + _name_1);
+                  String _plus_3 = (_plus_2 + "\'");
+                  it.setTitle(_plus_3);
+                  it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
+                  int _line = methodRange.getStart().getLine();
+                  int _character = methodRange.getStart().getCharacter();
+                  int _minus = (_character - 1);
+                  final Position pos = new Position(_line, _minus);
+                  WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+                  final Procedure1<WorkspaceEdit> _function_2 = (WorkspaceEdit it_1) -> {
+                    URI _uRI = resource.getURI();
+                    TextEdit _textEdit = new TextEdit();
+                    final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
+                      Range _range = new Range(pos, pos);
+                      it_2.setRange(_range);
+                      String _transformedFQN = this.getTransformedFQN(subclass);
+                      String _plus_4 = ("->select(object | object.isKindOf(<" + _transformedFQN);
+                      String _plus_5 = (_plus_4 + ">))");
+                      it_2.setNewText(_plus_5);
                     };
-                    WorkspaceEdit _doubleArrow_1 = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_2);
-                    it.setEdit(_doubleArrow_1);
+                    TextEdit _doubleArrow_1 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_3);
+                    TextEdit _textEdit_1 = new TextEdit();
+                    final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
+                      it_2.setRange(d.getRange());
+                      String _transformedFQN = this.getTransformedFQN(subclass);
+                      String _plus_4 = ("asType(<" + _transformedFQN);
+                      String _plus_5 = (_plus_4 + ">).");
+                      String _plus_6 = (_plus_5 + propertyName);
+                      it_2.setNewText(_plus_6);
+                    };
+                    TextEdit _doubleArrow_2 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit_1, _function_4);
+                    this.addTextEdit(it_1, _uRI, _doubleArrow_1, _doubleArrow_2);
                   };
-                  CodeAction _doubleArrow_1 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_1, _function_1);
-                  _xblockexpression_3 = result.add(_doubleArrow_1);
-                }
-                _xifexpression_4 = _xblockexpression_3;
+                  WorkspaceEdit _doubleArrow_1 = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_2);
+                  it.setEdit(_doubleArrow_1);
+                };
+                CodeAction _doubleArrow_1 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_1, _function_1);
+                _xifexpression_3 = result.add(_doubleArrow_1);
               }
-              _xblockexpression_2 = _xifexpression_4;
+              _xblockexpression_2 = _xifexpression_3;
             }
-            _xifexpression_3 = _xblockexpression_2;
+            _xifexpression_2 = _xblockexpression_2;
           } else {
-            String _string = precedingElement.toString();
-            String _plus = ("ERROR in QuickFixCodeActionService: Unexpected preceding element: " + _string);
-            System.out.println(_plus);
+            boolean _xifexpression_3 = false;
+            if ((precedingElement instanceof VarReference)) {
+              boolean _xblockexpression_3 = false;
+              {
+                final String refName = ((VarReference)precedingElement).getRef().getName();
+                final PPEInstanceType bestFitType = UnknownTypeQuickfixer.findMostSimilarType(refName, this.schemaReg).get();
+                final EObject iter = this.getIterator(precedingElement, refName);
+                boolean _xifexpression_4 = false;
+                if ((iter != null)) {
+                  boolean _xblockexpression_4 = false;
+                  {
+                    final Range iterRange = QuickFixCodeActionService.getRangeOfElement(iter);
+                    CodeAction _codeAction_1 = new CodeAction();
+                    final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
+                      it.setKind(CodeActionKind.QuickFix);
+                      String _name = bestFitType.getName();
+                      String _plus = ("Add a filter for instances of the more specialize subtype \'" + _name);
+                      String _plus_1 = (_plus + "\' before iterator");
+                      it.setTitle(_plus_1);
+                      it.setDiagnostics(Collections.<Diagnostic>unmodifiableList(CollectionLiterals.<Diagnostic>newArrayList(d)));
+                      int _line = iterRange.getStart().getLine();
+                      int _character = iterRange.getStart().getCharacter();
+                      int _minus = (_character - 2);
+                      final Position pos = new Position(_line, _minus);
+                      WorkspaceEdit _workspaceEdit = new WorkspaceEdit();
+                      final Procedure1<WorkspaceEdit> _function_2 = (WorkspaceEdit it_1) -> {
+                        URI _uRI = resource.getURI();
+                        TextEdit _textEdit = new TextEdit();
+                        final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
+                          Range _range = new Range(pos, pos);
+                          it_2.setRange(_range);
+                          String _transformedFQN = this.getTransformedFQN(bestFitType);
+                          String _plus_2 = ((((("->select(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _transformedFQN);
+                          String _plus_3 = (_plus_2 + ">))");
+                          it_2.setNewText(_plus_3);
+                        };
+                        TextEdit _doubleArrow_1 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit, _function_3);
+                        TextEdit _textEdit_1 = new TextEdit();
+                        final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
+                          it_2.setRange(d.getRange());
+                          String _transformedFQN = this.getTransformedFQN(bestFitType);
+                          String _plus_2 = ("asType(<" + _transformedFQN);
+                          String _plus_3 = (_plus_2 + ">).");
+                          String _plus_4 = (_plus_3 + propertyName);
+                          it_2.setNewText(_plus_4);
+                        };
+                        TextEdit _doubleArrow_2 = ObjectExtensions.<TextEdit>operator_doubleArrow(_textEdit_1, _function_4);
+                        this.addTextEdit(it_1, _uRI, _doubleArrow_1, _doubleArrow_2);
+                      };
+                      WorkspaceEdit _doubleArrow_1 = ObjectExtensions.<WorkspaceEdit>operator_doubleArrow(_workspaceEdit, _function_2);
+                      it.setEdit(_doubleArrow_1);
+                    };
+                    CodeAction _doubleArrow_1 = ObjectExtensions.<CodeAction>operator_doubleArrow(_codeAction_1, _function_1);
+                    _xblockexpression_4 = result.add(_doubleArrow_1);
+                  }
+                  _xifexpression_4 = _xblockexpression_4;
+                }
+                _xblockexpression_3 = _xifexpression_4;
+              }
+              _xifexpression_3 = _xblockexpression_3;
+            } else {
+              String _string = precedingElement.toString();
+              String _plus = ("ERROR in QuickFixCodeActionService: Unexpected preceding element: " + _string);
+              System.out.println(_plus);
+            }
+            _xifexpression_2 = _xifexpression_3;
           }
-          _xifexpression_2 = _xifexpression_3;
+          _xifexpression_1 = _xifexpression_2;
         }
-        _xifexpression_1 = _xifexpression_2;
+        _xifexpression = _xifexpression_1;
       }
-      _xifexpression = _xifexpression_1;
+      _xblockexpression = _xifexpression;
     }
-    return Boolean.valueOf(_xifexpression);
+    return Boolean.valueOf(_xblockexpression);
   }
 
   public static Range getRangeOfElement(final EObject exp) {

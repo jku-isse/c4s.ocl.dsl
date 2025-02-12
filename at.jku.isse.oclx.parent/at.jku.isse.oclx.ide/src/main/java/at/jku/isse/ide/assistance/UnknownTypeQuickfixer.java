@@ -33,7 +33,7 @@ public class UnknownTypeQuickfixer {
 		var textEdits = new ArrayList<TextEdit>();
 		edit.getChanges().put(resource.getURI().toString(), textEdits);
 		
-		var optType = findMostSimilarType(unknownType);
+		var optType = findMostSimilarType(unknownType, schemaReg);
 		if (optType.isPresent()) {
 			var knownFQN = optType.get().getFullyQualifiedName();
 			if (knownFQN.startsWith("/")) {
@@ -52,7 +52,7 @@ public class UnknownTypeQuickfixer {
 			return null;
 	}
 	
-	public Optional<PPEInstanceType> findMostSimilarType(String typeName) {
+	public static Optional<PPEInstanceType> findMostSimilarType(String typeName, SchemaRegistry schemaReg) {
 		List <SimpleEntry <Double, PPEInstanceType>> candidates = schemaReg.getTypeByName(CoreTypeFactory.BASE_TYPE_NAME).getAllSubtypesRecursively().stream()
 		.map(type -> new AbstractMap.SimpleEntry<Double, PPEInstanceType>( new JaroWinklerSimilarity()
 				.apply(type.getName(), typeName), type) )
