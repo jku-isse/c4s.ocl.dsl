@@ -9,7 +9,9 @@ import at.jku.isse.oclx.BooleanOperator;
 import at.jku.isse.oclx.CollectionTypeIdentifier;
 import at.jku.isse.oclx.Constraint;
 import at.jku.isse.oclx.Context;
+import at.jku.isse.oclx.FloatLiteralExp;
 import at.jku.isse.oclx.InfixExp;
+import at.jku.isse.oclx.IntLiteralExp;
 import at.jku.isse.oclx.IteratorExp;
 import at.jku.isse.oclx.IteratorName;
 import at.jku.isse.oclx.IteratorVarDeclaration;
@@ -18,8 +20,6 @@ import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.Model;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.NestedExp;
-import at.jku.isse.oclx.NullLiteralExpCS;
-import at.jku.isse.oclx.NumberLiteralExp;
 import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
@@ -77,8 +77,14 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 			case OclxPackage.CONTEXT:
 				sequence_Context(context, (Context) semanticObject); 
 				return; 
+			case OclxPackage.FLOAT_LITERAL_EXP:
+				sequence_FloatLiteralExp(context, (FloatLiteralExp) semanticObject); 
+				return; 
 			case OclxPackage.INFIX_EXP:
 				sequence_Exp(context, (InfixExp) semanticObject); 
+				return; 
+			case OclxPackage.INT_LITERAL_EXP:
+				sequence_IntLiteralExp(context, (IntLiteralExp) semanticObject); 
 				return; 
 			case OclxPackage.ITERATOR_EXP:
 				sequence_CollectionIterator(context, (IteratorExp) semanticObject); 
@@ -103,12 +109,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				return; 
 			case OclxPackage.NESTED_EXP:
 				sequence_NestedExp(context, (NestedExp) semanticObject); 
-				return; 
-			case OclxPackage.NULL_LITERAL_EXP_CS:
-				sequence_NullLiteralExp(context, (NullLiteralExpCS) semanticObject); 
-				return; 
-			case OclxPackage.NUMBER_LITERAL_EXP:
-				sequence_NumberLiteralExp(context, (NumberLiteralExp) semanticObject); 
 				return; 
 			case OclxPackage.PREFIX_EXP:
 				sequence_PrefixedExp(context, (PrefixExp) semanticObject); 
@@ -358,6 +358,56 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	/**
 	 * <pre>
 	 * Contexts:
+	 *     Exp returns FloatLiteralExp
+	 *     Exp.InfixExp_1_0 returns FloatLiteralExp
+	 *     PrefixedExp returns FloatLiteralExp
+	 *     PrimaryExp returns FloatLiteralExp
+	 *     PrimitiveLiteralExp returns FloatLiteralExp
+	 *     FloatLiteralExp returns FloatLiteralExp
+	 *
+	 * Constraint:
+	 *     value=Float
+	 * </pre>
+	 */
+	protected void sequence_FloatLiteralExp(ISerializationContext context, FloatLiteralExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.FLOAT_LITERAL_EXP__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.FLOAT_LITERAL_EXP__VALUE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getFloatLiteralExpAccess().getValueFloatParserRuleCall_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     Exp returns IntLiteralExp
+	 *     Exp.InfixExp_1_0 returns IntLiteralExp
+	 *     PrefixedExp returns IntLiteralExp
+	 *     PrimaryExp returns IntLiteralExp
+	 *     PrimitiveLiteralExp returns IntLiteralExp
+	 *     IntLiteralExp returns IntLiteralExp
+	 *
+	 * Constraint:
+	 *     value=INT
+	 * </pre>
+	 */
+	protected void sequence_IntLiteralExp(ISerializationContext context, IntLiteralExp semanticObject) {
+		if (errorAcceptor != null) {
+			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.INT_LITERAL_EXP__VALUE) == ValueTransient.YES)
+				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.INT_LITERAL_EXP__VALUE));
+		}
+		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
+		feeder.accept(grammarAccess.getIntLiteralExpAccess().getValueINTTerminalRuleCall_0(), semanticObject.getValue());
+		feeder.finish();
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
 	 *     IteratorName returns IteratorName
 	 *
 	 * Constraint:
@@ -567,50 +617,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 		}
 		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
 		feeder.accept(grammarAccess.getNestedExpAccess().getSourceExpParserRuleCall_1_0(), semanticObject.getSource());
-		feeder.finish();
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
-	 *     Exp returns NullLiteralExpCS
-	 *     Exp.InfixExp_1_0 returns NullLiteralExpCS
-	 *     PrefixedExp returns NullLiteralExpCS
-	 *     PrimaryExp returns NullLiteralExpCS
-	 *     PrimitiveLiteralExp returns NullLiteralExpCS
-	 *     NullLiteralExp returns NullLiteralExpCS
-	 *
-	 * Constraint:
-	 *     {NullLiteralExpCS}
-	 * </pre>
-	 */
-	protected void sequence_NullLiteralExp(ISerializationContext context, NullLiteralExpCS semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
-	 *     Exp returns NumberLiteralExp
-	 *     Exp.InfixExp_1_0 returns NumberLiteralExp
-	 *     PrefixedExp returns NumberLiteralExp
-	 *     PrimaryExp returns NumberLiteralExp
-	 *     PrimitiveLiteralExp returns NumberLiteralExp
-	 *     NumberLiteralExp returns NumberLiteralExp
-	 *
-	 * Constraint:
-	 *     value=INT
-	 * </pre>
-	 */
-	protected void sequence_NumberLiteralExp(ISerializationContext context, NumberLiteralExp semanticObject) {
-		if (errorAcceptor != null) {
-			if (transientValues.isValueTransient(semanticObject, OclxPackage.Literals.NUMBER_LITERAL_EXP__VALUE) == ValueTransient.YES)
-				errorAcceptor.accept(diagnosticProvider.createFeatureValueMissing(semanticObject, OclxPackage.Literals.NUMBER_LITERAL_EXP__VALUE));
-		}
-		SequenceFeeder feeder = createSequencerFeeder(context, semanticObject);
-		feeder.accept(grammarAccess.getNumberLiteralExpAccess().getValueINTTerminalRuleCall_0(), semanticObject.getValue());
 		feeder.finish();
 	}
 	

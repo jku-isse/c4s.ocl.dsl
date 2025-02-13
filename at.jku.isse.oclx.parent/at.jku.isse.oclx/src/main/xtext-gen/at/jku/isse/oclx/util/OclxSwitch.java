@@ -177,12 +177,12 @@ public class OclxSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case OclxPackage.NUMBER_LITERAL_EXP:
+      case OclxPackage.INT_LITERAL_EXP:
       {
-        NumberLiteralExp numberLiteralExp = (NumberLiteralExp)theEObject;
-        T result = caseNumberLiteralExp(numberLiteralExp);
-        if (result == null) result = casePrimitiveLiteralExp(numberLiteralExp);
-        if (result == null) result = caseExp(numberLiteralExp);
+        IntLiteralExp intLiteralExp = (IntLiteralExp)theEObject;
+        T result = caseIntLiteralExp(intLiteralExp);
+        if (result == null) result = casePrimitiveLiteralExp(intLiteralExp);
+        if (result == null) result = caseExp(intLiteralExp);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -204,12 +204,12 @@ public class OclxSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
-      case OclxPackage.NULL_LITERAL_EXP:
+      case OclxPackage.FLOAT_LITERAL_EXP:
       {
-        NullLiteralExp nullLiteralExp = (NullLiteralExp)theEObject;
-        T result = caseNullLiteralExp(nullLiteralExp);
-        if (result == null) result = casePrimitiveLiteralExp(nullLiteralExp);
-        if (result == null) result = caseExp(nullLiteralExp);
+        FloatLiteralExp floatLiteralExp = (FloatLiteralExp)theEObject;
+        T result = caseFloatLiteralExp(floatLiteralExp);
+        if (result == null) result = casePrimitiveLiteralExp(floatLiteralExp);
+        if (result == null) result = caseExp(floatLiteralExp);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -326,16 +326,6 @@ public class OclxSwitch<T> extends Switch<T>
         PrefixExp prefixExp = (PrefixExp)theEObject;
         T result = casePrefixExp(prefixExp);
         if (result == null) result = caseExp(prefixExp);
-        if (result == null) result = defaultCase(theEObject);
-        return result;
-      }
-      case OclxPackage.NULL_LITERAL_EXP_CS:
-      {
-        NullLiteralExpCS nullLiteralExpCS = (NullLiteralExpCS)theEObject;
-        T result = caseNullLiteralExpCS(nullLiteralExpCS);
-        if (result == null) result = caseNullLiteralExp(nullLiteralExpCS);
-        if (result == null) result = casePrimitiveLiteralExp(nullLiteralExpCS);
-        if (result == null) result = caseExp(nullLiteralExpCS);
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
@@ -568,17 +558,17 @@ public class OclxSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Number Literal Exp</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Int Literal Exp</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Number Literal Exp</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Int Literal Exp</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseNumberLiteralExp(NumberLiteralExp object)
+  public T caseIntLiteralExp(IntLiteralExp object)
   {
     return null;
   }
@@ -616,17 +606,17 @@ public class OclxSwitch<T> extends Switch<T>
   }
 
   /**
-   * Returns the result of interpreting the object as an instance of '<em>Null Literal Exp</em>'.
+   * Returns the result of interpreting the object as an instance of '<em>Float Literal Exp</em>'.
    * <!-- begin-user-doc -->
    * This implementation returns null;
    * returning a non-null result will terminate the switch.
    * <!-- end-user-doc -->
    * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Null Literal Exp</em>'.
+   * @return the result of interpreting the object as an instance of '<em>Float Literal Exp</em>'.
    * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
    * @generated
    */
-  public T caseNullLiteralExp(NullLiteralExp object)
+  public T caseFloatLiteralExp(FloatLiteralExp object)
   {
     return null;
   }
@@ -867,22 +857,6 @@ public class OclxSwitch<T> extends Switch<T>
    * @generated
    */
   public T casePrefixExp(PrefixExp object)
-  {
-    return null;
-  }
-
-  /**
-   * Returns the result of interpreting the object as an instance of '<em>Null Literal Exp CS</em>'.
-   * <!-- begin-user-doc -->
-   * This implementation returns null;
-   * returning a non-null result will terminate the switch.
-   * <!-- end-user-doc -->
-   * @param object the target of the switch.
-   * @return the result of interpreting the object as an instance of '<em>Null Literal Exp CS</em>'.
-   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-   * @generated
-   */
-  public T caseNullLiteralExpCS(NullLiteralExpCS object)
   {
     return null;
   }

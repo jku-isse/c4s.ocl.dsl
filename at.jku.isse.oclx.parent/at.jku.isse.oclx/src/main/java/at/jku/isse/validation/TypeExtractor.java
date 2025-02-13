@@ -2,6 +2,7 @@ package at.jku.isse.validation;
 
 import java.util.AbstractMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -12,10 +13,13 @@ import org.eclipse.xtext.Keyword;
 import com.google.inject.Inject;
 
 import at.jku.isse.oclx.BinaryOperator;
+import at.jku.isse.oclx.BooleanLiteralExp;
 import at.jku.isse.oclx.BooleanOperator;
 import at.jku.isse.oclx.Constraint;
 import at.jku.isse.oclx.Exp;
+import at.jku.isse.oclx.FloatLiteralExp;
 import at.jku.isse.oclx.InfixExp;
+import at.jku.isse.oclx.IntLiteralExp;
 import at.jku.isse.oclx.IteratorExp;
 import at.jku.isse.oclx.IteratorVarDeclaration;
 import at.jku.isse.oclx.MathOperator;
@@ -24,8 +28,10 @@ import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.NestedExp;
 import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
+import at.jku.isse.oclx.PrimitiveLiteralExp;
 import at.jku.isse.oclx.PropertyAccessExp;
 import at.jku.isse.oclx.SelfExp;
+import at.jku.isse.oclx.StringLiteralExp;
 import at.jku.isse.oclx.TemporalExp;
 import at.jku.isse.oclx.TriggeredTemporalExp;
 import at.jku.isse.oclx.TypeCallExp;
@@ -94,10 +100,12 @@ public class TypeExtractor {
 			currentTypeAndCardinality = processInfixExp(elementToTypeMap, infixExp);						
 		} else if (exp instanceof TemporalExp) {
 			currentTypeAndCardinality = checkTemporalExpressionNavigation((TemporalExp) exp, elementToTypeMap);
-		}				
+		} else if (exp instanceof PrimitiveLiteralExp primExp) {	
+			currentTypeAndCardinality = processPrimitiveLiteralExp(primExp);
+		}
 		elementToTypeMap.getReturnTypeMap().put(exp, currentTypeAndCardinality);	
 		// as we also want to assign navigation operators the type of the preceding var/method/property
-		int methodPos = 0;
+		int methodPos = 0;		
 		for (MethodExp methodExp : exp.getMethods()) {
 			log.trace("Traversing for methodCheck: "+methodExp);
 			// if there is a methodExp, there must be a navigation operator first from the preceding self/varref
@@ -125,7 +133,7 @@ public class TypeExtractor {
 		// returns the last type of an expression/navigation chain,
 		return currentTypeAndCardinality;
 	}
-	
+
 	private TypeAndCardinality processVarReference(ElementToTypeMap elementToTypeMap, VarReference varRef) {		
 		//String varName = varRef.getRef().getName();
 		//currentTypeAndCardinality = new TypeAndCardinality(varTypeMap.get(varName), varCardinalityMap.get(varName));						
@@ -155,6 +163,7 @@ public class TypeExtractor {
 			boolean isMathOp = isMathOperatpr(op);
 			List<TypeAndCardinality> returnTypes = infixExp.getExpressions().stream()
 					.map(childExp -> new AbstractMap.SimpleEntry<Exp, TypeAndCardinality>(childExp, checkExpressionForNavigationCorrectness(childExp, elementToTypeMap)))
+					.filter(Objects::nonNull) // in presence of errors, ignore null responses and wait for fixing
 					.map(entry -> {
 						if (isBooleanOp && entry.getValue().getType() != BuildInType.BOOLEAN && entry.getValue().getCardinality() != CARDINALITIES.SINGLE) {
 							errorCollector.error(String.format(" Boolean Operator requires nested expression(s) to return single Boolean but found '%s' ", entry.getValue())
@@ -205,6 +214,18 @@ public class TypeExtractor {
 			}
 		}
 		return new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE);
+	}
+	
+	private TypeAndCardinality processPrimitiveLiteralExp(PrimitiveLiteralExp primExp) {
+		if (primExp instanceof StringLiteralExp)
+			return new TypeAndCardinality(BuildInType.STRING, CARDINALITIES.SINGLE);
+		if (primExp instanceof IntLiteralExp)
+			return new TypeAndCardinality(BuildInType.INTEGER, CARDINALITIES.SINGLE);
+		if (primExp instanceof BooleanLiteralExp)
+			return new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE);
+		if (primExp instanceof FloatLiteralExp)
+			return new TypeAndCardinality(BuildInType.FLOAT, CARDINALITIES.SINGLE);		
+		return null;
 	}
 	
 	private TypeAndCardinality processIteratorExp(ElementToTypeMap elementToTypeMap, TypeAndCardinality currentTypeAndCardinality,
@@ -321,7 +342,7 @@ public class TypeExtractor {
 			
 			//we dont support typing to Collections
 			String typeName = typeCallExp.getType().getName();
-			Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);
+			Optional<PPEInstanceType> optType = resolveFullyQualifiedType(typeName);			
 			if (optType.isEmpty()) {
 				errorCollector.error(String.format(" Provided type '%s' is not a known InstanceType", typeName)
 						, typeCallExp.getType(), OclxPackage.Literals.TYPE_EXP__NAME, OCLXValidator.UNKNOWN_TYPE);

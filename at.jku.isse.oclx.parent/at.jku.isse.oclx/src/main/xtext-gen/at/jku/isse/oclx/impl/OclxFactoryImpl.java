@@ -79,10 +79,10 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
       case OclxPackage.VAR_DECLARATION: return createVarDeclaration();
       case OclxPackage.VAR_REFERENCE: return createVarReference();
       case OclxPackage.PRIMITIVE_LITERAL_EXP: return createPrimitiveLiteralExp();
-      case OclxPackage.NUMBER_LITERAL_EXP: return createNumberLiteralExp();
+      case OclxPackage.INT_LITERAL_EXP: return createIntLiteralExp();
       case OclxPackage.STRING_LITERAL_EXP: return createStringLiteralExp();
       case OclxPackage.BOOLEAN_LITERAL_EXP: return createBooleanLiteralExp();
-      case OclxPackage.NULL_LITERAL_EXP: return createNullLiteralExp();
+      case OclxPackage.FLOAT_LITERAL_EXP: return createFloatLiteralExp();
       case OclxPackage.METHOD_EXP: return createMethodExp();
       case OclxPackage.ITERATOR_EXP: return createIteratorExp();
       case OclxPackage.ITERATOR_NAME: return createIteratorName();
@@ -98,7 +98,6 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
       case OclxPackage.ARGUMENTS_EXP: return createArgumentsExp();
       case OclxPackage.INFIX_EXP: return createInfixExp();
       case OclxPackage.PREFIX_EXP: return createPrefixExp();
-      case OclxPackage.NULL_LITERAL_EXP_CS: return createNullLiteralExpCS();
       default:
         throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
     }
@@ -278,10 +277,10 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
    * @generated
    */
   @Override
-  public NumberLiteralExp createNumberLiteralExp()
+  public IntLiteralExp createIntLiteralExp()
   {
-    NumberLiteralExpImpl numberLiteralExp = new NumberLiteralExpImpl();
-    return numberLiteralExp;
+    IntLiteralExpImpl intLiteralExp = new IntLiteralExpImpl();
+    return intLiteralExp;
   }
 
   /**
@@ -314,10 +313,10 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
    * @generated
    */
   @Override
-  public NullLiteralExp createNullLiteralExp()
+  public FloatLiteralExp createFloatLiteralExp()
   {
-    NullLiteralExpImpl nullLiteralExp = new NullLiteralExpImpl();
-    return nullLiteralExp;
+    FloatLiteralExpImpl floatLiteralExp = new FloatLiteralExpImpl();
+    return floatLiteralExp;
   }
 
   /**
@@ -498,18 +497,6 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
   {
     PrefixExpImpl prefixExp = new PrefixExpImpl();
     return prefixExp;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public NullLiteralExpCS createNullLiteralExpCS()
-  {
-    NullLiteralExpCSImpl nullLiteralExpCS = new NullLiteralExpCSImpl();
-    return nullLiteralExpCS;
   }
 
   /**

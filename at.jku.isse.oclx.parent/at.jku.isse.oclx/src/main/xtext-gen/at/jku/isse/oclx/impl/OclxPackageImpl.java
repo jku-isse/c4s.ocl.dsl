@@ -11,7 +11,9 @@ import at.jku.isse.oclx.CollectionTypeIdentifier;
 import at.jku.isse.oclx.Constraint;
 import at.jku.isse.oclx.Context;
 import at.jku.isse.oclx.Exp;
+import at.jku.isse.oclx.FloatLiteralExp;
 import at.jku.isse.oclx.InfixExp;
+import at.jku.isse.oclx.IntLiteralExp;
 import at.jku.isse.oclx.IteratorExp;
 import at.jku.isse.oclx.IteratorName;
 import at.jku.isse.oclx.IteratorVarDeclaration;
@@ -21,9 +23,6 @@ import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.Model;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.NestedExp;
-import at.jku.isse.oclx.NullLiteralExp;
-import at.jku.isse.oclx.NullLiteralExpCS;
-import at.jku.isse.oclx.NumberLiteralExp;
 import at.jku.isse.oclx.OclxFactory;
 import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
@@ -158,7 +157,7 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass numberLiteralExpEClass = null;
+  private EClass intLiteralExpEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -179,7 +178,7 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * <!-- end-user-doc -->
    * @generated
    */
-  private EClass nullLiteralExpEClass = null;
+  private EClass floatLiteralExpEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -285,13 +284,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   private EClass prefixExpEClass = null;
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  private EClass nullLiteralExpCSEClass = null;
 
   /**
    * Creates an instance of the model <b>Package</b>, registered with
@@ -692,9 +684,9 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EClass getNumberLiteralExp()
+  public EClass getIntLiteralExp()
   {
-    return numberLiteralExpEClass;
+    return intLiteralExpEClass;
   }
 
   /**
@@ -703,9 +695,9 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EAttribute getNumberLiteralExp_Value()
+  public EAttribute getIntLiteralExp_Value()
   {
-    return (EAttribute)numberLiteralExpEClass.getEStructuralFeatures().get(0);
+    return (EAttribute)intLiteralExpEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -758,9 +750,20 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EClass getNullLiteralExp()
+  public EClass getFloatLiteralExp()
   {
-    return nullLiteralExpEClass;
+    return floatLiteralExpEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EAttribute getFloatLiteralExp_Value()
+  {
+    return (EAttribute)floatLiteralExpEClass.getEStructuralFeatures().get(0);
   }
 
   /**
@@ -1198,17 +1201,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EClass getNullLiteralExpCS()
-  {
-    return nullLiteralExpCSEClass;
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public OclxFactory getOclxFactory()
   {
     return (OclxFactory)getEFactoryInstance();
@@ -1278,8 +1270,8 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
 
     primitiveLiteralExpEClass = createEClass(PRIMITIVE_LITERAL_EXP);
 
-    numberLiteralExpEClass = createEClass(NUMBER_LITERAL_EXP);
-    createEAttribute(numberLiteralExpEClass, NUMBER_LITERAL_EXP__VALUE);
+    intLiteralExpEClass = createEClass(INT_LITERAL_EXP);
+    createEAttribute(intLiteralExpEClass, INT_LITERAL_EXP__VALUE);
 
     stringLiteralExpEClass = createEClass(STRING_LITERAL_EXP);
     createEAttribute(stringLiteralExpEClass, STRING_LITERAL_EXP__VALUE);
@@ -1287,7 +1279,8 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     booleanLiteralExpEClass = createEClass(BOOLEAN_LITERAL_EXP);
     createEAttribute(booleanLiteralExpEClass, BOOLEAN_LITERAL_EXP__VALUE);
 
-    nullLiteralExpEClass = createEClass(NULL_LITERAL_EXP);
+    floatLiteralExpEClass = createEClass(FLOAT_LITERAL_EXP);
+    createEAttribute(floatLiteralExpEClass, FLOAT_LITERAL_EXP__VALUE);
 
     methodExpEClass = createEClass(METHOD_EXP);
 
@@ -1342,8 +1335,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     prefixExpEClass = createEClass(PREFIX_EXP);
     createEReference(prefixExpEClass, PREFIX_EXP__OPERATOR);
     createEReference(prefixExpEClass, PREFIX_EXP__EXPRESSION);
-
-    nullLiteralExpCSEClass = createEClass(NULL_LITERAL_EXP_CS);
   }
 
   /**
@@ -1381,10 +1372,10 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     selfExpEClass.getESuperTypes().add(this.getExp());
     varReferenceEClass.getESuperTypes().add(this.getExp());
     primitiveLiteralExpEClass.getESuperTypes().add(this.getExp());
-    numberLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
+    intLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
     stringLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
     booleanLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
-    nullLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
+    floatLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
     iteratorExpEClass.getESuperTypes().add(this.getMethodExp());
     propertyAccessExpEClass.getESuperTypes().add(this.getMethodExp());
     methodCallExpEClass.getESuperTypes().add(this.getMethodExp());
@@ -1394,7 +1385,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     triggeredTemporalExpEClass.getESuperTypes().add(this.getTemporalExp());
     infixExpEClass.getESuperTypes().add(this.getExp());
     prefixExpEClass.getESuperTypes().add(this.getExp());
-    nullLiteralExpCSEClass.getESuperTypes().add(this.getNullLiteralExp());
 
     // Initialize classes and features; add operations and parameters
     initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -1441,8 +1431,8 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
 
     initEClass(primitiveLiteralExpEClass, PrimitiveLiteralExp.class, "PrimitiveLiteralExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
-    initEClass(numberLiteralExpEClass, NumberLiteralExp.class, "NumberLiteralExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEAttribute(getNumberLiteralExp_Value(), ecorePackage.getEInt(), "value", null, 0, 1, NumberLiteralExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEClass(intLiteralExpEClass, IntLiteralExp.class, "IntLiteralExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getIntLiteralExp_Value(), ecorePackage.getEInt(), "value", null, 0, 1, IntLiteralExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(stringLiteralExpEClass, StringLiteralExp.class, "StringLiteralExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getStringLiteralExp_Value(), ecorePackage.getEString(), "value", null, 0, 1, StringLiteralExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1450,7 +1440,8 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     initEClass(booleanLiteralExpEClass, BooleanLiteralExp.class, "BooleanLiteralExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBooleanLiteralExp_Value(), ecorePackage.getEString(), "value", null, 0, 1, BooleanLiteralExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-    initEClass(nullLiteralExpEClass, NullLiteralExp.class, "NullLiteralExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEClass(floatLiteralExpEClass, FloatLiteralExp.class, "FloatLiteralExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEAttribute(getFloatLiteralExp_Value(), ecorePackage.getEFloat(), "value", null, 0, 1, FloatLiteralExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(methodExpEClass, MethodExp.class, "MethodExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
@@ -1505,8 +1496,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     initEClass(prefixExpEClass, PrefixExp.class, "PrefixExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getPrefixExp_Operator(), this.getUnaryOperator(), null, "operator", null, 0, 1, PrefixExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
     initEReference(getPrefixExp_Expression(), this.getExp(), null, "expression", null, 0, 1, PrefixExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-    initEClass(nullLiteralExpCSEClass, NullLiteralExpCS.class, "NullLiteralExpCS", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
     // Create resource
     createResource(eNS_URI);

@@ -558,14 +558,14 @@ public interface OclxPackage extends EPackage
   int PRIMITIVE_LITERAL_EXP_FEATURE_COUNT = EXP_FEATURE_COUNT + 0;
 
   /**
-   * The meta object id for the '{@link at.jku.isse.oclx.impl.NumberLiteralExpImpl <em>Number Literal Exp</em>}' class.
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.IntLiteralExpImpl <em>Int Literal Exp</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see at.jku.isse.oclx.impl.NumberLiteralExpImpl
-   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNumberLiteralExp()
+   * @see at.jku.isse.oclx.impl.IntLiteralExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getIntLiteralExp()
    * @generated
    */
-  int NUMBER_LITERAL_EXP = 14;
+  int INT_LITERAL_EXP = 14;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -574,7 +574,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int NUMBER_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
+  int INT_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
 
   /**
    * The feature id for the '<em><b>Methods</b></em>' containment reference list.
@@ -583,7 +583,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int NUMBER_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
+  int INT_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -592,16 +592,16 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int NUMBER_LITERAL_EXP__VALUE = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 0;
+  int INT_LITERAL_EXP__VALUE = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 0;
 
   /**
-   * The number of structural features of the '<em>Number Literal Exp</em>' class.
+   * The number of structural features of the '<em>Int Literal Exp</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int NUMBER_LITERAL_EXP_FEATURE_COUNT = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 1;
+  int INT_LITERAL_EXP_FEATURE_COUNT = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link at.jku.isse.oclx.impl.StringLiteralExpImpl <em>String Literal Exp</em>}' class.
@@ -696,14 +696,14 @@ public interface OclxPackage extends EPackage
   int BOOLEAN_LITERAL_EXP_FEATURE_COUNT = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link at.jku.isse.oclx.impl.NullLiteralExpImpl <em>Null Literal Exp</em>}' class.
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.FloatLiteralExpImpl <em>Float Literal Exp</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see at.jku.isse.oclx.impl.NullLiteralExpImpl
-   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNullLiteralExp()
+   * @see at.jku.isse.oclx.impl.FloatLiteralExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getFloatLiteralExp()
    * @generated
    */
-  int NULL_LITERAL_EXP = 17;
+  int FLOAT_LITERAL_EXP = 17;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -712,7 +712,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int NULL_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
+  int FLOAT_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
 
   /**
    * The feature id for the '<em><b>Methods</b></em>' containment reference list.
@@ -721,16 +721,25 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int NULL_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
+  int FLOAT_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
 
   /**
-   * The number of structural features of the '<em>Null Literal Exp</em>' class.
+   * The feature id for the '<em><b>Value</b></em>' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int NULL_LITERAL_EXP_FEATURE_COUNT = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 0;
+  int FLOAT_LITERAL_EXP__VALUE = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 0;
+
+  /**
+   * The number of structural features of the '<em>Float Literal Exp</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int FLOAT_LITERAL_EXP_FEATURE_COUNT = PRIMITIVE_LITERAL_EXP_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link at.jku.isse.oclx.impl.MethodExpImpl <em>Method Exp</em>}' class.
@@ -1341,43 +1350,6 @@ public interface OclxPackage extends EPackage
    */
   int PREFIX_EXP_FEATURE_COUNT = EXP_FEATURE_COUNT + 2;
 
-  /**
-   * The meta object id for the '{@link at.jku.isse.oclx.impl.NullLiteralExpCSImpl <em>Null Literal Exp CS</em>}' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @see at.jku.isse.oclx.impl.NullLiteralExpCSImpl
-   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNullLiteralExpCS()
-   * @generated
-   */
-  int NULL_LITERAL_EXP_CS = 33;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NULL_LITERAL_EXP_CS__NAV = NULL_LITERAL_EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NULL_LITERAL_EXP_CS__METHODS = NULL_LITERAL_EXP__METHODS;
-
-  /**
-   * The number of structural features of the '<em>Null Literal Exp CS</em>' class.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NULL_LITERAL_EXP_CS_FEATURE_COUNT = NULL_LITERAL_EXP_FEATURE_COUNT + 0;
-
 
   /**
    * Returns the meta object for class '{@link at.jku.isse.oclx.Model <em>Model</em>}'.
@@ -1696,25 +1668,25 @@ public interface OclxPackage extends EPackage
   EClass getPrimitiveLiteralExp();
 
   /**
-   * Returns the meta object for class '{@link at.jku.isse.oclx.NumberLiteralExp <em>Number Literal Exp</em>}'.
+   * Returns the meta object for class '{@link at.jku.isse.oclx.IntLiteralExp <em>Int Literal Exp</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Number Literal Exp</em>'.
-   * @see at.jku.isse.oclx.NumberLiteralExp
+   * @return the meta object for class '<em>Int Literal Exp</em>'.
+   * @see at.jku.isse.oclx.IntLiteralExp
    * @generated
    */
-  EClass getNumberLiteralExp();
+  EClass getIntLiteralExp();
 
   /**
-   * Returns the meta object for the attribute '{@link at.jku.isse.oclx.NumberLiteralExp#getValue <em>Value</em>}'.
+   * Returns the meta object for the attribute '{@link at.jku.isse.oclx.IntLiteralExp#getValue <em>Value</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @return the meta object for the attribute '<em>Value</em>'.
-   * @see at.jku.isse.oclx.NumberLiteralExp#getValue()
-   * @see #getNumberLiteralExp()
+   * @see at.jku.isse.oclx.IntLiteralExp#getValue()
+   * @see #getIntLiteralExp()
    * @generated
    */
-  EAttribute getNumberLiteralExp_Value();
+  EAttribute getIntLiteralExp_Value();
 
   /**
    * Returns the meta object for class '{@link at.jku.isse.oclx.StringLiteralExp <em>String Literal Exp</em>}'.
@@ -1759,14 +1731,25 @@ public interface OclxPackage extends EPackage
   EAttribute getBooleanLiteralExp_Value();
 
   /**
-   * Returns the meta object for class '{@link at.jku.isse.oclx.NullLiteralExp <em>Null Literal Exp</em>}'.
+   * Returns the meta object for class '{@link at.jku.isse.oclx.FloatLiteralExp <em>Float Literal Exp</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Null Literal Exp</em>'.
-   * @see at.jku.isse.oclx.NullLiteralExp
+   * @return the meta object for class '<em>Float Literal Exp</em>'.
+   * @see at.jku.isse.oclx.FloatLiteralExp
    * @generated
    */
-  EClass getNullLiteralExp();
+  EClass getFloatLiteralExp();
+
+  /**
+   * Returns the meta object for the attribute '{@link at.jku.isse.oclx.FloatLiteralExp#getValue <em>Value</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the attribute '<em>Value</em>'.
+   * @see at.jku.isse.oclx.FloatLiteralExp#getValue()
+   * @see #getFloatLiteralExp()
+   * @generated
+   */
+  EAttribute getFloatLiteralExp_Value();
 
   /**
    * Returns the meta object for class '{@link at.jku.isse.oclx.MethodExp <em>Method Exp</em>}'.
@@ -2183,16 +2166,6 @@ public interface OclxPackage extends EPackage
   EReference getPrefixExp_Expression();
 
   /**
-   * Returns the meta object for class '{@link at.jku.isse.oclx.NullLiteralExpCS <em>Null Literal Exp CS</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for class '<em>Null Literal Exp CS</em>'.
-   * @see at.jku.isse.oclx.NullLiteralExpCS
-   * @generated
-   */
-  EClass getNullLiteralExpCS();
-
-  /**
    * Returns the factory that creates the instances of the model.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -2484,14 +2457,14 @@ public interface OclxPackage extends EPackage
     EClass PRIMITIVE_LITERAL_EXP = eINSTANCE.getPrimitiveLiteralExp();
 
     /**
-     * The meta object literal for the '{@link at.jku.isse.oclx.impl.NumberLiteralExpImpl <em>Number Literal Exp</em>}' class.
+     * The meta object literal for the '{@link at.jku.isse.oclx.impl.IntLiteralExpImpl <em>Int Literal Exp</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see at.jku.isse.oclx.impl.NumberLiteralExpImpl
-     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNumberLiteralExp()
+     * @see at.jku.isse.oclx.impl.IntLiteralExpImpl
+     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getIntLiteralExp()
      * @generated
      */
-    EClass NUMBER_LITERAL_EXP = eINSTANCE.getNumberLiteralExp();
+    EClass INT_LITERAL_EXP = eINSTANCE.getIntLiteralExp();
 
     /**
      * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
@@ -2499,7 +2472,7 @@ public interface OclxPackage extends EPackage
      * <!-- end-user-doc -->
      * @generated
      */
-    EAttribute NUMBER_LITERAL_EXP__VALUE = eINSTANCE.getNumberLiteralExp_Value();
+    EAttribute INT_LITERAL_EXP__VALUE = eINSTANCE.getIntLiteralExp_Value();
 
     /**
      * The meta object literal for the '{@link at.jku.isse.oclx.impl.StringLiteralExpImpl <em>String Literal Exp</em>}' class.
@@ -2538,14 +2511,22 @@ public interface OclxPackage extends EPackage
     EAttribute BOOLEAN_LITERAL_EXP__VALUE = eINSTANCE.getBooleanLiteralExp_Value();
 
     /**
-     * The meta object literal for the '{@link at.jku.isse.oclx.impl.NullLiteralExpImpl <em>Null Literal Exp</em>}' class.
+     * The meta object literal for the '{@link at.jku.isse.oclx.impl.FloatLiteralExpImpl <em>Float Literal Exp</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see at.jku.isse.oclx.impl.NullLiteralExpImpl
-     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNullLiteralExp()
+     * @see at.jku.isse.oclx.impl.FloatLiteralExpImpl
+     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getFloatLiteralExp()
      * @generated
      */
-    EClass NULL_LITERAL_EXP = eINSTANCE.getNullLiteralExp();
+    EClass FLOAT_LITERAL_EXP = eINSTANCE.getFloatLiteralExp();
+
+    /**
+     * The meta object literal for the '<em><b>Value</b></em>' attribute feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EAttribute FLOAT_LITERAL_EXP__VALUE = eINSTANCE.getFloatLiteralExp_Value();
 
     /**
      * The meta object literal for the '{@link at.jku.isse.oclx.impl.MethodExpImpl <em>Method Exp</em>}' class.
@@ -2888,16 +2869,6 @@ public interface OclxPackage extends EPackage
      * @generated
      */
     EReference PREFIX_EXP__EXPRESSION = eINSTANCE.getPrefixExp_Expression();
-
-    /**
-     * The meta object literal for the '{@link at.jku.isse.oclx.impl.NullLiteralExpCSImpl <em>Null Literal Exp CS</em>}' class.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @see at.jku.isse.oclx.impl.NullLiteralExpCSImpl
-     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNullLiteralExpCS()
-     * @generated
-     */
-    EClass NULL_LITERAL_EXP_CS = eINSTANCE.getNullLiteralExpCS();
 
   }
 

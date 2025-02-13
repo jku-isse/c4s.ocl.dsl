@@ -3,7 +3,7 @@
  */
 package at.jku.isse.oclx.impl;
 
-import at.jku.isse.oclx.NumberLiteralExp;
+import at.jku.isse.oclx.IntLiteralExp;
 import at.jku.isse.oclx.OclxPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -14,18 +14,18 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Number Literal Exp</b></em>'.
+ * An implementation of the model object '<em><b>Int Literal Exp</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link at.jku.isse.oclx.impl.NumberLiteralExpImpl#getValue <em>Value</em>}</li>
+ *   <li>{@link at.jku.isse.oclx.impl.IntLiteralExpImpl#getValue <em>Value</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements NumberLiteralExp
+public class IntLiteralExpImpl extends PrimitiveLiteralExpImpl implements IntLiteralExp
 {
   /**
    * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
@@ -52,7 +52,7 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
    * <!-- end-user-doc -->
    * @generated
    */
-  protected NumberLiteralExpImpl()
+  protected IntLiteralExpImpl()
   {
     super();
   }
@@ -65,7 +65,7 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
   @Override
   protected EClass eStaticClass()
   {
-    return OclxPackage.Literals.NUMBER_LITERAL_EXP;
+    return OclxPackage.Literals.INT_LITERAL_EXP;
   }
 
   /**
@@ -90,7 +90,7 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
     int oldValue = value;
     value = newValue;
     if (eNotificationRequired())
-      eNotify(new ENotificationImpl(this, Notification.SET, OclxPackage.NUMBER_LITERAL_EXP__VALUE, oldValue, value));
+      eNotify(new ENotificationImpl(this, Notification.SET, OclxPackage.INT_LITERAL_EXP__VALUE, oldValue, value));
   }
 
   /**
@@ -103,7 +103,7 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
   {
     switch (featureID)
     {
-      case OclxPackage.NUMBER_LITERAL_EXP__VALUE:
+      case OclxPackage.INT_LITERAL_EXP__VALUE:
         return getValue();
     }
     return super.eGet(featureID, resolve, coreType);
@@ -119,7 +119,7 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
   {
     switch (featureID)
     {
-      case OclxPackage.NUMBER_LITERAL_EXP__VALUE:
+      case OclxPackage.INT_LITERAL_EXP__VALUE:
         setValue((Integer)newValue);
         return;
     }
@@ -136,7 +136,7 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
   {
     switch (featureID)
     {
-      case OclxPackage.NUMBER_LITERAL_EXP__VALUE:
+      case OclxPackage.INT_LITERAL_EXP__VALUE:
         setValue(VALUE_EDEFAULT);
         return;
     }
@@ -153,7 +153,7 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
   {
     switch (featureID)
     {
-      case OclxPackage.NUMBER_LITERAL_EXP__VALUE:
+      case OclxPackage.INT_LITERAL_EXP__VALUE:
         return value != VALUE_EDEFAULT;
     }
     return super.eIsSet(featureID);
@@ -176,4 +176,4 @@ public class NumberLiteralExpImpl extends PrimitiveLiteralExpImpl implements Num
     return result.toString();
   }
 
-} //NumberLiteralExpImpl
+} //IntLiteralExpImpl

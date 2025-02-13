@@ -143,7 +143,8 @@ public class CodeActionExecuter {
 			sb.append(constraint.substring(range.getEnd().getCharacter(), keepUntil));
 		}
 		repairedOclxConstraint = sb.toString();
-		repairedExpression = NodeModelUtils.findActualNodeFor(parse(repairedOclxConstraint).getConstraints().get(0).getExpression()).getText();
+		var newConstraint = parse(repairedOclxConstraint).getConstraints().get(0).getExpression();
+		repairedExpression = NodeModelUtils.findActualNodeFor(newConstraint).getText();
 		executedCodeAction = codeAction;
 	}
 	

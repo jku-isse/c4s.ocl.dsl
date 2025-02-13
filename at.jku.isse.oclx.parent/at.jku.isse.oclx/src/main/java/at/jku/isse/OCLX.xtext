@@ -1,5 +1,7 @@
 grammar at.jku.isse.OCLX with org.eclipse.xtext.common.Terminals
 
+import "http://www.eclipse.org/emf/2002/Ecore" as ecore
+
 generate oclx "http://www.jku.at/isse/OCLX"
 
 Model:
@@ -25,6 +27,8 @@ SimpleName:
 terminal DESCRIPTION:
 	'\"' -> '\"' 
 ;
+
+Float returns ecore::EFloat: INT '.' INT;
 
 Context:
 	name = QualifiedName
@@ -91,21 +95,26 @@ VarReference: // variable reference
 ;
 
 PrimitiveLiteralExp:
-	NumberLiteralExp
+	IntLiteralExp
 	| StringLiteralExp
 	| BooleanLiteralExp
-	| NullLiteralExp
+//	| NullLiteralExp
+	| FloatLiteralExp
 ;	
 	
-NumberLiteralExp:
+IntLiteralExp:
 	value=INT;
 StringLiteralExp:
-	value=STRING;
+	value=STRING; // use this for dates as well
 BooleanLiteralExp:
 	value='true'
 	| value='false';	
-NullLiteralExp:
-	{NullLiteralExpCS} 'null';	
+//NullLiteralExp: // this should not be available, rather use isDefined() 
+//	{NullLiteralExpCS} 'null';	
+FloatLiteralExp:
+	value = Float
+;	
+
 
 MethodExp:		
 	 PropertyAccess	

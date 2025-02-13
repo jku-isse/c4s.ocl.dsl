@@ -6,21 +6,21 @@ package at.jku.isse.oclx;
 
 /**
  * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Number Literal Exp</b></em>'.
+ * A representation of the model object '<em><b>Int Literal Exp</b></em>'.
  * <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link at.jku.isse.oclx.NumberLiteralExp#getValue <em>Value</em>}</li>
+ *   <li>{@link at.jku.isse.oclx.IntLiteralExp#getValue <em>Value</em>}</li>
  * </ul>
  *
- * @see at.jku.isse.oclx.OclxPackage#getNumberLiteralExp()
+ * @see at.jku.isse.oclx.OclxPackage#getIntLiteralExp()
  * @model
  * @generated
  */
-public interface NumberLiteralExp extends PrimitiveLiteralExp
+public interface IntLiteralExp extends PrimitiveLiteralExp
 {
   /**
    * Returns the value of the '<em><b>Value</b></em>' attribute.
@@ -28,14 +28,14 @@ public interface NumberLiteralExp extends PrimitiveLiteralExp
    * <!-- end-user-doc -->
    * @return the value of the '<em>Value</em>' attribute.
    * @see #setValue(int)
-   * @see at.jku.isse.oclx.OclxPackage#getNumberLiteralExp_Value()
+   * @see at.jku.isse.oclx.OclxPackage#getIntLiteralExp_Value()
    * @model
    * @generated
    */
   int getValue();
 
   /**
-   * Sets the value of the '{@link at.jku.isse.oclx.NumberLiteralExp#getValue <em>Value</em>}' attribute.
+   * Sets the value of the '{@link at.jku.isse.oclx.IntLiteralExp#getValue <em>Value</em>}' attribute.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @param value the new value of the '<em>Value</em>' attribute.
@@ -44,4 +44,4 @@ public interface NumberLiteralExp extends PrimitiveLiteralExp
    */
   void setValue(int value);
 
-} // NumberLiteralExp
+} // IntLiteralExp

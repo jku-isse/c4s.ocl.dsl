@@ -346,7 +346,7 @@ public class OCLXParsingTest {
       _builder.append("context: DemoIssue");
       _builder.newLine();
       _builder.append("\t");
-      _builder.append("expression: not(self.requirements->forAll(x : <root/types/demo/DemoIssue> | x.parent <> null ) )");
+      _builder.append("expression: not(self.requirements->forAll(x : <root/types/demo/DemoIssue> | x.parent.isDefined() ) )");
       _builder.newLine();
       _builder.append("}");
       _builder.newLine();
