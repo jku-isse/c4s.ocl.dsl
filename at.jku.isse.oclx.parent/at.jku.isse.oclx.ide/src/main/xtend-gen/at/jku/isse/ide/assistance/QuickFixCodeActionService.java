@@ -67,6 +67,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
 
   private DuplicateVariableQuickfixer duplicateFixer = new DuplicateVariableQuickfixer();
 
+  private SyntaxErrorFixer syntaxFixer = new SyntaxErrorFixer();
+
   @Override
   public List<Either<Command, CodeAction>> getCodeActions(final ICodeActionService2.Options options) {
     Document document = options.getDocument();
@@ -89,46 +91,54 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
         {
           final String stringToRepair = document.getSubstring(d.getRange());
           final int offset = document.getOffSet(d.getRange().getStart());
+          final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
           Object _get = d.getCode().get();
-          boolean _equals = Objects.equal(_get, OCLXValidator.UNKNOWN_TYPE);
+          boolean _equals = Objects.equal(_get, org.eclipse.xtext.diagnostics.Diagnostic.SYNTAX_DIAGNOSTIC);
           if (_equals) {
-            final EObject modelElement = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
-            CodeAction repair = new UnknownTypeQuickfixer(this.schemaReg).createReplaceWithMostSimilarTypeQuickFix(modelElement, stringToRepair, d, resource);
+            CodeAction repair = this.syntaxFixer.trySyntaxFix(modelElement, stringToRepair, d, resource);
             if ((repair != null)) {
               result.add(repair);
             }
           } else {
             Object _get_1 = d.getCode().get();
-            boolean _equals_1 = Objects.equal(_get_1, OCLXValidator.DUPLICATE_VAR_NAME);
+            boolean _equals_1 = Objects.equal(_get_1, OCLXValidator.UNKNOWN_TYPE);
             if (_equals_1) {
-              final EObject modelElement_1 = this.eObjectAtOffsetHelper.resolveElementAt(resource, offset);
-              EObject iterDecl = modelElement_1.eContainer();
-              if ((iterDecl instanceof IteratorVarDeclaration)) {
-                CodeAction _createQuickfix = this.duplicateFixer.createQuickfix(((IteratorVarDeclaration)iterDecl), d, resource);
-                result.add(_createQuickfix);
+              CodeAction repair_1 = new UnknownTypeQuickfixer(this.schemaReg).createReplaceWithMostSimilarTypeQuickFix(modelElement, stringToRepair, d, resource);
+              if ((repair_1 != null)) {
+                result.add(repair_1);
               }
             } else {
               Object _get_2 = d.getCode().get();
-              boolean _equals_2 = Objects.equal(_get_2, OCLXValidator.UNKNOWN_PROPERTY);
+              boolean _equals_2 = Objects.equal(_get_2, OCLXValidator.DUPLICATE_VAR_NAME);
               if (_equals_2) {
-                this.generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result);
-                final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset);
-                int _size = choices.size();
-                boolean _greaterThan = (_size > 0);
-                if (_greaterThan) {
-                  final String newProp = choices.get(0);
-                  this.generateCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result);
+                EObject iterDecl = modelElement.eContainer();
+                if ((iterDecl instanceof IteratorVarDeclaration)) {
+                  CodeAction _createQuickfix = this.duplicateFixer.createQuickfix(((IteratorVarDeclaration)iterDecl), d, resource);
+                  result.add(_createQuickfix);
                 }
               } else {
                 Object _get_3 = d.getCode().get();
-                boolean _equals_3 = Objects.equal(_get_3, OCLXValidator.UNKNOWN_OPERATION);
+                boolean _equals_3 = Objects.equal(_get_3, OCLXValidator.UNKNOWN_PROPERTY);
                 if (_equals_3) {
-                  List<String> choices_1 = this.findMostSimilarOperations(resource, offset, stringToRepair);
-                  int _size_1 = choices_1.size();
-                  boolean _greaterThan_1 = (_size_1 > 0);
-                  if (_greaterThan_1) {
-                    final String newOp = choices_1.get(0);
-                    this.generateCodeActionReplaceWithMostSimilarOperation(d, resource, newOp, result);
+                  this.generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result);
+                  final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset);
+                  int _size = choices.size();
+                  boolean _greaterThan = (_size > 0);
+                  if (_greaterThan) {
+                    final String newProp = choices.get(0);
+                    this.generateCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result);
+                  }
+                } else {
+                  Object _get_4 = d.getCode().get();
+                  boolean _equals_4 = Objects.equal(_get_4, OCLXValidator.UNKNOWN_OPERATION);
+                  if (_equals_4) {
+                    List<String> choices_1 = this.findMostSimilarOperations(resource, offset, stringToRepair);
+                    int _size_1 = choices_1.size();
+                    boolean _greaterThan_1 = (_size_1 > 0);
+                    if (_greaterThan_1) {
+                      final String newOp = choices_1.get(0);
+                      this.generateCodeActionReplaceWithMostSimilarOperation(d, resource, newOp, result);
+                    }
                   }
                 }
               }

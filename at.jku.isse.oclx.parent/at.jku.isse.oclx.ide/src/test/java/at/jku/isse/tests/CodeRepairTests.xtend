@@ -243,6 +243,67 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("req01"))
 	}
 	
+	@Test
+	def void testRepairOfIterTypeSyntaxError() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(req : DemoIssue | req.bugs.size() > 0)
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assertions.assertFalse(errors.isEmpty, '''Expected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("< >"))
+	}
+	
+	@Test
+	def void testRepairOfIterTypeSyntaxError2() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(req :DemoIssue | req.bugs.size() > 0)
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assertions.assertFalse(errors.isEmpty, '''Expected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("< >"))
+	}
+	
+	@Test
+	def void testRepairOfIterTypeSyntaxError3() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(req : | req.bugs.size() > 0)
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assertions.assertFalse(errors.isEmpty, '''Expected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains(":"))
+	}
+	
+	
 	def error2CodeAction(String content, Model result) {
 		val issue = validationTestHelper.validate(result).get(0);
 		val range = new Range(new Position(issue.lineNumber-1, issue.column-1), new Position(issue.lineNumberEnd-1, issue.columnEnd-1))

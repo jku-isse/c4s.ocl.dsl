@@ -45,6 +45,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	SchemaRegistry schemaReg;
 	
 	DuplicateVariableQuickfixer duplicateFixer = new DuplicateVariableQuickfixer();
+	SyntaxErrorFixer syntaxFixer = new SyntaxErrorFixer();
 	
 	override getCodeActions(Options options) {
 		
@@ -65,14 +66,18 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			for (d : params.context.diagnostics) {
 				val stringToRepair = document.getSubstring(d.range)
 				val offset = document.getOffSet(d.range.start)
-				if (d.code.get == OCLXValidator.UNKNOWN_TYPE) {
-					val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+				val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+				if (d.code.get == org.eclipse.xtext.diagnostics.Diagnostic.SYNTAX_DIAGNOSTIC) {
+					var repair =  syntaxFixer.trySyntaxFix(modelElement, stringToRepair, d, resource);
+					if (repair !== null) {
+						result += repair
+					}
+				} else if (d.code.get == OCLXValidator.UNKNOWN_TYPE) {					
 					var repair =  new UnknownTypeQuickfixer(schemaReg).createReplaceWithMostSimilarTypeQuickFix(modelElement, stringToRepair, d, resource);
 					if (repair !== null) {
 						result += repair
 					}
-				} else if (d.code.get == OCLXValidator.DUPLICATE_VAR_NAME) {
-					val modelElement = eObjectAtOffsetHelper.resolveElementAt(resource, offset);
+				} else if (d.code.get == OCLXValidator.DUPLICATE_VAR_NAME) {					
 					var iterDecl = modelElement.eContainer;
 					if (iterDecl instanceof IteratorVarDeclaration){
 						result += duplicateFixer.createQuickfix(iterDecl, d, resource);	

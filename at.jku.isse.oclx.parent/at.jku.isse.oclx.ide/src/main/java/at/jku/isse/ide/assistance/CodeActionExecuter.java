@@ -102,7 +102,7 @@ public class CodeActionExecuter {
 		var range = new Range(new Position(issue.getLineNumber()-1, issue.getColumn()-1)
 				, new Position(issue.getLineNumberEnd()-1, issue.getColumnEnd()-1));
 		
-		if (issue.isSyntaxError() || issue.getCode().equals("missingType")) return Collections.emptyList(); // can't repair syntax error or missing parameter/type
+		if (issue.getCode().equals("missingType")) return Collections.emptyList(); // can't repair missing parameter/type, we try for some syntax errors		
 		
 		var d = new Diagnostic();
 		var ctx = new CodeActionContext(List.of(d));
@@ -116,7 +116,7 @@ public class CodeActionExecuter {
 		options.setResource(resource);
 		options.setCodeActionParams(new CodeActionParams(new TextDocumentIdentifier(resource.getURI().toString()), range, ctx));
 		return repairService.getCodeActions(options).stream().map(either -> either.getRight()).toList();
-	}
+	}	
 	
 	/**
 	 * executing single-line repairs only for now
