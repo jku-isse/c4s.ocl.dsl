@@ -103,15 +103,17 @@ public class TypeExtractor {
 		} else if (exp instanceof PrimitiveLiteralExp primExp) {	
 			currentTypeAndCardinality = processPrimitiveLiteralExp(primExp);
 		}
+		
+		if (currentTypeAndCardinality == null) { // no point in continuing as once we cannot establish it here, we cannot infer much further into the expression.
+			return null;
+		}
 		elementToTypeMap.getReturnTypeMap().put(exp, currentTypeAndCardinality);	
 		// as we also want to assign navigation operators the type of the preceding var/method/property
 		int methodPos = 0;		
 		for (MethodExp methodExp : exp.getMethods()) {
 			log.trace("Traversing for methodCheck: "+methodExp);
-			// if there is a methodExp, there must be a navigation operator first from the preceding self/varref
-			if (currentTypeAndCardinality != null) {
-				elementToTypeMap.getReturnTypeMap().put(exp.getNav().get(methodPos), currentTypeAndCardinality);
-			} // else there is an error using unknown property or reference, then we cant infer the type, ignore.
+			// if there is a methodExp, there must be a navigation operator first from the preceding self/varref			
+			elementToTypeMap.getReturnTypeMap().put(exp.getNav().get(methodPos), currentTypeAndCardinality);			
 			// prep for next round/method
 			methodPos++;
 			if (methodExp instanceof IteratorExp iterExp) {
