@@ -6,6 +6,7 @@ import at.jku.isse.validation.OCLXValidator;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.lsp4j.CodeAction;
@@ -46,6 +47,17 @@ public class CodeRepairTests extends AbstractContentAssistTest {
 
   @Inject
   private ICodeActionService2 repairService;
+
+  @Test
+  public void testSimilarity() {
+    this.printSim("sizes", "size");
+    this.printSim("chars", "characters");
+    this.printSim("process", "predecessorItems");
+  }
+
+  public void printSim(final String a, final String b) {
+    System.out.println(String.format("%s %s sim: %s", a, b, new JaroWinklerSimilarity().apply(a, b)));
+  }
 
   @Test
   public void testRepairProperty() {

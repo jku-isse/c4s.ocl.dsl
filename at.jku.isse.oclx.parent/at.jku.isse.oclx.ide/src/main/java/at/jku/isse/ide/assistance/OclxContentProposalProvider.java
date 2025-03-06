@@ -288,17 +288,18 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 		return "${"+counter.incrementAndGet()+":paramOf"+tAc.getCardinality().toString()+tAc.getType().getName()+"}" ; 
 	}
 
-	public static List<String> getSimilaritySortedProperties(PPEInstanceType type, String compareTo) {
+	public static List<String> getSimilaritySortedProperties(PPEInstanceType type, String compareTo, double minSimilarityThreshold) {
 		var sorted = type.getPropertyNamesIncludingSuperClasses()
 				.stream()
 				.filter(name -> !name.startsWith("@"))
 				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerSimilarity()
 						.apply(str, compareTo), str) )
-				.sorted(similarityComparator)
+				.sorted(similarityComparator)											
 				.toList();
 		return sorted.stream()
+				.filter(entry -> entry.getKey() > minSimilarityThreshold)
 				.map(entry -> entry.getValue())
-				.collect(Collectors.toList());
+				.toList();
 	}
 	
 	public static List<String> getSimilaritySortedMethods(MethodRegistry methodRegistry, String compareTo, TypeAndCardinality inputType) {

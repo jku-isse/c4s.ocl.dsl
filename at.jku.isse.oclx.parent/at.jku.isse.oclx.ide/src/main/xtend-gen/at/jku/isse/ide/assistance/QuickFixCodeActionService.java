@@ -69,6 +69,8 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
 
   private SyntaxErrorFixer syntaxFixer = new SyntaxErrorFixer();
 
+  private double minSimilarityThreshold = 0.8;
+
   @Override
   public List<Either<Command, CodeAction>> getCodeActions(final ICodeActionService2.Options options) {
     Document document = options.getDocument();
@@ -121,7 +123,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                 boolean _equals_3 = Objects.equal(_get_3, OCLXValidator.UNKNOWN_PROPERTY);
                 if (_equals_3) {
                   this.generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result);
-                  final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset);
+                  final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset, this.minSimilarityThreshold);
                   int _size = choices.size();
                   boolean _greaterThan = (_size > 0);
                   if (_greaterThan) {
@@ -445,10 +447,10 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
     }
   }
 
-  protected List<String> findMostSimilarProperties(final String partialPropertyName, final XtextResource resource, final int offset) {
+  protected List<String> findMostSimilarProperties(final String partialPropertyName, final XtextResource resource, final int offset, final double minSimilarityThreshold) {
     ElementToTypeMap.TypeAndCardinality completeWithType = this.resolvePropertyAccessOrMethodResourceToType(resource, offset);
     if ((completeWithType != null)) {
-      final List<String> choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName);
+      final List<String> choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName, minSimilarityThreshold);
       return choices;
     }
     return Collections.<String>emptyList();

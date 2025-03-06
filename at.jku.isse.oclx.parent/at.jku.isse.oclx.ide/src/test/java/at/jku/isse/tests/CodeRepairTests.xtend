@@ -21,6 +21,7 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
+import org.apache.commons.text.similarity.JaroWinklerSimilarity
 
 @ExtendWith(InjectionExtension)
 @InjectWith(OCLXInjectorProvider)
@@ -53,7 +54,19 @@ class CodeRepairTests extends AbstractContentAssistTest{
 //		System.out.println(completions);
 //	}
 
-
+	@Test
+	def void testSimilarity() {
+		printSim("sizes", "size");
+		printSim("chars", "characters");
+		printSim("process", "predecessorItems");
+		
+		
+	}
+	
+	def printSim(String a, String b) {
+		System.out.println(String.format("%s %s sim: %s", a, b, new JaroWinklerSimilarity().apply(a, b)));
+	}
+	
 
 	@Test
 	def void testRepairProperty() {

@@ -127,6 +127,10 @@ public class TypeExtractor {
 			} else if (methodExp instanceof TypeCallExp typeCallExp ) {
 				currentTypeAndCardinality = processTypeCallExp(typeCallExp, elementToTypeMap);					
 			}
+			// abort loop if we can no longer establish type and cardinality
+			if (currentTypeAndCardinality == null) { // no point in continuing as once we cannot establish it here, we cannot infer much further into the expression.
+				return null;
+			}
 		}
 		// if there is a trailing navigation --> also set that return type of that:
 		if (exp.getNav().size() > exp.getMethods().size()) {
@@ -166,6 +170,7 @@ public class TypeExtractor {
 			List<TypeAndCardinality> returnTypes = infixExp.getExpressions().stream()
 					.map(childExp -> new AbstractMap.SimpleEntry<Exp, TypeAndCardinality>(childExp, checkExpressionForNavigationCorrectness(childExp, elementToTypeMap)))
 					.filter(Objects::nonNull) // in presence of errors, ignore null responses and wait for fixing
+					.filter(entry -> entry.getValue() != null && entry.getValue().getType() != null && entry.getValue().getCardinality() != null) // also ignore when type or card is null, as also then we cant check anything below
 					.map(entry -> {
 						if (isBooleanOp && entry.getValue().getType() != BuildInType.BOOLEAN && entry.getValue().getCardinality() != CARDINALITIES.SINGLE) {
 							errorCollector.error(String.format(" Boolean Operator requires nested expression(s) to return single Boolean but found '%s' ", entry.getValue())

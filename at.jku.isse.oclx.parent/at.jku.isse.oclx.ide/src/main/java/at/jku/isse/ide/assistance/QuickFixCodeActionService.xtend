@@ -47,6 +47,8 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	DuplicateVariableQuickfixer duplicateFixer = new DuplicateVariableQuickfixer();
 	SyntaxErrorFixer syntaxFixer = new SyntaxErrorFixer();
 	
+	double minSimilarityThreshold = 0.8;
+	
 	override getCodeActions(Options options) {
 		
 		var document = options.document
@@ -84,7 +86,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 					}
 				} else if (d.code.get == OCLXValidator.UNKNOWN_PROPERTY) {																	
 					generatorCodeActionReplaceWithSubtype(d, resource, offset, stringToRepair, result)
-					val choices = findMostSimilarProperties(stringToRepair, resource, offset)
+					val choices = findMostSimilarProperties(stringToRepair, resource, offset, minSimilarityThreshold)
 					if (choices.size() > 0) {
 						val newProp = choices.get(0)
 						generateCodeActionReplaceWithMostSimilarProperty(d, resource, newProp, result)
@@ -257,10 +259,10 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		}
 	}
 
-	protected def findMostSimilarProperties(String partialPropertyName, XtextResource resource, int offset) {
+	protected def findMostSimilarProperties(String partialPropertyName, XtextResource resource, int offset, double minSimilarityThreshold) {
 		var completeWithType = resolvePropertyAccessOrMethodResourceToType(resource, offset);
 		if (completeWithType !== null) {
-			val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName)
+			val choices = OclxContentProposalProvider.getSimilaritySortedProperties(completeWithType.getType(), partialPropertyName, minSimilarityThreshold);
 			return choices
 		}
 		return Collections.emptyList()
