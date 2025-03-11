@@ -32,6 +32,8 @@ import at.jku.isse.validation.OclxASTUtils
 import at.jku.isse.validation.TypeExtractor
 import at.jku.isse.oclx.IteratorVarDeclaration
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry
+import java.util.AbstractMap
+import org.apache.commons.text.similarity.JaroWinklerSimilarity
 
 class QuickFixCodeActionService implements ICodeActionService2 {
 	
@@ -141,25 +143,27 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	}
 
 	protected def dispatchByPreceedingElement(EObject affectedElement, EObject precedingElement, Diagnostic d, XtextResource resource
-											, List<PPEInstanceType> subclasses, String propertyName, List<CodeAction> result) {
-		
-		val subclass = subclasses.get(0);
+											, List<PPEInstanceType> subclasses, String propertyName, List<CodeAction> result) {		
+		//val subclass = subclasses.get(0);
 		if (precedingElement instanceof SelfExp) {
 			// we cant really suggest a cast of context, rather make context more precise
 				val ctx = getContext(precedingElement);
-						result += new CodeAction => [
+				for (subclass : subclasses){		
+					result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
 						title = "Use '"+subclass.name+"' as a more specialized context element"
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = getRangeOfElement(ctx)
 								newText = subclass.name
-							])
+								])
+							]
 						]
-					]
+			}
 		} else
 		if (precedingElement instanceof PropertyAccessExp) {
 			// cast the property
+			val subclass = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, propertyName).get(0);			
 			result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
 						title = "Access property '"+propertyName+"' in the more specialized type '"+subclass.name+"' "
@@ -176,6 +180,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			// a method that returns a single instance can only happen over collection --> need to filter collection then cast object
 			// get range of methodcall,
 			val methodRange = getRangeOfElement(precedingElement);
+			val subclass = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, precedingElement.name).get(0);
 			// insert select
 			if (methodRange !== null) {
 				result += new CodeAction => [
@@ -196,9 +201,10 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			}
 		} else
 		if (precedingElement instanceof VarReference) {
-			val refName = precedingElement.ref.name;			
+			val refName = precedingElement.ref.name;						
 			// find most fitting type to refname as refname often conveys meaning
-			val bestFitType = UnknownTypeQuickfixer.findMostSimilarType(refName, schemaReg).get();									
+			//val bestFitType = UnknownTypeQuickfixer.findMostSimilarType(refName, schemaReg).get();
+			val bestFitType = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName).get(0);									
 			val iter = getIterator(precedingElement, refName);
 			if (iter !== null) {
 				val iterRange = getRangeOfElement(iter);
@@ -222,8 +228,6 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			System.out.println("ERROR in QuickFixCodeActionService: Unexpected preceding element: "+precedingElement.toString);
 		}
 	}
-	
-
 
 	static def Range getRangeOfElement(EObject exp) {
 		if (exp === null) return null;

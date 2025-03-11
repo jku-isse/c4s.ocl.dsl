@@ -152,12 +152,16 @@ public class TypeExtractor {
 	private TypeAndCardinality processPrefixExp(ElementToTypeMap elementToTypeMap, PrefixExp prefixExp) {
 		TypeAndCardinality currentTypeAndCardinality;
 		currentTypeAndCardinality = checkExpressionForNavigationCorrectness(prefixExp.getExpression(), elementToTypeMap); 
-		if (prefixExp.getOperator().getName().equals(grammarAccess.getUnaryOperatorAccess().getNameNotKeyword_0_1().getValue())
-				&& currentTypeAndCardinality.getType() != BuildInType.BOOLEAN) {
-			var type = currentTypeAndCardinality != null ? currentTypeAndCardinality.getType() : "null";
-			errorCollector.error(String.format(" Expression prefixed with 'not' operator requires Boolean return type but found '%s' ", type)
+		if (prefixExp.getOperator().getName().equals(grammarAccess.getUnaryOperatorAccess().getNameNotKeyword_0_1().getValue())) {
+			// 'not' operator
+			if (currentTypeAndCardinality != null // no error further inwards, that needs to be fixed first
+					&& currentTypeAndCardinality.getType() != BuildInType.BOOLEAN) {
+				var type = currentTypeAndCardinality != null ? currentTypeAndCardinality.getType() : "null";
+				errorCollector.error(String.format(" Expression prefixed with 'not' operator requires Boolean return type but found '%s' ", type)
 					, prefixExp, OclxPackage.Literals.PREFIX_EXP__EXPRESSION, OCLXValidator.INCOMPATIBLE_RETURN_TYPE);
-		}
+			} 
+			return new TypeAndCardinality(BuildInType.BOOLEAN, CARDINALITIES.SINGLE); // return type is nevertheless always a single boolean
+		} else // '-' operator
 		return currentTypeAndCardinality;
 	}
 	
