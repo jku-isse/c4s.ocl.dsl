@@ -62,6 +62,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		
 		printSim("b", "bug");
 		printSim("b", "cub");
+		printSim("child", "sharedsteps");
 	}
 	
 	def printSim(String a, String b) {

@@ -22,6 +22,7 @@ import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import org.eclipse.emf.common.util.URI;
@@ -237,11 +238,12 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
       if ((precedingElement instanceof PropertyAccessExp)) {
         boolean _xblockexpression = false;
         {
-          final PPEInstanceType subclass_1 = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, propertyName).get(0);
+          final List<? extends Map.Entry<Double, PPEInstanceType>> rankedSubClasses = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, propertyName);
+          final Map.Entry<Double, PPEInstanceType> subclassScore = rankedSubClasses.get(0);
           CodeAction _codeAction_1 = new CodeAction();
           final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
             it.setKind(CodeActionKind.QuickFix);
-            String _name = subclass_1.getName();
+            String _name = subclassScore.getValue().getName();
             String _plus = ((("Access property \'" + propertyName) + "\' in the more specialized type \'") + _name);
             String _plus_1 = (_plus + "\' ");
             it.setTitle(_plus_1);
@@ -252,7 +254,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
               TextEdit _textEdit = new TextEdit();
               final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
                 it_2.setRange(d.getRange());
-                String _transformedFQN = this.getTransformedFQN(subclass_1);
+                String _transformedFQN = this.getTransformedFQN(subclassScore.getValue());
                 String _plus_2 = ("asType(<" + _transformedFQN);
                 String _plus_3 = (_plus_2 + ">).");
                 String _plus_4 = (_plus_3 + propertyName);
@@ -274,13 +276,14 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
           boolean _xblockexpression_1 = false;
           {
             final Range methodRange = QuickFixCodeActionService.getRangeOfElement(precedingElement);
-            final PPEInstanceType subclass_1 = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, ((MethodCallExp)precedingElement).getName()).get(0);
+            final List<? extends Map.Entry<Double, PPEInstanceType>> rankedSubClasses = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, ((MethodCallExp)precedingElement).getName());
+            final Map.Entry<Double, PPEInstanceType> subclassScore = rankedSubClasses.get(0);
             boolean _xifexpression_3 = false;
             if ((methodRange != null)) {
               CodeAction _codeAction_1 = new CodeAction();
               final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
                 it.setKind(CodeActionKind.QuickFix);
-                String _name = subclass_1.getName();
+                String _name = subclassScore.getValue().getName();
                 String _plus = ("Add a filter for instances of the more specialize type \'" + _name);
                 String _plus_1 = (_plus + "\' before method/operation call \'");
                 String _name_1 = ((MethodCallExp)precedingElement).getName();
@@ -299,7 +302,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                   final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
                     Range _range = new Range(pos, pos);
                     it_2.setRange(_range);
-                    String _transformedFQN = this.getTransformedFQN(subclass_1);
+                    String _transformedFQN = this.getTransformedFQN(subclassScore.getValue());
                     String _plus_4 = ("->select(object | object.isKindOf(<" + _transformedFQN);
                     String _plus_5 = (_plus_4 + ">))");
                     it_2.setNewText(_plus_5);
@@ -308,7 +311,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                   TextEdit _textEdit_1 = new TextEdit();
                   final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
                     it_2.setRange(d.getRange());
-                    String _transformedFQN = this.getTransformedFQN(subclass_1);
+                    String _transformedFQN = this.getTransformedFQN(subclassScore.getValue());
                     String _plus_4 = ("asType(<" + _transformedFQN);
                     String _plus_5 = (_plus_4 + ">).");
                     String _plus_6 = (_plus_5 + propertyName);
@@ -332,7 +335,12 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
             boolean _xblockexpression_2 = false;
             {
               final String refName = ((VarReference)precedingElement).getRef().getName();
-              final PPEInstanceType bestFitType = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName).get(0);
+              final List<? extends Map.Entry<Double, PPEInstanceType>> rankedSubClasses = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName);
+              final Map.Entry<Double, PPEInstanceType> subclassScore = rankedSubClasses.get(0);
+              Double _key = subclassScore.getKey();
+              boolean _lessThan = ((_key).doubleValue() < 0.7);
+              if (_lessThan) {
+              }
               final EObject iter = this.getIterator(precedingElement, refName);
               boolean _xifexpression_4 = false;
               if ((iter != null)) {
@@ -342,7 +350,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                   CodeAction _codeAction_1 = new CodeAction();
                   final Procedure1<CodeAction> _function_1 = (CodeAction it) -> {
                     it.setKind(CodeActionKind.QuickFix);
-                    String _name = bestFitType.getName();
+                    String _name = subclassScore.getValue().getName();
                     String _plus = ("Add a filter for instances of the more specialize subtype \'" + _name);
                     String _plus_1 = (_plus + "\' before iterator");
                     it.setTitle(_plus_1);
@@ -358,7 +366,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                       final Procedure1<TextEdit> _function_3 = (TextEdit it_2) -> {
                         Range _range = new Range(pos, pos);
                         it_2.setRange(_range);
-                        String _transformedFQN = this.getTransformedFQN(bestFitType);
+                        String _transformedFQN = this.getTransformedFQN(subclassScore.getValue());
                         String _plus_2 = ((((("->select(" + refName) + "Untyped | ") + refName) + "Untyped.isKindOf(<") + _transformedFQN);
                         String _plus_3 = (_plus_2 + ">))");
                         it_2.setNewText(_plus_3);
@@ -367,7 +375,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                       TextEdit _textEdit_1 = new TextEdit();
                       final Procedure1<TextEdit> _function_4 = (TextEdit it_2) -> {
                         it_2.setRange(d.getRange());
-                        String _transformedFQN = this.getTransformedFQN(bestFitType);
+                        String _transformedFQN = this.getTransformedFQN(subclassScore.getValue());
                         String _plus_2 = ("asType(<" + _transformedFQN);
                         String _plus_3 = (_plus_2 + ">).");
                         String _plus_4 = (_plus_3 + propertyName);

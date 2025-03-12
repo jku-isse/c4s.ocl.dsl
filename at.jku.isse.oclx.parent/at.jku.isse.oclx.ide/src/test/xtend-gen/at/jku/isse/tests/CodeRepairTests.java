@@ -55,6 +55,7 @@ public class CodeRepairTests extends AbstractContentAssistTest {
     this.printSim("process", "predecessorItems");
     this.printSim("b", "bug");
     this.printSim("b", "cub");
+    this.printSim("child", "sharedsteps");
   }
 
   public void printSim(final String a, final String b) {

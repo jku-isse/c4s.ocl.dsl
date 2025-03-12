@@ -315,16 +315,17 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 				.collect(Collectors.toList());
 	}
 	
-	public static List<PPEInstanceType> getSimilaritySortedTypes(List<PPEInstanceType> types, String compareValue) {
+	public static List<? extends Entry<Double, PPEInstanceType>> getSimilaritySortedTypes(List<PPEInstanceType> types, String compareValue) {
 		var compareTo = compareValue.toLowerCase(); // better matching
 		var sorted = types.stream()					
 		.map(type -> new AbstractMap.SimpleEntry<Double, PPEInstanceType>( new JaroWinklerSimilarity()
 				.apply(type.getName().toLowerCase(), compareTo), type) )
 		.sorted(similarityComparator)
 		.toList();
-		return  sorted.stream()
-		.map(entry -> entry.getValue())
-		.collect(Collectors.toList());
+		return sorted;
+//		return  sorted.stream()
+//		.map(entry -> entry.getValue())
+//		.collect(Collectors.toList());
 	}
 	
 	public static TextComparator similarityComparator = new TextComparator();

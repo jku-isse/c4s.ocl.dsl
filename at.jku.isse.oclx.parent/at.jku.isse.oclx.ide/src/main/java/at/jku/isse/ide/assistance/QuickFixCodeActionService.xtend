@@ -163,15 +163,16 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		} else
 		if (precedingElement instanceof PropertyAccessExp) {
 			// cast the property
-			val subclass = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, propertyName).get(0);			
+			val rankedSubClasses = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, propertyName);
+			val subclassScore = rankedSubClasses.get(0);			
 			result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Access property '"+propertyName+"' in the more specialized type '"+subclass.name+"' "
+						title = "Access property '"+propertyName+"' in the more specialized type '"+subclassScore.value.name+"' "
 						diagnostics = #[d]
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = d.range
-								newText = "asType(<"+getTransformedFQN(subclass)+">)."+propertyName
+								newText = "asType(<"+getTransformedFQN(subclassScore.value)+">)."+propertyName
 							])
 						]
 					]
@@ -180,21 +181,23 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 			// a method that returns a single instance can only happen over collection --> need to filter collection then cast object
 			// get range of methodcall,
 			val methodRange = getRangeOfElement(precedingElement);
-			val subclass = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, precedingElement.name).get(0);
+			val rankedSubClasses = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, precedingElement.name);
+			val subclassScore = rankedSubClasses.get(0);
+	
 			// insert select
 			if (methodRange !== null) {
 				result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Add a filter for instances of the more specialize type '"+subclass.name+"' before method/operation call '"+precedingElement.name+"'";
+						title = "Add a filter for instances of the more specialize type '"+subclassScore.value.name+"' before method/operation call '"+precedingElement.name+"'";
 						diagnostics = #[d]
 						val pos = new Position(methodRange.start.line, methodRange.start.character-1)  // start and end are equal as we want to insert, shifted by 1: the . navigation character
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(pos, pos)
-								newText = "->select(object | object.isKindOf(<"+getTransformedFQN(subclass)+">))"
+								newText = "->select(object | object.isKindOf(<"+getTransformedFQN(subclassScore.value)+">))"
 							], new TextEdit => [
 								range = d.range
-								newText = "asType(<"+getTransformedFQN(subclass)+">)."+propertyName
+								newText = "asType(<"+getTransformedFQN(subclassScore.value)+">)."+propertyName
 							])
 						]
 					]			
@@ -203,23 +206,27 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		if (precedingElement instanceof VarReference) {
 			val refName = precedingElement.ref.name;						
 			// find most fitting type to refname as refname often conveys meaning
-			//val bestFitType = UnknownTypeQuickfixer.findMostSimilarType(refName, schemaReg).get();
-			val bestFitType = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName).get(0);									
+			val rankedSubClasses = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName);
+			val subclassScore = rankedSubClasses.get(0);
+			if (subclassScore.key < 0.7) { // find better match
+			//TODO find nearby candidate
+			}
+			//val bestFitType = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName).get(0);									
 			val iter = getIterator(precedingElement, refName);
 			if (iter !== null) {
 				val iterRange = getRangeOfElement(iter);
 				result += new CodeAction => [
 						kind = CodeActionKind.QuickFix
-						title = "Add a filter for instances of the more specialize subtype '"+bestFitType.name+"' before iterator"
+						title = "Add a filter for instances of the more specialize subtype '"+subclassScore.value.name+"' before iterator"
 						diagnostics = #[d]
 						val pos = new Position(iterRange.start.line, iterRange.start.character-2)  // start and end are equal as we want to insert, shifted by 2: the -> navigation characters
 						edit = new WorkspaceEdit() => [
 							addTextEdit(resource.URI, new TextEdit => [
 								range = new Range(pos, pos) // start and end are equal as we want to insert
-								newText = "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+getTransformedFQN(bestFitType)+">))"
+								newText = "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+getTransformedFQN(subclassScore.value)+">))"
 							], new TextEdit => [
 								range = d.range
-								newText = "asType(<"+getTransformedFQN(bestFitType)+">)."+propertyName
+								newText = "asType(<"+getTransformedFQN(subclassScore.value)+">)."+propertyName
 							])
 						]
 					]			
