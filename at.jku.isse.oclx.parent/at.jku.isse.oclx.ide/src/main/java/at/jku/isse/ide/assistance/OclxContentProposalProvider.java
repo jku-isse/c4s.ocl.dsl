@@ -1,6 +1,7 @@
 package at.jku.isse.ide.assistance;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -322,7 +323,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 				.apply(type.getName().toLowerCase(), compareTo), type) )
 		.sorted(similarityComparator)
 		.toList();
-		return sorted;
+		return new ArrayList<>(sorted);
 //		return  sorted.stream()
 //		.map(entry -> entry.getValue())
 //		.collect(Collectors.toList());
