@@ -145,7 +145,10 @@ public class TypeExtractor {
 		//currentTypeAndCardinality = new TypeAndCardinality(varTypeMap.get(varName), varCardinalityMap.get(varName));						
 		EObject varDecl = varRef.getRef();
 		var currentTypeAndCardinality = elementToTypeMap.getReturnTypeMap().get(varDecl);
-		log.trace(String.format("Setting current context type %s via var %s ",currentTypeAndCardinality.getType().getName(), varRef.getRef().getName()));
+		if (currentTypeAndCardinality != null)
+			log.trace(String.format("Setting current context type %s via var %s ",currentTypeAndCardinality.getType().getName(), varRef.getRef().getName()));
+		else
+			log.trace(String.format("Could not set next context type for var %s ", varRef.getRef().getName()));
 		return currentTypeAndCardinality;
 	}
 	
