@@ -178,6 +178,28 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//ID
 		public RuleCall getIDTerminalRuleCall() { return cIDTerminalRuleCall; }
 	}
+	public class FloatElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.Float");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final RuleCall cINTTerminalRuleCall_0 = (RuleCall)cGroup.eContents().get(0);
+		private final Keyword cFullStopKeyword_1 = (Keyword)cGroup.eContents().get(1);
+		private final RuleCall cINTTerminalRuleCall_2 = (RuleCall)cGroup.eContents().get(2);
+		
+		//Float returns ecore::EFloat: INT '.' INT;
+		@Override public ParserRule getRule() { return rule; }
+		
+		//INT '.' INT
+		public Group getGroup() { return cGroup; }
+		
+		//INT
+		public RuleCall getINTTerminalRuleCall_0() { return cINTTerminalRuleCall_0; }
+		
+		//'.'
+		public Keyword getFullStopKeyword_1() { return cFullStopKeyword_1; }
+		
+		//INT
+		public RuleCall getINTTerminalRuleCall_2() { return cINTTerminalRuleCall_2; }
+	}
 	public class ContextElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.Context");
 		private final Assignment cNameAssignment = (Assignment)rule.eContents().get(1);
@@ -644,27 +666,27 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	public class PrimitiveLiteralExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.PrimitiveLiteralExp");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cNumberLiteralExpParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
+		private final RuleCall cIntLiteralExpParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cStringLiteralExpParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cBooleanLiteralExpParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
-		private final RuleCall cNullLiteralExpParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
+		private final RuleCall cFloatLiteralExpParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//PrimitiveLiteralExp:
-		//    NumberLiteralExp
+		//    IntLiteralExp
 		//    | StringLiteralExp
 		//    | BooleanLiteralExp
-		//    | NullLiteralExp
+		//    | FloatLiteralExp
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//NumberLiteralExp
+		//IntLiteralExp
 		//| StringLiteralExp
 		//| BooleanLiteralExp
-		//| NullLiteralExp
+		//| FloatLiteralExp
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
-		//NumberLiteralExp
-		public RuleCall getNumberLiteralExpParserRuleCall_0() { return cNumberLiteralExpParserRuleCall_0; }
+		//IntLiteralExp
+		public RuleCall getIntLiteralExpParserRuleCall_0() { return cIntLiteralExpParserRuleCall_0; }
 		
 		//StringLiteralExp
 		public RuleCall getStringLiteralExpParserRuleCall_1() { return cStringLiteralExpParserRuleCall_1; }
@@ -672,15 +694,15 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//BooleanLiteralExp
 		public RuleCall getBooleanLiteralExpParserRuleCall_2() { return cBooleanLiteralExpParserRuleCall_2; }
 		
-		//NullLiteralExp
-		public RuleCall getNullLiteralExpParserRuleCall_3() { return cNullLiteralExpParserRuleCall_3; }
+		//FloatLiteralExp
+		public RuleCall getFloatLiteralExpParserRuleCall_3() { return cFloatLiteralExpParserRuleCall_3; }
 	}
-	public class NumberLiteralExpElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.NumberLiteralExp");
+	public class IntLiteralExpElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.IntLiteralExp");
 		private final Assignment cValueAssignment = (Assignment)rule.eContents().get(1);
 		private final RuleCall cValueINTTerminalRuleCall_0 = (RuleCall)cValueAssignment.eContents().get(0);
 		
-		//NumberLiteralExp:
+		//IntLiteralExp:
 		//    value=INT;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -713,6 +735,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cValueAssignment_1 = (Assignment)cAlternatives.eContents().get(1);
 		private final Keyword cValueFalseKeyword_1_0 = (Keyword)cValueAssignment_1.eContents().get(0);
 		
+		// // use this for dates as well
 		//BooleanLiteralExp:
 		//    value='true'
 		//    | value='false';
@@ -734,24 +757,23 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//'false'
 		public Keyword getValueFalseKeyword_1_0() { return cValueFalseKeyword_1_0; }
 	}
-	public class NullLiteralExpElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.NullLiteralExp");
-		private final Group cGroup = (Group)rule.eContents().get(1);
-		private final Action cNullLiteralExpCSAction_0 = (Action)cGroup.eContents().get(0);
-		private final Keyword cNullKeyword_1 = (Keyword)cGroup.eContents().get(1);
+	public class FloatLiteralExpElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.FloatLiteralExp");
+		private final Assignment cValueAssignment = (Assignment)rule.eContents().get(1);
+		private final RuleCall cValueFloatParserRuleCall_0 = (RuleCall)cValueAssignment.eContents().get(0);
 		
-		//NullLiteralExp:
-		//    {NullLiteralExpCS} 'null';
+		////NullLiteralExp: // this should not be available, rather use isDefined()
+		////    {NullLiteralExpCS} 'null';
+		//FloatLiteralExp:
+		//    value = Float
+		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//{NullLiteralExpCS} 'null'
-		public Group getGroup() { return cGroup; }
+		//value = Float
+		public Assignment getValueAssignment() { return cValueAssignment; }
 		
-		//{NullLiteralExpCS}
-		public Action getNullLiteralExpCSAction_0() { return cNullLiteralExpCSAction_0; }
-		
-		//'null'
-		public Keyword getNullKeyword_1() { return cNullKeyword_1; }
+		//Float
+		public RuleCall getValueFloatParserRuleCall_0() { return cValueFloatParserRuleCall_0; }
 	}
 	public class MethodExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.MethodExp");
@@ -1688,6 +1710,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final SimpleNameElements pSimpleName;
 	private final TerminalRule tDESCRIPTION;
 	private final TerminalRule tURI;
+	private final FloatElements pFloat;
 	private final ContextElements pContext;
 	private final ExpElements pExp;
 	private final PrefixedExpElements pPrefixedExp;
@@ -1704,10 +1727,10 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final VarDeclarationElements pVarDeclaration;
 	private final VarReferenceElements pVarReference;
 	private final PrimitiveLiteralExpElements pPrimitiveLiteralExp;
-	private final NumberLiteralExpElements pNumberLiteralExp;
+	private final IntLiteralExpElements pIntLiteralExp;
 	private final StringLiteralExpElements pStringLiteralExp;
 	private final BooleanLiteralExpElements pBooleanLiteralExp;
-	private final NullLiteralExpElements pNullLiteralExp;
+	private final FloatLiteralExpElements pFloatLiteralExp;
 	private final MethodExpElements pMethodExp;
 	private final CollectionIteratorElements pCollectionIterator;
 	private final IteratorNameElements pIteratorName;
@@ -1746,6 +1769,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pSimpleName = new SimpleNameElements();
 		this.tDESCRIPTION = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.DESCRIPTION");
 		this.tURI = (TerminalRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.URI");
+		this.pFloat = new FloatElements();
 		this.pContext = new ContextElements();
 		this.pExp = new ExpElements();
 		this.pPrefixedExp = new PrefixedExpElements();
@@ -1762,10 +1786,10 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pVarDeclaration = new VarDeclarationElements();
 		this.pVarReference = new VarReferenceElements();
 		this.pPrimitiveLiteralExp = new PrimitiveLiteralExpElements();
-		this.pNumberLiteralExp = new NumberLiteralExpElements();
+		this.pIntLiteralExp = new IntLiteralExpElements();
 		this.pStringLiteralExp = new StringLiteralExpElements();
 		this.pBooleanLiteralExp = new BooleanLiteralExpElements();
-		this.pNullLiteralExp = new NullLiteralExpElements();
+		this.pFloatLiteralExp = new FloatLiteralExpElements();
 		this.pMethodExp = new MethodExpElements();
 		this.pCollectionIterator = new CollectionIteratorElements();
 		this.pIteratorName = new IteratorNameElements();
@@ -1874,6 +1898,15 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	//;
 	public TerminalRule getURIRule() {
 		return tURI;
+	}
+	
+	//Float returns ecore::EFloat: INT '.' INT;
+	public FloatElements getFloatAccess() {
+		return pFloat;
+	}
+	
+	public ParserRule getFloatRule() {
+		return getFloatAccess().getRule();
 	}
 	
 	//Context:
@@ -2046,10 +2079,10 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	
 	//PrimitiveLiteralExp:
-	//    NumberLiteralExp
+	//    IntLiteralExp
 	//    | StringLiteralExp
 	//    | BooleanLiteralExp
-	//    | NullLiteralExp
+	//    | FloatLiteralExp
 	//;
 	public PrimitiveLiteralExpElements getPrimitiveLiteralExpAccess() {
 		return pPrimitiveLiteralExp;
@@ -2059,14 +2092,14 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getPrimitiveLiteralExpAccess().getRule();
 	}
 	
-	//NumberLiteralExp:
+	//IntLiteralExp:
 	//    value=INT;
-	public NumberLiteralExpElements getNumberLiteralExpAccess() {
-		return pNumberLiteralExp;
+	public IntLiteralExpElements getIntLiteralExpAccess() {
+		return pIntLiteralExp;
 	}
 	
-	public ParserRule getNumberLiteralExpRule() {
-		return getNumberLiteralExpAccess().getRule();
+	public ParserRule getIntLiteralExpRule() {
+		return getIntLiteralExpAccess().getRule();
 	}
 	
 	//StringLiteralExp:
@@ -2079,6 +2112,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getStringLiteralExpAccess().getRule();
 	}
 	
+	// // use this for dates as well
 	//BooleanLiteralExp:
 	//    value='true'
 	//    | value='false';
@@ -2090,14 +2124,17 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getBooleanLiteralExpAccess().getRule();
 	}
 	
-	//NullLiteralExp:
-	//    {NullLiteralExpCS} 'null';
-	public NullLiteralExpElements getNullLiteralExpAccess() {
-		return pNullLiteralExp;
+	////NullLiteralExp: // this should not be available, rather use isDefined()
+	////    {NullLiteralExpCS} 'null';
+	//FloatLiteralExp:
+	//    value = Float
+	//;
+	public FloatLiteralExpElements getFloatLiteralExpAccess() {
+		return pFloatLiteralExp;
 	}
 	
-	public ParserRule getNullLiteralExpRule() {
-		return getNullLiteralExpAccess().getRule();
+	public ParserRule getFloatLiteralExpRule() {
+		return getFloatLiteralExpAccess().getRule();
 	}
 	
 	//MethodExp:

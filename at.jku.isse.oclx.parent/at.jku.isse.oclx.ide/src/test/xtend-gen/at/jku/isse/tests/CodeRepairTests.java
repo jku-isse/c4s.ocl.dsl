@@ -6,6 +6,7 @@ import at.jku.isse.validation.OCLXValidator;
 import com.google.inject.Inject;
 import java.util.Collections;
 import java.util.List;
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.lsp4j.CodeAction;
@@ -46,6 +47,20 @@ public class CodeRepairTests extends AbstractContentAssistTest {
 
   @Inject
   private ICodeActionService2 repairService;
+
+  @Test
+  public void testSimilarity() {
+    this.printSim("sizes", "size");
+    this.printSim("chars", "characters");
+    this.printSim("process", "predecessorItems");
+    this.printSim("b", "bug");
+    this.printSim("b", "cub");
+    this.printSim("child", "sharedsteps");
+  }
+
+  public void printSim(final String a, final String b) {
+    System.out.println(String.format("%s %s sim: %s", a, b, new JaroWinklerSimilarity().apply(a, b)));
+  }
 
   @Test
   public void testRepairProperty() {
@@ -294,7 +309,7 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       _builder.append("self->isDefined()");
       _builder.newLine();
       _builder.append("\t        ");
-      _builder.append("and self.downstream->forAll( req |  req.isEmpty() )  )");
+      _builder.append("and self.downstream->forAll( req |  req.isDefined() )  )");
       _builder.newLine();
       _builder.append("\t");
       _builder.append("}");
@@ -314,6 +329,138 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
       System.out.println(codeActions);
       Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("req01"));
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testRepairOfIterTypeSyntaxError() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule2 {");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("description: \"just some test\"\t    ");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("expression: ( ");
+      _builder.newLine();
+      _builder.append("\t            ");
+      _builder.append("self.downstream ");
+      _builder.newLine();
+      _builder.append("\t                ");
+      _builder.append("->exists(req : DemoIssue | req.bugs.size() > 0)");
+      _builder.newLine();
+      _builder.append("\t         ");
+      _builder.append(")");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Expected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertFalse(_isEmpty, _builder_1.toString());
+      final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
+      System.out.println(codeActions);
+      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("< >"));
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testRepairOfIterTypeSyntaxError2() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule2 {");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("description: \"just some test\"\t    ");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("expression: ( ");
+      _builder.newLine();
+      _builder.append("\t            ");
+      _builder.append("self.downstream ");
+      _builder.newLine();
+      _builder.append("\t                ");
+      _builder.append("->exists(req :DemoIssue | req.bugs.size() > 0)");
+      _builder.newLine();
+      _builder.append("\t         ");
+      _builder.append(")");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Expected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertFalse(_isEmpty, _builder_1.toString());
+      final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
+      System.out.println(codeActions);
+      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("< >"));
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testRepairOfIterTypeSyntaxError3() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule2 {");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("description: \"just some test\"\t    ");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("context: DemoIssue");
+      _builder.newLine();
+      _builder.append("\t    ");
+      _builder.append("expression: ( ");
+      _builder.newLine();
+      _builder.append("\t            ");
+      _builder.append("self.downstream ");
+      _builder.newLine();
+      _builder.append("\t                ");
+      _builder.append("->exists(req : | req.bugs.size() > 0)");
+      _builder.newLine();
+      _builder.append("\t         ");
+      _builder.append(")");
+      _builder.newLine();
+      _builder.append("\t");
+      _builder.append("}");
+      String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Expected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertFalse(_isEmpty, _builder_1.toString());
+      final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
+      System.out.println(codeActions);
+      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains(":"));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

@@ -21,6 +21,7 @@ import org.eclipse.xtext.testing.validation.ValidationTestHelper
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
+import org.apache.commons.text.similarity.JaroWinklerSimilarity
 
 @ExtendWith(InjectionExtension)
 @InjectWith(OCLXInjectorProvider)
@@ -53,7 +54,21 @@ class CodeRepairTests extends AbstractContentAssistTest{
 //		System.out.println(completions);
 //	}
 
-
+	@Test
+	def void testSimilarity() {
+		printSim("sizes", "size");
+		printSim("chars", "characters");
+		printSim("process", "predecessorItems");
+		
+		printSim("b", "bug");
+		printSim("b", "cub");
+		printSim("child", "sharedsteps");
+	}
+	
+	def printSim(String a, String b) {
+		System.out.println(String.format("%s %s sim: %s", a, b, new JaroWinklerSimilarity().apply(a, b)));
+	}
+	
 
 	@Test
 	def void testRepairProperty() {
@@ -69,7 +84,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
-		
+		//TODO fix
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("downstream"))
@@ -189,7 +204,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
-		
+		//TODO fix
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("size"))
@@ -206,7 +221,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 			OclxPackage.Literals.METHOD_CALL_EXP, 
 			OCLXValidator.UNKNOWN_OPERATION
 		);
-	
+	//TODO fix
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
 		
@@ -226,7 +241,7 @@ class CodeRepairTests extends AbstractContentAssistTest{
 	                ->exists(req | req.bugs.size() > 0)
 	        and 
 	            self->isDefined()
-	        and self.downstream->forAll( req |  req.isEmpty() )  )
+	        and self.downstream->forAll( req |  req.isDefined() )  )
 	}'''
 		val result = parseHelper.parse(content)
 		Assertions.assertNotNull(result)
@@ -242,6 +257,67 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("req01"))
 	}
+	
+	@Test
+	def void testRepairOfIterTypeSyntaxError() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(req : DemoIssue | req.bugs.size() > 0)
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assertions.assertFalse(errors.isEmpty, '''Expected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("< >"))
+	}
+	
+	@Test
+	def void testRepairOfIterTypeSyntaxError2() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(req :DemoIssue | req.bugs.size() > 0)
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assertions.assertFalse(errors.isEmpty, '''Expected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("< >"))
+	}
+	
+	@Test
+	def void testRepairOfIterTypeSyntaxError3() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(req : | req.bugs.size() > 0)
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		val errors = result.eResource.errors
+		Assertions.assertFalse(errors.isEmpty, '''Expected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains(":"))
+	}
+	
 	
 	def error2CodeAction(String content, Model result) {
 		val issue = validationTestHelper.validate(result).get(0);

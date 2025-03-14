@@ -38,7 +38,7 @@ public class DuplicateVariableQuickfixer {
 		generateEdit(iterDecl, newName, textEdits); // rename the variable declaration
 		IteratorExp iterExp = (IteratorExp) iterDecl.eContainer();
 		// rename the usages of this variable
-		replaceInBody(duplicateName, newName, iterExp.getBody(), textEdits);
+		replaceInBody(duplicateName, newName, iterExp.getBody(), textEdits);	
 		
 		var action = new CodeAction();
 		action.setKind(CodeActionKind.QuickFix);
@@ -50,7 +50,9 @@ public class DuplicateVariableQuickfixer {
 	
 	protected void replaceInBody(String duplicateName, String newName, Exp exp, List<TextEdit> textEdits) {
 		if (exp instanceof VarReference varRef) {
-			generateEdit(varRef, newName, textEdits);
+			if (varRef.getRef().getName().equals(duplicateName)) {
+				generateEdit(varRef, newName, textEdits);
+			}
 		// nothing to do for 'self' 
 		} else if (exp instanceof PrefixExp prefixExp) {
 			replaceInBody(duplicateName, newName, prefixExp.getExpression(), textEdits);
@@ -96,14 +98,14 @@ public class DuplicateVariableQuickfixer {
 		textEdits.add(new TextEdit(range, newIterVarName));
 	}
 	
-	protected void generateEdit(VarReference duplicateRef, String newIterVarName, List<TextEdit> textEdits) {
+	protected void generateEdit(VarReference candidateRef, String newIterVarName, List<TextEdit> textEdits) {
 		Range range;
 		// get range of reference 
-		var rangeRef = QuickFixCodeActionService.getRangeOfElement(duplicateRef);
-		if (duplicateRef.getNav().isEmpty()) {
+		var rangeRef = QuickFixCodeActionService.getRangeOfElement(candidateRef);
+		if (candidateRef.getNav().isEmpty()) {
 			range = rangeRef;
 		} else {
-			var navRange = QuickFixCodeActionService.getRangeOfElement(duplicateRef.getNav().get(0));
+			var navRange = QuickFixCodeActionService.getRangeOfElement(candidateRef.getNav().get(0));
 			range = new Range(rangeRef.getStart(), navRange.getStart());
 		}
 		// replace with new name

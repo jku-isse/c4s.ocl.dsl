@@ -146,9 +146,9 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
         return createPrimitiveLiteralExpAdapter();
       }
       @Override
-      public Adapter caseNumberLiteralExp(NumberLiteralExp object)
+      public Adapter caseIntLiteralExp(IntLiteralExp object)
       {
-        return createNumberLiteralExpAdapter();
+        return createIntLiteralExpAdapter();
       }
       @Override
       public Adapter caseStringLiteralExp(StringLiteralExp object)
@@ -161,9 +161,9 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
         return createBooleanLiteralExpAdapter();
       }
       @Override
-      public Adapter caseNullLiteralExp(NullLiteralExp object)
+      public Adapter caseFloatLiteralExp(FloatLiteralExp object)
       {
-        return createNullLiteralExpAdapter();
+        return createFloatLiteralExpAdapter();
       }
       @Override
       public Adapter caseMethodExp(MethodExp object)
@@ -239,11 +239,6 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
       public Adapter casePrefixExp(PrefixExp object)
       {
         return createPrefixExpAdapter();
-      }
-      @Override
-      public Adapter caseNullLiteralExpCS(NullLiteralExpCS object)
-      {
-        return createNullLiteralExpCSAdapter();
       }
       @Override
       public Adapter defaultCase(EObject object)
@@ -478,16 +473,16 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.NumberLiteralExp <em>Number Literal Exp</em>}'.
+   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.IntLiteralExp <em>Int Literal Exp</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see at.jku.isse.oclx.NumberLiteralExp
+   * @see at.jku.isse.oclx.IntLiteralExp
    * @generated
    */
-  public Adapter createNumberLiteralExpAdapter()
+  public Adapter createIntLiteralExpAdapter()
   {
     return null;
   }
@@ -523,16 +518,16 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
   }
 
   /**
-   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.NullLiteralExp <em>Null Literal Exp</em>}'.
+   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.FloatLiteralExp <em>Float Literal Exp</em>}'.
    * <!-- begin-user-doc -->
    * This default implementation returns null so that we can easily ignore cases;
    * it's useful to ignore a case when inheritance will catch all the cases anyway.
    * <!-- end-user-doc -->
    * @return the new adapter.
-   * @see at.jku.isse.oclx.NullLiteralExp
+   * @see at.jku.isse.oclx.FloatLiteralExp
    * @generated
    */
-  public Adapter createNullLiteralExpAdapter()
+  public Adapter createFloatLiteralExpAdapter()
   {
     return null;
   }
@@ -758,21 +753,6 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createPrefixExpAdapter()
-  {
-    return null;
-  }
-
-  /**
-   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.NullLiteralExpCS <em>Null Literal Exp CS</em>}'.
-   * <!-- begin-user-doc -->
-   * This default implementation returns null so that we can easily ignore cases;
-   * it's useful to ignore a case when inheritance will catch all the cases anyway.
-   * <!-- end-user-doc -->
-   * @return the new adapter.
-   * @see at.jku.isse.oclx.NullLiteralExpCS
-   * @generated
-   */
-  public Adapter createNullLiteralExpCSAdapter()
   {
     return null;
   }

@@ -180,7 +180,8 @@ rule AnotherRule {
 			rule TestRule {
 				description: "testing"
 				context: DemoIssue
-				expression: not(self.requirements->forAll(x : <http://isse.jku.at/demo#DemoIssue> | x.parent != null ) )
+				expression: not(self.requirements->forAll(x : <http://isse.jku.at/demo#DemoIssue> | x.parent.isDefined() ) )
+
 			}
 		''')
 		Assertions.assertNotNull(result)

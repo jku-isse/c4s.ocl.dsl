@@ -308,6 +308,44 @@ ruleSimpleName returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToke
 	}
 ;
 
+// Entry rule entryRuleFloat
+entryRuleFloat returns [String current=null]:
+	{ newCompositeNode(grammarAccess.getFloatRule()); }
+	iv_ruleFloat=ruleFloat
+	{ $current=$iv_ruleFloat.current.getText(); }
+	EOF;
+
+// Rule Float
+ruleFloat returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()]
+@init {
+	enterRule();
+}
+@after {
+	leaveRule();
+}:
+	(
+		this_INT_0=RULE_INT
+		{
+			$current.merge(this_INT_0);
+		}
+		{
+			newLeafNode(this_INT_0, grammarAccess.getFloatAccess().getINTTerminalRuleCall_0());
+		}
+		kw='.'
+		{
+			$current.merge(kw);
+			newLeafNode(kw, grammarAccess.getFloatAccess().getFullStopKeyword_1());
+		}
+		this_INT_2=RULE_INT
+		{
+			$current.merge(this_INT_2);
+		}
+		{
+			newLeafNode(this_INT_2, grammarAccess.getFloatAccess().getINTTerminalRuleCall_2());
+		}
+	)
+;
+
 // Entry rule entryRuleContext
 entryRuleContext returns [EObject current=null]:
 	{ newCompositeNode(grammarAccess.getContextRule()); }
@@ -1181,11 +1219,11 @@ rulePrimitiveLiteralExp returns [EObject current=null]
 }:
 	(
 		{
-			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getNumberLiteralExpParserRuleCall_0());
+			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getIntLiteralExpParserRuleCall_0());
 		}
-		this_NumberLiteralExp_0=ruleNumberLiteralExp
+		this_IntLiteralExp_0=ruleIntLiteralExp
 		{
-			$current = $this_NumberLiteralExp_0.current;
+			$current = $this_IntLiteralExp_0.current;
 			afterParserOrEnumRuleCall();
 		}
 		    |
@@ -1208,25 +1246,25 @@ rulePrimitiveLiteralExp returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getNullLiteralExpParserRuleCall_3());
+			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getFloatLiteralExpParserRuleCall_3());
 		}
-		this_NullLiteralExp_3=ruleNullLiteralExp
+		this_FloatLiteralExp_3=ruleFloatLiteralExp
 		{
-			$current = $this_NullLiteralExp_3.current;
+			$current = $this_FloatLiteralExp_3.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
 ;
 
-// Entry rule entryRuleNumberLiteralExp
-entryRuleNumberLiteralExp returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getNumberLiteralExpRule()); }
-	iv_ruleNumberLiteralExp=ruleNumberLiteralExp
-	{ $current=$iv_ruleNumberLiteralExp.current; }
+// Entry rule entryRuleIntLiteralExp
+entryRuleIntLiteralExp returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getIntLiteralExpRule()); }
+	iv_ruleIntLiteralExp=ruleIntLiteralExp
+	{ $current=$iv_ruleIntLiteralExp.current; }
 	EOF;
 
-// Rule NumberLiteralExp
-ruleNumberLiteralExp returns [EObject current=null]
+// Rule IntLiteralExp
+ruleIntLiteralExp returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -1237,11 +1275,11 @@ ruleNumberLiteralExp returns [EObject current=null]
 		(
 			lv_value_0_0=RULE_INT
 			{
-				newLeafNode(lv_value_0_0, grammarAccess.getNumberLiteralExpAccess().getValueINTTerminalRuleCall_0());
+				newLeafNode(lv_value_0_0, grammarAccess.getIntLiteralExpAccess().getValueINTTerminalRuleCall_0());
 			}
 			{
 				if ($current==null) {
-					$current = createModelElement(grammarAccess.getNumberLiteralExpRule());
+					$current = createModelElement(grammarAccess.getIntLiteralExpRule());
 				}
 				setWithLastConsumed(
 					$current,
@@ -1336,15 +1374,15 @@ ruleBooleanLiteralExp returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleNullLiteralExp
-entryRuleNullLiteralExp returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getNullLiteralExpRule()); }
-	iv_ruleNullLiteralExp=ruleNullLiteralExp
-	{ $current=$iv_ruleNullLiteralExp.current; }
+// Entry rule entryRuleFloatLiteralExp
+entryRuleFloatLiteralExp returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getFloatLiteralExpRule()); }
+	iv_ruleFloatLiteralExp=ruleFloatLiteralExp
+	{ $current=$iv_ruleFloatLiteralExp.current; }
 	EOF;
 
-// Rule NullLiteralExp
-ruleNullLiteralExp returns [EObject current=null]
+// Rule FloatLiteralExp
+ruleFloatLiteralExp returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -1354,15 +1392,21 @@ ruleNullLiteralExp returns [EObject current=null]
 	(
 		(
 			{
-				$current = forceCreateModelElement(
-					grammarAccess.getNullLiteralExpAccess().getNullLiteralExpCSAction_0(),
-					$current);
+				newCompositeNode(grammarAccess.getFloatLiteralExpAccess().getValueFloatParserRuleCall_0());
+			}
+			lv_value_0_0=ruleFloat
+			{
+				if ($current==null) {
+					$current = createModelElementForParent(grammarAccess.getFloatLiteralExpRule());
+				}
+				set(
+					$current,
+					"value",
+					lv_value_0_0,
+					"at.jku.isse.OCLX.Float");
+				afterParserOrEnumRuleCall();
 			}
 		)
-		otherlv_1='null'
-		{
-			newLeafNode(otherlv_1, grammarAccess.getNullLiteralExpAccess().getNullKeyword_1());
-		}
 	)
 ;
 

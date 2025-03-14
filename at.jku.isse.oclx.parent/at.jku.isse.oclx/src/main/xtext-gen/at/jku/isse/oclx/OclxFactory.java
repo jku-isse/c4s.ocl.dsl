@@ -150,13 +150,13 @@ public interface OclxFactory extends EFactory
   PrimitiveLiteralExp createPrimitiveLiteralExp();
 
   /**
-   * Returns a new object of class '<em>Number Literal Exp</em>'.
+   * Returns a new object of class '<em>Int Literal Exp</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Number Literal Exp</em>'.
+   * @return a new object of class '<em>Int Literal Exp</em>'.
    * @generated
    */
-  NumberLiteralExp createNumberLiteralExp();
+  IntLiteralExp createIntLiteralExp();
 
   /**
    * Returns a new object of class '<em>String Literal Exp</em>'.
@@ -177,13 +177,13 @@ public interface OclxFactory extends EFactory
   BooleanLiteralExp createBooleanLiteralExp();
 
   /**
-   * Returns a new object of class '<em>Null Literal Exp</em>'.
+   * Returns a new object of class '<em>Float Literal Exp</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @return a new object of class '<em>Null Literal Exp</em>'.
+   * @return a new object of class '<em>Float Literal Exp</em>'.
    * @generated
    */
-  NullLiteralExp createNullLiteralExp();
+  FloatLiteralExp createFloatLiteralExp();
 
   /**
    * Returns a new object of class '<em>Method Exp</em>'.
@@ -319,15 +319,6 @@ public interface OclxFactory extends EFactory
    * @generated
    */
   PrefixExp createPrefixExp();
-
-  /**
-   * Returns a new object of class '<em>Null Literal Exp CS</em>'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return a new object of class '<em>Null Literal Exp CS</em>'.
-   * @generated
-   */
-  NullLiteralExpCS createNullLiteralExpCS();
 
   /**
    * Returns the package supported by this factory.

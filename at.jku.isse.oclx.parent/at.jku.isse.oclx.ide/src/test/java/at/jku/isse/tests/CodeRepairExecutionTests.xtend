@@ -1,7 +1,9 @@
 package at.jku.isse.tests
 
-import at.jku.isse.oclx.OclxPackage
-import at.jku.isse.validation.OCLXValidator
+import at.jku.isse.OCLXTestArtifacts
+import at.jku.isse.designspace.artifactconnector.core.repository.CoreTypeFactory
+import at.jku.isse.ide.assistance.CodeActionExecuter
+import at.jku.isse.passiveprocessengine.core.SchemaRegistry
 import com.google.inject.Inject
 import com.google.inject.Provider
 import org.eclipse.xtext.ide.server.codeActions.ICodeActionService2
@@ -10,11 +12,10 @@ import org.eclipse.xtext.resource.IResourceFactory
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.eclipse.xtext.testing.InjectWith
 import org.eclipse.xtext.testing.extensions.InjectionExtension
+import org.eclipse.xtext.validation.Issue
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.^extension.ExtendWith
-import at.jku.isse.ide.assistance.CodeActionExecuter
-import org.eclipse.xtext.validation.Issue
 
 @ExtendWith(InjectionExtension)
 @InjectWith(OCLXInjectorProvider)
@@ -32,7 +33,8 @@ class CodeRepairExecutionTests {
 	@Inject
 	ICodeActionService2 repairService
 	
-
+	@Inject
+	SchemaRegistry schemaRegistry
 	
 	@Test
 	def void testRepairPropertyViaSubtyping() {
@@ -44,7 +46,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -63,7 +65,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -82,7 +84,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -103,7 +105,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -122,7 +124,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -140,7 +142,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -159,7 +161,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -176,7 +178,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -193,7 +195,7 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNotNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
@@ -210,11 +212,78 @@ class CodeRepairExecutionTests {
 		executer.checkForIssues();
 		Assertions.assertTrue(executer.problems.size() > 0);
 		
-		executer.executeRepairs();		
+		executer.executeFirstExecutableRepair();		
 		Assertions.assertNull(executer.executedCodeAction);
 		
 		var repaired = executer.repairedOclxConstraint;
 		Assertions.assertNull(repaired);
+	}
+	
+	@Test
+	def void testSimilarTypeReplaced() {
+		var baseType =  schemaRegistry.getTypeByName(CoreTypeFactory.BASE_TYPE_URI);
+		schemaRegistry.createNewInstanceType(OCLXTestArtifacts.DEMOISSUETYPE+"XXXXX", baseType);	
+		
+		var content = '''rule TestRule2 {  description: "just some test" context: DemoIssue  expression: self.downstream->exists(req | req.isTypeOf(<Issue>) ) }'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeFirstExecutableRepair();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedOclxConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
+		Assertions.assertTrue(isCorrect(repaired, true));
+	}
+	
+	@Test
+	def void testExactTypeReplaced() {
+		var content = '''rule TestRule2 {  description: "just some test" context: DemoIssue  expression: self.downstream->exists(req | req.isTypeOf(<DemoIssue>) ) }'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeFirstExecutableRepair();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedOclxConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
+		Assertions.assertTrue(isCorrect(repaired, true));
+	}
+	
+	@Test
+	def void testPlaceTypeInBracketsWithinIterator() {
+		var content = '''rule TestRule2 { description: "just some test" context: DemoIssue expression: (self.downstream->exists(req : | req.bugs.size() > 0)) }'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeFirstExecutableRepair();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedOclxConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
+		Assertions.assertTrue(isCorrect(repaired, true));
+	}
+	
+		@Test
+	def void testPlaceTypeInBracketsWithinIterator2() {
+		var content = '''rule TestRule2 { description: "just some test" context: DemoIssue expression: (self.downstream->exists(req : DemoIssue | req.bugs.size() > 0)) }'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeFirstExecutableRepair();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedOclxConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
+		Assertions.assertTrue(repaired.contains("<DemoIssue>"));
 	}
 	
 	def isCorrect(String constraint, boolean expected) {

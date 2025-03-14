@@ -56,6 +56,7 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getConstraintAccess().getGroup_4(), "rule__Constraint__Group_4__0");
 			builder.put(grammarAccess.getQualifiedNameAccess().getGroup(), "rule__QualifiedName__Group__0");
 			builder.put(grammarAccess.getQualifiedNameAccess().getGroup_1(), "rule__QualifiedName__Group_1__0");
+			builder.put(grammarAccess.getFloatAccess().getGroup(), "rule__Float__Group__0");
 			builder.put(grammarAccess.getExpAccess().getGroup(), "rule__Exp__Group__0");
 			builder.put(grammarAccess.getExpAccess().getGroup_1(), "rule__Exp__Group_1__0");
 			builder.put(grammarAccess.getExpAccess().getGroup_1_3(), "rule__Exp__Group_1_3__0");
@@ -64,7 +65,6 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getPrimaryExpAccess().getGroup_1_1(), "rule__PrimaryExp__Group_1_1__0");
 			builder.put(grammarAccess.getNestedExpAccess().getGroup(), "rule__NestedExp__Group__0");
 			builder.put(grammarAccess.getSelfExpAccess().getGroup(), "rule__SelfExp__Group__0");
-			builder.put(grammarAccess.getNullLiteralExpAccess().getGroup(), "rule__NullLiteralExp__Group__0");
 			builder.put(grammarAccess.getCollectionIteratorAccess().getGroup(), "rule__CollectionIterator__Group__0");
 			builder.put(grammarAccess.getIteratorVarDeclarationAccess().getGroup_1(), "rule__IteratorVarDeclaration__Group_1__0");
 			builder.put(grammarAccess.getMethodCallAccess().getGroup_0(), "rule__MethodCall__Group_0__0");
@@ -104,10 +104,11 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getSelfExpAccess().getNameAssignment_1(), "rule__SelfExp__NameAssignment_1");
 			builder.put(grammarAccess.getVarDeclarationAccess().getNameAssignment(), "rule__VarDeclaration__NameAssignment");
 			builder.put(grammarAccess.getVarReferenceAccess().getRefAssignment(), "rule__VarReference__RefAssignment");
-			builder.put(grammarAccess.getNumberLiteralExpAccess().getValueAssignment(), "rule__NumberLiteralExp__ValueAssignment");
+			builder.put(grammarAccess.getIntLiteralExpAccess().getValueAssignment(), "rule__IntLiteralExp__ValueAssignment");
 			builder.put(grammarAccess.getStringLiteralExpAccess().getValueAssignment(), "rule__StringLiteralExp__ValueAssignment");
 			builder.put(grammarAccess.getBooleanLiteralExpAccess().getValueAssignment_0(), "rule__BooleanLiteralExp__ValueAssignment_0");
 			builder.put(grammarAccess.getBooleanLiteralExpAccess().getValueAssignment_1(), "rule__BooleanLiteralExp__ValueAssignment_1");
+			builder.put(grammarAccess.getFloatLiteralExpAccess().getValueAssignment(), "rule__FloatLiteralExp__ValueAssignment");
 			builder.put(grammarAccess.getCollectionIteratorAccess().getNameAssignment_0(), "rule__CollectionIterator__NameAssignment_0");
 			builder.put(grammarAccess.getCollectionIteratorAccess().getItervarAssignment_2(), "rule__CollectionIterator__ItervarAssignment_2");
 			builder.put(grammarAccess.getCollectionIteratorAccess().getBodyAssignment_4(), "rule__CollectionIterator__BodyAssignment_4");

@@ -1,6 +1,7 @@
 package at.jku.isse.ide.assistance;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 import org.apache.commons.text.similarity.JaroWinklerDistance;
+import org.apache.commons.text.similarity.JaroWinklerSimilarity;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.xtext.Keyword;
 import org.eclipse.xtext.RuleCall;
@@ -172,7 +174,7 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 											.filter(name -> !name.startsWith("@"))
 											.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
 													.apply(str, partialName), str) )
-											.sorted(textComp)
+											.sorted(similarityComparator)
 											.map(entry -> entry.getValue())
 											.collect(Collectors.toList());
 									proposeReplaceIndividualProperties(acceptor, choices, context, partialName);
@@ -287,34 +289,52 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 		return "${"+counter.incrementAndGet()+":paramOf"+tAc.getCardinality().toString()+tAc.getType().getName()+"}" ; 
 	}
 
-	public static List<String> getSimilaritySortedProperties(PPEInstanceType type, String compareTo) {
-		return type.getPropertyNamesIncludingSuperClasses()
+	public static List<String> getSimilaritySortedProperties(PPEInstanceType type, String compareTo, double minSimilarityThreshold) {
+		var sorted = type.getPropertyNamesIncludingSuperClasses()
 				.stream()
 				.filter(name -> !name.startsWith("@"))
-				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
+				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerSimilarity()
 						.apply(str, compareTo), str) )
-				.sorted(textComp)
+				.sorted(similarityComparator)											
+				.toList();
+		return sorted.stream()
+				.filter(entry -> entry.getKey() > minSimilarityThreshold)
 				.map(entry -> entry.getValue())
-				.collect(Collectors.toList());
+				.toList();
 	}
 	
 	public static List<String> getSimilaritySortedMethods(MethodRegistry methodRegistry, String compareTo, TypeAndCardinality inputType) {
 		var matchingMethods = proposeIndividualMethods(methodRegistry, inputType);
-		return matchingMethods.stream() // get methods that can work on the provided inputtype				
+		var sorted = matchingMethods.stream() // get methods that can work on the provided inputtype				
 				.map(decl -> decl.name)				
-				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerDistance()
+				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerSimilarity()
 						.apply(str, compareTo), str) )
-				.sorted(textComp)
+				.sorted(similarityComparator)
+				.toList();
+		return  sorted.stream()
 				.map(entry -> entry.getValue())
 				.collect(Collectors.toList());
 	}
 	
-	public static TextComparator textComp = new TextComparator();
+	public static List<? extends Entry<Double, PPEInstanceType>> getSimilaritySortedTypes(List<PPEInstanceType> types, String compareValue) {
+		var compareTo = compareValue.toLowerCase(); // better matching
+		var sorted = types.stream()					
+		.map(type -> new AbstractMap.SimpleEntry<Double, PPEInstanceType>( new JaroWinklerSimilarity()
+				.apply(type.getName().toLowerCase(), compareTo), type) )
+		.sorted(similarityComparator)
+		.toList();
+		return new ArrayList<>(sorted);
+//		return  sorted.stream()
+//		.map(entry -> entry.getValue())
+//		.collect(Collectors.toList());
+	}
 	
-	private static class TextComparator implements Comparator<Entry<Double, String>> {
+	public static TextComparator similarityComparator = new TextComparator();
+	
+	public static class TextComparator implements Comparator<Entry<Double, ?>> {
 
 		@Override
-		public int compare(Entry<Double, String> o1, Entry<Double, String> o2) { 
+		public int compare(Entry<Double, ?> o1, Entry<Double, ?> o2) { 
 			return o2.getKey().compareTo(o1.getKey());
 		}
 	}

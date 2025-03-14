@@ -12,6 +12,7 @@ import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 
 public class OCLXTestArtifacts {
 
+
 	public static final String DEMOISSUETYPE = "http://isse.jku.at/demo#DemoIssue";
 	public static enum CoreProperties { state, requirements, bugs, parent, html_url, upstream, downstream, referencesSingle, referencesGroup }
 	public static enum JiraStates { Open, InProgress, Closed, ReadyForReview, Released}

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.common.util.WrappedException;
@@ -68,29 +69,40 @@ public class CodeActionExecuter {
 		parse(constraint);
 	}
 	
+	public CodeActionExecuter prepareForNextRepairIteration() {
+		return new CodeActionExecuter( 
+			repairedOclxConstraint != null ? repairedOclxConstraint : constraint
+					, resourceSetProvider
+					, resourceFactory
+					, invariantChecker
+					, repairService
+				);
+	}
+	
 	public void checkForIssues() {
 		 IResourceValidator validator = resource.getResourceServiceProvider()
 				.getResourceValidator();
 		 problems = validator.validate(resource, CheckMode.ALL, CancelIndicator.NullImpl);
 	}
 	
-	public void executeRepairs() { // only for those issues that have code actions, first repair selected
+	public void executeFirstExecutableRepair() { // only for those issues that have code actions, first repair selected
 		executedCodeAction = null; // resetting
 		problems.stream()
-			.map(issue -> getRepairs(issue))
+			.map(this::getRepairs)
 			.filter(repairs -> !repairs.isEmpty())
 			.map(repairs -> repairs.stream()
 					.filter(repair -> repair.getKind().equals("quickfix"))
 					.findAny()) 
-			.filter(repairOpt -> repairOpt.isPresent())
-			.forEach(repairOpt -> executeRepair(repairOpt.get(), constraint));
+			.filter(Optional::isPresent)
+			.findFirst()
+			.ifPresent(repairOpt -> executeRepair(repairOpt.get(), constraint));
 	}
 	
 	private List<CodeAction> getRepairs(Issue issue) {
 		var range = new Range(new Position(issue.getLineNumber()-1, issue.getColumn()-1)
 				, new Position(issue.getLineNumberEnd()-1, issue.getColumnEnd()-1));
 		
-		if (issue.isSyntaxError() || issue.getCode().equals("missingType")) return Collections.emptyList(); // can't repair syntax error or missing parameter/type
+		if (issue.getCode().equals("missingType")) return Collections.emptyList(); // can't repair missing parameter/type, we try for some syntax errors		
 		
 		var d = new Diagnostic();
 		var ctx = new CodeActionContext(List.of(d));
@@ -104,7 +116,7 @@ public class CodeActionExecuter {
 		options.setResource(resource);
 		options.setCodeActionParams(new CodeActionParams(new TextDocumentIdentifier(resource.getURI().toString()), range, ctx));
 		return repairService.getCodeActions(options).stream().map(either -> either.getRight()).toList();
-	}
+	}	
 	
 	/**
 	 * executing single-line repairs only for now
@@ -131,7 +143,8 @@ public class CodeActionExecuter {
 			sb.append(constraint.substring(range.getEnd().getCharacter(), keepUntil));
 		}
 		repairedOclxConstraint = sb.toString();
-		repairedExpression = NodeModelUtils.findActualNodeFor(parse(repairedOclxConstraint).getConstraints().get(0).getExpression()).getText();
+		var newConstraint = parse(repairedOclxConstraint).getConstraints().get(0).getExpression();
+		repairedExpression = NodeModelUtils.findActualNodeFor(newConstraint).getText();
 		executedCodeAction = codeAction;
 	}
 	
