@@ -114,6 +114,15 @@ public interface OclxFactory extends EFactory
   NestedExp createNestedExp();
 
   /**
+   * Returns a new object of class '<em>Navigation Exp</em>'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return a new object of class '<em>Navigation Exp</em>'.
+   * @generated
+   */
+  NavigationExp createNavigationExp();
+
+  /**
    * Returns a new object of class '<em>Self Exp</em>'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->

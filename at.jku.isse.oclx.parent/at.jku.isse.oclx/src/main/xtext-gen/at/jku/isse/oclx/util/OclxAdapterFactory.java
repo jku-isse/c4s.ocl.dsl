@@ -126,6 +126,11 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
         return createNestedExpAdapter();
       }
       @Override
+      public Adapter caseNavigationExp(NavigationExp object)
+      {
+        return createNavigationExpAdapter();
+      }
+      @Override
       public Adapter caseSelfExp(SelfExp object)
       {
         return createSelfExpAdapter();
@@ -408,6 +413,21 @@ public class OclxAdapterFactory extends AdapterFactoryImpl
    * @generated
    */
   public Adapter createNestedExpAdapter()
+  {
+    return null;
+  }
+
+  /**
+   * Creates a new adapter for an object of class '{@link at.jku.isse.oclx.NavigationExp <em>Navigation Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * This default implementation returns null so that we can easily ignore cases;
+   * it's useful to ignore a case when inheritance will catch all the cases anyway.
+   * <!-- end-user-doc -->
+   * @return the new adapter.
+   * @see at.jku.isse.oclx.NavigationExp
+   * @generated
+   */
+  public Adapter createNavigationExpAdapter()
   {
     return null;
   }

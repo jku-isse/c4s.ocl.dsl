@@ -120,12 +120,12 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				if (rule == grammarAccess.getExpRule()
 						|| action == grammarAccess.getExpAccess().getInfixExpExpressionsAction_1_0()
 						|| rule == grammarAccess.getPrefixedExpRule()
-						|| rule == grammarAccess.getPrimaryExpRule()) {
-					sequence_PrimaryExp_SelfExp(context, (SelfExp) semanticObject); 
+						|| rule == grammarAccess.getPrimaryExpRule()
+						|| rule == grammarAccess.getNavigationExpRule()) {
+					sequence_NavigationExp_SelfExp(context, (SelfExp) semanticObject); 
 					return; 
 				}
-				else if (rule == grammarAccess.getVarOrSelfExpRule()
-						|| rule == grammarAccess.getSelfExpRule()) {
+				else if (rule == grammarAccess.getSelfExpRule()) {
 					sequence_SelfExp(context, (SelfExp) semanticObject); 
 					return; 
 				}
@@ -191,12 +191,12 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 				if (rule == grammarAccess.getExpRule()
 						|| action == grammarAccess.getExpAccess().getInfixExpExpressionsAction_1_0()
 						|| rule == grammarAccess.getPrefixedExpRule()
-						|| rule == grammarAccess.getPrimaryExpRule()) {
-					sequence_PrimaryExp_VarReference(context, (VarReference) semanticObject); 
+						|| rule == grammarAccess.getPrimaryExpRule()
+						|| rule == grammarAccess.getNavigationExpRule()) {
+					sequence_NavigationExp_VarReference(context, (VarReference) semanticObject); 
 					return; 
 				}
-				else if (rule == grammarAccess.getVarOrSelfExpRule()
-						|| rule == grammarAccess.getVarReferenceRule()) {
+				else if (rule == grammarAccess.getVarReferenceRule()) {
 					sequence_VarReference(context, (VarReference) semanticObject); 
 					return; 
 				}
@@ -243,7 +243,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 * <pre>
 	 * Contexts:
 	 *     BinaryOperator returns BooleanOperator
-	 *     InfixOperator returns BooleanOperator
 	 *     BooleanOperator returns BooleanOperator
 	 *
 	 * Constraint:
@@ -542,7 +541,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 * <pre>
 	 * Contexts:
 	 *     BinaryOperator returns MathOperator
-	 *     InfixOperator returns MathOperator
 	 *     MathOperator returns MathOperator
 	 *
 	 * Constraint:
@@ -579,6 +577,42 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	 * </pre>
 	 */
 	protected void sequence_Model(ISerializationContext context, Model semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     Exp returns SelfExp
+	 *     Exp.InfixExp_1_0 returns SelfExp
+	 *     PrefixedExp returns SelfExp
+	 *     PrimaryExp returns SelfExp
+	 *     NavigationExp returns SelfExp
+	 *
+	 * Constraint:
+	 *     (name='self' (nav+=NavigationOperator methods+=MethodExp)*)
+	 * </pre>
+	 */
+	protected void sequence_NavigationExp_SelfExp(ISerializationContext context, SelfExp semanticObject) {
+		genericSequencer.createSequence(context, semanticObject);
+	}
+	
+	
+	/**
+	 * <pre>
+	 * Contexts:
+	 *     Exp returns VarReference
+	 *     Exp.InfixExp_1_0 returns VarReference
+	 *     PrefixedExp returns VarReference
+	 *     PrimaryExp returns VarReference
+	 *     NavigationExp returns VarReference
+	 *
+	 * Constraint:
+	 *     (ref=[VarDeclaration|ID] (nav+=NavigationOperator methods+=MethodExp)*)
+	 * </pre>
+	 */
+	protected void sequence_NavigationExp_VarReference(ISerializationContext context, VarReference semanticObject) {
 		genericSequencer.createSequence(context, semanticObject);
 	}
 	
@@ -649,40 +683,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     Exp returns SelfExp
-	 *     Exp.InfixExp_1_0 returns SelfExp
-	 *     PrefixedExp returns SelfExp
-	 *     PrimaryExp returns SelfExp
-	 *
-	 * Constraint:
-	 *     (name='self' (nav+=NavigationOperator methods+=MethodExp)*)
-	 * </pre>
-	 */
-	protected void sequence_PrimaryExp_SelfExp(ISerializationContext context, SelfExp semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
-	 *     Exp returns VarReference
-	 *     Exp.InfixExp_1_0 returns VarReference
-	 *     PrefixedExp returns VarReference
-	 *     PrimaryExp returns VarReference
-	 *
-	 * Constraint:
-	 *     (ref=[VarDeclaration|ID] (nav+=NavigationOperator methods+=MethodExp)*)
-	 * </pre>
-	 */
-	protected void sequence_PrimaryExp_VarReference(ISerializationContext context, VarReference semanticObject) {
-		genericSequencer.createSequence(context, semanticObject);
-	}
-	
-	
-	/**
-	 * <pre>
-	 * Contexts:
 	 *     MethodExp returns PropertyAccessExp
 	 *     PropertyAccess returns PropertyAccessExp
 	 *
@@ -704,7 +704,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     VarOrSelfExp returns SelfExp
 	 *     SelfExp returns SelfExp
 	 *
 	 * Constraint:
@@ -951,7 +950,6 @@ public class OCLXSemanticSequencer extends AbstractDelegatingSemanticSequencer {
 	/**
 	 * <pre>
 	 * Contexts:
-	 *     VarOrSelfExp returns VarReference
 	 *     VarReference returns VarReference
 	 *
 	 * Constraint:

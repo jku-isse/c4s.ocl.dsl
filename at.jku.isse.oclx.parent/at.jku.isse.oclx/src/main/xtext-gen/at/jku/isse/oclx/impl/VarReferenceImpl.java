@@ -27,7 +27,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
  *
  * @generated
  */
-public class VarReferenceImpl extends ExpImpl implements VarReference
+public class VarReferenceImpl extends NavigationExpImpl implements VarReference
 {
   /**
    * The cached value of the '{@link #getRef() <em>Ref</em>}' reference.

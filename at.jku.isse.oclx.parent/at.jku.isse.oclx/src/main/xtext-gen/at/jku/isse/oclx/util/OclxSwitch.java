@@ -146,10 +146,19 @@ public class OclxSwitch<T> extends Switch<T>
         if (result == null) result = defaultCase(theEObject);
         return result;
       }
+      case OclxPackage.NAVIGATION_EXP:
+      {
+        NavigationExp navigationExp = (NavigationExp)theEObject;
+        T result = caseNavigationExp(navigationExp);
+        if (result == null) result = caseExp(navigationExp);
+        if (result == null) result = defaultCase(theEObject);
+        return result;
+      }
       case OclxPackage.SELF_EXP:
       {
         SelfExp selfExp = (SelfExp)theEObject;
         T result = caseSelfExp(selfExp);
+        if (result == null) result = caseNavigationExp(selfExp);
         if (result == null) result = caseExp(selfExp);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -165,6 +174,7 @@ public class OclxSwitch<T> extends Switch<T>
       {
         VarReference varReference = (VarReference)theEObject;
         T result = caseVarReference(varReference);
+        if (result == null) result = caseNavigationExp(varReference);
         if (result == null) result = caseExp(varReference);
         if (result == null) result = defaultCase(theEObject);
         return result;
@@ -489,6 +499,22 @@ public class OclxSwitch<T> extends Switch<T>
    * @generated
    */
   public T caseNestedExp(NestedExp object)
+  {
+    return null;
+  }
+
+  /**
+   * Returns the result of interpreting the object as an instance of '<em>Navigation Exp</em>'.
+   * <!-- begin-user-doc -->
+   * This implementation returns null;
+   * returning a non-null result will terminate the switch.
+   * <!-- end-user-doc -->
+   * @param object the target of the switch.
+   * @return the result of interpreting the object as an instance of '<em>Navigation Exp</em>'.
+   * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+   * @generated
+   */
+  public T caseNavigationExp(NavigationExp object)
   {
     return null;
   }

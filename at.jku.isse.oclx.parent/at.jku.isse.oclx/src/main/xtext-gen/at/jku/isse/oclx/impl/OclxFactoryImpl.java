@@ -75,6 +75,7 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
       case OclxPackage.NAVIGATION_OPERATOR: return createNavigationOperator();
       case OclxPackage.UNARY_OPERATOR: return createUnaryOperator();
       case OclxPackage.NESTED_EXP: return createNestedExp();
+      case OclxPackage.NAVIGATION_EXP: return createNavigationExp();
       case OclxPackage.SELF_EXP: return createSelfExp();
       case OclxPackage.VAR_DECLARATION: return createVarDeclaration();
       case OclxPackage.VAR_REFERENCE: return createVarReference();
@@ -221,6 +222,18 @@ public class OclxFactoryImpl extends EFactoryImpl implements OclxFactory
   {
     NestedExpImpl nestedExp = new NestedExpImpl();
     return nestedExp;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public NavigationExp createNavigationExp()
+  {
+    NavigationExpImpl navigationExp = new NavigationExpImpl();
+    return navigationExp;
   }
 
   /**

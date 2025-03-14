@@ -26,6 +26,7 @@ import at.jku.isse.oclx.InfixExp;
 import at.jku.isse.oclx.IteratorExp;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
+import at.jku.isse.oclx.NavigationExp;
 import at.jku.isse.oclx.NestedExp;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
@@ -252,8 +253,8 @@ public class UnknownPropertyQuickfixer {
 		if (exp instanceof PrefixExp prefixExp) {
 			return findTypeIndicatorsDownwards(prefixExp.getExpression());
 		} 
-		if (exp instanceof SelfExp || exp instanceof VarReference) {
-			return exp.getMethods().stream()
+		if (exp instanceof NavigationExp navExp) {
+			return navExp.getMethods().stream()
 					.filter(op -> op instanceof TypeCallExp)
 					.map(op -> (TypeCallExp)op)
 					.map(typeCall -> typeCall.getType().getName())

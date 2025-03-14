@@ -30,6 +30,7 @@ import at.jku.isse.oclx.IteratorVarDeclaration;
 import at.jku.isse.oclx.MathOperator;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
+import at.jku.isse.oclx.NavigationExp;
 import at.jku.isse.oclx.NestedExp;
 import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
@@ -112,30 +113,32 @@ public class OCLXValidator extends AbstractOCLXValidator implements TypeExtracto
 			checkTemporalExpressionVariables((TemporalExp) exp, declaredVars);
 		}
 		// for any traversing/navigating:	
-		exp.getMethods().forEach(methodExp -> {	
-			log.trace("Traversing: "+methodExp);
-			if (methodExp instanceof IteratorExp) {
-				IteratorExp iterExp = (IteratorExp)methodExp;
-				Optional<IteratorVarDeclaration> varOpt = Optional.ofNullable(iterExp.getItervar());
-				varOpt.ifPresent(varDec -> {
-					String varName = varDec.getName().getName();
-					if (declaredVars.contains(varName)) {
-						error("Variable already declared.", varDec, OclxPackage.Literals.ITERATOR_VAR_DECLARATION__NAME, DUPLICATE_VAR_NAME);
-					} else {
-						declaredVars.add(varName);
-						log.trace("Declared new Variable: "+varName);
+		if (exp instanceof NavigationExp navExp) {
+			navExp.getMethods().forEach(methodExp -> {	
+				log.trace("Traversing: "+methodExp);
+				if (methodExp instanceof IteratorExp) {
+					IteratorExp iterExp = (IteratorExp)methodExp;
+					Optional<IteratorVarDeclaration> varOpt = Optional.ofNullable(iterExp.getItervar());
+					varOpt.ifPresent(varDec -> {
+						String varName = varDec.getName().getName();
+						if (declaredVars.contains(varName)) {
+							error("Variable already declared.", varDec, OclxPackage.Literals.ITERATOR_VAR_DECLARATION__NAME, DUPLICATE_VAR_NAME);
+						} else {
+							declaredVars.add(varName);
+							log.trace("Declared new Variable: "+varName);
+						}
+					});
+					// check body of an iteration
+					checkVariables(iterExp.getBody(), declaredVars);
+				} else if (methodExp instanceof MethodCallExp) {
+					MethodCallExp callExp = (MethodCallExp)methodExp;
+					if (callExp.getArgs() != null) {
+						callExp.getArgs().getOperators().stream() 
+						.forEach(childExp -> checkVariables(childExp, declaredVars));
 					}
-				});
-				// check body of an iteration
-				checkVariables(iterExp.getBody(), declaredVars);
-			} else if (methodExp instanceof MethodCallExp) {
-				MethodCallExp callExp = (MethodCallExp)methodExp;
-				if (callExp.getArgs() != null) {
-					callExp.getArgs().getOperators().stream() 
-					.forEach(childExp -> checkVariables(childExp, declaredVars));
-				}
-			} //no need to check PropertyAccessExp
-		});
+				} //no need to check PropertyAccessExp
+			});
+		}
 	}
 	
 	private void checkTemporalExpressionVariables(TemporalExp exp, Set<String> declaredVars) {

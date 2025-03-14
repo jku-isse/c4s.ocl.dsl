@@ -586,34 +586,9 @@ ruleBinaryOperator returns [EObject current=null]
 @after {
 	leaveRule();
 }:
-	{
-		newCompositeNode(grammarAccess.getBinaryOperatorAccess().getInfixOperatorParserRuleCall());
-	}
-	this_InfixOperator_0=ruleInfixOperator
-	{
-		$current = $this_InfixOperator_0.current;
-		afterParserOrEnumRuleCall();
-	}
-;
-
-// Entry rule entryRuleInfixOperator
-entryRuleInfixOperator returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getInfixOperatorRule()); }
-	iv_ruleInfixOperator=ruleInfixOperator
-	{ $current=$iv_ruleInfixOperator.current; }
-	EOF;
-
-// Rule InfixOperator
-ruleInfixOperator returns [EObject current=null]
-@init {
-	enterRule();
-}
-@after {
-	leaveRule();
-}:
 	(
 		{
-			newCompositeNode(grammarAccess.getInfixOperatorAccess().getBooleanOperatorParserRuleCall_0());
+			newCompositeNode(grammarAccess.getBinaryOperatorAccess().getBooleanOperatorParserRuleCall_0());
 		}
 		this_BooleanOperator_0=ruleBooleanOperator
 		{
@@ -622,7 +597,7 @@ ruleInfixOperator returns [EObject current=null]
 		}
 		    |
 		{
-			newCompositeNode(grammarAccess.getInfixOperatorAccess().getMathOperatorParserRuleCall_1());
+			newCompositeNode(grammarAccess.getBinaryOperatorAccess().getMathOperatorParserRuleCall_1());
 		}
 		this_MathOperator_1=ruleMathOperator
 		{
@@ -943,72 +918,30 @@ rulePrimaryExp returns [EObject current=null]
 			afterParserOrEnumRuleCall();
 		}
 		    |
-		(
-			{
-				newCompositeNode(grammarAccess.getPrimaryExpAccess().getVarOrSelfExpParserRuleCall_1_0());
-			}
-			this_VarOrSelfExp_1=ruleVarOrSelfExp
-			{
-				$current = $this_VarOrSelfExp_1.current;
-				afterParserOrEnumRuleCall();
-			}
-			(
-				(
-					(
-						{
-							newCompositeNode(grammarAccess.getPrimaryExpAccess().getNavNavigationOperatorParserRuleCall_1_1_0_0());
-						}
-						lv_nav_2_0=ruleNavigationOperator
-						{
-							if ($current==null) {
-								$current = createModelElementForParent(grammarAccess.getPrimaryExpRule());
-							}
-							add(
-								$current,
-								"nav",
-								lv_nav_2_0,
-								"at.jku.isse.OCLX.NavigationOperator");
-							afterParserOrEnumRuleCall();
-						}
-					)
-				)
-				(
-					(
-						{
-							newCompositeNode(grammarAccess.getPrimaryExpAccess().getMethodsMethodExpParserRuleCall_1_1_1_0());
-						}
-						lv_methods_3_0=ruleMethodExp
-						{
-							if ($current==null) {
-								$current = createModelElementForParent(grammarAccess.getPrimaryExpRule());
-							}
-							add(
-								$current,
-								"methods",
-								lv_methods_3_0,
-								"at.jku.isse.OCLX.MethodExp");
-							afterParserOrEnumRuleCall();
-						}
-					)
-				)
-			)*
-		)
+		{
+			newCompositeNode(grammarAccess.getPrimaryExpAccess().getNavigationExpParserRuleCall_1());
+		}
+		this_NavigationExp_1=ruleNavigationExp
+		{
+			$current = $this_NavigationExp_1.current;
+			afterParserOrEnumRuleCall();
+		}
 		    |
 		{
 			newCompositeNode(grammarAccess.getPrimaryExpAccess().getPrimitiveLiteralExpParserRuleCall_2());
 		}
-		this_PrimitiveLiteralExp_4=rulePrimitiveLiteralExp
+		this_PrimitiveLiteralExp_2=rulePrimitiveLiteralExp
 		{
-			$current = $this_PrimitiveLiteralExp_4.current;
+			$current = $this_PrimitiveLiteralExp_2.current;
 			afterParserOrEnumRuleCall();
 		}
 		    |
 		{
 			newCompositeNode(grammarAccess.getPrimaryExpAccess().getTemporalExpParserRuleCall_3());
 		}
-		this_TemporalExp_5=ruleTemporalExp
+		this_TemporalExp_3=ruleTemporalExp
 		{
-			$current = $this_TemporalExp_5.current;
+			$current = $this_TemporalExp_3.current;
 			afterParserOrEnumRuleCall();
 		}
 	)
@@ -1060,15 +993,15 @@ ruleNestedExp returns [EObject current=null]
 	)
 ;
 
-// Entry rule entryRuleVarOrSelfExp
-entryRuleVarOrSelfExp returns [EObject current=null]:
-	{ newCompositeNode(grammarAccess.getVarOrSelfExpRule()); }
-	iv_ruleVarOrSelfExp=ruleVarOrSelfExp
-	{ $current=$iv_ruleVarOrSelfExp.current; }
+// Entry rule entryRuleNavigationExp
+entryRuleNavigationExp returns [EObject current=null]:
+	{ newCompositeNode(grammarAccess.getNavigationExpRule()); }
+	iv_ruleNavigationExp=ruleNavigationExp
+	{ $current=$iv_ruleNavigationExp.current; }
 	EOF;
 
-// Rule VarOrSelfExp
-ruleVarOrSelfExp returns [EObject current=null]
+// Rule NavigationExp
+ruleNavigationExp returns [EObject current=null]
 @init {
 	enterRule();
 }
@@ -1076,23 +1009,65 @@ ruleVarOrSelfExp returns [EObject current=null]
 	leaveRule();
 }:
 	(
-		{
-			newCompositeNode(grammarAccess.getVarOrSelfExpAccess().getSelfExpParserRuleCall_0());
-		}
-		this_SelfExp_0=ruleSelfExp
-		{
-			$current = $this_SelfExp_0.current;
-			afterParserOrEnumRuleCall();
-		}
-		    |
-		{
-			newCompositeNode(grammarAccess.getVarOrSelfExpAccess().getVarReferenceParserRuleCall_1());
-		}
-		this_VarReference_1=ruleVarReference
-		{
-			$current = $this_VarReference_1.current;
-			afterParserOrEnumRuleCall();
-		}
+		(
+			{
+				newCompositeNode(grammarAccess.getNavigationExpAccess().getSelfExpParserRuleCall_0_0());
+			}
+			this_SelfExp_0=ruleSelfExp
+			{
+				$current = $this_SelfExp_0.current;
+				afterParserOrEnumRuleCall();
+			}
+			    |
+			{
+				newCompositeNode(grammarAccess.getNavigationExpAccess().getVarReferenceParserRuleCall_0_1());
+			}
+			this_VarReference_1=ruleVarReference
+			{
+				$current = $this_VarReference_1.current;
+				afterParserOrEnumRuleCall();
+			}
+		)
+		(
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getNavigationExpAccess().getNavNavigationOperatorParserRuleCall_1_0_0());
+					}
+					lv_nav_2_0=ruleNavigationOperator
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getNavigationExpRule());
+						}
+						add(
+							$current,
+							"nav",
+							lv_nav_2_0,
+							"at.jku.isse.OCLX.NavigationOperator");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+			(
+				(
+					{
+						newCompositeNode(grammarAccess.getNavigationExpAccess().getMethodsMethodExpParserRuleCall_1_1_0());
+					}
+					lv_methods_3_0=ruleMethodExp
+					{
+						if ($current==null) {
+							$current = createModelElementForParent(grammarAccess.getNavigationExpRule());
+						}
+						add(
+							$current,
+							"methods",
+							lv_methods_3_0,
+							"at.jku.isse.OCLX.MethodExp");
+						afterParserOrEnumRuleCall();
+					}
+				)
+			)
+		)*
 	)
 ;
 

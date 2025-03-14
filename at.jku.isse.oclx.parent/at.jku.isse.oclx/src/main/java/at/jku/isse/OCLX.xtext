@@ -53,12 +53,9 @@ PrefixedExp returns Exp:
 	| 	PrimaryExp
 ;
 
-BinaryOperator returns BinaryOperator: // we need to split these, as after a navigation we can no longer use a var ref, while we cannot use a property access upon an infix operator
-	InfixOperator // | NavigationOperator
-;	
-
-InfixOperator returns BinaryOperator:
-	BooleanOperator | MathOperator;	
+BinaryOperator returns BinaryOperator: 
+	BooleanOperator | MathOperator
+;
 
 BooleanOperator returns BooleanOperator:
 	op=('>' | '<' | '>=' | '<=' | '=' | '!=' | 'and' | 'or' | 'xor' | 'implies');
@@ -74,8 +71,7 @@ UnaryOperator:
 
 PrimaryExp returns Exp:
 	NestedExp
-| 	VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
-//| 	VarReference (nav+=NavigationOperator methods+=MethodExp)*
+| 	NavigationExp
 | 	PrimitiveLiteralExp
 |	TemporalExp
 ;
@@ -83,9 +79,13 @@ PrimaryExp returns Exp:
 NestedExp returns NestedExp:
 	'(' source=Exp ')';
 
-VarOrSelfExp returns Exp:
-	SelfExp | VarReference
+NavigationExp:
+	(SelfExp | VarReference) (nav+=NavigationOperator methods+=MethodExp)*
 ;
+
+//VarOrSelfExp:
+// SelfExp | VarReference	
+//;
 
 SelfExp:
 	{SelfExp} name='self';
@@ -121,12 +121,8 @@ FloatLiteralExp:
 MethodExp:		
 	 PropertyAccess	
 	| MethodCall
-//	| name=IteratorName '(' body=Exp ')'
 	| CollectionIterator
 	| TypeCall
-//	| iterSource=OperatorExp '->' iter=IteratorName '(' itervar=IteratorVarDeclaration ',' itervar2=IteratorVarDeclaration '|' body=OperatorExp ')'
-	//| OperatorExp '->' IteratorName '(' IteratorVarDeclaration ';' InitVarDeclaration '|' OperatorExp ')'
-	//| OperatorExp '->' IteratorName '(' InitVarDeclaration '|' OperatorExp ')'
 ;
 
 CollectionIterator returns IteratorExp: 
@@ -146,7 +142,6 @@ PropertyAccess returns PropertyAccessExp:
 MethodCall returns MethodCallExp:
 	name=SimpleName '()' 		// operation call
 	| name=SimpleName '('args=ArgumentsExp')' // operation call
-//	| name=SimpleName '('type=TypeExp')'	// type operation call
 ;
 
 TypeCall returns TypeCallExp:

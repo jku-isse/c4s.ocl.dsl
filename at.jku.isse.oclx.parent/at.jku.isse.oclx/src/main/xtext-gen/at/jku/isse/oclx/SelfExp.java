@@ -20,7 +20,7 @@ package at.jku.isse.oclx;
  * @model
  * @generated
  */
-public interface SelfExp extends Exp
+public interface SelfExp extends NavigationExp
 {
   /**
    * Returns the value of the '<em><b>Name</b></em>' attribute.

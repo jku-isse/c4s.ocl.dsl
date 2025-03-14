@@ -1446,90 +1446,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBinaryOperator"
-    // InternalOCLX.g:582:1: ruleBinaryOperator returns [EObject current=null] : this_InfixOperator_0= ruleInfixOperator ;
+    // InternalOCLX.g:582:1: ruleBinaryOperator returns [EObject current=null] : (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator ) ;
     public final EObject ruleBinaryOperator() throws RecognitionException {
-        EObject current = null;
-
-        EObject this_InfixOperator_0 = null;
-
-
-
-        	enterRule();
-
-        try {
-            // InternalOCLX.g:588:2: (this_InfixOperator_0= ruleInfixOperator )
-            // InternalOCLX.g:589:2: this_InfixOperator_0= ruleInfixOperator
-            {
-
-            		newCompositeNode(grammarAccess.getBinaryOperatorAccess().getInfixOperatorParserRuleCall());
-            	
-            pushFollow(FOLLOW_2);
-            this_InfixOperator_0=ruleInfixOperator();
-
-            state._fsp--;
-
-
-            		current = this_InfixOperator_0;
-            		afterParserOrEnumRuleCall();
-            	
-
-            }
-
-
-            	leaveRule();
-
-        }
-
-            catch (RecognitionException re) {
-                recover(input,re);
-                appendSkippedTokens();
-            }
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "ruleBinaryOperator"
-
-
-    // $ANTLR start "entryRuleInfixOperator"
-    // InternalOCLX.g:600:1: entryRuleInfixOperator returns [EObject current=null] : iv_ruleInfixOperator= ruleInfixOperator EOF ;
-    public final EObject entryRuleInfixOperator() throws RecognitionException {
-        EObject current = null;
-
-        EObject iv_ruleInfixOperator = null;
-
-
-        try {
-            // InternalOCLX.g:600:54: (iv_ruleInfixOperator= ruleInfixOperator EOF )
-            // InternalOCLX.g:601:2: iv_ruleInfixOperator= ruleInfixOperator EOF
-            {
-             newCompositeNode(grammarAccess.getInfixOperatorRule()); 
-            pushFollow(FOLLOW_1);
-            iv_ruleInfixOperator=ruleInfixOperator();
-
-            state._fsp--;
-
-             current =iv_ruleInfixOperator; 
-            match(input,EOF,FOLLOW_2); 
-
-            }
-
-        }
-
-            catch (RecognitionException re) {
-                recover(input,re);
-                appendSkippedTokens();
-            }
-        finally {
-        }
-        return current;
-    }
-    // $ANTLR end "entryRuleInfixOperator"
-
-
-    // $ANTLR start "ruleInfixOperator"
-    // InternalOCLX.g:607:1: ruleInfixOperator returns [EObject current=null] : (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator ) ;
-    public final EObject ruleInfixOperator() throws RecognitionException {
         EObject current = null;
 
         EObject this_BooleanOperator_0 = null;
@@ -1541,10 +1459,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:613:2: ( (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator ) )
-            // InternalOCLX.g:614:2: (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator )
+            // InternalOCLX.g:588:2: ( (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator ) )
+            // InternalOCLX.g:589:2: (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator )
             {
-            // InternalOCLX.g:614:2: (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator )
+            // InternalOCLX.g:589:2: (this_BooleanOperator_0= ruleBooleanOperator | this_MathOperator_1= ruleMathOperator )
             int alt8=2;
             int LA8_0 = input.LA(1);
 
@@ -1562,10 +1480,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             }
             switch (alt8) {
                 case 1 :
-                    // InternalOCLX.g:615:3: this_BooleanOperator_0= ruleBooleanOperator
+                    // InternalOCLX.g:590:3: this_BooleanOperator_0= ruleBooleanOperator
                     {
 
-                    			newCompositeNode(grammarAccess.getInfixOperatorAccess().getBooleanOperatorParserRuleCall_0());
+                    			newCompositeNode(grammarAccess.getBinaryOperatorAccess().getBooleanOperatorParserRuleCall_0());
                     		
                     pushFollow(FOLLOW_2);
                     this_BooleanOperator_0=ruleBooleanOperator();
@@ -1580,10 +1498,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:624:3: this_MathOperator_1= ruleMathOperator
+                    // InternalOCLX.g:599:3: this_MathOperator_1= ruleMathOperator
                     {
 
-                    			newCompositeNode(grammarAccess.getInfixOperatorAccess().getMathOperatorParserRuleCall_1());
+                    			newCompositeNode(grammarAccess.getBinaryOperatorAccess().getMathOperatorParserRuleCall_1());
                     		
                     pushFollow(FOLLOW_2);
                     this_MathOperator_1=ruleMathOperator();
@@ -1616,11 +1534,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleInfixOperator"
+    // $ANTLR end "ruleBinaryOperator"
 
 
     // $ANTLR start "entryRuleBooleanOperator"
-    // InternalOCLX.g:636:1: entryRuleBooleanOperator returns [EObject current=null] : iv_ruleBooleanOperator= ruleBooleanOperator EOF ;
+    // InternalOCLX.g:611:1: entryRuleBooleanOperator returns [EObject current=null] : iv_ruleBooleanOperator= ruleBooleanOperator EOF ;
     public final EObject entryRuleBooleanOperator() throws RecognitionException {
         EObject current = null;
 
@@ -1628,8 +1546,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:636:56: (iv_ruleBooleanOperator= ruleBooleanOperator EOF )
-            // InternalOCLX.g:637:2: iv_ruleBooleanOperator= ruleBooleanOperator EOF
+            // InternalOCLX.g:611:56: (iv_ruleBooleanOperator= ruleBooleanOperator EOF )
+            // InternalOCLX.g:612:2: iv_ruleBooleanOperator= ruleBooleanOperator EOF
             {
              newCompositeNode(grammarAccess.getBooleanOperatorRule()); 
             pushFollow(FOLLOW_1);
@@ -1656,7 +1574,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBooleanOperator"
-    // InternalOCLX.g:643:1: ruleBooleanOperator returns [EObject current=null] : ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) ) ;
+    // InternalOCLX.g:618:1: ruleBooleanOperator returns [EObject current=null] : ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) ) ;
     public final EObject ruleBooleanOperator() throws RecognitionException {
         EObject current = null;
 
@@ -1675,16 +1593,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:649:2: ( ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) ) )
-            // InternalOCLX.g:650:2: ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) )
+            // InternalOCLX.g:624:2: ( ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) ) )
+            // InternalOCLX.g:625:2: ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) )
             {
-            // InternalOCLX.g:650:2: ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) )
-            // InternalOCLX.g:651:3: ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) )
+            // InternalOCLX.g:625:2: ( ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) ) )
+            // InternalOCLX.g:626:3: ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) )
             {
-            // InternalOCLX.g:651:3: ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) )
-            // InternalOCLX.g:652:4: (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' )
+            // InternalOCLX.g:626:3: ( (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' ) )
+            // InternalOCLX.g:627:4: (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' )
             {
-            // InternalOCLX.g:652:4: (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' )
+            // InternalOCLX.g:627:4: (lv_op_0_1= '>' | lv_op_0_2= '<' | lv_op_0_3= '>=' | lv_op_0_4= '<=' | lv_op_0_5= '=' | lv_op_0_6= '!=' | lv_op_0_7= 'and' | lv_op_0_8= 'or' | lv_op_0_9= 'xor' | lv_op_0_10= 'implies' )
             int alt9=10;
             switch ( input.LA(1) ) {
             case 22:
@@ -1746,7 +1664,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt9) {
                 case 1 :
-                    // InternalOCLX.g:653:5: lv_op_0_1= '>'
+                    // InternalOCLX.g:628:5: lv_op_0_1= '>'
                     {
                     lv_op_0_1=(Token)match(input,22,FOLLOW_2); 
 
@@ -1762,7 +1680,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:664:5: lv_op_0_2= '<'
+                    // InternalOCLX.g:639:5: lv_op_0_2= '<'
                     {
                     lv_op_0_2=(Token)match(input,23,FOLLOW_2); 
 
@@ -1778,7 +1696,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:675:5: lv_op_0_3= '>='
+                    // InternalOCLX.g:650:5: lv_op_0_3= '>='
                     {
                     lv_op_0_3=(Token)match(input,24,FOLLOW_2); 
 
@@ -1794,7 +1712,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalOCLX.g:686:5: lv_op_0_4= '<='
+                    // InternalOCLX.g:661:5: lv_op_0_4= '<='
                     {
                     lv_op_0_4=(Token)match(input,25,FOLLOW_2); 
 
@@ -1810,7 +1728,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalOCLX.g:697:5: lv_op_0_5= '='
+                    // InternalOCLX.g:672:5: lv_op_0_5= '='
                     {
                     lv_op_0_5=(Token)match(input,26,FOLLOW_2); 
 
@@ -1826,7 +1744,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalOCLX.g:708:5: lv_op_0_6= '!='
+                    // InternalOCLX.g:683:5: lv_op_0_6= '!='
                     {
                     lv_op_0_6=(Token)match(input,27,FOLLOW_2); 
 
@@ -1842,7 +1760,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalOCLX.g:719:5: lv_op_0_7= 'and'
+                    // InternalOCLX.g:694:5: lv_op_0_7= 'and'
                     {
                     lv_op_0_7=(Token)match(input,28,FOLLOW_2); 
 
@@ -1858,7 +1776,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 8 :
-                    // InternalOCLX.g:730:5: lv_op_0_8= 'or'
+                    // InternalOCLX.g:705:5: lv_op_0_8= 'or'
                     {
                     lv_op_0_8=(Token)match(input,29,FOLLOW_2); 
 
@@ -1874,7 +1792,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 9 :
-                    // InternalOCLX.g:741:5: lv_op_0_9= 'xor'
+                    // InternalOCLX.g:716:5: lv_op_0_9= 'xor'
                     {
                     lv_op_0_9=(Token)match(input,30,FOLLOW_2); 
 
@@ -1890,7 +1808,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 10 :
-                    // InternalOCLX.g:752:5: lv_op_0_10= 'implies'
+                    // InternalOCLX.g:727:5: lv_op_0_10= 'implies'
                     {
                     lv_op_0_10=(Token)match(input,31,FOLLOW_2); 
 
@@ -1934,7 +1852,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMathOperator"
-    // InternalOCLX.g:768:1: entryRuleMathOperator returns [EObject current=null] : iv_ruleMathOperator= ruleMathOperator EOF ;
+    // InternalOCLX.g:743:1: entryRuleMathOperator returns [EObject current=null] : iv_ruleMathOperator= ruleMathOperator EOF ;
     public final EObject entryRuleMathOperator() throws RecognitionException {
         EObject current = null;
 
@@ -1942,8 +1860,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:768:53: (iv_ruleMathOperator= ruleMathOperator EOF )
-            // InternalOCLX.g:769:2: iv_ruleMathOperator= ruleMathOperator EOF
+            // InternalOCLX.g:743:53: (iv_ruleMathOperator= ruleMathOperator EOF )
+            // InternalOCLX.g:744:2: iv_ruleMathOperator= ruleMathOperator EOF
             {
              newCompositeNode(grammarAccess.getMathOperatorRule()); 
             pushFollow(FOLLOW_1);
@@ -1970,7 +1888,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMathOperator"
-    // InternalOCLX.g:775:1: ruleMathOperator returns [EObject current=null] : ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) ) ;
+    // InternalOCLX.g:750:1: ruleMathOperator returns [EObject current=null] : ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) ) ;
     public final EObject ruleMathOperator() throws RecognitionException {
         EObject current = null;
 
@@ -1983,16 +1901,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:781:2: ( ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) ) )
-            // InternalOCLX.g:782:2: ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) )
+            // InternalOCLX.g:756:2: ( ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) ) )
+            // InternalOCLX.g:757:2: ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) )
             {
-            // InternalOCLX.g:782:2: ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) )
-            // InternalOCLX.g:783:3: ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) )
+            // InternalOCLX.g:757:2: ( ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) ) )
+            // InternalOCLX.g:758:3: ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) )
             {
-            // InternalOCLX.g:783:3: ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) )
-            // InternalOCLX.g:784:4: (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' )
+            // InternalOCLX.g:758:3: ( (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' ) )
+            // InternalOCLX.g:759:4: (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' )
             {
-            // InternalOCLX.g:784:4: (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' )
+            // InternalOCLX.g:759:4: (lv_op_0_1= '*' | lv_op_0_2= '/' | lv_op_0_3= '+' | lv_op_0_4= '-' )
             int alt10=4;
             switch ( input.LA(1) ) {
             case 32:
@@ -2024,7 +1942,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt10) {
                 case 1 :
-                    // InternalOCLX.g:785:5: lv_op_0_1= '*'
+                    // InternalOCLX.g:760:5: lv_op_0_1= '*'
                     {
                     lv_op_0_1=(Token)match(input,32,FOLLOW_2); 
 
@@ -2040,7 +1958,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:796:5: lv_op_0_2= '/'
+                    // InternalOCLX.g:771:5: lv_op_0_2= '/'
                     {
                     lv_op_0_2=(Token)match(input,33,FOLLOW_2); 
 
@@ -2056,7 +1974,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:807:5: lv_op_0_3= '+'
+                    // InternalOCLX.g:782:5: lv_op_0_3= '+'
                     {
                     lv_op_0_3=(Token)match(input,34,FOLLOW_2); 
 
@@ -2072,7 +1990,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalOCLX.g:818:5: lv_op_0_4= '-'
+                    // InternalOCLX.g:793:5: lv_op_0_4= '-'
                     {
                     lv_op_0_4=(Token)match(input,35,FOLLOW_2); 
 
@@ -2116,7 +2034,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleNavigationOperator"
-    // InternalOCLX.g:834:1: entryRuleNavigationOperator returns [EObject current=null] : iv_ruleNavigationOperator= ruleNavigationOperator EOF ;
+    // InternalOCLX.g:809:1: entryRuleNavigationOperator returns [EObject current=null] : iv_ruleNavigationOperator= ruleNavigationOperator EOF ;
     public final EObject entryRuleNavigationOperator() throws RecognitionException {
         EObject current = null;
 
@@ -2124,8 +2042,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:834:59: (iv_ruleNavigationOperator= ruleNavigationOperator EOF )
-            // InternalOCLX.g:835:2: iv_ruleNavigationOperator= ruleNavigationOperator EOF
+            // InternalOCLX.g:809:59: (iv_ruleNavigationOperator= ruleNavigationOperator EOF )
+            // InternalOCLX.g:810:2: iv_ruleNavigationOperator= ruleNavigationOperator EOF
             {
              newCompositeNode(grammarAccess.getNavigationOperatorRule()); 
             pushFollow(FOLLOW_1);
@@ -2152,7 +2070,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleNavigationOperator"
-    // InternalOCLX.g:841:1: ruleNavigationOperator returns [EObject current=null] : ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) ) ;
+    // InternalOCLX.g:816:1: ruleNavigationOperator returns [EObject current=null] : ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) ) ;
     public final EObject ruleNavigationOperator() throws RecognitionException {
         EObject current = null;
 
@@ -2163,16 +2081,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:847:2: ( ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) ) )
-            // InternalOCLX.g:848:2: ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) )
+            // InternalOCLX.g:822:2: ( ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) ) )
+            // InternalOCLX.g:823:2: ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) )
             {
-            // InternalOCLX.g:848:2: ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) )
-            // InternalOCLX.g:849:3: ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) )
+            // InternalOCLX.g:823:2: ( ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) ) )
+            // InternalOCLX.g:824:3: ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) )
             {
-            // InternalOCLX.g:849:3: ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) )
-            // InternalOCLX.g:850:4: (lv_name_0_1= '.' | lv_name_0_2= '->' )
+            // InternalOCLX.g:824:3: ( (lv_name_0_1= '.' | lv_name_0_2= '->' ) )
+            // InternalOCLX.g:825:4: (lv_name_0_1= '.' | lv_name_0_2= '->' )
             {
-            // InternalOCLX.g:850:4: (lv_name_0_1= '.' | lv_name_0_2= '->' )
+            // InternalOCLX.g:825:4: (lv_name_0_1= '.' | lv_name_0_2= '->' )
             int alt11=2;
             int LA11_0 = input.LA(1);
 
@@ -2190,7 +2108,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             }
             switch (alt11) {
                 case 1 :
-                    // InternalOCLX.g:851:5: lv_name_0_1= '.'
+                    // InternalOCLX.g:826:5: lv_name_0_1= '.'
                     {
                     lv_name_0_1=(Token)match(input,21,FOLLOW_2); 
 
@@ -2206,7 +2124,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:862:5: lv_name_0_2= '->'
+                    // InternalOCLX.g:837:5: lv_name_0_2= '->'
                     {
                     lv_name_0_2=(Token)match(input,36,FOLLOW_2); 
 
@@ -2250,7 +2168,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleUnaryOperator"
-    // InternalOCLX.g:878:1: entryRuleUnaryOperator returns [EObject current=null] : iv_ruleUnaryOperator= ruleUnaryOperator EOF ;
+    // InternalOCLX.g:853:1: entryRuleUnaryOperator returns [EObject current=null] : iv_ruleUnaryOperator= ruleUnaryOperator EOF ;
     public final EObject entryRuleUnaryOperator() throws RecognitionException {
         EObject current = null;
 
@@ -2258,8 +2176,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:878:54: (iv_ruleUnaryOperator= ruleUnaryOperator EOF )
-            // InternalOCLX.g:879:2: iv_ruleUnaryOperator= ruleUnaryOperator EOF
+            // InternalOCLX.g:853:54: (iv_ruleUnaryOperator= ruleUnaryOperator EOF )
+            // InternalOCLX.g:854:2: iv_ruleUnaryOperator= ruleUnaryOperator EOF
             {
              newCompositeNode(grammarAccess.getUnaryOperatorRule()); 
             pushFollow(FOLLOW_1);
@@ -2286,7 +2204,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleUnaryOperator"
-    // InternalOCLX.g:885:1: ruleUnaryOperator returns [EObject current=null] : ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) ) ;
+    // InternalOCLX.g:860:1: ruleUnaryOperator returns [EObject current=null] : ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) ) ;
     public final EObject ruleUnaryOperator() throws RecognitionException {
         EObject current = null;
 
@@ -2297,16 +2215,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:891:2: ( ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) ) )
-            // InternalOCLX.g:892:2: ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) )
+            // InternalOCLX.g:866:2: ( ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) ) )
+            // InternalOCLX.g:867:2: ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) )
             {
-            // InternalOCLX.g:892:2: ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) )
-            // InternalOCLX.g:893:3: ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) )
+            // InternalOCLX.g:867:2: ( ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) ) )
+            // InternalOCLX.g:868:3: ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) )
             {
-            // InternalOCLX.g:893:3: ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) )
-            // InternalOCLX.g:894:4: (lv_name_0_1= '-' | lv_name_0_2= 'not' )
+            // InternalOCLX.g:868:3: ( (lv_name_0_1= '-' | lv_name_0_2= 'not' ) )
+            // InternalOCLX.g:869:4: (lv_name_0_1= '-' | lv_name_0_2= 'not' )
             {
-            // InternalOCLX.g:894:4: (lv_name_0_1= '-' | lv_name_0_2= 'not' )
+            // InternalOCLX.g:869:4: (lv_name_0_1= '-' | lv_name_0_2= 'not' )
             int alt12=2;
             int LA12_0 = input.LA(1);
 
@@ -2324,7 +2242,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             }
             switch (alt12) {
                 case 1 :
-                    // InternalOCLX.g:895:5: lv_name_0_1= '-'
+                    // InternalOCLX.g:870:5: lv_name_0_1= '-'
                     {
                     lv_name_0_1=(Token)match(input,35,FOLLOW_2); 
 
@@ -2340,7 +2258,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:906:5: lv_name_0_2= 'not'
+                    // InternalOCLX.g:881:5: lv_name_0_2= 'not'
                     {
                     lv_name_0_2=(Token)match(input,37,FOLLOW_2); 
 
@@ -2384,7 +2302,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePrimaryExp"
-    // InternalOCLX.g:922:1: entryRulePrimaryExp returns [EObject current=null] : iv_rulePrimaryExp= rulePrimaryExp EOF ;
+    // InternalOCLX.g:897:1: entryRulePrimaryExp returns [EObject current=null] : iv_rulePrimaryExp= rulePrimaryExp EOF ;
     public final EObject entryRulePrimaryExp() throws RecognitionException {
         EObject current = null;
 
@@ -2392,8 +2310,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:922:51: (iv_rulePrimaryExp= rulePrimaryExp EOF )
-            // InternalOCLX.g:923:2: iv_rulePrimaryExp= rulePrimaryExp EOF
+            // InternalOCLX.g:897:51: (iv_rulePrimaryExp= rulePrimaryExp EOF )
+            // InternalOCLX.g:898:2: iv_rulePrimaryExp= rulePrimaryExp EOF
             {
              newCompositeNode(grammarAccess.getPrimaryExpRule()); 
             pushFollow(FOLLOW_1);
@@ -2420,42 +2338,38 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePrimaryExp"
-    // InternalOCLX.g:929:1: rulePrimaryExp returns [EObject current=null] : (this_NestedExp_0= ruleNestedExp | (this_VarOrSelfExp_1= ruleVarOrSelfExp ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* ) | this_PrimitiveLiteralExp_4= rulePrimitiveLiteralExp | this_TemporalExp_5= ruleTemporalExp ) ;
+    // InternalOCLX.g:904:1: rulePrimaryExp returns [EObject current=null] : (this_NestedExp_0= ruleNestedExp | this_NavigationExp_1= ruleNavigationExp | this_PrimitiveLiteralExp_2= rulePrimitiveLiteralExp | this_TemporalExp_3= ruleTemporalExp ) ;
     public final EObject rulePrimaryExp() throws RecognitionException {
         EObject current = null;
 
         EObject this_NestedExp_0 = null;
 
-        EObject this_VarOrSelfExp_1 = null;
+        EObject this_NavigationExp_1 = null;
 
-        EObject lv_nav_2_0 = null;
+        EObject this_PrimitiveLiteralExp_2 = null;
 
-        EObject lv_methods_3_0 = null;
-
-        EObject this_PrimitiveLiteralExp_4 = null;
-
-        EObject this_TemporalExp_5 = null;
+        EObject this_TemporalExp_3 = null;
 
 
 
         	enterRule();
 
         try {
-            // InternalOCLX.g:935:2: ( (this_NestedExp_0= ruleNestedExp | (this_VarOrSelfExp_1= ruleVarOrSelfExp ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* ) | this_PrimitiveLiteralExp_4= rulePrimitiveLiteralExp | this_TemporalExp_5= ruleTemporalExp ) )
-            // InternalOCLX.g:936:2: (this_NestedExp_0= ruleNestedExp | (this_VarOrSelfExp_1= ruleVarOrSelfExp ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* ) | this_PrimitiveLiteralExp_4= rulePrimitiveLiteralExp | this_TemporalExp_5= ruleTemporalExp )
+            // InternalOCLX.g:910:2: ( (this_NestedExp_0= ruleNestedExp | this_NavigationExp_1= ruleNavigationExp | this_PrimitiveLiteralExp_2= rulePrimitiveLiteralExp | this_TemporalExp_3= ruleTemporalExp ) )
+            // InternalOCLX.g:911:2: (this_NestedExp_0= ruleNestedExp | this_NavigationExp_1= ruleNavigationExp | this_PrimitiveLiteralExp_2= rulePrimitiveLiteralExp | this_TemporalExp_3= ruleTemporalExp )
             {
-            // InternalOCLX.g:936:2: (this_NestedExp_0= ruleNestedExp | (this_VarOrSelfExp_1= ruleVarOrSelfExp ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* ) | this_PrimitiveLiteralExp_4= rulePrimitiveLiteralExp | this_TemporalExp_5= ruleTemporalExp )
-            int alt14=4;
+            // InternalOCLX.g:911:2: (this_NestedExp_0= ruleNestedExp | this_NavigationExp_1= ruleNavigationExp | this_PrimitiveLiteralExp_2= rulePrimitiveLiteralExp | this_TemporalExp_3= ruleTemporalExp )
+            int alt13=4;
             switch ( input.LA(1) ) {
             case 38:
                 {
-                alt14=1;
+                alt13=1;
                 }
                 break;
             case RULE_ID:
             case 40:
                 {
-                alt14=2;
+                alt13=2;
                 }
                 break;
             case RULE_INT:
@@ -2463,7 +2377,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             case 41:
             case 42:
                 {
-                alt14=3;
+                alt13=3;
                 }
                 break;
             case 54:
@@ -2477,19 +2391,19 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             case 65:
             case 66:
                 {
-                alt14=4;
+                alt13=4;
                 }
                 break;
             default:
                 NoViableAltException nvae =
-                    new NoViableAltException("", 14, 0, input);
+                    new NoViableAltException("", 13, 0, input);
 
                 throw nvae;
             }
 
-            switch (alt14) {
+            switch (alt13) {
                 case 1 :
-                    // InternalOCLX.g:937:3: this_NestedExp_0= ruleNestedExp
+                    // InternalOCLX.g:912:3: this_NestedExp_0= ruleNestedExp
                     {
 
                     			newCompositeNode(grammarAccess.getPrimaryExpAccess().getNestedExpParserRuleCall_0());
@@ -2507,146 +2421,54 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:946:3: (this_VarOrSelfExp_1= ruleVarOrSelfExp ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* )
-                    {
-                    // InternalOCLX.g:946:3: (this_VarOrSelfExp_1= ruleVarOrSelfExp ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* )
-                    // InternalOCLX.g:947:4: this_VarOrSelfExp_1= ruleVarOrSelfExp ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )*
+                    // InternalOCLX.g:921:3: this_NavigationExp_1= ruleNavigationExp
                     {
 
-                    				newCompositeNode(grammarAccess.getPrimaryExpAccess().getVarOrSelfExpParserRuleCall_1_0());
-                    			
-                    pushFollow(FOLLOW_19);
-                    this_VarOrSelfExp_1=ruleVarOrSelfExp();
+                    			newCompositeNode(grammarAccess.getPrimaryExpAccess().getNavigationExpParserRuleCall_1());
+                    		
+                    pushFollow(FOLLOW_2);
+                    this_NavigationExp_1=ruleNavigationExp();
 
                     state._fsp--;
 
 
-                    				current = this_VarOrSelfExp_1;
-                    				afterParserOrEnumRuleCall();
-                    			
-                    // InternalOCLX.g:955:4: ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )*
-                    loop13:
-                    do {
-                        int alt13=2;
-                        int LA13_0 = input.LA(1);
-
-                        if ( (LA13_0==21||LA13_0==36) ) {
-                            alt13=1;
-                        }
-
-
-                        switch (alt13) {
-                    	case 1 :
-                    	    // InternalOCLX.g:956:5: ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) )
-                    	    {
-                    	    // InternalOCLX.g:956:5: ( (lv_nav_2_0= ruleNavigationOperator ) )
-                    	    // InternalOCLX.g:957:6: (lv_nav_2_0= ruleNavigationOperator )
-                    	    {
-                    	    // InternalOCLX.g:957:6: (lv_nav_2_0= ruleNavigationOperator )
-                    	    // InternalOCLX.g:958:7: lv_nav_2_0= ruleNavigationOperator
-                    	    {
-
-                    	    							newCompositeNode(grammarAccess.getPrimaryExpAccess().getNavNavigationOperatorParserRuleCall_1_1_0_0());
-                    	    						
-                    	    pushFollow(FOLLOW_20);
-                    	    lv_nav_2_0=ruleNavigationOperator();
-
-                    	    state._fsp--;
-
-
-                    	    							if (current==null) {
-                    	    								current = createModelElementForParent(grammarAccess.getPrimaryExpRule());
-                    	    							}
-                    	    							add(
-                    	    								current,
-                    	    								"nav",
-                    	    								lv_nav_2_0,
-                    	    								"at.jku.isse.OCLX.NavigationOperator");
-                    	    							afterParserOrEnumRuleCall();
-                    	    						
-
-                    	    }
-
-
-                    	    }
-
-                    	    // InternalOCLX.g:975:5: ( (lv_methods_3_0= ruleMethodExp ) )
-                    	    // InternalOCLX.g:976:6: (lv_methods_3_0= ruleMethodExp )
-                    	    {
-                    	    // InternalOCLX.g:976:6: (lv_methods_3_0= ruleMethodExp )
-                    	    // InternalOCLX.g:977:7: lv_methods_3_0= ruleMethodExp
-                    	    {
-
-                    	    							newCompositeNode(grammarAccess.getPrimaryExpAccess().getMethodsMethodExpParserRuleCall_1_1_1_0());
-                    	    						
-                    	    pushFollow(FOLLOW_19);
-                    	    lv_methods_3_0=ruleMethodExp();
-
-                    	    state._fsp--;
-
-
-                    	    							if (current==null) {
-                    	    								current = createModelElementForParent(grammarAccess.getPrimaryExpRule());
-                    	    							}
-                    	    							add(
-                    	    								current,
-                    	    								"methods",
-                    	    								lv_methods_3_0,
-                    	    								"at.jku.isse.OCLX.MethodExp");
-                    	    							afterParserOrEnumRuleCall();
-                    	    						
-
-                    	    }
-
-
-                    	    }
-
-
-                    	    }
-                    	    break;
-
-                    	default :
-                    	    break loop13;
-                        }
-                    } while (true);
-
-
-                    }
-
+                    			current = this_NavigationExp_1;
+                    			afterParserOrEnumRuleCall();
+                    		
 
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:997:3: this_PrimitiveLiteralExp_4= rulePrimitiveLiteralExp
+                    // InternalOCLX.g:930:3: this_PrimitiveLiteralExp_2= rulePrimitiveLiteralExp
                     {
 
                     			newCompositeNode(grammarAccess.getPrimaryExpAccess().getPrimitiveLiteralExpParserRuleCall_2());
                     		
                     pushFollow(FOLLOW_2);
-                    this_PrimitiveLiteralExp_4=rulePrimitiveLiteralExp();
+                    this_PrimitiveLiteralExp_2=rulePrimitiveLiteralExp();
 
                     state._fsp--;
 
 
-                    			current = this_PrimitiveLiteralExp_4;
+                    			current = this_PrimitiveLiteralExp_2;
                     			afterParserOrEnumRuleCall();
                     		
 
                     }
                     break;
                 case 4 :
-                    // InternalOCLX.g:1006:3: this_TemporalExp_5= ruleTemporalExp
+                    // InternalOCLX.g:939:3: this_TemporalExp_3= ruleTemporalExp
                     {
 
                     			newCompositeNode(grammarAccess.getPrimaryExpAccess().getTemporalExpParserRuleCall_3());
                     		
                     pushFollow(FOLLOW_2);
-                    this_TemporalExp_5=ruleTemporalExp();
+                    this_TemporalExp_3=ruleTemporalExp();
 
                     state._fsp--;
 
 
-                    			current = this_TemporalExp_5;
+                    			current = this_TemporalExp_3;
                     			afterParserOrEnumRuleCall();
                     		
 
@@ -2675,7 +2497,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleNestedExp"
-    // InternalOCLX.g:1018:1: entryRuleNestedExp returns [EObject current=null] : iv_ruleNestedExp= ruleNestedExp EOF ;
+    // InternalOCLX.g:951:1: entryRuleNestedExp returns [EObject current=null] : iv_ruleNestedExp= ruleNestedExp EOF ;
     public final EObject entryRuleNestedExp() throws RecognitionException {
         EObject current = null;
 
@@ -2683,8 +2505,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1018:50: (iv_ruleNestedExp= ruleNestedExp EOF )
-            // InternalOCLX.g:1019:2: iv_ruleNestedExp= ruleNestedExp EOF
+            // InternalOCLX.g:951:50: (iv_ruleNestedExp= ruleNestedExp EOF )
+            // InternalOCLX.g:952:2: iv_ruleNestedExp= ruleNestedExp EOF
             {
              newCompositeNode(grammarAccess.getNestedExpRule()); 
             pushFollow(FOLLOW_1);
@@ -2711,7 +2533,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleNestedExp"
-    // InternalOCLX.g:1025:1: ruleNestedExp returns [EObject current=null] : (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' ) ;
+    // InternalOCLX.g:958:1: ruleNestedExp returns [EObject current=null] : (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' ) ;
     public final EObject ruleNestedExp() throws RecognitionException {
         EObject current = null;
 
@@ -2724,26 +2546,26 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1031:2: ( (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' ) )
-            // InternalOCLX.g:1032:2: (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' )
+            // InternalOCLX.g:964:2: ( (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' ) )
+            // InternalOCLX.g:965:2: (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' )
             {
-            // InternalOCLX.g:1032:2: (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' )
-            // InternalOCLX.g:1033:3: otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')'
+            // InternalOCLX.g:965:2: (otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')' )
+            // InternalOCLX.g:966:3: otherlv_0= '(' ( (lv_source_1_0= ruleExp ) ) otherlv_2= ')'
             {
             otherlv_0=(Token)match(input,38,FOLLOW_13); 
 
             			newLeafNode(otherlv_0, grammarAccess.getNestedExpAccess().getLeftParenthesisKeyword_0());
             		
-            // InternalOCLX.g:1037:3: ( (lv_source_1_0= ruleExp ) )
-            // InternalOCLX.g:1038:4: (lv_source_1_0= ruleExp )
+            // InternalOCLX.g:970:3: ( (lv_source_1_0= ruleExp ) )
+            // InternalOCLX.g:971:4: (lv_source_1_0= ruleExp )
             {
-            // InternalOCLX.g:1038:4: (lv_source_1_0= ruleExp )
-            // InternalOCLX.g:1039:5: lv_source_1_0= ruleExp
+            // InternalOCLX.g:971:4: (lv_source_1_0= ruleExp )
+            // InternalOCLX.g:972:5: lv_source_1_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getNestedExpAccess().getSourceExpParserRuleCall_1_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_source_1_0=ruleExp();
 
             state._fsp--;
@@ -2791,25 +2613,25 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
     // $ANTLR end "ruleNestedExp"
 
 
-    // $ANTLR start "entryRuleVarOrSelfExp"
-    // InternalOCLX.g:1064:1: entryRuleVarOrSelfExp returns [EObject current=null] : iv_ruleVarOrSelfExp= ruleVarOrSelfExp EOF ;
-    public final EObject entryRuleVarOrSelfExp() throws RecognitionException {
+    // $ANTLR start "entryRuleNavigationExp"
+    // InternalOCLX.g:997:1: entryRuleNavigationExp returns [EObject current=null] : iv_ruleNavigationExp= ruleNavigationExp EOF ;
+    public final EObject entryRuleNavigationExp() throws RecognitionException {
         EObject current = null;
 
-        EObject iv_ruleVarOrSelfExp = null;
+        EObject iv_ruleNavigationExp = null;
 
 
         try {
-            // InternalOCLX.g:1064:53: (iv_ruleVarOrSelfExp= ruleVarOrSelfExp EOF )
-            // InternalOCLX.g:1065:2: iv_ruleVarOrSelfExp= ruleVarOrSelfExp EOF
+            // InternalOCLX.g:997:54: (iv_ruleNavigationExp= ruleNavigationExp EOF )
+            // InternalOCLX.g:998:2: iv_ruleNavigationExp= ruleNavigationExp EOF
             {
-             newCompositeNode(grammarAccess.getVarOrSelfExpRule()); 
+             newCompositeNode(grammarAccess.getNavigationExpRule()); 
             pushFollow(FOLLOW_1);
-            iv_ruleVarOrSelfExp=ruleVarOrSelfExp();
+            iv_ruleNavigationExp=ruleNavigationExp();
 
             state._fsp--;
 
-             current =iv_ruleVarOrSelfExp; 
+             current =iv_ruleNavigationExp; 
             match(input,EOF,FOLLOW_2); 
 
             }
@@ -2824,79 +2646,175 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "entryRuleVarOrSelfExp"
+    // $ANTLR end "entryRuleNavigationExp"
 
 
-    // $ANTLR start "ruleVarOrSelfExp"
-    // InternalOCLX.g:1071:1: ruleVarOrSelfExp returns [EObject current=null] : (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference ) ;
-    public final EObject ruleVarOrSelfExp() throws RecognitionException {
+    // $ANTLR start "ruleNavigationExp"
+    // InternalOCLX.g:1004:1: ruleNavigationExp returns [EObject current=null] : ( (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference ) ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* ) ;
+    public final EObject ruleNavigationExp() throws RecognitionException {
         EObject current = null;
 
         EObject this_SelfExp_0 = null;
 
         EObject this_VarReference_1 = null;
 
+        EObject lv_nav_2_0 = null;
+
+        EObject lv_methods_3_0 = null;
+
 
 
         	enterRule();
 
         try {
-            // InternalOCLX.g:1077:2: ( (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference ) )
-            // InternalOCLX.g:1078:2: (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference )
+            // InternalOCLX.g:1010:2: ( ( (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference ) ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* ) )
+            // InternalOCLX.g:1011:2: ( (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference ) ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* )
             {
-            // InternalOCLX.g:1078:2: (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference )
-            int alt15=2;
-            int LA15_0 = input.LA(1);
+            // InternalOCLX.g:1011:2: ( (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference ) ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )* )
+            // InternalOCLX.g:1012:3: (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference ) ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )*
+            {
+            // InternalOCLX.g:1012:3: (this_SelfExp_0= ruleSelfExp | this_VarReference_1= ruleVarReference )
+            int alt14=2;
+            int LA14_0 = input.LA(1);
 
-            if ( (LA15_0==40) ) {
-                alt15=1;
+            if ( (LA14_0==40) ) {
+                alt14=1;
             }
-            else if ( (LA15_0==RULE_ID) ) {
-                alt15=2;
+            else if ( (LA14_0==RULE_ID) ) {
+                alt14=2;
             }
             else {
                 NoViableAltException nvae =
-                    new NoViableAltException("", 15, 0, input);
+                    new NoViableAltException("", 14, 0, input);
 
                 throw nvae;
             }
-            switch (alt15) {
+            switch (alt14) {
                 case 1 :
-                    // InternalOCLX.g:1079:3: this_SelfExp_0= ruleSelfExp
+                    // InternalOCLX.g:1013:4: this_SelfExp_0= ruleSelfExp
                     {
 
-                    			newCompositeNode(grammarAccess.getVarOrSelfExpAccess().getSelfExpParserRuleCall_0());
-                    		
-                    pushFollow(FOLLOW_2);
+                    				newCompositeNode(grammarAccess.getNavigationExpAccess().getSelfExpParserRuleCall_0_0());
+                    			
+                    pushFollow(FOLLOW_20);
                     this_SelfExp_0=ruleSelfExp();
 
                     state._fsp--;
 
 
-                    			current = this_SelfExp_0;
-                    			afterParserOrEnumRuleCall();
-                    		
+                    				current = this_SelfExp_0;
+                    				afterParserOrEnumRuleCall();
+                    			
 
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1088:3: this_VarReference_1= ruleVarReference
+                    // InternalOCLX.g:1022:4: this_VarReference_1= ruleVarReference
                     {
 
-                    			newCompositeNode(grammarAccess.getVarOrSelfExpAccess().getVarReferenceParserRuleCall_1());
-                    		
-                    pushFollow(FOLLOW_2);
+                    				newCompositeNode(grammarAccess.getNavigationExpAccess().getVarReferenceParserRuleCall_0_1());
+                    			
+                    pushFollow(FOLLOW_20);
                     this_VarReference_1=ruleVarReference();
 
                     state._fsp--;
 
 
-                    			current = this_VarReference_1;
-                    			afterParserOrEnumRuleCall();
-                    		
+                    				current = this_VarReference_1;
+                    				afterParserOrEnumRuleCall();
+                    			
 
                     }
                     break;
+
+            }
+
+            // InternalOCLX.g:1031:3: ( ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) ) )*
+            loop15:
+            do {
+                int alt15=2;
+                int LA15_0 = input.LA(1);
+
+                if ( (LA15_0==21||LA15_0==36) ) {
+                    alt15=1;
+                }
+
+
+                switch (alt15) {
+            	case 1 :
+            	    // InternalOCLX.g:1032:4: ( (lv_nav_2_0= ruleNavigationOperator ) ) ( (lv_methods_3_0= ruleMethodExp ) )
+            	    {
+            	    // InternalOCLX.g:1032:4: ( (lv_nav_2_0= ruleNavigationOperator ) )
+            	    // InternalOCLX.g:1033:5: (lv_nav_2_0= ruleNavigationOperator )
+            	    {
+            	    // InternalOCLX.g:1033:5: (lv_nav_2_0= ruleNavigationOperator )
+            	    // InternalOCLX.g:1034:6: lv_nav_2_0= ruleNavigationOperator
+            	    {
+
+            	    						newCompositeNode(grammarAccess.getNavigationExpAccess().getNavNavigationOperatorParserRuleCall_1_0_0());
+            	    					
+            	    pushFollow(FOLLOW_21);
+            	    lv_nav_2_0=ruleNavigationOperator();
+
+            	    state._fsp--;
+
+
+            	    						if (current==null) {
+            	    							current = createModelElementForParent(grammarAccess.getNavigationExpRule());
+            	    						}
+            	    						add(
+            	    							current,
+            	    							"nav",
+            	    							lv_nav_2_0,
+            	    							"at.jku.isse.OCLX.NavigationOperator");
+            	    						afterParserOrEnumRuleCall();
+            	    					
+
+            	    }
+
+
+            	    }
+
+            	    // InternalOCLX.g:1051:4: ( (lv_methods_3_0= ruleMethodExp ) )
+            	    // InternalOCLX.g:1052:5: (lv_methods_3_0= ruleMethodExp )
+            	    {
+            	    // InternalOCLX.g:1052:5: (lv_methods_3_0= ruleMethodExp )
+            	    // InternalOCLX.g:1053:6: lv_methods_3_0= ruleMethodExp
+            	    {
+
+            	    						newCompositeNode(grammarAccess.getNavigationExpAccess().getMethodsMethodExpParserRuleCall_1_1_0());
+            	    					
+            	    pushFollow(FOLLOW_20);
+            	    lv_methods_3_0=ruleMethodExp();
+
+            	    state._fsp--;
+
+
+            	    						if (current==null) {
+            	    							current = createModelElementForParent(grammarAccess.getNavigationExpRule());
+            	    						}
+            	    						add(
+            	    							current,
+            	    							"methods",
+            	    							lv_methods_3_0,
+            	    							"at.jku.isse.OCLX.MethodExp");
+            	    						afterParserOrEnumRuleCall();
+            	    					
+
+            	    }
+
+
+            	    }
+
+
+            	    }
+            	    break;
+
+            	default :
+            	    break loop15;
+                }
+            } while (true);
+
 
             }
 
@@ -2916,11 +2834,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         }
         return current;
     }
-    // $ANTLR end "ruleVarOrSelfExp"
+    // $ANTLR end "ruleNavigationExp"
 
 
     // $ANTLR start "entryRuleSelfExp"
-    // InternalOCLX.g:1100:1: entryRuleSelfExp returns [EObject current=null] : iv_ruleSelfExp= ruleSelfExp EOF ;
+    // InternalOCLX.g:1075:1: entryRuleSelfExp returns [EObject current=null] : iv_ruleSelfExp= ruleSelfExp EOF ;
     public final EObject entryRuleSelfExp() throws RecognitionException {
         EObject current = null;
 
@@ -2928,8 +2846,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1100:48: (iv_ruleSelfExp= ruleSelfExp EOF )
-            // InternalOCLX.g:1101:2: iv_ruleSelfExp= ruleSelfExp EOF
+            // InternalOCLX.g:1075:48: (iv_ruleSelfExp= ruleSelfExp EOF )
+            // InternalOCLX.g:1076:2: iv_ruleSelfExp= ruleSelfExp EOF
             {
              newCompositeNode(grammarAccess.getSelfExpRule()); 
             pushFollow(FOLLOW_1);
@@ -2956,7 +2874,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleSelfExp"
-    // InternalOCLX.g:1107:1: ruleSelfExp returns [EObject current=null] : ( () ( (lv_name_1_0= 'self' ) ) ) ;
+    // InternalOCLX.g:1082:1: ruleSelfExp returns [EObject current=null] : ( () ( (lv_name_1_0= 'self' ) ) ) ;
     public final EObject ruleSelfExp() throws RecognitionException {
         EObject current = null;
 
@@ -2966,14 +2884,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1113:2: ( ( () ( (lv_name_1_0= 'self' ) ) ) )
-            // InternalOCLX.g:1114:2: ( () ( (lv_name_1_0= 'self' ) ) )
+            // InternalOCLX.g:1088:2: ( ( () ( (lv_name_1_0= 'self' ) ) ) )
+            // InternalOCLX.g:1089:2: ( () ( (lv_name_1_0= 'self' ) ) )
             {
-            // InternalOCLX.g:1114:2: ( () ( (lv_name_1_0= 'self' ) ) )
-            // InternalOCLX.g:1115:3: () ( (lv_name_1_0= 'self' ) )
+            // InternalOCLX.g:1089:2: ( () ( (lv_name_1_0= 'self' ) ) )
+            // InternalOCLX.g:1090:3: () ( (lv_name_1_0= 'self' ) )
             {
-            // InternalOCLX.g:1115:3: ()
-            // InternalOCLX.g:1116:4: 
+            // InternalOCLX.g:1090:3: ()
+            // InternalOCLX.g:1091:4: 
             {
 
             				current = forceCreateModelElement(
@@ -2983,11 +2901,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalOCLX.g:1122:3: ( (lv_name_1_0= 'self' ) )
-            // InternalOCLX.g:1123:4: (lv_name_1_0= 'self' )
+            // InternalOCLX.g:1097:3: ( (lv_name_1_0= 'self' ) )
+            // InternalOCLX.g:1098:4: (lv_name_1_0= 'self' )
             {
-            // InternalOCLX.g:1123:4: (lv_name_1_0= 'self' )
-            // InternalOCLX.g:1124:5: lv_name_1_0= 'self'
+            // InternalOCLX.g:1098:4: (lv_name_1_0= 'self' )
+            // InternalOCLX.g:1099:5: lv_name_1_0= 'self'
             {
             lv_name_1_0=(Token)match(input,40,FOLLOW_2); 
 
@@ -3028,7 +2946,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleVarDeclaration"
-    // InternalOCLX.g:1140:1: entryRuleVarDeclaration returns [EObject current=null] : iv_ruleVarDeclaration= ruleVarDeclaration EOF ;
+    // InternalOCLX.g:1115:1: entryRuleVarDeclaration returns [EObject current=null] : iv_ruleVarDeclaration= ruleVarDeclaration EOF ;
     public final EObject entryRuleVarDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -3036,8 +2954,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1140:55: (iv_ruleVarDeclaration= ruleVarDeclaration EOF )
-            // InternalOCLX.g:1141:2: iv_ruleVarDeclaration= ruleVarDeclaration EOF
+            // InternalOCLX.g:1115:55: (iv_ruleVarDeclaration= ruleVarDeclaration EOF )
+            // InternalOCLX.g:1116:2: iv_ruleVarDeclaration= ruleVarDeclaration EOF
             {
              newCompositeNode(grammarAccess.getVarDeclarationRule()); 
             pushFollow(FOLLOW_1);
@@ -3064,7 +2982,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVarDeclaration"
-    // InternalOCLX.g:1147:1: ruleVarDeclaration returns [EObject current=null] : ( (lv_name_0_0= ruleSimpleName ) ) ;
+    // InternalOCLX.g:1122:1: ruleVarDeclaration returns [EObject current=null] : ( (lv_name_0_0= ruleSimpleName ) ) ;
     public final EObject ruleVarDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -3075,14 +2993,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1153:2: ( ( (lv_name_0_0= ruleSimpleName ) ) )
-            // InternalOCLX.g:1154:2: ( (lv_name_0_0= ruleSimpleName ) )
+            // InternalOCLX.g:1128:2: ( ( (lv_name_0_0= ruleSimpleName ) ) )
+            // InternalOCLX.g:1129:2: ( (lv_name_0_0= ruleSimpleName ) )
             {
-            // InternalOCLX.g:1154:2: ( (lv_name_0_0= ruleSimpleName ) )
-            // InternalOCLX.g:1155:3: (lv_name_0_0= ruleSimpleName )
+            // InternalOCLX.g:1129:2: ( (lv_name_0_0= ruleSimpleName ) )
+            // InternalOCLX.g:1130:3: (lv_name_0_0= ruleSimpleName )
             {
-            // InternalOCLX.g:1155:3: (lv_name_0_0= ruleSimpleName )
-            // InternalOCLX.g:1156:4: lv_name_0_0= ruleSimpleName
+            // InternalOCLX.g:1130:3: (lv_name_0_0= ruleSimpleName )
+            // InternalOCLX.g:1131:4: lv_name_0_0= ruleSimpleName
             {
 
             				newCompositeNode(grammarAccess.getVarDeclarationAccess().getNameSimpleNameParserRuleCall_0());
@@ -3129,7 +3047,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleVarReference"
-    // InternalOCLX.g:1176:1: entryRuleVarReference returns [EObject current=null] : iv_ruleVarReference= ruleVarReference EOF ;
+    // InternalOCLX.g:1151:1: entryRuleVarReference returns [EObject current=null] : iv_ruleVarReference= ruleVarReference EOF ;
     public final EObject entryRuleVarReference() throws RecognitionException {
         EObject current = null;
 
@@ -3137,8 +3055,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1176:53: (iv_ruleVarReference= ruleVarReference EOF )
-            // InternalOCLX.g:1177:2: iv_ruleVarReference= ruleVarReference EOF
+            // InternalOCLX.g:1151:53: (iv_ruleVarReference= ruleVarReference EOF )
+            // InternalOCLX.g:1152:2: iv_ruleVarReference= ruleVarReference EOF
             {
              newCompositeNode(grammarAccess.getVarReferenceRule()); 
             pushFollow(FOLLOW_1);
@@ -3165,7 +3083,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleVarReference"
-    // InternalOCLX.g:1183:1: ruleVarReference returns [EObject current=null] : ( (otherlv_0= RULE_ID ) ) ;
+    // InternalOCLX.g:1158:1: ruleVarReference returns [EObject current=null] : ( (otherlv_0= RULE_ID ) ) ;
     public final EObject ruleVarReference() throws RecognitionException {
         EObject current = null;
 
@@ -3175,14 +3093,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1189:2: ( ( (otherlv_0= RULE_ID ) ) )
-            // InternalOCLX.g:1190:2: ( (otherlv_0= RULE_ID ) )
+            // InternalOCLX.g:1164:2: ( ( (otherlv_0= RULE_ID ) ) )
+            // InternalOCLX.g:1165:2: ( (otherlv_0= RULE_ID ) )
             {
-            // InternalOCLX.g:1190:2: ( (otherlv_0= RULE_ID ) )
-            // InternalOCLX.g:1191:3: (otherlv_0= RULE_ID )
+            // InternalOCLX.g:1165:2: ( (otherlv_0= RULE_ID ) )
+            // InternalOCLX.g:1166:3: (otherlv_0= RULE_ID )
             {
-            // InternalOCLX.g:1191:3: (otherlv_0= RULE_ID )
-            // InternalOCLX.g:1192:4: otherlv_0= RULE_ID
+            // InternalOCLX.g:1166:3: (otherlv_0= RULE_ID )
+            // InternalOCLX.g:1167:4: otherlv_0= RULE_ID
             {
 
             				if (current==null) {
@@ -3219,7 +3137,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePrimitiveLiteralExp"
-    // InternalOCLX.g:1206:1: entryRulePrimitiveLiteralExp returns [EObject current=null] : iv_rulePrimitiveLiteralExp= rulePrimitiveLiteralExp EOF ;
+    // InternalOCLX.g:1181:1: entryRulePrimitiveLiteralExp returns [EObject current=null] : iv_rulePrimitiveLiteralExp= rulePrimitiveLiteralExp EOF ;
     public final EObject entryRulePrimitiveLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3227,8 +3145,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1206:60: (iv_rulePrimitiveLiteralExp= rulePrimitiveLiteralExp EOF )
-            // InternalOCLX.g:1207:2: iv_rulePrimitiveLiteralExp= rulePrimitiveLiteralExp EOF
+            // InternalOCLX.g:1181:60: (iv_rulePrimitiveLiteralExp= rulePrimitiveLiteralExp EOF )
+            // InternalOCLX.g:1182:2: iv_rulePrimitiveLiteralExp= rulePrimitiveLiteralExp EOF
             {
              newCompositeNode(grammarAccess.getPrimitiveLiteralExpRule()); 
             pushFollow(FOLLOW_1);
@@ -3255,7 +3173,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePrimitiveLiteralExp"
-    // InternalOCLX.g:1213:1: rulePrimitiveLiteralExp returns [EObject current=null] : (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp ) ;
+    // InternalOCLX.g:1188:1: rulePrimitiveLiteralExp returns [EObject current=null] : (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp ) ;
     public final EObject rulePrimitiveLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3272,10 +3190,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1219:2: ( (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp ) )
-            // InternalOCLX.g:1220:2: (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp )
+            // InternalOCLX.g:1194:2: ( (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp ) )
+            // InternalOCLX.g:1195:2: (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp )
             {
-            // InternalOCLX.g:1220:2: (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp )
+            // InternalOCLX.g:1195:2: (this_IntLiteralExp_0= ruleIntLiteralExp | this_StringLiteralExp_1= ruleStringLiteralExp | this_BooleanLiteralExp_2= ruleBooleanLiteralExp | this_FloatLiteralExp_3= ruleFloatLiteralExp )
             int alt16=4;
             switch ( input.LA(1) ) {
             case RULE_INT:
@@ -3316,7 +3234,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt16) {
                 case 1 :
-                    // InternalOCLX.g:1221:3: this_IntLiteralExp_0= ruleIntLiteralExp
+                    // InternalOCLX.g:1196:3: this_IntLiteralExp_0= ruleIntLiteralExp
                     {
 
                     			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getIntLiteralExpParserRuleCall_0());
@@ -3334,7 +3252,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1230:3: this_StringLiteralExp_1= ruleStringLiteralExp
+                    // InternalOCLX.g:1205:3: this_StringLiteralExp_1= ruleStringLiteralExp
                     {
 
                     			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getStringLiteralExpParserRuleCall_1());
@@ -3352,7 +3270,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:1239:3: this_BooleanLiteralExp_2= ruleBooleanLiteralExp
+                    // InternalOCLX.g:1214:3: this_BooleanLiteralExp_2= ruleBooleanLiteralExp
                     {
 
                     			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getBooleanLiteralExpParserRuleCall_2());
@@ -3370,7 +3288,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalOCLX.g:1248:3: this_FloatLiteralExp_3= ruleFloatLiteralExp
+                    // InternalOCLX.g:1223:3: this_FloatLiteralExp_3= ruleFloatLiteralExp
                     {
 
                     			newCompositeNode(grammarAccess.getPrimitiveLiteralExpAccess().getFloatLiteralExpParserRuleCall_3());
@@ -3410,7 +3328,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleIntLiteralExp"
-    // InternalOCLX.g:1260:1: entryRuleIntLiteralExp returns [EObject current=null] : iv_ruleIntLiteralExp= ruleIntLiteralExp EOF ;
+    // InternalOCLX.g:1235:1: entryRuleIntLiteralExp returns [EObject current=null] : iv_ruleIntLiteralExp= ruleIntLiteralExp EOF ;
     public final EObject entryRuleIntLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3418,8 +3336,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1260:54: (iv_ruleIntLiteralExp= ruleIntLiteralExp EOF )
-            // InternalOCLX.g:1261:2: iv_ruleIntLiteralExp= ruleIntLiteralExp EOF
+            // InternalOCLX.g:1235:54: (iv_ruleIntLiteralExp= ruleIntLiteralExp EOF )
+            // InternalOCLX.g:1236:2: iv_ruleIntLiteralExp= ruleIntLiteralExp EOF
             {
              newCompositeNode(grammarAccess.getIntLiteralExpRule()); 
             pushFollow(FOLLOW_1);
@@ -3446,7 +3364,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIntLiteralExp"
-    // InternalOCLX.g:1267:1: ruleIntLiteralExp returns [EObject current=null] : ( (lv_value_0_0= RULE_INT ) ) ;
+    // InternalOCLX.g:1242:1: ruleIntLiteralExp returns [EObject current=null] : ( (lv_value_0_0= RULE_INT ) ) ;
     public final EObject ruleIntLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3456,14 +3374,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1273:2: ( ( (lv_value_0_0= RULE_INT ) ) )
-            // InternalOCLX.g:1274:2: ( (lv_value_0_0= RULE_INT ) )
+            // InternalOCLX.g:1248:2: ( ( (lv_value_0_0= RULE_INT ) ) )
+            // InternalOCLX.g:1249:2: ( (lv_value_0_0= RULE_INT ) )
             {
-            // InternalOCLX.g:1274:2: ( (lv_value_0_0= RULE_INT ) )
-            // InternalOCLX.g:1275:3: (lv_value_0_0= RULE_INT )
+            // InternalOCLX.g:1249:2: ( (lv_value_0_0= RULE_INT ) )
+            // InternalOCLX.g:1250:3: (lv_value_0_0= RULE_INT )
             {
-            // InternalOCLX.g:1275:3: (lv_value_0_0= RULE_INT )
-            // InternalOCLX.g:1276:4: lv_value_0_0= RULE_INT
+            // InternalOCLX.g:1250:3: (lv_value_0_0= RULE_INT )
+            // InternalOCLX.g:1251:4: lv_value_0_0= RULE_INT
             {
             lv_value_0_0=(Token)match(input,RULE_INT,FOLLOW_2); 
 
@@ -3505,7 +3423,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleStringLiteralExp"
-    // InternalOCLX.g:1295:1: entryRuleStringLiteralExp returns [EObject current=null] : iv_ruleStringLiteralExp= ruleStringLiteralExp EOF ;
+    // InternalOCLX.g:1270:1: entryRuleStringLiteralExp returns [EObject current=null] : iv_ruleStringLiteralExp= ruleStringLiteralExp EOF ;
     public final EObject entryRuleStringLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3513,8 +3431,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1295:57: (iv_ruleStringLiteralExp= ruleStringLiteralExp EOF )
-            // InternalOCLX.g:1296:2: iv_ruleStringLiteralExp= ruleStringLiteralExp EOF
+            // InternalOCLX.g:1270:57: (iv_ruleStringLiteralExp= ruleStringLiteralExp EOF )
+            // InternalOCLX.g:1271:2: iv_ruleStringLiteralExp= ruleStringLiteralExp EOF
             {
              newCompositeNode(grammarAccess.getStringLiteralExpRule()); 
             pushFollow(FOLLOW_1);
@@ -3541,7 +3459,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleStringLiteralExp"
-    // InternalOCLX.g:1302:1: ruleStringLiteralExp returns [EObject current=null] : ( (lv_value_0_0= RULE_STRING ) ) ;
+    // InternalOCLX.g:1277:1: ruleStringLiteralExp returns [EObject current=null] : ( (lv_value_0_0= RULE_STRING ) ) ;
     public final EObject ruleStringLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3551,14 +3469,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1308:2: ( ( (lv_value_0_0= RULE_STRING ) ) )
-            // InternalOCLX.g:1309:2: ( (lv_value_0_0= RULE_STRING ) )
+            // InternalOCLX.g:1283:2: ( ( (lv_value_0_0= RULE_STRING ) ) )
+            // InternalOCLX.g:1284:2: ( (lv_value_0_0= RULE_STRING ) )
             {
-            // InternalOCLX.g:1309:2: ( (lv_value_0_0= RULE_STRING ) )
-            // InternalOCLX.g:1310:3: (lv_value_0_0= RULE_STRING )
+            // InternalOCLX.g:1284:2: ( (lv_value_0_0= RULE_STRING ) )
+            // InternalOCLX.g:1285:3: (lv_value_0_0= RULE_STRING )
             {
-            // InternalOCLX.g:1310:3: (lv_value_0_0= RULE_STRING )
-            // InternalOCLX.g:1311:4: lv_value_0_0= RULE_STRING
+            // InternalOCLX.g:1285:3: (lv_value_0_0= RULE_STRING )
+            // InternalOCLX.g:1286:4: lv_value_0_0= RULE_STRING
             {
             lv_value_0_0=(Token)match(input,RULE_STRING,FOLLOW_2); 
 
@@ -3600,7 +3518,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleBooleanLiteralExp"
-    // InternalOCLX.g:1330:1: entryRuleBooleanLiteralExp returns [EObject current=null] : iv_ruleBooleanLiteralExp= ruleBooleanLiteralExp EOF ;
+    // InternalOCLX.g:1305:1: entryRuleBooleanLiteralExp returns [EObject current=null] : iv_ruleBooleanLiteralExp= ruleBooleanLiteralExp EOF ;
     public final EObject entryRuleBooleanLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3608,8 +3526,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1330:58: (iv_ruleBooleanLiteralExp= ruleBooleanLiteralExp EOF )
-            // InternalOCLX.g:1331:2: iv_ruleBooleanLiteralExp= ruleBooleanLiteralExp EOF
+            // InternalOCLX.g:1305:58: (iv_ruleBooleanLiteralExp= ruleBooleanLiteralExp EOF )
+            // InternalOCLX.g:1306:2: iv_ruleBooleanLiteralExp= ruleBooleanLiteralExp EOF
             {
              newCompositeNode(grammarAccess.getBooleanLiteralExpRule()); 
             pushFollow(FOLLOW_1);
@@ -3636,7 +3554,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleBooleanLiteralExp"
-    // InternalOCLX.g:1337:1: ruleBooleanLiteralExp returns [EObject current=null] : ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) ) ;
+    // InternalOCLX.g:1312:1: ruleBooleanLiteralExp returns [EObject current=null] : ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) ) ;
     public final EObject ruleBooleanLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3647,10 +3565,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1343:2: ( ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) ) )
-            // InternalOCLX.g:1344:2: ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) )
+            // InternalOCLX.g:1318:2: ( ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) ) )
+            // InternalOCLX.g:1319:2: ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) )
             {
-            // InternalOCLX.g:1344:2: ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) )
+            // InternalOCLX.g:1319:2: ( ( (lv_value_0_0= 'true' ) ) | ( (lv_value_1_0= 'false' ) ) )
             int alt17=2;
             int LA17_0 = input.LA(1);
 
@@ -3668,13 +3586,13 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             }
             switch (alt17) {
                 case 1 :
-                    // InternalOCLX.g:1345:3: ( (lv_value_0_0= 'true' ) )
+                    // InternalOCLX.g:1320:3: ( (lv_value_0_0= 'true' ) )
                     {
-                    // InternalOCLX.g:1345:3: ( (lv_value_0_0= 'true' ) )
-                    // InternalOCLX.g:1346:4: (lv_value_0_0= 'true' )
+                    // InternalOCLX.g:1320:3: ( (lv_value_0_0= 'true' ) )
+                    // InternalOCLX.g:1321:4: (lv_value_0_0= 'true' )
                     {
-                    // InternalOCLX.g:1346:4: (lv_value_0_0= 'true' )
-                    // InternalOCLX.g:1347:5: lv_value_0_0= 'true'
+                    // InternalOCLX.g:1321:4: (lv_value_0_0= 'true' )
+                    // InternalOCLX.g:1322:5: lv_value_0_0= 'true'
                     {
                     lv_value_0_0=(Token)match(input,41,FOLLOW_2); 
 
@@ -3696,13 +3614,13 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1360:3: ( (lv_value_1_0= 'false' ) )
+                    // InternalOCLX.g:1335:3: ( (lv_value_1_0= 'false' ) )
                     {
-                    // InternalOCLX.g:1360:3: ( (lv_value_1_0= 'false' ) )
-                    // InternalOCLX.g:1361:4: (lv_value_1_0= 'false' )
+                    // InternalOCLX.g:1335:3: ( (lv_value_1_0= 'false' ) )
+                    // InternalOCLX.g:1336:4: (lv_value_1_0= 'false' )
                     {
-                    // InternalOCLX.g:1361:4: (lv_value_1_0= 'false' )
-                    // InternalOCLX.g:1362:5: lv_value_1_0= 'false'
+                    // InternalOCLX.g:1336:4: (lv_value_1_0= 'false' )
+                    // InternalOCLX.g:1337:5: lv_value_1_0= 'false'
                     {
                     lv_value_1_0=(Token)match(input,42,FOLLOW_2); 
 
@@ -3746,7 +3664,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleFloatLiteralExp"
-    // InternalOCLX.g:1378:1: entryRuleFloatLiteralExp returns [EObject current=null] : iv_ruleFloatLiteralExp= ruleFloatLiteralExp EOF ;
+    // InternalOCLX.g:1353:1: entryRuleFloatLiteralExp returns [EObject current=null] : iv_ruleFloatLiteralExp= ruleFloatLiteralExp EOF ;
     public final EObject entryRuleFloatLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3754,8 +3672,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1378:56: (iv_ruleFloatLiteralExp= ruleFloatLiteralExp EOF )
-            // InternalOCLX.g:1379:2: iv_ruleFloatLiteralExp= ruleFloatLiteralExp EOF
+            // InternalOCLX.g:1353:56: (iv_ruleFloatLiteralExp= ruleFloatLiteralExp EOF )
+            // InternalOCLX.g:1354:2: iv_ruleFloatLiteralExp= ruleFloatLiteralExp EOF
             {
              newCompositeNode(grammarAccess.getFloatLiteralExpRule()); 
             pushFollow(FOLLOW_1);
@@ -3782,7 +3700,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleFloatLiteralExp"
-    // InternalOCLX.g:1385:1: ruleFloatLiteralExp returns [EObject current=null] : ( (lv_value_0_0= ruleFloat ) ) ;
+    // InternalOCLX.g:1360:1: ruleFloatLiteralExp returns [EObject current=null] : ( (lv_value_0_0= ruleFloat ) ) ;
     public final EObject ruleFloatLiteralExp() throws RecognitionException {
         EObject current = null;
 
@@ -3793,14 +3711,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1391:2: ( ( (lv_value_0_0= ruleFloat ) ) )
-            // InternalOCLX.g:1392:2: ( (lv_value_0_0= ruleFloat ) )
+            // InternalOCLX.g:1366:2: ( ( (lv_value_0_0= ruleFloat ) ) )
+            // InternalOCLX.g:1367:2: ( (lv_value_0_0= ruleFloat ) )
             {
-            // InternalOCLX.g:1392:2: ( (lv_value_0_0= ruleFloat ) )
-            // InternalOCLX.g:1393:3: (lv_value_0_0= ruleFloat )
+            // InternalOCLX.g:1367:2: ( (lv_value_0_0= ruleFloat ) )
+            // InternalOCLX.g:1368:3: (lv_value_0_0= ruleFloat )
             {
-            // InternalOCLX.g:1393:3: (lv_value_0_0= ruleFloat )
-            // InternalOCLX.g:1394:4: lv_value_0_0= ruleFloat
+            // InternalOCLX.g:1368:3: (lv_value_0_0= ruleFloat )
+            // InternalOCLX.g:1369:4: lv_value_0_0= ruleFloat
             {
 
             				newCompositeNode(grammarAccess.getFloatLiteralExpAccess().getValueFloatParserRuleCall_0());
@@ -3847,7 +3765,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMethodExp"
-    // InternalOCLX.g:1414:1: entryRuleMethodExp returns [EObject current=null] : iv_ruleMethodExp= ruleMethodExp EOF ;
+    // InternalOCLX.g:1389:1: entryRuleMethodExp returns [EObject current=null] : iv_ruleMethodExp= ruleMethodExp EOF ;
     public final EObject entryRuleMethodExp() throws RecognitionException {
         EObject current = null;
 
@@ -3855,8 +3773,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1414:50: (iv_ruleMethodExp= ruleMethodExp EOF )
-            // InternalOCLX.g:1415:2: iv_ruleMethodExp= ruleMethodExp EOF
+            // InternalOCLX.g:1389:50: (iv_ruleMethodExp= ruleMethodExp EOF )
+            // InternalOCLX.g:1390:2: iv_ruleMethodExp= ruleMethodExp EOF
             {
              newCompositeNode(grammarAccess.getMethodExpRule()); 
             pushFollow(FOLLOW_1);
@@ -3883,7 +3801,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMethodExp"
-    // InternalOCLX.g:1421:1: ruleMethodExp returns [EObject current=null] : (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall ) ;
+    // InternalOCLX.g:1396:1: ruleMethodExp returns [EObject current=null] : (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall ) ;
     public final EObject ruleMethodExp() throws RecognitionException {
         EObject current = null;
 
@@ -3900,10 +3818,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1427:2: ( (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall ) )
-            // InternalOCLX.g:1428:2: (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall )
+            // InternalOCLX.g:1402:2: ( (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall ) )
+            // InternalOCLX.g:1403:2: (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall )
             {
-            // InternalOCLX.g:1428:2: (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall )
+            // InternalOCLX.g:1403:2: (this_PropertyAccess_0= rulePropertyAccess | this_MethodCall_1= ruleMethodCall | this_CollectionIterator_2= ruleCollectionIterator | this_TypeCall_3= ruleTypeCall )
             int alt18=4;
             switch ( input.LA(1) ) {
             case RULE_ID:
@@ -3949,7 +3867,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt18) {
                 case 1 :
-                    // InternalOCLX.g:1429:3: this_PropertyAccess_0= rulePropertyAccess
+                    // InternalOCLX.g:1404:3: this_PropertyAccess_0= rulePropertyAccess
                     {
 
                     			newCompositeNode(grammarAccess.getMethodExpAccess().getPropertyAccessParserRuleCall_0());
@@ -3967,7 +3885,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1438:3: this_MethodCall_1= ruleMethodCall
+                    // InternalOCLX.g:1413:3: this_MethodCall_1= ruleMethodCall
                     {
 
                     			newCompositeNode(grammarAccess.getMethodExpAccess().getMethodCallParserRuleCall_1());
@@ -3985,7 +3903,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:1447:3: this_CollectionIterator_2= ruleCollectionIterator
+                    // InternalOCLX.g:1422:3: this_CollectionIterator_2= ruleCollectionIterator
                     {
 
                     			newCompositeNode(grammarAccess.getMethodExpAccess().getCollectionIteratorParserRuleCall_2());
@@ -4003,7 +3921,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalOCLX.g:1456:3: this_TypeCall_3= ruleTypeCall
+                    // InternalOCLX.g:1431:3: this_TypeCall_3= ruleTypeCall
                     {
 
                     			newCompositeNode(grammarAccess.getMethodExpAccess().getTypeCallParserRuleCall_3());
@@ -4043,7 +3961,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleCollectionIterator"
-    // InternalOCLX.g:1468:1: entryRuleCollectionIterator returns [EObject current=null] : iv_ruleCollectionIterator= ruleCollectionIterator EOF ;
+    // InternalOCLX.g:1443:1: entryRuleCollectionIterator returns [EObject current=null] : iv_ruleCollectionIterator= ruleCollectionIterator EOF ;
     public final EObject entryRuleCollectionIterator() throws RecognitionException {
         EObject current = null;
 
@@ -4051,8 +3969,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1468:59: (iv_ruleCollectionIterator= ruleCollectionIterator EOF )
-            // InternalOCLX.g:1469:2: iv_ruleCollectionIterator= ruleCollectionIterator EOF
+            // InternalOCLX.g:1443:59: (iv_ruleCollectionIterator= ruleCollectionIterator EOF )
+            // InternalOCLX.g:1444:2: iv_ruleCollectionIterator= ruleCollectionIterator EOF
             {
              newCompositeNode(grammarAccess.getCollectionIteratorRule()); 
             pushFollow(FOLLOW_1);
@@ -4079,7 +3997,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleCollectionIterator"
-    // InternalOCLX.g:1475:1: ruleCollectionIterator returns [EObject current=null] : ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:1450:1: ruleCollectionIterator returns [EObject current=null] : ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleCollectionIterator() throws RecognitionException {
         EObject current = null;
 
@@ -4097,17 +4015,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1481:2: ( ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:1482:2: ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:1456:2: ( ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:1457:2: ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:1482:2: ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:1483:3: ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:1457:2: ( ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:1458:3: ( (lv_name_0_0= ruleIteratorName ) ) otherlv_1= '(' ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) ) otherlv_3= '|' ( (lv_body_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:1483:3: ( (lv_name_0_0= ruleIteratorName ) )
-            // InternalOCLX.g:1484:4: (lv_name_0_0= ruleIteratorName )
+            // InternalOCLX.g:1458:3: ( (lv_name_0_0= ruleIteratorName ) )
+            // InternalOCLX.g:1459:4: (lv_name_0_0= ruleIteratorName )
             {
-            // InternalOCLX.g:1484:4: (lv_name_0_0= ruleIteratorName )
-            // InternalOCLX.g:1485:5: lv_name_0_0= ruleIteratorName
+            // InternalOCLX.g:1459:4: (lv_name_0_0= ruleIteratorName )
+            // InternalOCLX.g:1460:5: lv_name_0_0= ruleIteratorName
             {
 
             					newCompositeNode(grammarAccess.getCollectionIteratorAccess().getNameIteratorNameParserRuleCall_0_0());
@@ -4138,11 +4056,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getCollectionIteratorAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:1506:3: ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) )
-            // InternalOCLX.g:1507:4: (lv_itervar_2_0= ruleIteratorVarDeclaration )
+            // InternalOCLX.g:1481:3: ( (lv_itervar_2_0= ruleIteratorVarDeclaration ) )
+            // InternalOCLX.g:1482:4: (lv_itervar_2_0= ruleIteratorVarDeclaration )
             {
-            // InternalOCLX.g:1507:4: (lv_itervar_2_0= ruleIteratorVarDeclaration )
-            // InternalOCLX.g:1508:5: lv_itervar_2_0= ruleIteratorVarDeclaration
+            // InternalOCLX.g:1482:4: (lv_itervar_2_0= ruleIteratorVarDeclaration )
+            // InternalOCLX.g:1483:5: lv_itervar_2_0= ruleIteratorVarDeclaration
             {
 
             					newCompositeNode(grammarAccess.getCollectionIteratorAccess().getItervarIteratorVarDeclarationParserRuleCall_2_0());
@@ -4173,16 +4091,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getCollectionIteratorAccess().getVerticalLineKeyword_3());
             		
-            // InternalOCLX.g:1529:3: ( (lv_body_4_0= ruleExp ) )
-            // InternalOCLX.g:1530:4: (lv_body_4_0= ruleExp )
+            // InternalOCLX.g:1504:3: ( (lv_body_4_0= ruleExp ) )
+            // InternalOCLX.g:1505:4: (lv_body_4_0= ruleExp )
             {
-            // InternalOCLX.g:1530:4: (lv_body_4_0= ruleExp )
-            // InternalOCLX.g:1531:5: lv_body_4_0= ruleExp
+            // InternalOCLX.g:1505:4: (lv_body_4_0= ruleExp )
+            // InternalOCLX.g:1506:5: lv_body_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getCollectionIteratorAccess().getBodyExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_body_4_0=ruleExp();
 
             state._fsp--;
@@ -4231,7 +4149,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleIteratorName"
-    // InternalOCLX.g:1556:1: entryRuleIteratorName returns [EObject current=null] : iv_ruleIteratorName= ruleIteratorName EOF ;
+    // InternalOCLX.g:1531:1: entryRuleIteratorName returns [EObject current=null] : iv_ruleIteratorName= ruleIteratorName EOF ;
     public final EObject entryRuleIteratorName() throws RecognitionException {
         EObject current = null;
 
@@ -4239,8 +4157,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1556:53: (iv_ruleIteratorName= ruleIteratorName EOF )
-            // InternalOCLX.g:1557:2: iv_ruleIteratorName= ruleIteratorName EOF
+            // InternalOCLX.g:1531:53: (iv_ruleIteratorName= ruleIteratorName EOF )
+            // InternalOCLX.g:1532:2: iv_ruleIteratorName= ruleIteratorName EOF
             {
              newCompositeNode(grammarAccess.getIteratorNameRule()); 
             pushFollow(FOLLOW_1);
@@ -4267,7 +4185,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIteratorName"
-    // InternalOCLX.g:1563:1: ruleIteratorName returns [EObject current=null] : ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) ) ;
+    // InternalOCLX.g:1538:1: ruleIteratorName returns [EObject current=null] : ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) ) ;
     public final EObject ruleIteratorName() throws RecognitionException {
         EObject current = null;
 
@@ -4281,16 +4199,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1569:2: ( ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) ) )
-            // InternalOCLX.g:1570:2: ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) )
+            // InternalOCLX.g:1544:2: ( ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) ) )
+            // InternalOCLX.g:1545:2: ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) )
             {
-            // InternalOCLX.g:1570:2: ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) )
-            // InternalOCLX.g:1571:3: ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) )
+            // InternalOCLX.g:1545:2: ( ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) ) )
+            // InternalOCLX.g:1546:3: ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) )
             {
-            // InternalOCLX.g:1571:3: ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) )
-            // InternalOCLX.g:1572:4: (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' )
+            // InternalOCLX.g:1546:3: ( (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' ) )
+            // InternalOCLX.g:1547:4: (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' )
             {
-            // InternalOCLX.g:1572:4: (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' )
+            // InternalOCLX.g:1547:4: (lv_name_0_1= 'forAll' | lv_name_0_2= 'exists' | lv_name_0_3= 'collect' | lv_name_0_4= 'reject' | lv_name_0_5= 'select' )
             int alt19=5;
             switch ( input.LA(1) ) {
             case 44:
@@ -4327,7 +4245,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt19) {
                 case 1 :
-                    // InternalOCLX.g:1573:5: lv_name_0_1= 'forAll'
+                    // InternalOCLX.g:1548:5: lv_name_0_1= 'forAll'
                     {
                     lv_name_0_1=(Token)match(input,44,FOLLOW_2); 
 
@@ -4343,7 +4261,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1584:5: lv_name_0_2= 'exists'
+                    // InternalOCLX.g:1559:5: lv_name_0_2= 'exists'
                     {
                     lv_name_0_2=(Token)match(input,45,FOLLOW_2); 
 
@@ -4359,7 +4277,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:1595:5: lv_name_0_3= 'collect'
+                    // InternalOCLX.g:1570:5: lv_name_0_3= 'collect'
                     {
                     lv_name_0_3=(Token)match(input,46,FOLLOW_2); 
 
@@ -4375,7 +4293,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalOCLX.g:1606:5: lv_name_0_4= 'reject'
+                    // InternalOCLX.g:1581:5: lv_name_0_4= 'reject'
                     {
                     lv_name_0_4=(Token)match(input,47,FOLLOW_2); 
 
@@ -4391,7 +4309,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalOCLX.g:1617:5: lv_name_0_5= 'select'
+                    // InternalOCLX.g:1592:5: lv_name_0_5= 'select'
                     {
                     lv_name_0_5=(Token)match(input,48,FOLLOW_2); 
 
@@ -4435,7 +4353,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleIteratorVarDeclaration"
-    // InternalOCLX.g:1633:1: entryRuleIteratorVarDeclaration returns [EObject current=null] : iv_ruleIteratorVarDeclaration= ruleIteratorVarDeclaration EOF ;
+    // InternalOCLX.g:1608:1: entryRuleIteratorVarDeclaration returns [EObject current=null] : iv_ruleIteratorVarDeclaration= ruleIteratorVarDeclaration EOF ;
     public final EObject entryRuleIteratorVarDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -4443,8 +4361,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1633:63: (iv_ruleIteratorVarDeclaration= ruleIteratorVarDeclaration EOF )
-            // InternalOCLX.g:1634:2: iv_ruleIteratorVarDeclaration= ruleIteratorVarDeclaration EOF
+            // InternalOCLX.g:1608:63: (iv_ruleIteratorVarDeclaration= ruleIteratorVarDeclaration EOF )
+            // InternalOCLX.g:1609:2: iv_ruleIteratorVarDeclaration= ruleIteratorVarDeclaration EOF
             {
              newCompositeNode(grammarAccess.getIteratorVarDeclarationRule()); 
             pushFollow(FOLLOW_1);
@@ -4471,7 +4389,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleIteratorVarDeclaration"
-    // InternalOCLX.g:1640:1: ruleIteratorVarDeclaration returns [EObject current=null] : ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) ) ;
+    // InternalOCLX.g:1615:1: ruleIteratorVarDeclaration returns [EObject current=null] : ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) ) ;
     public final EObject ruleIteratorVarDeclaration() throws RecognitionException {
         EObject current = null;
 
@@ -4487,10 +4405,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1646:2: ( ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) ) )
-            // InternalOCLX.g:1647:2: ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) )
+            // InternalOCLX.g:1621:2: ( ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) ) )
+            // InternalOCLX.g:1622:2: ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) )
             {
-            // InternalOCLX.g:1647:2: ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) )
+            // InternalOCLX.g:1622:2: ( ( (lv_name_0_0= ruleVarDeclaration ) ) | ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) ) )
             int alt20=2;
             int LA20_0 = input.LA(1);
 
@@ -4518,13 +4436,13 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             }
             switch (alt20) {
                 case 1 :
-                    // InternalOCLX.g:1648:3: ( (lv_name_0_0= ruleVarDeclaration ) )
+                    // InternalOCLX.g:1623:3: ( (lv_name_0_0= ruleVarDeclaration ) )
                     {
-                    // InternalOCLX.g:1648:3: ( (lv_name_0_0= ruleVarDeclaration ) )
-                    // InternalOCLX.g:1649:4: (lv_name_0_0= ruleVarDeclaration )
+                    // InternalOCLX.g:1623:3: ( (lv_name_0_0= ruleVarDeclaration ) )
+                    // InternalOCLX.g:1624:4: (lv_name_0_0= ruleVarDeclaration )
                     {
-                    // InternalOCLX.g:1649:4: (lv_name_0_0= ruleVarDeclaration )
-                    // InternalOCLX.g:1650:5: lv_name_0_0= ruleVarDeclaration
+                    // InternalOCLX.g:1624:4: (lv_name_0_0= ruleVarDeclaration )
+                    // InternalOCLX.g:1625:5: lv_name_0_0= ruleVarDeclaration
                     {
 
                     					newCompositeNode(grammarAccess.getIteratorVarDeclarationAccess().getNameVarDeclarationParserRuleCall_0_0());
@@ -4555,16 +4473,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1668:3: ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) )
+                    // InternalOCLX.g:1643:3: ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) )
                     {
-                    // InternalOCLX.g:1668:3: ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) )
-                    // InternalOCLX.g:1669:4: ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) )
+                    // InternalOCLX.g:1643:3: ( ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) ) )
+                    // InternalOCLX.g:1644:4: ( (lv_name_1_0= ruleVarDeclaration ) ) otherlv_2= ':' ( (lv_type_3_0= ruleTypeExp ) )
                     {
-                    // InternalOCLX.g:1669:4: ( (lv_name_1_0= ruleVarDeclaration ) )
-                    // InternalOCLX.g:1670:5: (lv_name_1_0= ruleVarDeclaration )
+                    // InternalOCLX.g:1644:4: ( (lv_name_1_0= ruleVarDeclaration ) )
+                    // InternalOCLX.g:1645:5: (lv_name_1_0= ruleVarDeclaration )
                     {
-                    // InternalOCLX.g:1670:5: (lv_name_1_0= ruleVarDeclaration )
-                    // InternalOCLX.g:1671:6: lv_name_1_0= ruleVarDeclaration
+                    // InternalOCLX.g:1645:5: (lv_name_1_0= ruleVarDeclaration )
+                    // InternalOCLX.g:1646:6: lv_name_1_0= ruleVarDeclaration
                     {
 
                     						newCompositeNode(grammarAccess.getIteratorVarDeclarationAccess().getNameVarDeclarationParserRuleCall_1_0_0());
@@ -4595,11 +4513,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
                     				newLeafNode(otherlv_2, grammarAccess.getIteratorVarDeclarationAccess().getColonKeyword_1_1());
                     			
-                    // InternalOCLX.g:1692:4: ( (lv_type_3_0= ruleTypeExp ) )
-                    // InternalOCLX.g:1693:5: (lv_type_3_0= ruleTypeExp )
+                    // InternalOCLX.g:1667:4: ( (lv_type_3_0= ruleTypeExp ) )
+                    // InternalOCLX.g:1668:5: (lv_type_3_0= ruleTypeExp )
                     {
-                    // InternalOCLX.g:1693:5: (lv_type_3_0= ruleTypeExp )
-                    // InternalOCLX.g:1694:6: lv_type_3_0= ruleTypeExp
+                    // InternalOCLX.g:1668:5: (lv_type_3_0= ruleTypeExp )
+                    // InternalOCLX.g:1669:6: lv_type_3_0= ruleTypeExp
                     {
 
                     						newCompositeNode(grammarAccess.getIteratorVarDeclarationAccess().getTypeTypeExpParserRuleCall_1_2_0());
@@ -4655,7 +4573,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRulePropertyAccess"
-    // InternalOCLX.g:1716:1: entryRulePropertyAccess returns [EObject current=null] : iv_rulePropertyAccess= rulePropertyAccess EOF ;
+    // InternalOCLX.g:1691:1: entryRulePropertyAccess returns [EObject current=null] : iv_rulePropertyAccess= rulePropertyAccess EOF ;
     public final EObject entryRulePropertyAccess() throws RecognitionException {
         EObject current = null;
 
@@ -4663,8 +4581,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1716:55: (iv_rulePropertyAccess= rulePropertyAccess EOF )
-            // InternalOCLX.g:1717:2: iv_rulePropertyAccess= rulePropertyAccess EOF
+            // InternalOCLX.g:1691:55: (iv_rulePropertyAccess= rulePropertyAccess EOF )
+            // InternalOCLX.g:1692:2: iv_rulePropertyAccess= rulePropertyAccess EOF
             {
              newCompositeNode(grammarAccess.getPropertyAccessRule()); 
             pushFollow(FOLLOW_1);
@@ -4691,7 +4609,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "rulePropertyAccess"
-    // InternalOCLX.g:1723:1: rulePropertyAccess returns [EObject current=null] : ( (lv_name_0_0= ruleSimpleName ) ) ;
+    // InternalOCLX.g:1698:1: rulePropertyAccess returns [EObject current=null] : ( (lv_name_0_0= ruleSimpleName ) ) ;
     public final EObject rulePropertyAccess() throws RecognitionException {
         EObject current = null;
 
@@ -4702,14 +4620,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1729:2: ( ( (lv_name_0_0= ruleSimpleName ) ) )
-            // InternalOCLX.g:1730:2: ( (lv_name_0_0= ruleSimpleName ) )
+            // InternalOCLX.g:1704:2: ( ( (lv_name_0_0= ruleSimpleName ) ) )
+            // InternalOCLX.g:1705:2: ( (lv_name_0_0= ruleSimpleName ) )
             {
-            // InternalOCLX.g:1730:2: ( (lv_name_0_0= ruleSimpleName ) )
-            // InternalOCLX.g:1731:3: (lv_name_0_0= ruleSimpleName )
+            // InternalOCLX.g:1705:2: ( (lv_name_0_0= ruleSimpleName ) )
+            // InternalOCLX.g:1706:3: (lv_name_0_0= ruleSimpleName )
             {
-            // InternalOCLX.g:1731:3: (lv_name_0_0= ruleSimpleName )
-            // InternalOCLX.g:1732:4: lv_name_0_0= ruleSimpleName
+            // InternalOCLX.g:1706:3: (lv_name_0_0= ruleSimpleName )
+            // InternalOCLX.g:1707:4: lv_name_0_0= ruleSimpleName
             {
 
             				newCompositeNode(grammarAccess.getPropertyAccessAccess().getNameSimpleNameParserRuleCall_0());
@@ -4756,7 +4674,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleMethodCall"
-    // InternalOCLX.g:1752:1: entryRuleMethodCall returns [EObject current=null] : iv_ruleMethodCall= ruleMethodCall EOF ;
+    // InternalOCLX.g:1727:1: entryRuleMethodCall returns [EObject current=null] : iv_ruleMethodCall= ruleMethodCall EOF ;
     public final EObject entryRuleMethodCall() throws RecognitionException {
         EObject current = null;
 
@@ -4764,8 +4682,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1752:51: (iv_ruleMethodCall= ruleMethodCall EOF )
-            // InternalOCLX.g:1753:2: iv_ruleMethodCall= ruleMethodCall EOF
+            // InternalOCLX.g:1727:51: (iv_ruleMethodCall= ruleMethodCall EOF )
+            // InternalOCLX.g:1728:2: iv_ruleMethodCall= ruleMethodCall EOF
             {
              newCompositeNode(grammarAccess.getMethodCallRule()); 
             pushFollow(FOLLOW_1);
@@ -4792,7 +4710,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleMethodCall"
-    // InternalOCLX.g:1759:1: ruleMethodCall returns [EObject current=null] : ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) ) ;
+    // InternalOCLX.g:1734:1: ruleMethodCall returns [EObject current=null] : ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) ) ;
     public final EObject ruleMethodCall() throws RecognitionException {
         EObject current = null;
 
@@ -4810,10 +4728,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1765:2: ( ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) ) )
-            // InternalOCLX.g:1766:2: ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:1740:2: ( ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) ) )
+            // InternalOCLX.g:1741:2: ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) )
             {
-            // InternalOCLX.g:1766:2: ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:1741:2: ( ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' ) | ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' ) )
             int alt21=2;
             int LA21_0 = input.LA(1);
 
@@ -4841,16 +4759,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             }
             switch (alt21) {
                 case 1 :
-                    // InternalOCLX.g:1767:3: ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' )
+                    // InternalOCLX.g:1742:3: ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' )
                     {
-                    // InternalOCLX.g:1767:3: ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' )
-                    // InternalOCLX.g:1768:4: ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()'
+                    // InternalOCLX.g:1742:3: ( ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()' )
+                    // InternalOCLX.g:1743:4: ( (lv_name_0_0= ruleSimpleName ) ) otherlv_1= '()'
                     {
-                    // InternalOCLX.g:1768:4: ( (lv_name_0_0= ruleSimpleName ) )
-                    // InternalOCLX.g:1769:5: (lv_name_0_0= ruleSimpleName )
+                    // InternalOCLX.g:1743:4: ( (lv_name_0_0= ruleSimpleName ) )
+                    // InternalOCLX.g:1744:5: (lv_name_0_0= ruleSimpleName )
                     {
-                    // InternalOCLX.g:1769:5: (lv_name_0_0= ruleSimpleName )
-                    // InternalOCLX.g:1770:6: lv_name_0_0= ruleSimpleName
+                    // InternalOCLX.g:1744:5: (lv_name_0_0= ruleSimpleName )
+                    // InternalOCLX.g:1745:6: lv_name_0_0= ruleSimpleName
                     {
 
                     						newCompositeNode(grammarAccess.getMethodCallAccess().getNameSimpleNameParserRuleCall_0_0_0());
@@ -4888,16 +4806,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1793:3: ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' )
+                    // InternalOCLX.g:1768:3: ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' )
                     {
-                    // InternalOCLX.g:1793:3: ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' )
-                    // InternalOCLX.g:1794:4: ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')'
+                    // InternalOCLX.g:1768:3: ( ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')' )
+                    // InternalOCLX.g:1769:4: ( (lv_name_2_0= ruleSimpleName ) ) otherlv_3= '(' ( (lv_args_4_0= ruleArgumentsExp ) ) otherlv_5= ')'
                     {
-                    // InternalOCLX.g:1794:4: ( (lv_name_2_0= ruleSimpleName ) )
-                    // InternalOCLX.g:1795:5: (lv_name_2_0= ruleSimpleName )
+                    // InternalOCLX.g:1769:4: ( (lv_name_2_0= ruleSimpleName ) )
+                    // InternalOCLX.g:1770:5: (lv_name_2_0= ruleSimpleName )
                     {
-                    // InternalOCLX.g:1795:5: (lv_name_2_0= ruleSimpleName )
-                    // InternalOCLX.g:1796:6: lv_name_2_0= ruleSimpleName
+                    // InternalOCLX.g:1770:5: (lv_name_2_0= ruleSimpleName )
+                    // InternalOCLX.g:1771:6: lv_name_2_0= ruleSimpleName
                     {
 
                     						newCompositeNode(grammarAccess.getMethodCallAccess().getNameSimpleNameParserRuleCall_1_0_0());
@@ -4928,16 +4846,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
                     				newLeafNode(otherlv_3, grammarAccess.getMethodCallAccess().getLeftParenthesisKeyword_1_1());
                     			
-                    // InternalOCLX.g:1817:4: ( (lv_args_4_0= ruleArgumentsExp ) )
-                    // InternalOCLX.g:1818:5: (lv_args_4_0= ruleArgumentsExp )
+                    // InternalOCLX.g:1792:4: ( (lv_args_4_0= ruleArgumentsExp ) )
+                    // InternalOCLX.g:1793:5: (lv_args_4_0= ruleArgumentsExp )
                     {
-                    // InternalOCLX.g:1818:5: (lv_args_4_0= ruleArgumentsExp )
-                    // InternalOCLX.g:1819:6: lv_args_4_0= ruleArgumentsExp
+                    // InternalOCLX.g:1793:5: (lv_args_4_0= ruleArgumentsExp )
+                    // InternalOCLX.g:1794:6: lv_args_4_0= ruleArgumentsExp
                     {
 
                     						newCompositeNode(grammarAccess.getMethodCallAccess().getArgsArgumentsExpParserRuleCall_1_2_0());
                     					
-                    pushFollow(FOLLOW_21);
+                    pushFollow(FOLLOW_19);
                     lv_args_4_0=ruleArgumentsExp();
 
                     state._fsp--;
@@ -4992,7 +4910,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeCall"
-    // InternalOCLX.g:1845:1: entryRuleTypeCall returns [EObject current=null] : iv_ruleTypeCall= ruleTypeCall EOF ;
+    // InternalOCLX.g:1820:1: entryRuleTypeCall returns [EObject current=null] : iv_ruleTypeCall= ruleTypeCall EOF ;
     public final EObject entryRuleTypeCall() throws RecognitionException {
         EObject current = null;
 
@@ -5000,8 +4918,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1845:49: (iv_ruleTypeCall= ruleTypeCall EOF )
-            // InternalOCLX.g:1846:2: iv_ruleTypeCall= ruleTypeCall EOF
+            // InternalOCLX.g:1820:49: (iv_ruleTypeCall= ruleTypeCall EOF )
+            // InternalOCLX.g:1821:2: iv_ruleTypeCall= ruleTypeCall EOF
             {
              newCompositeNode(grammarAccess.getTypeCallRule()); 
             pushFollow(FOLLOW_1);
@@ -5028,7 +4946,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeCall"
-    // InternalOCLX.g:1852:1: ruleTypeCall returns [EObject current=null] : ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' ) ;
+    // InternalOCLX.g:1827:1: ruleTypeCall returns [EObject current=null] : ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' ) ;
     public final EObject ruleTypeCall() throws RecognitionException {
         EObject current = null;
 
@@ -5044,19 +4962,19 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1858:2: ( ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' ) )
-            // InternalOCLX.g:1859:2: ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' )
+            // InternalOCLX.g:1833:2: ( ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' ) )
+            // InternalOCLX.g:1834:2: ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' )
             {
-            // InternalOCLX.g:1859:2: ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' )
-            // InternalOCLX.g:1860:3: ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')'
+            // InternalOCLX.g:1834:2: ( ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')' )
+            // InternalOCLX.g:1835:3: ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) ) otherlv_1= '(' ( (lv_type_2_0= ruleTypeExp ) ) otherlv_3= ')'
             {
-            // InternalOCLX.g:1860:3: ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) )
-            // InternalOCLX.g:1861:4: ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) )
+            // InternalOCLX.g:1835:3: ( ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) ) )
+            // InternalOCLX.g:1836:4: ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) )
             {
-            // InternalOCLX.g:1861:4: ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) )
-            // InternalOCLX.g:1862:5: (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' )
+            // InternalOCLX.g:1836:4: ( (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' ) )
+            // InternalOCLX.g:1837:5: (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' )
             {
-            // InternalOCLX.g:1862:5: (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' )
+            // InternalOCLX.g:1837:5: (lv_name_0_1= 'asType' | lv_name_0_2= 'isTypeOf' | lv_name_0_3= 'isKindOf' )
             int alt22=3;
             switch ( input.LA(1) ) {
             case 51:
@@ -5083,7 +5001,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt22) {
                 case 1 :
-                    // InternalOCLX.g:1863:6: lv_name_0_1= 'asType'
+                    // InternalOCLX.g:1838:6: lv_name_0_1= 'asType'
                     {
                     lv_name_0_1=(Token)match(input,51,FOLLOW_22); 
 
@@ -5099,7 +5017,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1874:6: lv_name_0_2= 'isTypeOf'
+                    // InternalOCLX.g:1849:6: lv_name_0_2= 'isTypeOf'
                     {
                     lv_name_0_2=(Token)match(input,52,FOLLOW_22); 
 
@@ -5115,7 +5033,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:1885:6: lv_name_0_3= 'isKindOf'
+                    // InternalOCLX.g:1860:6: lv_name_0_3= 'isKindOf'
                     {
                     lv_name_0_3=(Token)match(input,53,FOLLOW_22); 
 
@@ -5143,16 +5061,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getTypeCallAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:1902:3: ( (lv_type_2_0= ruleTypeExp ) )
-            // InternalOCLX.g:1903:4: (lv_type_2_0= ruleTypeExp )
+            // InternalOCLX.g:1877:3: ( (lv_type_2_0= ruleTypeExp ) )
+            // InternalOCLX.g:1878:4: (lv_type_2_0= ruleTypeExp )
             {
-            // InternalOCLX.g:1903:4: (lv_type_2_0= ruleTypeExp )
-            // InternalOCLX.g:1904:5: lv_type_2_0= ruleTypeExp
+            // InternalOCLX.g:1878:4: (lv_type_2_0= ruleTypeExp )
+            // InternalOCLX.g:1879:5: lv_type_2_0= ruleTypeExp
             {
 
             					newCompositeNode(grammarAccess.getTypeCallAccess().getTypeTypeExpParserRuleCall_2_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_type_2_0=ruleTypeExp();
 
             state._fsp--;
@@ -5201,7 +5119,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTypeExp"
-    // InternalOCLX.g:1929:1: entryRuleTypeExp returns [EObject current=null] : iv_ruleTypeExp= ruleTypeExp EOF ;
+    // InternalOCLX.g:1904:1: entryRuleTypeExp returns [EObject current=null] : iv_ruleTypeExp= ruleTypeExp EOF ;
     public final EObject entryRuleTypeExp() throws RecognitionException {
         EObject current = null;
 
@@ -5209,8 +5127,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1929:48: (iv_ruleTypeExp= ruleTypeExp EOF )
-            // InternalOCLX.g:1930:2: iv_ruleTypeExp= ruleTypeExp EOF
+            // InternalOCLX.g:1904:48: (iv_ruleTypeExp= ruleTypeExp EOF )
+            // InternalOCLX.g:1905:2: iv_ruleTypeExp= ruleTypeExp EOF
             {
              newCompositeNode(grammarAccess.getTypeExpRule()); 
             pushFollow(FOLLOW_1);
@@ -5237,7 +5155,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTypeExp"
-    // InternalOCLX.g:1936:1: ruleTypeExp returns [EObject current=null] : ( () ( (lv_name_1_0= RULE_URI ) ) ) ;
+    // InternalOCLX.g:1911:1: ruleTypeExp returns [EObject current=null] : ( () ( (lv_name_1_0= RULE_URI ) ) ) ;
     public final EObject ruleTypeExp() throws RecognitionException {
         EObject current = null;
 
@@ -5247,14 +5165,14 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1942:2: ( ( () ( (lv_name_1_0= RULE_URI ) ) ) )
-            // InternalOCLX.g:1943:2: ( () ( (lv_name_1_0= RULE_URI ) ) )
+            // InternalOCLX.g:1917:2: ( ( () ( (lv_name_1_0= RULE_URI ) ) ) )
+            // InternalOCLX.g:1918:2: ( () ( (lv_name_1_0= RULE_URI ) ) )
             {
-            // InternalOCLX.g:1943:2: ( () ( (lv_name_1_0= RULE_URI ) ) )
-            // InternalOCLX.g:1944:3: () ( (lv_name_1_0= RULE_URI ) )
+            // InternalOCLX.g:1918:2: ( () ( (lv_name_1_0= RULE_URI ) ) )
+            // InternalOCLX.g:1919:3: () ( (lv_name_1_0= RULE_URI ) )
             {
-            // InternalOCLX.g:1944:3: ()
-            // InternalOCLX.g:1945:4: 
+            // InternalOCLX.g:1919:3: ()
+            // InternalOCLX.g:1920:4: 
             {
 
             				current = forceCreateModelElement(
@@ -5264,11 +5182,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalOCLX.g:1951:3: ( (lv_name_1_0= RULE_URI ) )
-            // InternalOCLX.g:1952:4: (lv_name_1_0= RULE_URI )
+            // InternalOCLX.g:1926:3: ( (lv_name_1_0= RULE_URI ) )
+            // InternalOCLX.g:1927:4: (lv_name_1_0= RULE_URI )
             {
-            // InternalOCLX.g:1952:4: (lv_name_1_0= RULE_URI )
-            // InternalOCLX.g:1953:5: lv_name_1_0= RULE_URI
+            // InternalOCLX.g:1927:4: (lv_name_1_0= RULE_URI )
+            // InternalOCLX.g:1928:5: lv_name_1_0= RULE_URI
             {
             lv_name_1_0=(Token)match(input,RULE_URI,FOLLOW_2); 
 
@@ -5313,7 +5231,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTemporalExp"
-    // InternalOCLX.g:1973:1: entryRuleTemporalExp returns [EObject current=null] : iv_ruleTemporalExp= ruleTemporalExp EOF ;
+    // InternalOCLX.g:1948:1: entryRuleTemporalExp returns [EObject current=null] : iv_ruleTemporalExp= ruleTemporalExp EOF ;
     public final EObject entryRuleTemporalExp() throws RecognitionException {
         EObject current = null;
 
@@ -5321,8 +5239,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:1973:52: (iv_ruleTemporalExp= ruleTemporalExp EOF )
-            // InternalOCLX.g:1974:2: iv_ruleTemporalExp= ruleTemporalExp EOF
+            // InternalOCLX.g:1948:52: (iv_ruleTemporalExp= ruleTemporalExp EOF )
+            // InternalOCLX.g:1949:2: iv_ruleTemporalExp= ruleTemporalExp EOF
             {
              newCompositeNode(grammarAccess.getTemporalExpRule()); 
             pushFollow(FOLLOW_1);
@@ -5349,7 +5267,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTemporalExp"
-    // InternalOCLX.g:1980:1: ruleTemporalExp returns [EObject current=null] : (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp ) ;
+    // InternalOCLX.g:1955:1: ruleTemporalExp returns [EObject current=null] : (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp ) ;
     public final EObject ruleTemporalExp() throws RecognitionException {
         EObject current = null;
 
@@ -5362,10 +5280,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:1986:2: ( (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp ) )
-            // InternalOCLX.g:1987:2: (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp )
+            // InternalOCLX.g:1961:2: ( (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp ) )
+            // InternalOCLX.g:1962:2: (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp )
             {
-            // InternalOCLX.g:1987:2: (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp )
+            // InternalOCLX.g:1962:2: (this_UnaryTemporalExp_0= ruleUnaryTemporalExp | this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp )
             int alt23=2;
             int LA23_0 = input.LA(1);
 
@@ -5383,7 +5301,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
             }
             switch (alt23) {
                 case 1 :
-                    // InternalOCLX.g:1988:3: this_UnaryTemporalExp_0= ruleUnaryTemporalExp
+                    // InternalOCLX.g:1963:3: this_UnaryTemporalExp_0= ruleUnaryTemporalExp
                     {
 
                     			newCompositeNode(grammarAccess.getTemporalExpAccess().getUnaryTemporalExpParserRuleCall_0());
@@ -5401,7 +5319,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:1997:3: this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp
+                    // InternalOCLX.g:1972:3: this_TriggeredTemporalExp_1= ruleTriggeredTemporalExp
                     {
 
                     			newCompositeNode(grammarAccess.getTemporalExpAccess().getTriggeredTemporalExpParserRuleCall_1());
@@ -5441,7 +5359,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleUnaryTemporalExp"
-    // InternalOCLX.g:2009:1: entryRuleUnaryTemporalExp returns [EObject current=null] : iv_ruleUnaryTemporalExp= ruleUnaryTemporalExp EOF ;
+    // InternalOCLX.g:1984:1: entryRuleUnaryTemporalExp returns [EObject current=null] : iv_ruleUnaryTemporalExp= ruleUnaryTemporalExp EOF ;
     public final EObject entryRuleUnaryTemporalExp() throws RecognitionException {
         EObject current = null;
 
@@ -5449,8 +5367,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2009:57: (iv_ruleUnaryTemporalExp= ruleUnaryTemporalExp EOF )
-            // InternalOCLX.g:2010:2: iv_ruleUnaryTemporalExp= ruleUnaryTemporalExp EOF
+            // InternalOCLX.g:1984:57: (iv_ruleUnaryTemporalExp= ruleUnaryTemporalExp EOF )
+            // InternalOCLX.g:1985:2: iv_ruleUnaryTemporalExp= ruleUnaryTemporalExp EOF
             {
              newCompositeNode(grammarAccess.getUnaryTemporalExpRule()); 
             pushFollow(FOLLOW_1);
@@ -5477,7 +5395,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleUnaryTemporalExp"
-    // InternalOCLX.g:2016:1: ruleUnaryTemporalExp returns [EObject current=null] : ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' ) ;
+    // InternalOCLX.g:1991:1: ruleUnaryTemporalExp returns [EObject current=null] : ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' ) ;
     public final EObject ruleUnaryTemporalExp() throws RecognitionException {
         EObject current = null;
 
@@ -5492,17 +5410,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2022:2: ( ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' ) )
-            // InternalOCLX.g:2023:2: ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' )
+            // InternalOCLX.g:1997:2: ( ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' ) )
+            // InternalOCLX.g:1998:2: ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' )
             {
-            // InternalOCLX.g:2023:2: ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' )
-            // InternalOCLX.g:2024:3: ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')'
+            // InternalOCLX.g:1998:2: ( ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')' )
+            // InternalOCLX.g:1999:3: ( (lv_name_0_0= ruleUnaryTemporalOp ) ) otherlv_1= '(' ( (lv_exp_2_0= ruleExp ) ) otherlv_3= ')'
             {
-            // InternalOCLX.g:2024:3: ( (lv_name_0_0= ruleUnaryTemporalOp ) )
-            // InternalOCLX.g:2025:4: (lv_name_0_0= ruleUnaryTemporalOp )
+            // InternalOCLX.g:1999:3: ( (lv_name_0_0= ruleUnaryTemporalOp ) )
+            // InternalOCLX.g:2000:4: (lv_name_0_0= ruleUnaryTemporalOp )
             {
-            // InternalOCLX.g:2025:4: (lv_name_0_0= ruleUnaryTemporalOp )
-            // InternalOCLX.g:2026:5: lv_name_0_0= ruleUnaryTemporalOp
+            // InternalOCLX.g:2000:4: (lv_name_0_0= ruleUnaryTemporalOp )
+            // InternalOCLX.g:2001:5: lv_name_0_0= ruleUnaryTemporalOp
             {
 
             					newCompositeNode(grammarAccess.getUnaryTemporalExpAccess().getNameUnaryTemporalOpParserRuleCall_0_0());
@@ -5533,16 +5451,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getUnaryTemporalExpAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2047:3: ( (lv_exp_2_0= ruleExp ) )
-            // InternalOCLX.g:2048:4: (lv_exp_2_0= ruleExp )
+            // InternalOCLX.g:2022:3: ( (lv_exp_2_0= ruleExp ) )
+            // InternalOCLX.g:2023:4: (lv_exp_2_0= ruleExp )
             {
-            // InternalOCLX.g:2048:4: (lv_exp_2_0= ruleExp )
-            // InternalOCLX.g:2049:5: lv_exp_2_0= ruleExp
+            // InternalOCLX.g:2023:4: (lv_exp_2_0= ruleExp )
+            // InternalOCLX.g:2024:5: lv_exp_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getUnaryTemporalExpAccess().getExpExpParserRuleCall_2_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_exp_2_0=ruleExp();
 
             state._fsp--;
@@ -5591,7 +5509,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleUnaryTemporalOp"
-    // InternalOCLX.g:2074:1: entryRuleUnaryTemporalOp returns [String current=null] : iv_ruleUnaryTemporalOp= ruleUnaryTemporalOp EOF ;
+    // InternalOCLX.g:2049:1: entryRuleUnaryTemporalOp returns [String current=null] : iv_ruleUnaryTemporalOp= ruleUnaryTemporalOp EOF ;
     public final String entryRuleUnaryTemporalOp() throws RecognitionException {
         String current = null;
 
@@ -5599,8 +5517,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2074:55: (iv_ruleUnaryTemporalOp= ruleUnaryTemporalOp EOF )
-            // InternalOCLX.g:2075:2: iv_ruleUnaryTemporalOp= ruleUnaryTemporalOp EOF
+            // InternalOCLX.g:2049:55: (iv_ruleUnaryTemporalOp= ruleUnaryTemporalOp EOF )
+            // InternalOCLX.g:2050:2: iv_ruleUnaryTemporalOp= ruleUnaryTemporalOp EOF
             {
              newCompositeNode(grammarAccess.getUnaryTemporalOpRule()); 
             pushFollow(FOLLOW_1);
@@ -5627,7 +5545,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleUnaryTemporalOp"
-    // InternalOCLX.g:2081:1: ruleUnaryTemporalOp returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'next' | kw= 'always' | kw= 'eventually' ) ;
+    // InternalOCLX.g:2056:1: ruleUnaryTemporalOp returns [AntlrDatatypeRuleToken current=new AntlrDatatypeRuleToken()] : (kw= 'next' | kw= 'always' | kw= 'eventually' ) ;
     public final AntlrDatatypeRuleToken ruleUnaryTemporalOp() throws RecognitionException {
         AntlrDatatypeRuleToken current = new AntlrDatatypeRuleToken();
 
@@ -5637,10 +5555,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2087:2: ( (kw= 'next' | kw= 'always' | kw= 'eventually' ) )
-            // InternalOCLX.g:2088:2: (kw= 'next' | kw= 'always' | kw= 'eventually' )
+            // InternalOCLX.g:2062:2: ( (kw= 'next' | kw= 'always' | kw= 'eventually' ) )
+            // InternalOCLX.g:2063:2: (kw= 'next' | kw= 'always' | kw= 'eventually' )
             {
-            // InternalOCLX.g:2088:2: (kw= 'next' | kw= 'always' | kw= 'eventually' )
+            // InternalOCLX.g:2063:2: (kw= 'next' | kw= 'always' | kw= 'eventually' )
             int alt24=3;
             switch ( input.LA(1) ) {
             case 54:
@@ -5667,7 +5585,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt24) {
                 case 1 :
-                    // InternalOCLX.g:2089:3: kw= 'next'
+                    // InternalOCLX.g:2064:3: kw= 'next'
                     {
                     kw=(Token)match(input,54,FOLLOW_2); 
 
@@ -5678,7 +5596,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:2095:3: kw= 'always'
+                    // InternalOCLX.g:2070:3: kw= 'always'
                     {
                     kw=(Token)match(input,55,FOLLOW_2); 
 
@@ -5689,7 +5607,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:2101:3: kw= 'eventually'
+                    // InternalOCLX.g:2076:3: kw= 'eventually'
                     {
                     kw=(Token)match(input,56,FOLLOW_2); 
 
@@ -5722,7 +5640,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTriggeredTemporalExp"
-    // InternalOCLX.g:2110:1: entryRuleTriggeredTemporalExp returns [EObject current=null] : iv_ruleTriggeredTemporalExp= ruleTriggeredTemporalExp EOF ;
+    // InternalOCLX.g:2085:1: entryRuleTriggeredTemporalExp returns [EObject current=null] : iv_ruleTriggeredTemporalExp= ruleTriggeredTemporalExp EOF ;
     public final EObject entryRuleTriggeredTemporalExp() throws RecognitionException {
         EObject current = null;
 
@@ -5730,8 +5648,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2110:61: (iv_ruleTriggeredTemporalExp= ruleTriggeredTemporalExp EOF )
-            // InternalOCLX.g:2111:2: iv_ruleTriggeredTemporalExp= ruleTriggeredTemporalExp EOF
+            // InternalOCLX.g:2085:61: (iv_ruleTriggeredTemporalExp= ruleTriggeredTemporalExp EOF )
+            // InternalOCLX.g:2086:2: iv_ruleTriggeredTemporalExp= ruleTriggeredTemporalExp EOF
             {
              newCompositeNode(grammarAccess.getTriggeredTemporalExpRule()); 
             pushFollow(FOLLOW_1);
@@ -5758,7 +5676,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTriggeredTemporalExp"
-    // InternalOCLX.g:2117:1: ruleTriggeredTemporalExp returns [EObject current=null] : (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime ) ;
+    // InternalOCLX.g:2092:1: ruleTriggeredTemporalExp returns [EObject current=null] : (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime ) ;
     public final EObject ruleTriggeredTemporalExp() throws RecognitionException {
         EObject current = null;
 
@@ -5781,10 +5699,10 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2123:2: ( (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime ) )
-            // InternalOCLX.g:2124:2: (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime )
+            // InternalOCLX.g:2098:2: ( (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime ) )
+            // InternalOCLX.g:2099:2: (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime )
             {
-            // InternalOCLX.g:2124:2: (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime )
+            // InternalOCLX.g:2099:2: (this_TemporalAsLongAs_0= ruleTemporalAsLongAs | this_TemporalUntil_1= ruleTemporalUntil | this_TemporalEverytime_2= ruleTemporalEverytime | this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce | this_LegacyUntil_4= ruleLegacyUntil | this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs | this_LegacyEverytime_6= ruleLegacyEverytime )
             int alt25=7;
             switch ( input.LA(1) ) {
             case 57:
@@ -5831,7 +5749,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             switch (alt25) {
                 case 1 :
-                    // InternalOCLX.g:2125:3: this_TemporalAsLongAs_0= ruleTemporalAsLongAs
+                    // InternalOCLX.g:2100:3: this_TemporalAsLongAs_0= ruleTemporalAsLongAs
                     {
 
                     			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalAsLongAsParserRuleCall_0());
@@ -5849,7 +5767,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 2 :
-                    // InternalOCLX.g:2134:3: this_TemporalUntil_1= ruleTemporalUntil
+                    // InternalOCLX.g:2109:3: this_TemporalUntil_1= ruleTemporalUntil
                     {
 
                     			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalUntilParserRuleCall_1());
@@ -5867,7 +5785,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 3 :
-                    // InternalOCLX.g:2143:3: this_TemporalEverytime_2= ruleTemporalEverytime
+                    // InternalOCLX.g:2118:3: this_TemporalEverytime_2= ruleTemporalEverytime
                     {
 
                     			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalEverytimeParserRuleCall_2());
@@ -5885,7 +5803,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 4 :
-                    // InternalOCLX.g:2152:3: this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce
+                    // InternalOCLX.g:2127:3: this_TemporalAtLeastOnce_3= ruleTemporalAtLeastOnce
                     {
 
                     			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getTemporalAtLeastOnceParserRuleCall_3());
@@ -5903,7 +5821,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 5 :
-                    // InternalOCLX.g:2161:3: this_LegacyUntil_4= ruleLegacyUntil
+                    // InternalOCLX.g:2136:3: this_LegacyUntil_4= ruleLegacyUntil
                     {
 
                     			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getLegacyUntilParserRuleCall_4());
@@ -5921,7 +5839,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 6 :
-                    // InternalOCLX.g:2170:3: this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs
+                    // InternalOCLX.g:2145:3: this_LegacyAsSoonAs_5= ruleLegacyAsSoonAs
                     {
 
                     			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getLegacyAsSoonAsParserRuleCall_5());
@@ -5939,7 +5857,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
                     }
                     break;
                 case 7 :
-                    // InternalOCLX.g:2179:3: this_LegacyEverytime_6= ruleLegacyEverytime
+                    // InternalOCLX.g:2154:3: this_LegacyEverytime_6= ruleLegacyEverytime
                     {
 
                     			newCompositeNode(grammarAccess.getTriggeredTemporalExpAccess().getLegacyEverytimeParserRuleCall_6());
@@ -5979,7 +5897,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTemporalAsLongAs"
-    // InternalOCLX.g:2191:1: entryRuleTemporalAsLongAs returns [EObject current=null] : iv_ruleTemporalAsLongAs= ruleTemporalAsLongAs EOF ;
+    // InternalOCLX.g:2166:1: entryRuleTemporalAsLongAs returns [EObject current=null] : iv_ruleTemporalAsLongAs= ruleTemporalAsLongAs EOF ;
     public final EObject entryRuleTemporalAsLongAs() throws RecognitionException {
         EObject current = null;
 
@@ -5987,8 +5905,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2191:57: (iv_ruleTemporalAsLongAs= ruleTemporalAsLongAs EOF )
-            // InternalOCLX.g:2192:2: iv_ruleTemporalAsLongAs= ruleTemporalAsLongAs EOF
+            // InternalOCLX.g:2166:57: (iv_ruleTemporalAsLongAs= ruleTemporalAsLongAs EOF )
+            // InternalOCLX.g:2167:2: iv_ruleTemporalAsLongAs= ruleTemporalAsLongAs EOF
             {
              newCompositeNode(grammarAccess.getTemporalAsLongAsRule()); 
             pushFollow(FOLLOW_1);
@@ -6015,7 +5933,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTemporalAsLongAs"
-    // InternalOCLX.g:2198:1: ruleTemporalAsLongAs returns [EObject current=null] : ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:2173:1: ruleTemporalAsLongAs returns [EObject current=null] : ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleTemporalAsLongAs() throws RecognitionException {
         EObject current = null;
 
@@ -6032,17 +5950,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2204:2: ( ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:2205:2: ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2179:2: ( ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:2180:2: ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:2205:2: ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:2206:3: ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:2180:2: ( ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2181:3: ( (lv_name_0_0= 'asLongAs' ) ) otherlv_1= '(' ( (lv_b_2_0= ruleExp ) ) otherlv_3= 'ensureThat' ( (lv_a_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:2206:3: ( (lv_name_0_0= 'asLongAs' ) )
-            // InternalOCLX.g:2207:4: (lv_name_0_0= 'asLongAs' )
+            // InternalOCLX.g:2181:3: ( (lv_name_0_0= 'asLongAs' ) )
+            // InternalOCLX.g:2182:4: (lv_name_0_0= 'asLongAs' )
             {
-            // InternalOCLX.g:2207:4: (lv_name_0_0= 'asLongAs' )
-            // InternalOCLX.g:2208:5: lv_name_0_0= 'asLongAs'
+            // InternalOCLX.g:2182:4: (lv_name_0_0= 'asLongAs' )
+            // InternalOCLX.g:2183:5: lv_name_0_0= 'asLongAs'
             {
             lv_name_0_0=(Token)match(input,57,FOLLOW_22); 
 
@@ -6064,11 +5982,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getTemporalAsLongAsAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2224:3: ( (lv_b_2_0= ruleExp ) )
-            // InternalOCLX.g:2225:4: (lv_b_2_0= ruleExp )
+            // InternalOCLX.g:2199:3: ( (lv_b_2_0= ruleExp ) )
+            // InternalOCLX.g:2200:4: (lv_b_2_0= ruleExp )
             {
-            // InternalOCLX.g:2225:4: (lv_b_2_0= ruleExp )
-            // InternalOCLX.g:2226:5: lv_b_2_0= ruleExp
+            // InternalOCLX.g:2200:4: (lv_b_2_0= ruleExp )
+            // InternalOCLX.g:2201:5: lv_b_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalAsLongAsAccess().getBExpParserRuleCall_2_0());
@@ -6099,16 +6017,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getTemporalAsLongAsAccess().getEnsureThatKeyword_3());
             		
-            // InternalOCLX.g:2247:3: ( (lv_a_4_0= ruleExp ) )
-            // InternalOCLX.g:2248:4: (lv_a_4_0= ruleExp )
+            // InternalOCLX.g:2222:3: ( (lv_a_4_0= ruleExp ) )
+            // InternalOCLX.g:2223:4: (lv_a_4_0= ruleExp )
             {
-            // InternalOCLX.g:2248:4: (lv_a_4_0= ruleExp )
-            // InternalOCLX.g:2249:5: lv_a_4_0= ruleExp
+            // InternalOCLX.g:2223:4: (lv_a_4_0= ruleExp )
+            // InternalOCLX.g:2224:5: lv_a_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalAsLongAsAccess().getAExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_a_4_0=ruleExp();
 
             state._fsp--;
@@ -6157,7 +6075,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTemporalUntil"
-    // InternalOCLX.g:2274:1: entryRuleTemporalUntil returns [EObject current=null] : iv_ruleTemporalUntil= ruleTemporalUntil EOF ;
+    // InternalOCLX.g:2249:1: entryRuleTemporalUntil returns [EObject current=null] : iv_ruleTemporalUntil= ruleTemporalUntil EOF ;
     public final EObject entryRuleTemporalUntil() throws RecognitionException {
         EObject current = null;
 
@@ -6165,8 +6083,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2274:54: (iv_ruleTemporalUntil= ruleTemporalUntil EOF )
-            // InternalOCLX.g:2275:2: iv_ruleTemporalUntil= ruleTemporalUntil EOF
+            // InternalOCLX.g:2249:54: (iv_ruleTemporalUntil= ruleTemporalUntil EOF )
+            // InternalOCLX.g:2250:2: iv_ruleTemporalUntil= ruleTemporalUntil EOF
             {
              newCompositeNode(grammarAccess.getTemporalUntilRule()); 
             pushFollow(FOLLOW_1);
@@ -6193,7 +6111,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTemporalUntil"
-    // InternalOCLX.g:2281:1: ruleTemporalUntil returns [EObject current=null] : ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:2256:1: ruleTemporalUntil returns [EObject current=null] : ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleTemporalUntil() throws RecognitionException {
         EObject current = null;
 
@@ -6210,17 +6128,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2287:2: ( ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:2288:2: ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2262:2: ( ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:2263:2: ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:2288:2: ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:2289:3: ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:2263:2: ( ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2264:3: ( (lv_name_0_0= 'ensureThat' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'asLongAs' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:2289:3: ( (lv_name_0_0= 'ensureThat' ) )
-            // InternalOCLX.g:2290:4: (lv_name_0_0= 'ensureThat' )
+            // InternalOCLX.g:2264:3: ( (lv_name_0_0= 'ensureThat' ) )
+            // InternalOCLX.g:2265:4: (lv_name_0_0= 'ensureThat' )
             {
-            // InternalOCLX.g:2290:4: (lv_name_0_0= 'ensureThat' )
-            // InternalOCLX.g:2291:5: lv_name_0_0= 'ensureThat'
+            // InternalOCLX.g:2265:4: (lv_name_0_0= 'ensureThat' )
+            // InternalOCLX.g:2266:5: lv_name_0_0= 'ensureThat'
             {
             lv_name_0_0=(Token)match(input,58,FOLLOW_22); 
 
@@ -6242,11 +6160,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getTemporalUntilAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2307:3: ( (lv_a_2_0= ruleExp ) )
-            // InternalOCLX.g:2308:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2282:3: ( (lv_a_2_0= ruleExp ) )
+            // InternalOCLX.g:2283:4: (lv_a_2_0= ruleExp )
             {
-            // InternalOCLX.g:2308:4: (lv_a_2_0= ruleExp )
-            // InternalOCLX.g:2309:5: lv_a_2_0= ruleExp
+            // InternalOCLX.g:2283:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2284:5: lv_a_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalUntilAccess().getAExpParserRuleCall_2_0());
@@ -6277,16 +6195,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getTemporalUntilAccess().getAsLongAsKeyword_3());
             		
-            // InternalOCLX.g:2330:3: ( (lv_b_4_0= ruleExp ) )
-            // InternalOCLX.g:2331:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2305:3: ( (lv_b_4_0= ruleExp ) )
+            // InternalOCLX.g:2306:4: (lv_b_4_0= ruleExp )
             {
-            // InternalOCLX.g:2331:4: (lv_b_4_0= ruleExp )
-            // InternalOCLX.g:2332:5: lv_b_4_0= ruleExp
+            // InternalOCLX.g:2306:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2307:5: lv_b_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalUntilAccess().getBExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_b_4_0=ruleExp();
 
             state._fsp--;
@@ -6335,7 +6253,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTemporalEverytime"
-    // InternalOCLX.g:2357:1: entryRuleTemporalEverytime returns [EObject current=null] : iv_ruleTemporalEverytime= ruleTemporalEverytime EOF ;
+    // InternalOCLX.g:2332:1: entryRuleTemporalEverytime returns [EObject current=null] : iv_ruleTemporalEverytime= ruleTemporalEverytime EOF ;
     public final EObject entryRuleTemporalEverytime() throws RecognitionException {
         EObject current = null;
 
@@ -6343,8 +6261,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2357:58: (iv_ruleTemporalEverytime= ruleTemporalEverytime EOF )
-            // InternalOCLX.g:2358:2: iv_ruleTemporalEverytime= ruleTemporalEverytime EOF
+            // InternalOCLX.g:2332:58: (iv_ruleTemporalEverytime= ruleTemporalEverytime EOF )
+            // InternalOCLX.g:2333:2: iv_ruleTemporalEverytime= ruleTemporalEverytime EOF
             {
              newCompositeNode(grammarAccess.getTemporalEverytimeRule()); 
             pushFollow(FOLLOW_1);
@@ -6371,7 +6289,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTemporalEverytime"
-    // InternalOCLX.g:2364:1: ruleTemporalEverytime returns [EObject current=null] : ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:2339:1: ruleTemporalEverytime returns [EObject current=null] : ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleTemporalEverytime() throws RecognitionException {
         EObject current = null;
 
@@ -6388,17 +6306,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2370:2: ( ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:2371:2: ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2345:2: ( ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:2346:2: ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:2371:2: ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:2372:3: ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:2346:2: ( ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2347:3: ( (lv_name_0_0= 'everyTime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'then' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:2372:3: ( (lv_name_0_0= 'everyTime' ) )
-            // InternalOCLX.g:2373:4: (lv_name_0_0= 'everyTime' )
+            // InternalOCLX.g:2347:3: ( (lv_name_0_0= 'everyTime' ) )
+            // InternalOCLX.g:2348:4: (lv_name_0_0= 'everyTime' )
             {
-            // InternalOCLX.g:2373:4: (lv_name_0_0= 'everyTime' )
-            // InternalOCLX.g:2374:5: lv_name_0_0= 'everyTime'
+            // InternalOCLX.g:2348:4: (lv_name_0_0= 'everyTime' )
+            // InternalOCLX.g:2349:5: lv_name_0_0= 'everyTime'
             {
             lv_name_0_0=(Token)match(input,59,FOLLOW_22); 
 
@@ -6420,11 +6338,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getTemporalEverytimeAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2390:3: ( (lv_a_2_0= ruleExp ) )
-            // InternalOCLX.g:2391:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2365:3: ( (lv_a_2_0= ruleExp ) )
+            // InternalOCLX.g:2366:4: (lv_a_2_0= ruleExp )
             {
-            // InternalOCLX.g:2391:4: (lv_a_2_0= ruleExp )
-            // InternalOCLX.g:2392:5: lv_a_2_0= ruleExp
+            // InternalOCLX.g:2366:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2367:5: lv_a_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalEverytimeAccess().getAExpParserRuleCall_2_0());
@@ -6455,16 +6373,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getTemporalEverytimeAccess().getThenKeyword_3());
             		
-            // InternalOCLX.g:2413:3: ( (lv_b_4_0= ruleExp ) )
-            // InternalOCLX.g:2414:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2388:3: ( (lv_b_4_0= ruleExp ) )
+            // InternalOCLX.g:2389:4: (lv_b_4_0= ruleExp )
             {
-            // InternalOCLX.g:2414:4: (lv_b_4_0= ruleExp )
-            // InternalOCLX.g:2415:5: lv_b_4_0= ruleExp
+            // InternalOCLX.g:2389:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2390:5: lv_b_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalEverytimeAccess().getBExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_b_4_0=ruleExp();
 
             state._fsp--;
@@ -6513,7 +6431,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleTemporalAtLeastOnce"
-    // InternalOCLX.g:2440:1: entryRuleTemporalAtLeastOnce returns [EObject current=null] : iv_ruleTemporalAtLeastOnce= ruleTemporalAtLeastOnce EOF ;
+    // InternalOCLX.g:2415:1: entryRuleTemporalAtLeastOnce returns [EObject current=null] : iv_ruleTemporalAtLeastOnce= ruleTemporalAtLeastOnce EOF ;
     public final EObject entryRuleTemporalAtLeastOnce() throws RecognitionException {
         EObject current = null;
 
@@ -6521,8 +6439,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2440:60: (iv_ruleTemporalAtLeastOnce= ruleTemporalAtLeastOnce EOF )
-            // InternalOCLX.g:2441:2: iv_ruleTemporalAtLeastOnce= ruleTemporalAtLeastOnce EOF
+            // InternalOCLX.g:2415:60: (iv_ruleTemporalAtLeastOnce= ruleTemporalAtLeastOnce EOF )
+            // InternalOCLX.g:2416:2: iv_ruleTemporalAtLeastOnce= ruleTemporalAtLeastOnce EOF
             {
              newCompositeNode(grammarAccess.getTemporalAtLeastOnceRule()); 
             pushFollow(FOLLOW_1);
@@ -6549,7 +6467,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleTemporalAtLeastOnce"
-    // InternalOCLX.g:2447:1: ruleTemporalAtLeastOnce returns [EObject current=null] : ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:2422:1: ruleTemporalAtLeastOnce returns [EObject current=null] : ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleTemporalAtLeastOnce() throws RecognitionException {
         EObject current = null;
 
@@ -6566,17 +6484,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2453:2: ( ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:2454:2: ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2428:2: ( ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:2429:2: ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:2454:2: ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:2455:3: ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:2429:2: ( ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2430:3: ( (lv_name_0_0= 'whenOnce' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= 'thenAtLeastOnce' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:2455:3: ( (lv_name_0_0= 'whenOnce' ) )
-            // InternalOCLX.g:2456:4: (lv_name_0_0= 'whenOnce' )
+            // InternalOCLX.g:2430:3: ( (lv_name_0_0= 'whenOnce' ) )
+            // InternalOCLX.g:2431:4: (lv_name_0_0= 'whenOnce' )
             {
-            // InternalOCLX.g:2456:4: (lv_name_0_0= 'whenOnce' )
-            // InternalOCLX.g:2457:5: lv_name_0_0= 'whenOnce'
+            // InternalOCLX.g:2431:4: (lv_name_0_0= 'whenOnce' )
+            // InternalOCLX.g:2432:5: lv_name_0_0= 'whenOnce'
             {
             lv_name_0_0=(Token)match(input,61,FOLLOW_22); 
 
@@ -6598,11 +6516,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getTemporalAtLeastOnceAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2473:3: ( (lv_a_2_0= ruleExp ) )
-            // InternalOCLX.g:2474:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2448:3: ( (lv_a_2_0= ruleExp ) )
+            // InternalOCLX.g:2449:4: (lv_a_2_0= ruleExp )
             {
-            // InternalOCLX.g:2474:4: (lv_a_2_0= ruleExp )
-            // InternalOCLX.g:2475:5: lv_a_2_0= ruleExp
+            // InternalOCLX.g:2449:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2450:5: lv_a_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalAtLeastOnceAccess().getAExpParserRuleCall_2_0());
@@ -6633,16 +6551,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getTemporalAtLeastOnceAccess().getThenAtLeastOnceKeyword_3());
             		
-            // InternalOCLX.g:2496:3: ( (lv_b_4_0= ruleExp ) )
-            // InternalOCLX.g:2497:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2471:3: ( (lv_b_4_0= ruleExp ) )
+            // InternalOCLX.g:2472:4: (lv_b_4_0= ruleExp )
             {
-            // InternalOCLX.g:2497:4: (lv_b_4_0= ruleExp )
-            // InternalOCLX.g:2498:5: lv_b_4_0= ruleExp
+            // InternalOCLX.g:2472:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2473:5: lv_b_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getTemporalAtLeastOnceAccess().getBExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_b_4_0=ruleExp();
 
             state._fsp--;
@@ -6691,7 +6609,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLegacyUntil"
-    // InternalOCLX.g:2523:1: entryRuleLegacyUntil returns [EObject current=null] : iv_ruleLegacyUntil= ruleLegacyUntil EOF ;
+    // InternalOCLX.g:2498:1: entryRuleLegacyUntil returns [EObject current=null] : iv_ruleLegacyUntil= ruleLegacyUntil EOF ;
     public final EObject entryRuleLegacyUntil() throws RecognitionException {
         EObject current = null;
 
@@ -6699,8 +6617,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2523:52: (iv_ruleLegacyUntil= ruleLegacyUntil EOF )
-            // InternalOCLX.g:2524:2: iv_ruleLegacyUntil= ruleLegacyUntil EOF
+            // InternalOCLX.g:2498:52: (iv_ruleLegacyUntil= ruleLegacyUntil EOF )
+            // InternalOCLX.g:2499:2: iv_ruleLegacyUntil= ruleLegacyUntil EOF
             {
              newCompositeNode(grammarAccess.getLegacyUntilRule()); 
             pushFollow(FOLLOW_1);
@@ -6727,7 +6645,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLegacyUntil"
-    // InternalOCLX.g:2530:1: ruleLegacyUntil returns [EObject current=null] : ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:2505:1: ruleLegacyUntil returns [EObject current=null] : ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleLegacyUntil() throws RecognitionException {
         EObject current = null;
 
@@ -6744,17 +6662,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2536:2: ( ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:2537:2: ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2511:2: ( ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:2512:2: ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:2537:2: ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:2538:3: ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:2512:2: ( ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2513:3: ( (lv_name_0_0= 'until' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:2538:3: ( (lv_name_0_0= 'until' ) )
-            // InternalOCLX.g:2539:4: (lv_name_0_0= 'until' )
+            // InternalOCLX.g:2513:3: ( (lv_name_0_0= 'until' ) )
+            // InternalOCLX.g:2514:4: (lv_name_0_0= 'until' )
             {
-            // InternalOCLX.g:2539:4: (lv_name_0_0= 'until' )
-            // InternalOCLX.g:2540:5: lv_name_0_0= 'until'
+            // InternalOCLX.g:2514:4: (lv_name_0_0= 'until' )
+            // InternalOCLX.g:2515:5: lv_name_0_0= 'until'
             {
             lv_name_0_0=(Token)match(input,63,FOLLOW_22); 
 
@@ -6776,11 +6694,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getLegacyUntilAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2556:3: ( (lv_a_2_0= ruleExp ) )
-            // InternalOCLX.g:2557:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2531:3: ( (lv_a_2_0= ruleExp ) )
+            // InternalOCLX.g:2532:4: (lv_a_2_0= ruleExp )
             {
-            // InternalOCLX.g:2557:4: (lv_a_2_0= ruleExp )
-            // InternalOCLX.g:2558:5: lv_a_2_0= ruleExp
+            // InternalOCLX.g:2532:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2533:5: lv_a_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getLegacyUntilAccess().getAExpParserRuleCall_2_0());
@@ -6811,16 +6729,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getLegacyUntilAccess().getCommaKeyword_3());
             		
-            // InternalOCLX.g:2579:3: ( (lv_b_4_0= ruleExp ) )
-            // InternalOCLX.g:2580:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2554:3: ( (lv_b_4_0= ruleExp ) )
+            // InternalOCLX.g:2555:4: (lv_b_4_0= ruleExp )
             {
-            // InternalOCLX.g:2580:4: (lv_b_4_0= ruleExp )
-            // InternalOCLX.g:2581:5: lv_b_4_0= ruleExp
+            // InternalOCLX.g:2555:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2556:5: lv_b_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getLegacyUntilAccess().getBExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_b_4_0=ruleExp();
 
             state._fsp--;
@@ -6869,7 +6787,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLegacyAsSoonAs"
-    // InternalOCLX.g:2606:1: entryRuleLegacyAsSoonAs returns [EObject current=null] : iv_ruleLegacyAsSoonAs= ruleLegacyAsSoonAs EOF ;
+    // InternalOCLX.g:2581:1: entryRuleLegacyAsSoonAs returns [EObject current=null] : iv_ruleLegacyAsSoonAs= ruleLegacyAsSoonAs EOF ;
     public final EObject entryRuleLegacyAsSoonAs() throws RecognitionException {
         EObject current = null;
 
@@ -6877,8 +6795,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2606:55: (iv_ruleLegacyAsSoonAs= ruleLegacyAsSoonAs EOF )
-            // InternalOCLX.g:2607:2: iv_ruleLegacyAsSoonAs= ruleLegacyAsSoonAs EOF
+            // InternalOCLX.g:2581:55: (iv_ruleLegacyAsSoonAs= ruleLegacyAsSoonAs EOF )
+            // InternalOCLX.g:2582:2: iv_ruleLegacyAsSoonAs= ruleLegacyAsSoonAs EOF
             {
              newCompositeNode(grammarAccess.getLegacyAsSoonAsRule()); 
             pushFollow(FOLLOW_1);
@@ -6905,7 +6823,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLegacyAsSoonAs"
-    // InternalOCLX.g:2613:1: ruleLegacyAsSoonAs returns [EObject current=null] : ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:2588:1: ruleLegacyAsSoonAs returns [EObject current=null] : ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleLegacyAsSoonAs() throws RecognitionException {
         EObject current = null;
 
@@ -6922,17 +6840,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2619:2: ( ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:2620:2: ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2594:2: ( ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:2595:2: ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:2620:2: ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:2621:3: ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:2595:2: ( ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2596:3: ( (lv_name_0_0= 'asSoonAs' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:2621:3: ( (lv_name_0_0= 'asSoonAs' ) )
-            // InternalOCLX.g:2622:4: (lv_name_0_0= 'asSoonAs' )
+            // InternalOCLX.g:2596:3: ( (lv_name_0_0= 'asSoonAs' ) )
+            // InternalOCLX.g:2597:4: (lv_name_0_0= 'asSoonAs' )
             {
-            // InternalOCLX.g:2622:4: (lv_name_0_0= 'asSoonAs' )
-            // InternalOCLX.g:2623:5: lv_name_0_0= 'asSoonAs'
+            // InternalOCLX.g:2597:4: (lv_name_0_0= 'asSoonAs' )
+            // InternalOCLX.g:2598:5: lv_name_0_0= 'asSoonAs'
             {
             lv_name_0_0=(Token)match(input,65,FOLLOW_22); 
 
@@ -6954,11 +6872,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getLegacyAsSoonAsAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2639:3: ( (lv_a_2_0= ruleExp ) )
-            // InternalOCLX.g:2640:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2614:3: ( (lv_a_2_0= ruleExp ) )
+            // InternalOCLX.g:2615:4: (lv_a_2_0= ruleExp )
             {
-            // InternalOCLX.g:2640:4: (lv_a_2_0= ruleExp )
-            // InternalOCLX.g:2641:5: lv_a_2_0= ruleExp
+            // InternalOCLX.g:2615:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2616:5: lv_a_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getLegacyAsSoonAsAccess().getAExpParserRuleCall_2_0());
@@ -6989,16 +6907,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getLegacyAsSoonAsAccess().getCommaKeyword_3());
             		
-            // InternalOCLX.g:2662:3: ( (lv_b_4_0= ruleExp ) )
-            // InternalOCLX.g:2663:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2637:3: ( (lv_b_4_0= ruleExp ) )
+            // InternalOCLX.g:2638:4: (lv_b_4_0= ruleExp )
             {
-            // InternalOCLX.g:2663:4: (lv_b_4_0= ruleExp )
-            // InternalOCLX.g:2664:5: lv_b_4_0= ruleExp
+            // InternalOCLX.g:2638:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2639:5: lv_b_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getLegacyAsSoonAsAccess().getBExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_b_4_0=ruleExp();
 
             state._fsp--;
@@ -7047,7 +6965,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleLegacyEverytime"
-    // InternalOCLX.g:2689:1: entryRuleLegacyEverytime returns [EObject current=null] : iv_ruleLegacyEverytime= ruleLegacyEverytime EOF ;
+    // InternalOCLX.g:2664:1: entryRuleLegacyEverytime returns [EObject current=null] : iv_ruleLegacyEverytime= ruleLegacyEverytime EOF ;
     public final EObject entryRuleLegacyEverytime() throws RecognitionException {
         EObject current = null;
 
@@ -7055,8 +6973,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2689:56: (iv_ruleLegacyEverytime= ruleLegacyEverytime EOF )
-            // InternalOCLX.g:2690:2: iv_ruleLegacyEverytime= ruleLegacyEverytime EOF
+            // InternalOCLX.g:2664:56: (iv_ruleLegacyEverytime= ruleLegacyEverytime EOF )
+            // InternalOCLX.g:2665:2: iv_ruleLegacyEverytime= ruleLegacyEverytime EOF
             {
              newCompositeNode(grammarAccess.getLegacyEverytimeRule()); 
             pushFollow(FOLLOW_1);
@@ -7083,7 +7001,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleLegacyEverytime"
-    // InternalOCLX.g:2696:1: ruleLegacyEverytime returns [EObject current=null] : ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
+    // InternalOCLX.g:2671:1: ruleLegacyEverytime returns [EObject current=null] : ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) ;
     public final EObject ruleLegacyEverytime() throws RecognitionException {
         EObject current = null;
 
@@ -7100,17 +7018,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2702:2: ( ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
-            // InternalOCLX.g:2703:2: ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2677:2: ( ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' ) )
+            // InternalOCLX.g:2678:2: ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
             {
-            // InternalOCLX.g:2703:2: ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
-            // InternalOCLX.g:2704:3: ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
+            // InternalOCLX.g:2678:2: ( ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')' )
+            // InternalOCLX.g:2679:3: ( (lv_name_0_0= 'everytime' ) ) otherlv_1= '(' ( (lv_a_2_0= ruleExp ) ) otherlv_3= ',' ( (lv_b_4_0= ruleExp ) ) otherlv_5= ')'
             {
-            // InternalOCLX.g:2704:3: ( (lv_name_0_0= 'everytime' ) )
-            // InternalOCLX.g:2705:4: (lv_name_0_0= 'everytime' )
+            // InternalOCLX.g:2679:3: ( (lv_name_0_0= 'everytime' ) )
+            // InternalOCLX.g:2680:4: (lv_name_0_0= 'everytime' )
             {
-            // InternalOCLX.g:2705:4: (lv_name_0_0= 'everytime' )
-            // InternalOCLX.g:2706:5: lv_name_0_0= 'everytime'
+            // InternalOCLX.g:2680:4: (lv_name_0_0= 'everytime' )
+            // InternalOCLX.g:2681:5: lv_name_0_0= 'everytime'
             {
             lv_name_0_0=(Token)match(input,66,FOLLOW_22); 
 
@@ -7132,11 +7050,11 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_1, grammarAccess.getLegacyEverytimeAccess().getLeftParenthesisKeyword_1());
             		
-            // InternalOCLX.g:2722:3: ( (lv_a_2_0= ruleExp ) )
-            // InternalOCLX.g:2723:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2697:3: ( (lv_a_2_0= ruleExp ) )
+            // InternalOCLX.g:2698:4: (lv_a_2_0= ruleExp )
             {
-            // InternalOCLX.g:2723:4: (lv_a_2_0= ruleExp )
-            // InternalOCLX.g:2724:5: lv_a_2_0= ruleExp
+            // InternalOCLX.g:2698:4: (lv_a_2_0= ruleExp )
+            // InternalOCLX.g:2699:5: lv_a_2_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getLegacyEverytimeAccess().getAExpParserRuleCall_2_0());
@@ -7167,16 +7085,16 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             			newLeafNode(otherlv_3, grammarAccess.getLegacyEverytimeAccess().getCommaKeyword_3());
             		
-            // InternalOCLX.g:2745:3: ( (lv_b_4_0= ruleExp ) )
-            // InternalOCLX.g:2746:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2720:3: ( (lv_b_4_0= ruleExp ) )
+            // InternalOCLX.g:2721:4: (lv_b_4_0= ruleExp )
             {
-            // InternalOCLX.g:2746:4: (lv_b_4_0= ruleExp )
-            // InternalOCLX.g:2747:5: lv_b_4_0= ruleExp
+            // InternalOCLX.g:2721:4: (lv_b_4_0= ruleExp )
+            // InternalOCLX.g:2722:5: lv_b_4_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getLegacyEverytimeAccess().getBExpParserRuleCall_4_0());
             				
-            pushFollow(FOLLOW_21);
+            pushFollow(FOLLOW_19);
             lv_b_4_0=ruleExp();
 
             state._fsp--;
@@ -7225,7 +7143,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "entryRuleArgumentsExp"
-    // InternalOCLX.g:2772:1: entryRuleArgumentsExp returns [EObject current=null] : iv_ruleArgumentsExp= ruleArgumentsExp EOF ;
+    // InternalOCLX.g:2747:1: entryRuleArgumentsExp returns [EObject current=null] : iv_ruleArgumentsExp= ruleArgumentsExp EOF ;
     public final EObject entryRuleArgumentsExp() throws RecognitionException {
         EObject current = null;
 
@@ -7233,8 +7151,8 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
         try {
-            // InternalOCLX.g:2772:53: (iv_ruleArgumentsExp= ruleArgumentsExp EOF )
-            // InternalOCLX.g:2773:2: iv_ruleArgumentsExp= ruleArgumentsExp EOF
+            // InternalOCLX.g:2747:53: (iv_ruleArgumentsExp= ruleArgumentsExp EOF )
+            // InternalOCLX.g:2748:2: iv_ruleArgumentsExp= ruleArgumentsExp EOF
             {
              newCompositeNode(grammarAccess.getArgumentsExpRule()); 
             pushFollow(FOLLOW_1);
@@ -7261,7 +7179,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
 
     // $ANTLR start "ruleArgumentsExp"
-    // InternalOCLX.g:2779:1: ruleArgumentsExp returns [EObject current=null] : ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* ) ;
+    // InternalOCLX.g:2754:1: ruleArgumentsExp returns [EObject current=null] : ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* ) ;
     public final EObject ruleArgumentsExp() throws RecognitionException {
         EObject current = null;
 
@@ -7275,17 +7193,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
         	enterRule();
 
         try {
-            // InternalOCLX.g:2785:2: ( ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* ) )
-            // InternalOCLX.g:2786:2: ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* )
+            // InternalOCLX.g:2760:2: ( ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* ) )
+            // InternalOCLX.g:2761:2: ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* )
             {
-            // InternalOCLX.g:2786:2: ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* )
-            // InternalOCLX.g:2787:3: ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )*
+            // InternalOCLX.g:2761:2: ( ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )* )
+            // InternalOCLX.g:2762:3: ( (lv_operators_0_0= ruleExp ) ) (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )*
             {
-            // InternalOCLX.g:2787:3: ( (lv_operators_0_0= ruleExp ) )
-            // InternalOCLX.g:2788:4: (lv_operators_0_0= ruleExp )
+            // InternalOCLX.g:2762:3: ( (lv_operators_0_0= ruleExp ) )
+            // InternalOCLX.g:2763:4: (lv_operators_0_0= ruleExp )
             {
-            // InternalOCLX.g:2788:4: (lv_operators_0_0= ruleExp )
-            // InternalOCLX.g:2789:5: lv_operators_0_0= ruleExp
+            // InternalOCLX.g:2763:4: (lv_operators_0_0= ruleExp )
+            // InternalOCLX.g:2764:5: lv_operators_0_0= ruleExp
             {
 
             					newCompositeNode(grammarAccess.getArgumentsExpAccess().getOperatorsExpParserRuleCall_0_0());
@@ -7312,7 +7230,7 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
             }
 
-            // InternalOCLX.g:2806:3: (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )*
+            // InternalOCLX.g:2781:3: (otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) ) )*
             loop26:
             do {
                 int alt26=2;
@@ -7325,17 +7243,17 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
 
                 switch (alt26) {
             	case 1 :
-            	    // InternalOCLX.g:2807:4: otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) )
+            	    // InternalOCLX.g:2782:4: otherlv_1= ',' ( (lv_operators_2_0= ruleExp ) )
             	    {
             	    otherlv_1=(Token)match(input,64,FOLLOW_13); 
 
             	    				newLeafNode(otherlv_1, grammarAccess.getArgumentsExpAccess().getCommaKeyword_1_0());
             	    			
-            	    // InternalOCLX.g:2811:4: ( (lv_operators_2_0= ruleExp ) )
-            	    // InternalOCLX.g:2812:5: (lv_operators_2_0= ruleExp )
+            	    // InternalOCLX.g:2786:4: ( (lv_operators_2_0= ruleExp ) )
+            	    // InternalOCLX.g:2787:5: (lv_operators_2_0= ruleExp )
             	    {
-            	    // InternalOCLX.g:2812:5: (lv_operators_2_0= ruleExp )
-            	    // InternalOCLX.g:2813:6: lv_operators_2_0= ruleExp
+            	    // InternalOCLX.g:2787:5: (lv_operators_2_0= ruleExp )
+            	    // InternalOCLX.g:2788:6: lv_operators_2_0= ruleExp
             	    {
 
             	    						newCompositeNode(grammarAccess.getArgumentsExpAccess().getOperatorsExpParserRuleCall_1_1_0());
@@ -7415,9 +7333,9 @@ public class InternalOCLXParser extends AbstractInternalAntlrParser {
     public static final BitSet FOLLOW_16 = new BitSet(new long[]{0x0000000000200000L});
     public static final BitSet FOLLOW_17 = new BitSet(new long[]{0x0000000000000040L});
     public static final BitSet FOLLOW_18 = new BitSet(new long[]{0x0000000FFFC00002L});
-    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000001000200002L});
-    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0039F00000000010L});
-    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_19 = new BitSet(new long[]{0x0000008000000000L});
+    public static final BitSet FOLLOW_20 = new BitSet(new long[]{0x0000001000200002L});
+    public static final BitSet FOLLOW_21 = new BitSet(new long[]{0x0039F00000000010L});
     public static final BitSet FOLLOW_22 = new BitSet(new long[]{0x0000004000000000L});
     public static final BitSet FOLLOW_23 = new BitSet(new long[]{0x0000080000000000L});
     public static final BitSet FOLLOW_24 = new BitSet(new long[]{0x0002000000000000L});

@@ -334,25 +334,13 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	}
 	public class BinaryOperatorElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.BinaryOperator");
-		private final RuleCall cInfixOperatorParserRuleCall = (RuleCall)rule.eContents().get(1);
-		
-		//BinaryOperator returns BinaryOperator: // we need to split these, as after a navigation we can no longer use a var ref, while we cannot use a property access upon an infix operator
-		//    InfixOperator // | NavigationOperator
-		//;
-		@Override public ParserRule getRule() { return rule; }
-		
-		//// we need to split these, as after a navigation we can no longer use a var ref, while we cannot use a property access upon an infix operator
-		//   InfixOperator
-		public RuleCall getInfixOperatorParserRuleCall() { return cInfixOperatorParserRuleCall; }
-	}
-	public class InfixOperatorElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.InfixOperator");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cBooleanOperatorParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
 		private final RuleCall cMathOperatorParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		
-		//InfixOperator returns BinaryOperator:
-		//    BooleanOperator | MathOperator;
+		//BinaryOperator returns BinaryOperator:
+		//    BooleanOperator | MathOperator
+		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//BooleanOperator | MathOperator
@@ -500,28 +488,20 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.PrimaryExp");
 		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
 		private final RuleCall cNestedExpParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final Group cGroup_1 = (Group)cAlternatives.eContents().get(1);
-		private final RuleCall cVarOrSelfExpParserRuleCall_1_0 = (RuleCall)cGroup_1.eContents().get(0);
-		private final Group cGroup_1_1 = (Group)cGroup_1.eContents().get(1);
-		private final Assignment cNavAssignment_1_1_0 = (Assignment)cGroup_1_1.eContents().get(0);
-		private final RuleCall cNavNavigationOperatorParserRuleCall_1_1_0_0 = (RuleCall)cNavAssignment_1_1_0.eContents().get(0);
-		private final Assignment cMethodsAssignment_1_1_1 = (Assignment)cGroup_1_1.eContents().get(1);
-		private final RuleCall cMethodsMethodExpParserRuleCall_1_1_1_0 = (RuleCall)cMethodsAssignment_1_1_1.eContents().get(0);
+		private final RuleCall cNavigationExpParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
 		private final RuleCall cPrimitiveLiteralExpParserRuleCall_2 = (RuleCall)cAlternatives.eContents().get(2);
 		private final RuleCall cTemporalExpParserRuleCall_3 = (RuleCall)cAlternatives.eContents().get(3);
 		
 		//PrimaryExp returns Exp:
 		//    NestedExp
-		//|     VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
-		////|     VarReference (nav+=NavigationOperator methods+=MethodExp)*
+		//|     NavigationExp
 		//|     PrimitiveLiteralExp
 		//|    TemporalExp
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
 		//    NestedExp
-		//|     VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
-		////|     VarReference (nav+=NavigationOperator methods+=MethodExp)*
+		//|     NavigationExp
 		//|     PrimitiveLiteralExp
 		//|    TemporalExp
 		public Alternatives getAlternatives() { return cAlternatives; }
@@ -529,26 +509,8 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//NestedExp
 		public RuleCall getNestedExpParserRuleCall_0() { return cNestedExpParserRuleCall_0; }
 		
-		//VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
-		public Group getGroup_1() { return cGroup_1; }
-		
-		//VarOrSelfExp
-		public RuleCall getVarOrSelfExpParserRuleCall_1_0() { return cVarOrSelfExpParserRuleCall_1_0; }
-		
-		//(nav+=NavigationOperator methods+=MethodExp)*
-		public Group getGroup_1_1() { return cGroup_1_1; }
-		
-		//nav+=NavigationOperator
-		public Assignment getNavAssignment_1_1_0() { return cNavAssignment_1_1_0; }
-		
-		//NavigationOperator
-		public RuleCall getNavNavigationOperatorParserRuleCall_1_1_0_0() { return cNavNavigationOperatorParserRuleCall_1_1_0_0; }
-		
-		//methods+=MethodExp
-		public Assignment getMethodsAssignment_1_1_1() { return cMethodsAssignment_1_1_1; }
-		
-		//MethodExp
-		public RuleCall getMethodsMethodExpParserRuleCall_1_1_1_0() { return cMethodsMethodExpParserRuleCall_1_1_1_0; }
+		//NavigationExp
+		public RuleCall getNavigationExpParserRuleCall_1() { return cNavigationExpParserRuleCall_1; }
 		
 		//PrimitiveLiteralExp
 		public RuleCall getPrimitiveLiteralExpParserRuleCall_2() { return cPrimitiveLiteralExpParserRuleCall_2; }
@@ -583,25 +545,49 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//')'
 		public Keyword getRightParenthesisKeyword_2() { return cRightParenthesisKeyword_2; }
 	}
-	public class VarOrSelfExpElements extends AbstractParserRuleElementFinder {
-		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.VarOrSelfExp");
-		private final Alternatives cAlternatives = (Alternatives)rule.eContents().get(1);
-		private final RuleCall cSelfExpParserRuleCall_0 = (RuleCall)cAlternatives.eContents().get(0);
-		private final RuleCall cVarReferenceParserRuleCall_1 = (RuleCall)cAlternatives.eContents().get(1);
+	public class NavigationExpElements extends AbstractParserRuleElementFinder {
+		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.NavigationExp");
+		private final Group cGroup = (Group)rule.eContents().get(1);
+		private final Alternatives cAlternatives_0 = (Alternatives)cGroup.eContents().get(0);
+		private final RuleCall cSelfExpParserRuleCall_0_0 = (RuleCall)cAlternatives_0.eContents().get(0);
+		private final RuleCall cVarReferenceParserRuleCall_0_1 = (RuleCall)cAlternatives_0.eContents().get(1);
+		private final Group cGroup_1 = (Group)cGroup.eContents().get(1);
+		private final Assignment cNavAssignment_1_0 = (Assignment)cGroup_1.eContents().get(0);
+		private final RuleCall cNavNavigationOperatorParserRuleCall_1_0_0 = (RuleCall)cNavAssignment_1_0.eContents().get(0);
+		private final Assignment cMethodsAssignment_1_1 = (Assignment)cGroup_1.eContents().get(1);
+		private final RuleCall cMethodsMethodExpParserRuleCall_1_1_0 = (RuleCall)cMethodsAssignment_1_1.eContents().get(0);
 		
-		//VarOrSelfExp returns Exp:
-		//    SelfExp | VarReference
+		//NavigationExp:
+		//    (SelfExp | VarReference) (nav+=NavigationOperator methods+=MethodExp)*
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//SelfExp | VarReference
-		public Alternatives getAlternatives() { return cAlternatives; }
+		//(SelfExp | VarReference) (nav+=NavigationOperator methods+=MethodExp)*
+		public Group getGroup() { return cGroup; }
+		
+		//(SelfExp | VarReference)
+		public Alternatives getAlternatives_0() { return cAlternatives_0; }
 		
 		//SelfExp
-		public RuleCall getSelfExpParserRuleCall_0() { return cSelfExpParserRuleCall_0; }
+		public RuleCall getSelfExpParserRuleCall_0_0() { return cSelfExpParserRuleCall_0_0; }
 		
 		//VarReference
-		public RuleCall getVarReferenceParserRuleCall_1() { return cVarReferenceParserRuleCall_1; }
+		public RuleCall getVarReferenceParserRuleCall_0_1() { return cVarReferenceParserRuleCall_0_1; }
+		
+		//(nav+=NavigationOperator methods+=MethodExp)*
+		public Group getGroup_1() { return cGroup_1; }
+		
+		//nav+=NavigationOperator
+		public Assignment getNavAssignment_1_0() { return cNavAssignment_1_0; }
+		
+		//NavigationOperator
+		public RuleCall getNavNavigationOperatorParserRuleCall_1_0_0() { return cNavNavigationOperatorParserRuleCall_1_0_0; }
+		
+		//methods+=MethodExp
+		public Assignment getMethodsAssignment_1_1() { return cMethodsAssignment_1_1; }
+		
+		//MethodExp
+		public RuleCall getMethodsMethodExpParserRuleCall_1_1_0() { return cMethodsMethodExpParserRuleCall_1_1_0; }
 	}
 	public class SelfExpElements extends AbstractParserRuleElementFinder {
 		private final ParserRule rule = (ParserRule) GrammarUtil.findRuleForName(getGrammar(), "at.jku.isse.OCLX.SelfExp");
@@ -610,6 +596,9 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		private final Assignment cNameAssignment_1 = (Assignment)cGroup.eContents().get(1);
 		private final Keyword cNameSelfKeyword_1_0 = (Keyword)cNameAssignment_1.eContents().get(0);
 		
+		////VarOrSelfExp:
+		//// SelfExp | VarReference
+		////;
 		//SelfExp:
 		//    {SelfExp} name='self';
 		@Override public ParserRule getRule() { return rule; }
@@ -786,20 +775,15 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//MethodExp:
 		//     PropertyAccess
 		//    | MethodCall
-		////    | name=IteratorName '(' body=Exp ')'
 		//    | CollectionIterator
 		//    | TypeCall
-		////    | iterSource=OperatorExp '->' iter=IteratorName '(' itervar=IteratorVarDeclaration ',' itervar2=IteratorVarDeclaration '|' body=OperatorExp ')'
-		//    //| OperatorExp '->' IteratorName '(' IteratorVarDeclaration ';' InitVarDeclaration '|' OperatorExp ')'
-		//    //| OperatorExp '->' IteratorName '(' InitVarDeclaration '|' OperatorExp ')'
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
-		//     PropertyAccess
-		//    | MethodCall
-		////    | name=IteratorName '(' body=Exp ')'
-		//    | CollectionIterator
-		//    | TypeCall
+		// PropertyAccess
+		//| MethodCall
+		//| CollectionIterator
+		//| TypeCall
 		public Alternatives getAlternatives() { return cAlternatives; }
 		
 		//PropertyAccess
@@ -974,7 +958,6 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		//MethodCall returns MethodCallExp:
 		//    name=SimpleName '()'         // operation call
 		//    | name=SimpleName '('args=ArgumentsExp')' // operation call
-		////    | name=SimpleName '('type=TypeExp')'    // type operation call
 		//;
 		@Override public ParserRule getRule() { return rule; }
 		
@@ -1715,14 +1698,13 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	private final ExpElements pExp;
 	private final PrefixedExpElements pPrefixedExp;
 	private final BinaryOperatorElements pBinaryOperator;
-	private final InfixOperatorElements pInfixOperator;
 	private final BooleanOperatorElements pBooleanOperator;
 	private final MathOperatorElements pMathOperator;
 	private final NavigationOperatorElements pNavigationOperator;
 	private final UnaryOperatorElements pUnaryOperator;
 	private final PrimaryExpElements pPrimaryExp;
 	private final NestedExpElements pNestedExp;
-	private final VarOrSelfExpElements pVarOrSelfExp;
+	private final NavigationExpElements pNavigationExp;
 	private final SelfExpElements pSelfExp;
 	private final VarDeclarationElements pVarDeclaration;
 	private final VarReferenceElements pVarReference;
@@ -1774,14 +1756,13 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		this.pExp = new ExpElements();
 		this.pPrefixedExp = new PrefixedExpElements();
 		this.pBinaryOperator = new BinaryOperatorElements();
-		this.pInfixOperator = new InfixOperatorElements();
 		this.pBooleanOperator = new BooleanOperatorElements();
 		this.pMathOperator = new MathOperatorElements();
 		this.pNavigationOperator = new NavigationOperatorElements();
 		this.pUnaryOperator = new UnaryOperatorElements();
 		this.pPrimaryExp = new PrimaryExpElements();
 		this.pNestedExp = new NestedExpElements();
-		this.pVarOrSelfExp = new VarOrSelfExpElements();
+		this.pNavigationExp = new NavigationExpElements();
 		this.pSelfExp = new SelfExpElements();
 		this.pVarDeclaration = new VarDeclarationElements();
 		this.pVarReference = new VarReferenceElements();
@@ -1949,8 +1930,8 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getPrefixedExpAccess().getRule();
 	}
 	
-	//BinaryOperator returns BinaryOperator: // we need to split these, as after a navigation we can no longer use a var ref, while we cannot use a property access upon an infix operator
-	//    InfixOperator // | NavigationOperator
+	//BinaryOperator returns BinaryOperator:
+	//    BooleanOperator | MathOperator
 	//;
 	public BinaryOperatorElements getBinaryOperatorAccess() {
 		return pBinaryOperator;
@@ -1958,16 +1939,6 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	
 	public ParserRule getBinaryOperatorRule() {
 		return getBinaryOperatorAccess().getRule();
-	}
-	
-	//InfixOperator returns BinaryOperator:
-	//    BooleanOperator | MathOperator;
-	public InfixOperatorElements getInfixOperatorAccess() {
-		return pInfixOperator;
-	}
-	
-	public ParserRule getInfixOperatorRule() {
-		return getInfixOperatorAccess().getRule();
 	}
 	
 	//BooleanOperator returns BooleanOperator:
@@ -2012,8 +1983,7 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	
 	//PrimaryExp returns Exp:
 	//    NestedExp
-	//|     VarOrSelfExp (nav+=NavigationOperator methods+=MethodExp)*
-	////|     VarReference (nav+=NavigationOperator methods+=MethodExp)*
+	//|     NavigationExp
 	//|     PrimitiveLiteralExp
 	//|    TemporalExp
 	//;
@@ -2035,17 +2005,20 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 		return getNestedExpAccess().getRule();
 	}
 	
-	//VarOrSelfExp returns Exp:
-	//    SelfExp | VarReference
+	//NavigationExp:
+	//    (SelfExp | VarReference) (nav+=NavigationOperator methods+=MethodExp)*
 	//;
-	public VarOrSelfExpElements getVarOrSelfExpAccess() {
-		return pVarOrSelfExp;
+	public NavigationExpElements getNavigationExpAccess() {
+		return pNavigationExp;
 	}
 	
-	public ParserRule getVarOrSelfExpRule() {
-		return getVarOrSelfExpAccess().getRule();
+	public ParserRule getNavigationExpRule() {
+		return getNavigationExpAccess().getRule();
 	}
 	
+	////VarOrSelfExp:
+	//// SelfExp | VarReference
+	////;
 	//SelfExp:
 	//    {SelfExp} name='self';
 	public SelfExpElements getSelfExpAccess() {
@@ -2140,12 +2113,8 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	//MethodExp:
 	//     PropertyAccess
 	//    | MethodCall
-	////    | name=IteratorName '(' body=Exp ')'
 	//    | CollectionIterator
 	//    | TypeCall
-	////    | iterSource=OperatorExp '->' iter=IteratorName '(' itervar=IteratorVarDeclaration ',' itervar2=IteratorVarDeclaration '|' body=OperatorExp ')'
-	//    //| OperatorExp '->' IteratorName '(' IteratorVarDeclaration ';' InitVarDeclaration '|' OperatorExp ')'
-	//    //| OperatorExp '->' IteratorName '(' InitVarDeclaration '|' OperatorExp ')'
 	//;
 	public MethodExpElements getMethodExpAccess() {
 		return pMethodExp;
@@ -2200,7 +2169,6 @@ public class OCLXGrammarAccess extends AbstractElementFinder.AbstractGrammarElem
 	//MethodCall returns MethodCallExp:
 	//    name=SimpleName '()'         // operation call
 	//    | name=SimpleName '('args=ArgumentsExp')' // operation call
-	////    | name=SimpleName '('type=TypeExp')'    // type operation call
 	//;
 	public MethodCallElements getMethodCallAccess() {
 		return pMethodCall;

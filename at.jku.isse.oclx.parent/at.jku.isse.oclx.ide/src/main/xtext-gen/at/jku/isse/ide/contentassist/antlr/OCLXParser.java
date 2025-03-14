@@ -32,13 +32,13 @@ public class OCLXParser extends AbstractContentAssistParser {
 		
 		private static void init(ImmutableMap.Builder<AbstractElement, String> builder, OCLXGrammarAccess grammarAccess) {
 			builder.put(grammarAccess.getPrefixedExpAccess().getAlternatives(), "rule__PrefixedExp__Alternatives");
-			builder.put(grammarAccess.getInfixOperatorAccess().getAlternatives(), "rule__InfixOperator__Alternatives");
+			builder.put(grammarAccess.getBinaryOperatorAccess().getAlternatives(), "rule__BinaryOperator__Alternatives");
 			builder.put(grammarAccess.getBooleanOperatorAccess().getOpAlternatives_0(), "rule__BooleanOperator__OpAlternatives_0");
 			builder.put(grammarAccess.getMathOperatorAccess().getOpAlternatives_0(), "rule__MathOperator__OpAlternatives_0");
 			builder.put(grammarAccess.getNavigationOperatorAccess().getNameAlternatives_0(), "rule__NavigationOperator__NameAlternatives_0");
 			builder.put(grammarAccess.getUnaryOperatorAccess().getNameAlternatives_0(), "rule__UnaryOperator__NameAlternatives_0");
 			builder.put(grammarAccess.getPrimaryExpAccess().getAlternatives(), "rule__PrimaryExp__Alternatives");
-			builder.put(grammarAccess.getVarOrSelfExpAccess().getAlternatives(), "rule__VarOrSelfExp__Alternatives");
+			builder.put(grammarAccess.getNavigationExpAccess().getAlternatives_0(), "rule__NavigationExp__Alternatives_0");
 			builder.put(grammarAccess.getPrimitiveLiteralExpAccess().getAlternatives(), "rule__PrimitiveLiteralExp__Alternatives");
 			builder.put(grammarAccess.getBooleanLiteralExpAccess().getAlternatives(), "rule__BooleanLiteralExp__Alternatives");
 			builder.put(grammarAccess.getMethodExpAccess().getAlternatives(), "rule__MethodExp__Alternatives");
@@ -61,9 +61,9 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getExpAccess().getGroup_1(), "rule__Exp__Group_1__0");
 			builder.put(grammarAccess.getExpAccess().getGroup_1_3(), "rule__Exp__Group_1_3__0");
 			builder.put(grammarAccess.getPrefixedExpAccess().getGroup_0(), "rule__PrefixedExp__Group_0__0");
-			builder.put(grammarAccess.getPrimaryExpAccess().getGroup_1(), "rule__PrimaryExp__Group_1__0");
-			builder.put(grammarAccess.getPrimaryExpAccess().getGroup_1_1(), "rule__PrimaryExp__Group_1_1__0");
 			builder.put(grammarAccess.getNestedExpAccess().getGroup(), "rule__NestedExp__Group__0");
+			builder.put(grammarAccess.getNavigationExpAccess().getGroup(), "rule__NavigationExp__Group__0");
+			builder.put(grammarAccess.getNavigationExpAccess().getGroup_1(), "rule__NavigationExp__Group_1__0");
 			builder.put(grammarAccess.getSelfExpAccess().getGroup(), "rule__SelfExp__Group__0");
 			builder.put(grammarAccess.getCollectionIteratorAccess().getGroup(), "rule__CollectionIterator__Group__0");
 			builder.put(grammarAccess.getIteratorVarDeclarationAccess().getGroup_1(), "rule__IteratorVarDeclaration__Group_1__0");
@@ -98,9 +98,9 @@ public class OCLXParser extends AbstractContentAssistParser {
 			builder.put(grammarAccess.getMathOperatorAccess().getOpAssignment(), "rule__MathOperator__OpAssignment");
 			builder.put(grammarAccess.getNavigationOperatorAccess().getNameAssignment(), "rule__NavigationOperator__NameAssignment");
 			builder.put(grammarAccess.getUnaryOperatorAccess().getNameAssignment(), "rule__UnaryOperator__NameAssignment");
-			builder.put(grammarAccess.getPrimaryExpAccess().getNavAssignment_1_1_0(), "rule__PrimaryExp__NavAssignment_1_1_0");
-			builder.put(grammarAccess.getPrimaryExpAccess().getMethodsAssignment_1_1_1(), "rule__PrimaryExp__MethodsAssignment_1_1_1");
 			builder.put(grammarAccess.getNestedExpAccess().getSourceAssignment_1(), "rule__NestedExp__SourceAssignment_1");
+			builder.put(grammarAccess.getNavigationExpAccess().getNavAssignment_1_0(), "rule__NavigationExp__NavAssignment_1_0");
+			builder.put(grammarAccess.getNavigationExpAccess().getMethodsAssignment_1_1(), "rule__NavigationExp__MethodsAssignment_1_1");
 			builder.put(grammarAccess.getSelfExpAccess().getNameAssignment_1(), "rule__SelfExp__NameAssignment_1");
 			builder.put(grammarAccess.getVarDeclarationAccess().getNameAssignment(), "rule__VarDeclaration__NameAssignment");
 			builder.put(grammarAccess.getVarReferenceAccess().getRefAssignment(), "rule__VarReference__RefAssignment");

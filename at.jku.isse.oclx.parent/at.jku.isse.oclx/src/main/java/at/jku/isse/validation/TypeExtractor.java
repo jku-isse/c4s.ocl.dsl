@@ -25,6 +25,7 @@ import at.jku.isse.oclx.IteratorVarDeclaration;
 import at.jku.isse.oclx.MathOperator;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
+import at.jku.isse.oclx.NavigationExp;
 import at.jku.isse.oclx.NestedExp;
 import at.jku.isse.oclx.OclxPackage;
 import at.jku.isse.oclx.PrefixExp;
@@ -109,34 +110,36 @@ public class TypeExtractor {
 		}
 		elementToTypeMap.getReturnTypeMap().put(exp, currentTypeAndCardinality);	
 		// as we also want to assign navigation operators the type of the preceding var/method/property
-		int methodPos = 0;		
-		for (MethodExp methodExp : exp.getMethods()) {
-			log.trace("Traversing for methodCheck: "+methodExp);
-			// if there is a methodExp, there must be a navigation operator first from the preceding self/varref			
-			elementToTypeMap.getReturnTypeMap().put(exp.getNav().get(methodPos), currentTypeAndCardinality);			
-			// prep for next round/method
-			methodPos++;
-			if (methodExp instanceof IteratorExp iterExp) {
-				currentTypeAndCardinality = processIteratorExp(elementToTypeMap, currentTypeAndCardinality,
-						iterExp);
-			} else if (methodExp instanceof MethodCallExp callExp) {
-				currentTypeAndCardinality = processMethodCallExp(elementToTypeMap,
-						currentTypeAndCardinality, callExp);															
-			} else if (methodExp instanceof PropertyAccessExp propExp) {
-				currentTypeAndCardinality = processPropertyAccessExp(currentTypeAndCardinality, propExp, elementToTypeMap);												
-			} else if (methodExp instanceof TypeCallExp typeCallExp ) {
-				currentTypeAndCardinality = processTypeCallExp(typeCallExp, elementToTypeMap);					
+		if (exp instanceof NavigationExp navExp) {		
+			int methodPos = 0;		
+			for (MethodExp methodExp : navExp.getMethods()) {
+				log.trace("Traversing for methodCheck: "+methodExp);
+				// if there is a methodExp, there must be a navigation operator first from the preceding self/varref			
+				elementToTypeMap.getReturnTypeMap().put(navExp.getNav().get(methodPos), currentTypeAndCardinality);			
+				// prep for next round/method
+				methodPos++;
+				if (methodExp instanceof IteratorExp iterExp) {
+					currentTypeAndCardinality = processIteratorExp(elementToTypeMap, currentTypeAndCardinality,
+							iterExp);
+				} else if (methodExp instanceof MethodCallExp callExp) {
+					currentTypeAndCardinality = processMethodCallExp(elementToTypeMap,
+							currentTypeAndCardinality, callExp);															
+				} else if (methodExp instanceof PropertyAccessExp propExp) {
+					currentTypeAndCardinality = processPropertyAccessExp(currentTypeAndCardinality, propExp, elementToTypeMap);												
+				} else if (methodExp instanceof TypeCallExp typeCallExp ) {
+					currentTypeAndCardinality = processTypeCallExp(typeCallExp, elementToTypeMap);					
+				}
+				// abort loop if we can no longer establish type and cardinality
+				if (currentTypeAndCardinality == null) { // no point in continuing as once we cannot establish it here, we cannot infer much further into the expression.
+					return null;
+				}
 			}
-			// abort loop if we can no longer establish type and cardinality
-			if (currentTypeAndCardinality == null) { // no point in continuing as once we cannot establish it here, we cannot infer much further into the expression.
-				return null;
-			}
+			// if there is a trailing navigation --> also set that return type of that:
+			if (navExp.getNav().size() > navExp.getMethods().size()) {
+				elementToTypeMap.getReturnTypeMap().put(navExp.getNav().get(methodPos), currentTypeAndCardinality);
+			}		
+			// returns the last type of an expression/navigation chain,
 		}
-		// if there is a trailing navigation --> also set that return type of that:
-		if (exp.getNav().size() > exp.getMethods().size()) {
-			elementToTypeMap.getReturnTypeMap().put(exp.getNav().get(methodPos), currentTypeAndCardinality);
-		}		
-		// returns the last type of an expression/navigation chain,
 		return currentTypeAndCardinality;
 	}
 

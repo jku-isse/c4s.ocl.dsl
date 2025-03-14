@@ -3,8 +3,6 @@
  */
 package at.jku.isse.oclx;
 
-import org.eclipse.emf.common.util.EList;
-
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -12,13 +10,6 @@ import org.eclipse.emf.ecore.EObject;
  * A representation of the model object '<em><b>Exp</b></em>'.
  * <!-- end-user-doc -->
  *
- * <p>
- * The following features are supported:
- * </p>
- * <ul>
- *   <li>{@link at.jku.isse.oclx.Exp#getNav <em>Nav</em>}</li>
- *   <li>{@link at.jku.isse.oclx.Exp#getMethods <em>Methods</em>}</li>
- * </ul>
  *
  * @see at.jku.isse.oclx.OclxPackage#getExp()
  * @model
@@ -26,28 +17,4 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface Exp extends EObject
 {
-  /**
-   * Returns the value of the '<em><b>Nav</b></em>' containment reference list.
-   * The list contents are of type {@link at.jku.isse.oclx.NavigationOperator}.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Nav</em>' containment reference list.
-   * @see at.jku.isse.oclx.OclxPackage#getExp_Nav()
-   * @model containment="true"
-   * @generated
-   */
-  EList<NavigationOperator> getNav();
-
-  /**
-   * Returns the value of the '<em><b>Methods</b></em>' containment reference list.
-   * The list contents are of type {@link at.jku.isse.oclx.MethodExp}.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the value of the '<em>Methods</em>' containment reference list.
-   * @see at.jku.isse.oclx.OclxPackage#getExp_Methods()
-   * @model containment="true"
-   * @generated
-   */
-  EList<MethodExp> getMethods();
-
 } // Exp

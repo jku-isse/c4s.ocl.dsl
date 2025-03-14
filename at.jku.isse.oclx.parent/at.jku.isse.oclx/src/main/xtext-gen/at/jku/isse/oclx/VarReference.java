@@ -20,7 +20,7 @@ package at.jku.isse.oclx;
  * @model
  * @generated
  */
-public interface VarReference extends Exp
+public interface VarReference extends NavigationExp
 {
   /**
    * Returns the value of the '<em><b>Ref</b></em>' reference.

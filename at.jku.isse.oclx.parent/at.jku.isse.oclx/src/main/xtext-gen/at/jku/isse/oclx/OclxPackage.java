@@ -188,31 +188,13 @@ public interface OclxPackage extends EPackage
   int EXP = 3;
 
   /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EXP__NAV = 0;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int EXP__METHODS = 1;
-
-  /**
    * The number of structural features of the '<em>Exp</em>' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
    * @generated
    * @ordered
    */
-  int EXP_FEATURE_COUNT = 2;
+  int EXP_FEATURE_COUNT = 0;
 
   /**
    * The meta object id for the '{@link at.jku.isse.oclx.impl.BinaryOperatorImpl <em>Binary Operator</em>}' class.
@@ -365,24 +347,6 @@ public interface OclxPackage extends EPackage
   int NESTED_EXP = 9;
 
   /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NESTED_EXP__NAV = EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int NESTED_EXP__METHODS = EXP__METHODS;
-
-  /**
    * The feature id for the '<em><b>Source</b></em>' containment reference.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -401,14 +365,14 @@ public interface OclxPackage extends EPackage
   int NESTED_EXP_FEATURE_COUNT = EXP_FEATURE_COUNT + 1;
 
   /**
-   * The meta object id for the '{@link at.jku.isse.oclx.impl.SelfExpImpl <em>Self Exp</em>}' class.
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.NavigationExpImpl <em>Navigation Exp</em>}' class.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
-   * @see at.jku.isse.oclx.impl.SelfExpImpl
-   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getSelfExp()
+   * @see at.jku.isse.oclx.impl.NavigationExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNavigationExp()
    * @generated
    */
-  int SELF_EXP = 10;
+  int NAVIGATION_EXP = 10;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -417,7 +381,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int SELF_EXP__NAV = EXP__NAV;
+  int NAVIGATION_EXP__NAV = EXP_FEATURE_COUNT + 0;
 
   /**
    * The feature id for the '<em><b>Methods</b></em>' containment reference list.
@@ -426,7 +390,44 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int SELF_EXP__METHODS = EXP__METHODS;
+  int NAVIGATION_EXP__METHODS = EXP_FEATURE_COUNT + 1;
+
+  /**
+   * The number of structural features of the '<em>Navigation Exp</em>' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int NAVIGATION_EXP_FEATURE_COUNT = EXP_FEATURE_COUNT + 2;
+
+  /**
+   * The meta object id for the '{@link at.jku.isse.oclx.impl.SelfExpImpl <em>Self Exp</em>}' class.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @see at.jku.isse.oclx.impl.SelfExpImpl
+   * @see at.jku.isse.oclx.impl.OclxPackageImpl#getSelfExp()
+   * @generated
+   */
+  int SELF_EXP = 11;
+
+  /**
+   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SELF_EXP__NAV = NAVIGATION_EXP__NAV;
+
+  /**
+   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   * @ordered
+   */
+  int SELF_EXP__METHODS = NAVIGATION_EXP__METHODS;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -435,7 +436,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int SELF_EXP__NAME = EXP_FEATURE_COUNT + 0;
+  int SELF_EXP__NAME = NAVIGATION_EXP_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Self Exp</em>' class.
@@ -444,7 +445,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int SELF_EXP_FEATURE_COUNT = EXP_FEATURE_COUNT + 1;
+  int SELF_EXP_FEATURE_COUNT = NAVIGATION_EXP_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link at.jku.isse.oclx.impl.VarDeclarationImpl <em>Var Declaration</em>}' class.
@@ -454,7 +455,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getVarDeclaration()
    * @generated
    */
-  int VAR_DECLARATION = 11;
+  int VAR_DECLARATION = 12;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -482,7 +483,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getVarReference()
    * @generated
    */
-  int VAR_REFERENCE = 12;
+  int VAR_REFERENCE = 13;
 
   /**
    * The feature id for the '<em><b>Nav</b></em>' containment reference list.
@@ -491,7 +492,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VAR_REFERENCE__NAV = EXP__NAV;
+  int VAR_REFERENCE__NAV = NAVIGATION_EXP__NAV;
 
   /**
    * The feature id for the '<em><b>Methods</b></em>' containment reference list.
@@ -500,7 +501,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VAR_REFERENCE__METHODS = EXP__METHODS;
+  int VAR_REFERENCE__METHODS = NAVIGATION_EXP__METHODS;
 
   /**
    * The feature id for the '<em><b>Ref</b></em>' reference.
@@ -509,7 +510,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VAR_REFERENCE__REF = EXP_FEATURE_COUNT + 0;
+  int VAR_REFERENCE__REF = NAVIGATION_EXP_FEATURE_COUNT + 0;
 
   /**
    * The number of structural features of the '<em>Var Reference</em>' class.
@@ -518,7 +519,7 @@ public interface OclxPackage extends EPackage
    * @generated
    * @ordered
    */
-  int VAR_REFERENCE_FEATURE_COUNT = EXP_FEATURE_COUNT + 1;
+  int VAR_REFERENCE_FEATURE_COUNT = NAVIGATION_EXP_FEATURE_COUNT + 1;
 
   /**
    * The meta object id for the '{@link at.jku.isse.oclx.impl.PrimitiveLiteralExpImpl <em>Primitive Literal Exp</em>}' class.
@@ -528,25 +529,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getPrimitiveLiteralExp()
    * @generated
    */
-  int PRIMITIVE_LITERAL_EXP = 13;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PRIMITIVE_LITERAL_EXP__NAV = EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PRIMITIVE_LITERAL_EXP__METHODS = EXP__METHODS;
+  int PRIMITIVE_LITERAL_EXP = 14;
 
   /**
    * The number of structural features of the '<em>Primitive Literal Exp</em>' class.
@@ -565,25 +548,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getIntLiteralExp()
    * @generated
    */
-  int INT_LITERAL_EXP = 14;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int INT_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int INT_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
+  int INT_LITERAL_EXP = 15;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -611,25 +576,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getStringLiteralExp()
    * @generated
    */
-  int STRING_LITERAL_EXP = 15;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int STRING_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int STRING_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
+  int STRING_LITERAL_EXP = 16;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -657,25 +604,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getBooleanLiteralExp()
    * @generated
    */
-  int BOOLEAN_LITERAL_EXP = 16;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BOOLEAN_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int BOOLEAN_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
+  int BOOLEAN_LITERAL_EXP = 17;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -703,25 +632,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getFloatLiteralExp()
    * @generated
    */
-  int FLOAT_LITERAL_EXP = 17;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FLOAT_LITERAL_EXP__NAV = PRIMITIVE_LITERAL_EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int FLOAT_LITERAL_EXP__METHODS = PRIMITIVE_LITERAL_EXP__METHODS;
+  int FLOAT_LITERAL_EXP = 18;
 
   /**
    * The feature id for the '<em><b>Value</b></em>' attribute.
@@ -749,7 +660,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getMethodExp()
    * @generated
    */
-  int METHOD_EXP = 18;
+  int METHOD_EXP = 19;
 
   /**
    * The number of structural features of the '<em>Method Exp</em>' class.
@@ -768,7 +679,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getIteratorExp()
    * @generated
    */
-  int ITERATOR_EXP = 19;
+  int ITERATOR_EXP = 20;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' containment reference.
@@ -814,7 +725,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getIteratorName()
    * @generated
    */
-  int ITERATOR_NAME = 20;
+  int ITERATOR_NAME = 21;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -842,7 +753,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getIteratorVarDeclaration()
    * @generated
    */
-  int ITERATOR_VAR_DECLARATION = 21;
+  int ITERATOR_VAR_DECLARATION = 22;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' containment reference.
@@ -879,7 +790,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getPropertyAccessExp()
    * @generated
    */
-  int PROPERTY_ACCESS_EXP = 22;
+  int PROPERTY_ACCESS_EXP = 23;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -907,7 +818,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getMethodCallExp()
    * @generated
    */
-  int METHOD_CALL_EXP = 23;
+  int METHOD_CALL_EXP = 24;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -944,7 +855,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTypeCallExp()
    * @generated
    */
-  int TYPE_CALL_EXP = 24;
+  int TYPE_CALL_EXP = 25;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -981,7 +892,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTypeExp()
    * @generated
    */
-  int TYPE_EXP = 25;
+  int TYPE_EXP = 26;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1009,7 +920,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getCollectionTypeIdentifier()
    * @generated
    */
-  int COLLECTION_TYPE_IDENTIFIER = 26;
+  int COLLECTION_TYPE_IDENTIFIER = 27;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1037,25 +948,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTemporalExp()
    * @generated
    */
-  int TEMPORAL_EXP = 27;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TEMPORAL_EXP__NAV = EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TEMPORAL_EXP__METHODS = EXP__METHODS;
+  int TEMPORAL_EXP = 28;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1083,25 +976,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getUnaryTemporalExp()
    * @generated
    */
-  int UNARY_TEMPORAL_EXP = 28;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int UNARY_TEMPORAL_EXP__NAV = TEMPORAL_EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int UNARY_TEMPORAL_EXP__METHODS = TEMPORAL_EXP__METHODS;
+  int UNARY_TEMPORAL_EXP = 29;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1138,25 +1013,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getTriggeredTemporalExp()
    * @generated
    */
-  int TRIGGERED_TEMPORAL_EXP = 29;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TRIGGERED_TEMPORAL_EXP__NAV = TEMPORAL_EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int TRIGGERED_TEMPORAL_EXP__METHODS = TEMPORAL_EXP__METHODS;
+  int TRIGGERED_TEMPORAL_EXP = 30;
 
   /**
    * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -1202,7 +1059,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getArgumentsExp()
    * @generated
    */
-  int ARGUMENTS_EXP = 30;
+  int ARGUMENTS_EXP = 31;
 
   /**
    * The feature id for the '<em><b>Operators</b></em>' containment reference list.
@@ -1230,25 +1087,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getInfixExp()
    * @generated
    */
-  int INFIX_EXP = 31;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int INFIX_EXP__NAV = EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int INFIX_EXP__METHODS = EXP__METHODS;
+  int INFIX_EXP = 32;
 
   /**
    * The feature id for the '<em><b>Expressions</b></em>' containment reference list.
@@ -1285,25 +1124,7 @@ public interface OclxPackage extends EPackage
    * @see at.jku.isse.oclx.impl.OclxPackageImpl#getPrefixExp()
    * @generated
    */
-  int PREFIX_EXP = 32;
-
-  /**
-   * The feature id for the '<em><b>Nav</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PREFIX_EXP__NAV = EXP__NAV;
-
-  /**
-   * The feature id for the '<em><b>Methods</b></em>' containment reference list.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   * @ordered
-   */
-  int PREFIX_EXP__METHODS = EXP__METHODS;
+  int PREFIX_EXP = 33;
 
   /**
    * The feature id for the '<em><b>Operator</b></em>' containment reference.
@@ -1451,28 +1272,6 @@ public interface OclxPackage extends EPackage
   EClass getExp();
 
   /**
-   * Returns the meta object for the containment reference list '{@link at.jku.isse.oclx.Exp#getNav <em>Nav</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Nav</em>'.
-   * @see at.jku.isse.oclx.Exp#getNav()
-   * @see #getExp()
-   * @generated
-   */
-  EReference getExp_Nav();
-
-  /**
-   * Returns the meta object for the containment reference list '{@link at.jku.isse.oclx.Exp#getMethods <em>Methods</em>}'.
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @return the meta object for the containment reference list '<em>Methods</em>'.
-   * @see at.jku.isse.oclx.Exp#getMethods()
-   * @see #getExp()
-   * @generated
-   */
-  EReference getExp_Methods();
-
-  /**
    * Returns the meta object for class '{@link at.jku.isse.oclx.BinaryOperator <em>Binary Operator</em>}'.
    * <!-- begin-user-doc -->
    * <!-- end-user-doc -->
@@ -1575,6 +1374,38 @@ public interface OclxPackage extends EPackage
    * @generated
    */
   EReference getNestedExp_Source();
+
+  /**
+   * Returns the meta object for class '{@link at.jku.isse.oclx.NavigationExp <em>Navigation Exp</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for class '<em>Navigation Exp</em>'.
+   * @see at.jku.isse.oclx.NavigationExp
+   * @generated
+   */
+  EClass getNavigationExp();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link at.jku.isse.oclx.NavigationExp#getNav <em>Nav</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Nav</em>'.
+   * @see at.jku.isse.oclx.NavigationExp#getNav()
+   * @see #getNavigationExp()
+   * @generated
+   */
+  EReference getNavigationExp_Nav();
+
+  /**
+   * Returns the meta object for the containment reference list '{@link at.jku.isse.oclx.NavigationExp#getMethods <em>Methods</em>}'.
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @return the meta object for the containment reference list '<em>Methods</em>'.
+   * @see at.jku.isse.oclx.NavigationExp#getMethods()
+   * @see #getNavigationExp()
+   * @generated
+   */
+  EReference getNavigationExp_Methods();
 
   /**
    * Returns the meta object for class '{@link at.jku.isse.oclx.SelfExp <em>Self Exp</em>}'.
@@ -2245,22 +2076,6 @@ public interface OclxPackage extends EPackage
     EClass EXP = eINSTANCE.getExp();
 
     /**
-     * The meta object literal for the '<em><b>Nav</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference EXP__NAV = eINSTANCE.getExp_Nav();
-
-    /**
-     * The meta object literal for the '<em><b>Methods</b></em>' containment reference list feature.
-     * <!-- begin-user-doc -->
-     * <!-- end-user-doc -->
-     * @generated
-     */
-    EReference EXP__METHODS = eINSTANCE.getExp_Methods();
-
-    /**
      * The meta object literal for the '{@link at.jku.isse.oclx.impl.BinaryOperatorImpl <em>Binary Operator</em>}' class.
      * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
@@ -2351,6 +2166,32 @@ public interface OclxPackage extends EPackage
      * @generated
      */
     EReference NESTED_EXP__SOURCE = eINSTANCE.getNestedExp_Source();
+
+    /**
+     * The meta object literal for the '{@link at.jku.isse.oclx.impl.NavigationExpImpl <em>Navigation Exp</em>}' class.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @see at.jku.isse.oclx.impl.NavigationExpImpl
+     * @see at.jku.isse.oclx.impl.OclxPackageImpl#getNavigationExp()
+     * @generated
+     */
+    EClass NAVIGATION_EXP = eINSTANCE.getNavigationExp();
+
+    /**
+     * The meta object literal for the '<em><b>Nav</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference NAVIGATION_EXP__NAV = eINSTANCE.getNavigationExp_Nav();
+
+    /**
+     * The meta object literal for the '<em><b>Methods</b></em>' containment reference list feature.
+     * <!-- begin-user-doc -->
+     * <!-- end-user-doc -->
+     * @generated
+     */
+    EReference NAVIGATION_EXP__METHODS = eINSTANCE.getNavigationExp_Methods();
 
     /**
      * The meta object literal for the '{@link at.jku.isse.oclx.impl.SelfExpImpl <em>Self Exp</em>}' class.

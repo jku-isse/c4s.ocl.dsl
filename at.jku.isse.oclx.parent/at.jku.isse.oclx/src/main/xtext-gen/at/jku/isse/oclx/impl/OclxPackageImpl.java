@@ -21,6 +21,7 @@ import at.jku.isse.oclx.MathOperator;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
 import at.jku.isse.oclx.Model;
+import at.jku.isse.oclx.NavigationExp;
 import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.NestedExp;
 import at.jku.isse.oclx.OclxFactory;
@@ -123,6 +124,13 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   private EClass nestedExpEClass = null;
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  private EClass navigationExpEClass = null;
 
   /**
    * <!-- begin-user-doc -->
@@ -475,28 +483,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
    * @generated
    */
   @Override
-  public EReference getExp_Nav()
-  {
-    return (EReference)expEClass.getEStructuralFeatures().get(0);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
-  public EReference getExp_Methods()
-  {
-    return (EReference)expEClass.getEStructuralFeatures().get(1);
-  }
-
-  /**
-   * <!-- begin-user-doc -->
-   * <!-- end-user-doc -->
-   * @generated
-   */
-  @Override
   public EClass getBinaryOperator()
   {
     return binaryOperatorEClass;
@@ -599,6 +585,39 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
   public EReference getNestedExp_Source()
   {
     return (EReference)nestedExpEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EClass getNavigationExp()
+  {
+    return navigationExpEClass;
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getNavigationExp_Nav()
+  {
+    return (EReference)navigationExpEClass.getEStructuralFeatures().get(0);
+  }
+
+  /**
+   * <!-- begin-user-doc -->
+   * <!-- end-user-doc -->
+   * @generated
+   */
+  @Override
+  public EReference getNavigationExp_Methods()
+  {
+    return (EReference)navigationExpEClass.getEStructuralFeatures().get(1);
   }
 
   /**
@@ -1218,8 +1237,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     createEAttribute(contextEClass, CONTEXT__NAME);
 
     expEClass = createEClass(EXP);
-    createEReference(expEClass, EXP__NAV);
-    createEReference(expEClass, EXP__METHODS);
 
     binaryOperatorEClass = createEClass(BINARY_OPERATOR);
     createEAttribute(binaryOperatorEClass, BINARY_OPERATOR__OP);
@@ -1236,6 +1253,10 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
 
     nestedExpEClass = createEClass(NESTED_EXP);
     createEReference(nestedExpEClass, NESTED_EXP__SOURCE);
+
+    navigationExpEClass = createEClass(NAVIGATION_EXP);
+    createEReference(navigationExpEClass, NAVIGATION_EXP__NAV);
+    createEReference(navigationExpEClass, NAVIGATION_EXP__METHODS);
 
     selfExpEClass = createEClass(SELF_EXP);
     createEAttribute(selfExpEClass, SELF_EXP__NAME);
@@ -1345,8 +1366,9 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     booleanOperatorEClass.getESuperTypes().add(this.getBinaryOperator());
     mathOperatorEClass.getESuperTypes().add(this.getBinaryOperator());
     nestedExpEClass.getESuperTypes().add(this.getExp());
-    selfExpEClass.getESuperTypes().add(this.getExp());
-    varReferenceEClass.getESuperTypes().add(this.getExp());
+    navigationExpEClass.getESuperTypes().add(this.getExp());
+    selfExpEClass.getESuperTypes().add(this.getNavigationExp());
+    varReferenceEClass.getESuperTypes().add(this.getNavigationExp());
     primitiveLiteralExpEClass.getESuperTypes().add(this.getExp());
     intLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
     stringLiteralExpEClass.getESuperTypes().add(this.getPrimitiveLiteralExp());
@@ -1377,8 +1399,6 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
     initEAttribute(getContext_Name(), ecorePackage.getEString(), "name", null, 0, 1, Context.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(expEClass, Exp.class, "Exp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-    initEReference(getExp_Nav(), this.getNavigationOperator(), null, "nav", null, 0, -1, Exp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-    initEReference(getExp_Methods(), this.getMethodExp(), null, "methods", null, 0, -1, Exp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(binaryOperatorEClass, BinaryOperator.class, "BinaryOperator", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getBinaryOperator_Op(), ecorePackage.getEString(), "op", null, 0, 1, BinaryOperator.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -1395,6 +1415,10 @@ public class OclxPackageImpl extends EPackageImpl implements OclxPackage
 
     initEClass(nestedExpEClass, NestedExp.class, "NestedExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEReference(getNestedExp_Source(), this.getExp(), null, "source", null, 0, 1, NestedExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+    initEClass(navigationExpEClass, NavigationExp.class, "NavigationExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+    initEReference(getNavigationExp_Nav(), this.getNavigationOperator(), null, "nav", null, 0, -1, NavigationExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+    initEReference(getNavigationExp_Methods(), this.getMethodExp(), null, "methods", null, 0, -1, NavigationExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
     initEClass(selfExpEClass, SelfExp.class, "SelfExp", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
     initEAttribute(getSelfExp_Name(), ecorePackage.getEString(), "name", null, 0, 1, SelfExp.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

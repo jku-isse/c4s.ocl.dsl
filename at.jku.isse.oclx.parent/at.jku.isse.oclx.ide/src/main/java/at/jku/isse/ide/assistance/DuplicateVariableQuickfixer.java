@@ -17,6 +17,7 @@ import at.jku.isse.oclx.IteratorExp;
 import at.jku.isse.oclx.IteratorVarDeclaration;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
+import at.jku.isse.oclx.NavigationExp;
 import at.jku.isse.oclx.NestedExp;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.TemporalExp;
@@ -68,26 +69,28 @@ public class DuplicateVariableQuickfixer {
 				replaceInBody(duplicateName, newName, triggeredTemp.getB(), textEdits);
 			}
 		}
-		for (MethodExp methodExp : exp.getMethods()) {
-			if (methodExp instanceof IteratorExp iterExp) {
-				// check for unlikely case that sub iterator uses same var name, then we replace with newer name
-				var subIterName = iterExp.getItervar().getName().getName();
-				if (subIterName.equals(duplicateName)) {
-					// this allows user to understand that there was another duplication that we tried to take care of
-					var newNewName = augmentWithNextPostfix(subIterName);
-					generateEdit(iterExp.getItervar(), newNewName, textEdits);
-					replaceInBody(duplicateName, newNewName, iterExp.getBody(), textEdits);
-				} else {
-					replaceInBody(duplicateName, newName, iterExp.getBody(), textEdits);	
-				}
-			} else if (methodExp instanceof MethodCallExp callExp) {
-				if (callExp.getArgs() != null)
-					callExp.getArgs().getOperators().forEach(argExp -> replaceInBody(duplicateName, newName, argExp, textEdits));															
-			} //else if (methodExp instanceof PropertyAccessExp propExp) {
-			//	;// no op											
-			//} else if (methodExp instanceof TypeCallExp typeCallExp ) {
-			//	; // no op				
-			//}
+		if (exp instanceof NavigationExp navExp) {
+			for (MethodExp methodExp : navExp.getMethods()) {
+				if (methodExp instanceof IteratorExp iterExp) {
+					// check for unlikely case that sub iterator uses same var name, then we replace with newer name
+					var subIterName = iterExp.getItervar().getName().getName();
+					if (subIterName.equals(duplicateName)) {
+						// this allows user to understand that there was another duplication that we tried to take care of
+						var newNewName = augmentWithNextPostfix(subIterName);
+						generateEdit(iterExp.getItervar(), newNewName, textEdits);
+						replaceInBody(duplicateName, newNewName, iterExp.getBody(), textEdits);
+					} else {
+						replaceInBody(duplicateName, newName, iterExp.getBody(), textEdits);	
+					}
+				} else if (methodExp instanceof MethodCallExp callExp) {
+					if (callExp.getArgs() != null)
+						callExp.getArgs().getOperators().forEach(argExp -> replaceInBody(duplicateName, newName, argExp, textEdits));															
+				} //else if (methodExp instanceof PropertyAccessExp propExp) {
+				//	;// no op											
+				//} else if (methodExp instanceof TypeCallExp typeCallExp ) {
+				//	; // no op				
+				//}
+			}
 		}
 	}
 	
