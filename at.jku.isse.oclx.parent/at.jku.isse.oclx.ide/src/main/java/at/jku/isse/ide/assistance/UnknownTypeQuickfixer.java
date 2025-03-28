@@ -34,6 +34,7 @@ public class UnknownTypeQuickfixer {
 		edit.getChanges().put(resource.getURI().toString(), textEdits);
 		
 		var optType = findMostSimilarType(unknownType, schemaReg);
+		// use similarity threshold in addition
 		if (optType.isPresent()) {
 			var knownFQN = optType.get().getFullyQualifiedName();
 			if (knownFQN.startsWith("/")) {

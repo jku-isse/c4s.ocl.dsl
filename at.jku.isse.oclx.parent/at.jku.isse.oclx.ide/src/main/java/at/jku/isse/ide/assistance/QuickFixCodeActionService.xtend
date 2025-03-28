@@ -138,6 +138,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 		var inputOfType = resolvePropertyAccessOrMethodResourceToType(resource, offset);
 		if (inputOfType !== null) {
 			val choices = OclxContentProposalProvider.getSimilaritySortedMethods(methodReg, partialOpName, inputOfType)
+			//could be greatly improved by returning only operation that matches the input it is call on!!!! and also a similarity threshold!
 			return choices
 		}
 		return Collections.emptyList()
