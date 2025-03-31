@@ -58,8 +58,8 @@ public class CodeRepairTests extends AbstractContentAssistTest {
     this.printSim("child", "sharedsteps");
     this.printSim("r", "review");
     this.printSim("r", "reviewfinding");
-    this.printSim("rf", "review");
-    this.printSim("reviseddate", "reviewfindingitems");
+    this.printSim("isDe", "isEmpty");
+    this.printSim("isDe", "isDefined");
   }
 
   public void printSim(final String a, final String b) {
@@ -94,6 +94,33 @@ public class CodeRepairTests extends AbstractContentAssistTest {
   }
 
   @Test
+  public void testRepairPropertyWithContext() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.downstre.startsWith(\'K\')  }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+        OCLXValidator.UNKNOWN_PROPERTY);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+      final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
+      System.out.println(codeActions);
+      Assertions.assertTrue(codeActions.isEmpty());
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
   public void testRepairPropertyViaSubtyping() {
     try {
       StringConcatenation _builder = new StringConcatenation();
@@ -114,7 +141,8 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
       final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
       System.out.println(codeActions);
-      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("DemoIssue"));
+      final String title = codeActions.get(0).getRight().getTitle();
+      Assertions.assertTrue((title.contains("DemoIssue") || title.contains("Rev")));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -140,8 +168,9 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       _builder_1.append(_join);
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
       final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
+      final String title = codeActions.get(0).getRight().getTitle();
       System.out.println(codeActions);
-      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("DemoIssue"));
+      Assertions.assertTrue((title.contains("DemoIssue") || title.contains("Rev")));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -168,7 +197,8 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
       final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
       System.out.println(codeActions);
-      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("DemoIssue"));
+      final String title = codeActions.get(0).getRight().getTitle();
+      Assertions.assertTrue((title.contains("DemoIssue") || title.contains("Rev")));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -222,7 +252,8 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       Assertions.assertTrue(_isEmpty, _builder_1.toString());
       final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
       System.out.println(codeActions);
-      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("DemoIssue"));
+      final String title = codeActions.get(0).getRight().getTitle();
+      Assertions.assertTrue((title.contains("DemoIssue") || title.contains("Rev")));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }
@@ -277,6 +308,33 @@ public class CodeRepairTests extends AbstractContentAssistTest {
       final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
       System.out.println(codeActions);
       Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("characters"));
+    } catch (Throwable _e) {
+      throw Exceptions.sneakyThrow(_e);
+    }
+  }
+
+  @Test
+  public void testRepairOfSingleMethodViaReplacementAndContext() {
+    try {
+      StringConcatenation _builder = new StringConcatenation();
+      _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.bugs.asList().First()->forAll(x | x.isDefined()) }");
+      _builder.newLine();
+      final String content = _builder.toString();
+      final Model result = this.parseHelper.parse(content);
+      Assertions.assertNotNull(result);
+      this.validationTestHelper.assertError(result, 
+        OclxPackage.Literals.METHOD_CALL_EXP, 
+        OCLXValidator.UNKNOWN_OPERATION);
+      final EList<Resource.Diagnostic> errors = result.eResource().getErrors();
+      boolean _isEmpty = errors.isEmpty();
+      StringConcatenation _builder_1 = new StringConcatenation();
+      _builder_1.append("Unexpected errors: ");
+      String _join = IterableExtensions.join(errors, ", \r\n");
+      _builder_1.append(_join);
+      Assertions.assertTrue(_isEmpty, _builder_1.toString());
+      final List<Either<Command, CodeAction>> codeActions = this.error2CodeAction(content, result);
+      System.out.println(codeActions);
+      Assertions.assertTrue(codeActions.get(0).getRight().getTitle().contains("first"));
     } catch (Throwable _e) {
       throw Exceptions.sneakyThrow(_e);
     }

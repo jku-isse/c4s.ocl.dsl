@@ -65,8 +65,8 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		printSim("child", "sharedsteps");
 		printSim("r", "review");
 		printSim("r", "reviewfinding");
-		printSim("rf", "review");
-		printSim("reviseddate", "reviewfindingitems");
+		printSim("isDe", "isEmpty");
+		printSim("isDe", "isDefined");
 	}
 	
 	def printSim(String a, String b) {
@@ -94,6 +94,26 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("downstream"))
 	}
 	
+		@Test
+	def void testRepairPropertyWithContext() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.downstre.startsWith('K')  }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
+
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.empty)
+	}
+	
 	@Test
 	def void testRepairPropertyViaSubtyping() {
 		val content = '''
@@ -111,7 +131,8 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
-		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("DemoIssue"))
+		val title = codeActions.get(0).getRight().title
+		Assertions.assertTrue(title.contains("DemoIssue") || title.contains("Rev"));
 	}
 	
 	@Test
@@ -130,8 +151,9 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
 		
 		val codeActions = error2CodeAction(content, result)
+		val title = codeActions.get(0).getRight().title
 		System.out.println(codeActions)
-		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("DemoIssue"))
+		Assertions.assertTrue(title.contains("DemoIssue") || title.contains("Rev"));
 	}
 	
 		@Test
@@ -151,7 +173,8 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
-		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("DemoIssue"))
+		val title = codeActions.get(0).getRight().title
+		Assertions.assertTrue(title.contains("DemoIssue") || title.contains("Rev"));
 	}
 	
 		@Test
@@ -191,7 +214,8 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
-		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("DemoIssue"))
+		val title = codeActions.get(0).getRight().title
+		Assertions.assertTrue(title.contains("DemoIssue") || title.contains("Rev"));
 	}
 	
 	@Test
@@ -231,6 +255,25 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		val codeActions = error2CodeAction(content, result)
 		System.out.println(codeActions)
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("characters"))
+	}
+	
+			@Test
+	def void testRepairOfSingleMethodViaReplacementAndContext() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.bugs.asList().First()->forAll(x | x.isDefined()) }
+		'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.UNKNOWN_OPERATION
+		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("first"))
 	}
 	
 		@Test

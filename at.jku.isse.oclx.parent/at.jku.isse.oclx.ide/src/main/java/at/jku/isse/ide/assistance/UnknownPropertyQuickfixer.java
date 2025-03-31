@@ -127,7 +127,7 @@ public class UnknownPropertyQuickfixer {
 		var ctx = getContext(precedingElement);
 		return subclasses.stream()
 		.map(subclass -> {
-			var actionEdit = prepareSkeletonCodeAction();
+			var actionEdit = prepareSkeletonCodeAction(diagnostics, resource);
 			actionEdit.getKey().setTitle("Use '"+subclass.getName()+"' as a more specialized context element");									
 			Range range = QuickFixCodeActionService.getRangeOfElement(ctx);
 			actionEdit.getValue().add(new TextEdit(range, subclass.getName()));												
@@ -150,7 +150,7 @@ public class UnknownPropertyQuickfixer {
 	private List<CodeAction> generateRepairForPropertyAccessExp(PropertyAccessExp accessExp, List<PPEInstanceType> subclasses, String propertyName){										
 		var rankedSubClasses = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, propertyName);
 		var subclassScore = rankedSubClasses.get(0);			
-		var actionEdit = prepareSkeletonCodeAction();			
+		var actionEdit = prepareSkeletonCodeAction(diagnostics, resource);			
 		actionEdit.getKey().setTitle("Access property '"+propertyName+"' in the more specialized type '"+subclassScore.getValue().getName()+"' ");
 		var range = diagnostics.getRange();
 		actionEdit.getValue().add(new TextEdit(range, "asType(<"+getTransformedFQN(subclassScore.getValue())+">)."+propertyName));							
@@ -167,7 +167,7 @@ public class UnknownPropertyQuickfixer {
 		
 		// insert select
 		if (methodRange != null) {
-			var actionEdit = prepareSkeletonCodeAction();
+			var actionEdit = prepareSkeletonCodeAction(diagnostics, resource);
 			actionEdit.getKey().setTitle("Add a filter for instances of the more specialize type '"+subclassScore.getValue().getName()+"' before method/operation call '"+methodExp.getName()+"'");
 			
 			var pos = new Position(methodRange.getStart().getLine(), methodRange.getStart().getCharacter()-1);  // start and end are equal as we want to insert, shifted by 1: the . navigation character
@@ -206,7 +206,7 @@ public class UnknownPropertyQuickfixer {
 				subclassScore = rankedSubClasses.get(0);
 			}									
 			
-			var actionEdit = prepareSkeletonCodeAction();
+			var actionEdit = prepareSkeletonCodeAction(diagnostics, resource);
 			actionEdit.getKey().setTitle("Add a filter for instances of the more specialize subtype '"+subclassScore.getValue().getName()+"' before iterator");
 
 			var iterRange = QuickFixCodeActionService.getRangeOfElement(iter);
@@ -338,7 +338,7 @@ public class UnknownPropertyQuickfixer {
 	}
 	
 	// only need to add actual edit and the title
-	private Entry<CodeAction, ArrayList<TextEdit>> prepareSkeletonCodeAction() {
+	public static Entry<CodeAction, ArrayList<TextEdit>> prepareSkeletonCodeAction(Diagnostic diagnostics, XtextResource resource) {
 		var edit = new WorkspaceEdit();
 		var textEdits = new ArrayList<TextEdit>();
 		edit.getChanges().put(resource.getURI().toString(), textEdits);

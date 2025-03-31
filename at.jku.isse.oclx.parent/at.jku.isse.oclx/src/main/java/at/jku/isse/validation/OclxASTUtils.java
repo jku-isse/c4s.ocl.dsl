@@ -49,6 +49,25 @@ public class OclxASTUtils {
 		return null; // should not happen
 	}
 	
+	public static EObject findNextLogicalElementFor(MethodExp exp) {
+		EList<MethodExp> methods;
+		var parent = exp.eContainer();
+		if (parent instanceof SelfExp selfExp) {
+			methods = selfExp.getMethods();
+		} else if (parent instanceof VarReference varRef) {
+			methods = varRef.getMethods();
+		} else {
+			return null;
+		}
+		var pos = methods.indexOf(exp);
+		if (pos == methods.size()-1) { // end of methods, we need to check upwards to understand what comes next
+			return null; //TODO continue here
+			// go up, and dependening on the type get siblings or go further up
+		} else {
+			return methods.get(pos+1);
+		}
+	}
+	
 	public static Optional<NavigationOperator> findSuccessorNavigationOperator(EObject selfVarOrPropAccess) {
 		if (selfVarOrPropAccess instanceof PropertyAccessExp) {
 			return findSuccessorNavigationOperatorForPropertyAccess((PropertyAccessExp) selfVarOrPropAccess);

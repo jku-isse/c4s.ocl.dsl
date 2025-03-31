@@ -34,6 +34,7 @@ import at.jku.isse.oclx.SelfExp;
 import at.jku.isse.oclx.VarReference;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
+import at.jku.isse.passiveprocessengine.core.PPEInstanceType.PPEPropertyType;
 import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 import at.jku.isse.services.OCLXGrammarAccess;
 import at.jku.isse.validation.ElementToTypeMap;
@@ -289,31 +290,32 @@ public class OclxContentProposalProvider extends IdeContentProposalProvider {
 		return "${"+counter.incrementAndGet()+":paramOf"+tAc.getCardinality().toString()+tAc.getType().getName()+"}" ; 
 	}
 
-	public static List<String> getSimilaritySortedProperties(PPEInstanceType type, String compareTo, double minSimilarityThreshold) {
-		var sorted = type.getPropertyNamesIncludingSuperClasses()
+	public static List<? extends Entry<Double, PPEPropertyType>> getSimilaritySortedProperties(PPEInstanceType type, String compareTo) {
+		return type.getPropertyNamesIncludingSuperClasses()
 				.stream()
 				.filter(name -> !name.startsWith("@"))
-				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerSimilarity()
-						.apply(str, compareTo), str) )
-				.sorted(similarityComparator)											
+				.map(name -> type.getPropertyType(name))
+				.map(prop -> new AbstractMap.SimpleEntry<Double, PPEPropertyType>( new JaroWinklerSimilarity()
+						.apply(prop.getName().toLowerCase(), compareTo.toLowerCase()), prop) )
+				.sorted(similarityComparator)		
+				.filter(entry -> entry.getKey() > QuickFixCodeActionService.minSimilarityThreshold)
 				.toList();
-		return sorted.stream()
-				.filter(entry -> entry.getKey() > minSimilarityThreshold)
-				.map(entry -> entry.getValue())
-				.toList();
+
 	}
 	
-	public static List<String> getSimilaritySortedMethods(MethodRegistry methodRegistry, String compareTo, TypeAndCardinality inputType) {
+	public static List<? extends Entry<Double, OperationDeclaration>> getSimilaritySortedMethods(MethodRegistry methodRegistry, String compareValue, TypeAndCardinality inputType) {
+		var compareTo = compareValue.toLowerCase(); // better matching
 		var matchingMethods = proposeIndividualMethods(methodRegistry, inputType);
-		var sorted = matchingMethods.stream() // get methods that can work on the provided inputtype				
-				.map(decl -> decl.name)				
-				.map(str -> new AbstractMap.SimpleEntry<Double, String>( new JaroWinklerSimilarity()
-						.apply(str, compareTo), str) )
+		return matchingMethods.stream() // get methods that can work on the provided inputtype							
+				.map(decl -> new AbstractMap.SimpleEntry<Double, OperationDeclaration>( new JaroWinklerSimilarity()
+						.apply(decl.name.toLowerCase(), compareTo), decl) )
 				.sorted(similarityComparator)
+				.filter(entry -> entry.getKey() > QuickFixCodeActionService.minSimilarityThreshold )
 				.toList();
-		return  sorted.stream()
-				.map(entry -> entry.getValue())
-				.collect(Collectors.toList());
+//		return  sorted.stream()
+//				.filter(entry -> entry.getKey() > minSimilarityThreshold)
+//				.map(entry -> entry.getValue())
+//				.collect(Collectors.toList());
 	}
 	
 	public static List<? extends Entry<Double, PPEInstanceType>> getSimilaritySortedTypes(List<PPEInstanceType> types, String compareValue) {
