@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.lsp4j.CodeAction;
@@ -81,10 +82,14 @@ public class UnknownPropertyQuickfixer {
 
 	private List<PPEInstanceType> findSubclassWithProperty(String propertyName, XtextResource resource, int offset) {
 		var completeWithType = resolvePropertyAccessOrMethodResourceToType(resource, offset);
+		var matches = new ArrayList<PPEInstanceType>();
 		if (completeWithType != null) {
-			return completeWithType.getType().getAllSubtypesRecursively().stream().filter(subtype -> subtype.hasPropertyType(propertyName)).toList();
+			completeWithType.getType().getAllSubtypesRecursively().stream()
+				.filter(subtype -> subtype.hasPropertyType(propertyName)) // found property
+				.filter(subtype -> matches.stream().noneMatch(superType -> subtype.isOfTypeOrAnySubtype(superType))) // but drop if its a subtype of a matching parent type
+				.forEach(subtype -> matches.add(subtype)); 
 		}
-		return Collections.emptyList();
+		return matches;
 	}
 				
 	private TypeAndCardinality resolvePropertyAccessOrMethodResourceToType(XtextResource resource, int offset) {
@@ -183,13 +188,23 @@ public class UnknownPropertyQuickfixer {
 			// find most fitting type to refname as refname often conveys meaning
 			List<Entry<Double, PPEInstanceType>> rankedSubClasses = (List<Entry<Double, PPEInstanceType>>) OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName);
 			var subclassScore = rankedSubClasses.get(0);
-			if (subclassScore.getKey() < 0.7) { // find better match
+			if (subclassScore.getKey() < QuickFixCodeActionService.minSimilarityThreshold  // find better match
+					|| (refName.length() <= 1 && rankedSubClasses.size() > 1) ) { // or if refName only 1 char and there are more candidates)
 				//	find nearby candidate
-				var candidates = findTypeIndicatorsAlongPathUpwards(path, varRef);
-				replaceWithBetterMatch(rankedSubClasses, candidates, subclasses, subclassScore.getKey());
+				var candidates = findTypeIndicatorsAlongPathUpwards(path, varRef); 
+				if (candidates.isEmpty()) // we continue search towards self
+				{
+					path.clear();
+					path.addAll(producePathToSelf(iter).toList());
+					candidates = path.stream()
+							.filter(obj -> obj instanceof Exp)
+							.map(obj -> (Exp)obj)
+							.flatMap(exp -> findTypeIndicatorsDownwards(exp).stream()).distinct().toList()  ; 
+				}
+				var bestFit = refName.length() <= 1 ? 0.4 : subclassScore.getKey(); // penalize best fit param for single char iter refs
+				replaceWithBetterMatch(rankedSubClasses, candidates, subclasses, bestFit);
 				subclassScore = rankedSubClasses.get(0);
-			}
-			//val bestFitType = OclxContentProposalProvider.getSimilaritySortedTypes(subclasses, refName).get(0);									
+			}									
 			
 			var actionEdit = prepareSkeletonCodeAction();
 			actionEdit.getKey().setTitle("Add a filter for instances of the more specialize subtype '"+subclassScore.getValue().getName()+"' before iterator");
@@ -221,8 +236,17 @@ public class UnknownPropertyQuickfixer {
 		}
 	}
 	
+	private Stream<EObject> producePathToSelf(EObject exp) {
+		if (exp == null) {
+			return Stream.empty();
+		} else if (exp instanceof SelfExp) { 
+			return Stream.of(exp);
+		}else {
+			return Stream.concat(Stream.of(exp), producePathToSelf(exp.eContainer()));
+		}
+	}
 	
-	protected List<String> findTypeIndicatorsAlongPathUpwards(List<EObject> pathUp, Exp comingFrom) {
+	protected List<String> findTypeIndicatorsAlongPathUpwards(List<EObject> pathUp, EObject comingFrom) {
 		if (pathUp.isEmpty()) return Collections.emptyList();				
 		var currentExp = pathUp.remove(0);
 		if (currentExp instanceof Exp exp) {
@@ -253,19 +277,42 @@ public class UnknownPropertyQuickfixer {
 			return findTypeIndicatorsDownwards(prefixExp.getExpression());
 		} 
 		if (exp instanceof SelfExp || exp instanceof VarReference) {
-			return exp.getMethods().stream()
+			return Stream.concat(
+					exp.getMethods().stream()
 					.filter(op -> op instanceof TypeCallExp)
 					.map(op -> (TypeCallExp)op)
 					.map(typeCall -> typeCall.getType().getName())
-					.toList();				
+					.map(typeName -> removePathFromType(typeName))
+					.filter(typeName -> typeName.length() > 1) // ignore too short type names
+					,		
+					exp.getMethods().stream()
+					.filter(op -> op instanceof PropertyAccessExp)
+					.map(op -> (PropertyAccessExp)op)
+					.map(propAccess -> propAccess.getName())
+					.filter(propName -> propName.length() > 2) // ignore too short properties
+					.map(propName -> { // handle process input/output here
+						if (propName.startsWith("in_"))
+							return propName.substring(3);
+						if (propName.startsWith("out_"))
+							return propName.substring(4);
+						return propName;
+					})
+			).toList();
 		} 
-		if (exp instanceof StringLiteralExp strLit) { // other literals currently not sensible
-			return List.of(strLit.getValue());
+		if (exp instanceof StringLiteralExp strLit && strLit.getValue().length() > 1) { // other literals currently not sensible / avoid to short literals
+				return List.of(strLit.getValue());
 		}
 		// TODO temporal expressions
 		return Collections.emptyList();
 	}
 	
+	private String removePathFromType(String type) {
+		var pos = type.lastIndexOf("/");
+		if (pos >= 0 && pos < type.length()-1) {
+			return type.substring(pos+1);
+		} else 
+			return type;
+	}
 
 	protected void replaceWithBetterMatch(List<Entry<Double, PPEInstanceType>> currentRanked, List<String> candidates, List<PPEInstanceType> types, double prevBestFit) {
 		candidates = candidates.stream().map(String::toLowerCase).distinct().toList();

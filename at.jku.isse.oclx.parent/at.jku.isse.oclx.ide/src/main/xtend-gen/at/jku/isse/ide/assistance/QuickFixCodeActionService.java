@@ -61,7 +61,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
 
   private SyntaxErrorFixer syntaxFixer = new SyntaxErrorFixer();
 
-  private double minSimilarityThreshold = 0.8;
+  public static double minSimilarityThreshold = 0.8;
 
   @Override
   public List<Either<Command, CodeAction>> getCodeActions(final ICodeActionService2.Options options) {
@@ -116,7 +116,7 @@ public class QuickFixCodeActionService implements ICodeActionService2 {
                 if (_equals_3) {
                   List<CodeAction> _createReplaceWithSubtype = new UnknownPropertyQuickfixer(this.typeExtractor, this.eObjectAtOffsetHelper, d, resource).createReplaceWithSubtype(offset, stringToRepair);
                   Iterables.<CodeAction>addAll(result, _createReplaceWithSubtype);
-                  final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset, this.minSimilarityThreshold);
+                  final List<String> choices = this.findMostSimilarProperties(stringToRepair, resource, offset, QuickFixCodeActionService.minSimilarityThreshold);
                   int _size = choices.size();
                   boolean _greaterThan = (_size > 0);
                   if (_greaterThan) {

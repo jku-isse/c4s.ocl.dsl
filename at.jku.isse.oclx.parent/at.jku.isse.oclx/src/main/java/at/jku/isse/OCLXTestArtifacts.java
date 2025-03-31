@@ -13,8 +13,10 @@ import at.jku.isse.passiveprocessengine.core.SchemaRegistry;
 public class OCLXTestArtifacts {
 
 	public static final String DEMOISSUETYPE = "DemoIssue";
+	public static final String DEMOREVIEW = "Review";
+	public static final String DEMOREVIEWFINDING = "Reviewfinding";
 	public static final String TYPEPREFIX = "root/types/demo/";
-	public static enum CoreProperties { state, requirements, bugs, parent, html_url, upstream, downstream, referencesSingle, referencesGroup }
+	public static enum CoreProperties { state, requirements, bugs, parent, html_url, upstream, downstream, referencesSingle, referencesGroup, successCriteria, reviewfindings }
 	public static enum JiraStates { Open, InProgress, Closed, ReadyForReview, Released}
 
 	InstanceRepository repository;
@@ -31,20 +33,30 @@ public class OCLXTestArtifacts {
 			if (thisType.isPresent())
 				return thisType.get();
 			else {
-				PPEInstanceType typeJira = schemaRegistry.createNewInstanceType(TYPEPREFIX+DEMOISSUETYPE, baseType);				
-				schemaRegistry.registerTypeByName(typeJira);
-				typeJira.createSinglePropertyType(CoreProperties.state.toString(), BuildInType.STRING);
-				typeJira.createSetPropertyType(CoreProperties.requirements.toString(), typeJira);
-				typeJira.createSetPropertyType(CoreProperties.bugs.toString(),  typeJira);
-				typeJira.createSinglePropertyType(CoreProperties.parent.toString(),  typeJira);
-				typeJira.createSetPropertyType(CoreProperties.upstream.toString(),  typeJira);
-				typeJira.createSetPropertyType(CoreProperties.downstream.toString(),  typeJira);
+				PPEInstanceType typeIssue = schemaRegistry.createNewInstanceType(TYPEPREFIX+DEMOISSUETYPE, baseType);				
+				schemaRegistry.registerTypeByName(typeIssue);
+				typeIssue.createSinglePropertyType(CoreProperties.state.toString(), BuildInType.STRING);
+				typeIssue.createSetPropertyType(CoreProperties.requirements.toString(), typeIssue);
+				typeIssue.createSetPropertyType(CoreProperties.bugs.toString(),  typeIssue);
+				typeIssue.createSinglePropertyType(CoreProperties.parent.toString(),  typeIssue);
+				typeIssue.createSetPropertyType(CoreProperties.upstream.toString(),  typeIssue);
+				typeIssue.createSetPropertyType(CoreProperties.downstream.toString(),  typeIssue);
 				
-				typeJira.createSinglePropertyType(CoreProperties.referencesSingle.toString(),  baseType);
-				typeJira.createSetPropertyType(CoreProperties.referencesGroup.toString(),  baseType);
+				typeIssue.createSinglePropertyType(CoreProperties.referencesSingle.toString(),  baseType);
+				typeIssue.createSetPropertyType(CoreProperties.referencesGroup.toString(),  baseType);
 				//typeJira.createOpposablePropertyType(CoreProperties.upstream.toString(), Cardinality.SET, typeJira, CoreProperties.downstream.toString(), Cardinality.SET);				
 				//typeJira.createSinglePropertyType(CoreProperties.html_url.toString(), BuildInType.STRING);
-				return typeJira;
+				
+				// add two subtypes both with same property
+				PPEInstanceType typeReview = schemaRegistry.createNewInstanceType(TYPEPREFIX+DEMOREVIEW, typeIssue);				
+				schemaRegistry.registerTypeByName(typeReview);
+				PPEInstanceType typeReviewfinding = schemaRegistry.createNewInstanceType(TYPEPREFIX+DEMOREVIEWFINDING, typeIssue);				
+				schemaRegistry.registerTypeByName(typeReviewfinding);
+				
+				typeReview.createSetPropertyType(CoreProperties.reviewfindings.toString(), typeIssue);
+				typeReview.createSinglePropertyType(CoreProperties.successCriteria.toString(), BuildInType.STRING);
+				typeReviewfinding.createSinglePropertyType(CoreProperties.successCriteria.toString(), BuildInType.STRING);
+				return typeIssue;
 			}
 	}
 

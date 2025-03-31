@@ -40,7 +40,7 @@ class QuickFixCodeActionService implements ICodeActionService2 {
 	DuplicateVariableQuickfixer duplicateFixer = new DuplicateVariableQuickfixer();
 	SyntaxErrorFixer syntaxFixer = new SyntaxErrorFixer();
 	
-	double minSimilarityThreshold = 0.8;
+	public static double minSimilarityThreshold = 0.8;
 	
 	override getCodeActions(Options options) {
 		

@@ -63,6 +63,10 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		printSim("b", "bug");
 		printSim("b", "cub");
 		printSim("child", "sharedsteps");
+		printSim("r", "review");
+		printSim("r", "reviewfinding");
+		printSim("rf", "review");
+		printSim("reviseddate", "reviewfindingitems");
 	}
 	
 	def printSim(String a, String b) {
@@ -221,7 +225,6 @@ class CodeRepairTests extends AbstractContentAssistTest{
 			OclxPackage.Literals.METHOD_CALL_EXP, 
 			OCLXValidator.UNKNOWN_OPERATION
 		);
-	//TODO fix
 		val errors = result.eResource.errors
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')	
 		
@@ -318,6 +321,105 @@ class CodeRepairTests extends AbstractContentAssistTest{
 		Assertions.assertTrue(codeActions.get(0).getRight().title.contains(":"))
 	}
 	
+		@Test
+	def void testRepairOfSubtyping1() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(rf | rf.successCriteria = 'Manual')
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("Reviewfinding"))
+	}
+	
+			@Test
+	def void testRepairOfSubtyping2() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: Reviewfinding
+	    expression: ( 
+	            self.downstream 
+	                ->exists(r | r.successCriteria = 'Manual')
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("Review"))
+	}
+	
+				@Test
+	def void testRepairOfSubtyping4() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: Review
+	    expression: ( 
+	            self.reviewfindings 
+	                ->exists(r | r.successCriteria = 'Manual')
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("Reviewfinding"))
+	}
+	
+			@Test
+	def void testRepairOfSubtyping3() {
+		var content = '''rule TestRule2 {
+	    description: "just some test"	    
+	    context: DemoIssue
+	    expression: ( 
+	            self.downstream 
+	                ->exists(r | r.isTypeOf(<Reviewfinding>) and  r.successCriteria = 'Manual')
+	         )
+	}'''
+		val result = parseHelper.parse(content)
+		Assertions.assertNotNull(result)
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.PROPERTY_ACCESS_EXP, 
+			OCLXValidator.UNKNOWN_PROPERTY
+		);
+	
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+		
+		val codeActions = error2CodeAction(content, result)
+		System.out.println(codeActions)
+		Assertions.assertTrue(codeActions.get(0).getRight().title.contains("Reviewfinding"))
+	}
 	
 	def error2CodeAction(String content, Model result) {
 		val issue = validationTestHelper.validate(result).get(0);
