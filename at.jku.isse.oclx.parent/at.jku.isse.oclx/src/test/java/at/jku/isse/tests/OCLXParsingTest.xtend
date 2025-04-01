@@ -115,6 +115,42 @@ rule AnotherRule {
 		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
 	}
 	
+	@Test
+	def void loadIncorrectParameters() {
+		val result = parseHelper.parse('''
+			rule AnotherRule {
+				context: DemoIssue
+				expression: self.isDefined(true) 
+			}
+		''')
+		Assertions.assertNotNull(result)
+		
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.INCORRECT_PARAMETERS
+		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+	}
+	
+		@Test
+	def void loadIncorrectParameters2() {
+		val result = parseHelper.parse('''
+			rule AnotherRule {
+				context: DemoIssue
+				expression: self.state.at() 
+			}
+		''')
+		Assertions.assertNotNull(result)
+		
+		validationTestHelper.assertError(result, 
+			OclxPackage.Literals.METHOD_CALL_EXP, 
+			OCLXValidator.INCORRECT_PARAMETERS
+		);
+		val errors = result.eResource.errors
+		Assertions.assertTrue(errors.isEmpty, '''Unexpected errors: «errors.join(", \r\n")»''')
+	}
+	
 	@Test 
 	def void loadDuplicateVarDeclaration2() {
 		val result = parseHelper.parse(	'''rule TestRule2 {

@@ -315,7 +315,15 @@ public class TypeExtractor {
 				if (!isCompatibleType) {
 					errorCollector.error(String.format("'%s' cannot be called on type '%s' of cardinality '%s' ", callExp.getName(), currentTypeAndCardinality.getType(), currentTypeAndCardinality.getCardinality())
 							, callExp, OclxPackage.Literals.METHOD_CALL_EXP__NAME, OCLXValidator.INCOMPATIBLE_INPUT_TYPE);
-				}								
+				}
+				// check if parameters are correct number
+				var ops = methodReg.findOperationsForName(callExp.getName());
+				var argsCount = callExp.getArgs() != null ? callExp.getArgs().getOperators().size() : 0;
+				var hasEqualCount = ops.stream().anyMatch(op -> op.parameterTypes.size() == argsCount);
+				if (!hasEqualCount) {
+					errorCollector.error(String.format("'%s' does not accept '%s' parameters ", callExp.getName(), argsCount)
+							, callExp, OclxPackage.Literals.METHOD_CALL_EXP__NAME, OCLXValidator.INCORRECT_PARAMETERS);
+				}
 			}								
 			currentTypeAndCardinality = methodReturnType;
 			log.trace("new current type via method: "+currentTypeAndCardinality.toString());

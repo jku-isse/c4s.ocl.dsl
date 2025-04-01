@@ -70,7 +70,7 @@ public class OCLXValidator extends AbstractOCLXValidator implements TypeExtracto
 	public static final String MISSING_TYPE = "missingType";
 	public static final String INCOMPATIBLE_RETURN_TYPE = "incompatibleReturnType";
 	public static final String INCOMPATIBLE_INPUT_TYPE = "incompatibleInputType";
-	
+	public static final String INCORRECT_PARAMETERS = "incorrectParameters";
 	
 	@Check(CheckType.FAST)
 	public void checkExistingContextType(Constraint constraint) {

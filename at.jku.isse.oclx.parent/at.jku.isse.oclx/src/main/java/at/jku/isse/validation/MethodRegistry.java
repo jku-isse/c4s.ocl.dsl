@@ -1,12 +1,10 @@
 package at.jku.isse.validation;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -16,7 +14,6 @@ import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression;
 import at.jku.isse.designspace.rule.arl.expressions.OperationCallExpression.OperationDeclaration;
 import at.jku.isse.designspace.rule.arl.parser.ArlType;
 import at.jku.isse.designspace.rule.arl.parser.ArlType.CollectionKind;
-import at.jku.isse.designspace.rule.arl.parser.ArlType.TypeKind;
 import at.jku.isse.passiveprocessengine.core.BuildInType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType;
 import at.jku.isse.passiveprocessengine.core.PPEInstanceType.CARDINALITIES;
@@ -217,6 +214,12 @@ public class MethodRegistry {
 				.filter(decl -> decl.name.equals(name))
 				.map(decl -> decl.sourceType)
 				.collect(Collectors.toSet());
+	}
+	
+	public List<OperationDeclaration> findOperationsForName(String name) {
+		return declarations.stream()
+				.filter(decl -> decl.name.equals(name))
+				.toList();
 	}
 	
 	public boolean canMethodBeCalledOnType(String name, TypeAndCardinality source) {
