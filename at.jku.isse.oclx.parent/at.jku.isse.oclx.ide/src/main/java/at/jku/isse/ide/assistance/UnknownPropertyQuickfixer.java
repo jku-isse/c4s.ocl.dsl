@@ -27,6 +27,7 @@ import at.jku.isse.oclx.InfixExp;
 import at.jku.isse.oclx.IteratorExp;
 import at.jku.isse.oclx.MethodCallExp;
 import at.jku.isse.oclx.MethodExp;
+import at.jku.isse.oclx.NavigationOperator;
 import at.jku.isse.oclx.NestedExp;
 import at.jku.isse.oclx.PrefixExp;
 import at.jku.isse.oclx.PropertyAccessExp;
@@ -170,7 +171,8 @@ public class UnknownPropertyQuickfixer {
 			var actionEdit = prepareSkeletonCodeAction(diagnostics, resource);
 			actionEdit.getKey().setTitle("Add a filter for instances of the more specialize type '"+subclassScore.getValue().getName()+"' before method/operation call '"+methodExp.getName()+"'");
 			
-			var pos = new Position(methodRange.getStart().getLine(), methodRange.getStart().getCharacter()-1);  // start and end are equal as we want to insert, shifted by 1: the . navigation character
+			var navEl = findPreceedingNav(methodExp);
+			var pos = new Position(methodRange.getStart().getLine(), methodRange.getStart().getCharacter()-navEl.length());  // start and end are equal as we want to insert, shifted by the navigation character
 			var range = new Range(pos, pos);
 			actionEdit.getValue().add(new TextEdit(range, "->select(object | object.isKindOf(<"+getTransformedFQN(subclassScore.getValue())+">))"));								
 			actionEdit.getValue().add(new TextEdit(diagnostics.getRange(), "asType(<"+getTransformedFQN(subclassScore.getValue())+">)."+name));
@@ -209,8 +211,9 @@ public class UnknownPropertyQuickfixer {
 			var actionEdit = prepareSkeletonCodeAction(diagnostics, resource);
 			actionEdit.getKey().setTitle("Add a filter for instances of the more specialize subtype '"+subclassScore.getValue().getName()+"' before iterator");
 
+			var navEl = findPreceedingNav((IteratorExp)iter);
 			var iterRange = QuickFixCodeActionService.getRangeOfElement(iter);
-			var pos = new Position(iterRange.getStart().getLine(), iterRange.getStart().getCharacter()-2);  // start and end are equal as we want to insert, shifted by 2: the -> navigation characters
+			var pos = new Position(iterRange.getStart().getLine(), iterRange.getStart().getCharacter()-navEl.length());  // start and end are equal as we want to insert, shifted by navigation characters
 			var range = new Range(pos, pos); // start and end are equal as we want to insert
 			actionEdit.getValue().add(new TextEdit(range, "->select("+refName+"Untyped | "+refName+"Untyped.isKindOf(<"+getTransformedFQN(subclassScore.getValue())+">))"));		
 			actionEdit.getValue().add(new TextEdit(diagnostics.getRange(), "asType(<"+getTransformedFQN(subclassScore.getValue())+">)."+name));	
@@ -234,6 +237,19 @@ public class UnknownPropertyQuickfixer {
 				findPathToIterator(exp.eContainer(), iterVarName, path);
 			}		
 		}
+	}
+	
+	private String findPreceedingNav(MethodExp methodExp) {
+		var parent = methodExp.eContainer();
+		if (parent instanceof SelfExp selfExp) {
+			var pos = selfExp.getMethods().indexOf(methodExp); // pos must be greater than 0
+			return selfExp.getNav().get(pos).getName(); // self is not part of the navigation
+		}
+		else if (parent instanceof VarReference varExp) {
+			var pos = varExp.getMethods().indexOf(methodExp); // pos must be greater than 0
+			return varExp.getNav().get(pos).getName(); // iter var is not part of the navigation
+		}
+		return ".";//HACK, execution should never get to this point
 	}
 	
 	private Stream<EObject> producePathToSelf(EObject exp) {

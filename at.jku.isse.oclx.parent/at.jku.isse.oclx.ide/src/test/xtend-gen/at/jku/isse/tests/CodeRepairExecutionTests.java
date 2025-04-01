@@ -76,6 +76,25 @@ public class CodeRepairExecutionTests {
   }
 
   @Test
+  public void testRepairPropertyViaCollectionMethodSubtyping2() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->any().referencesGroup.size() > 0 }");
+    _builder.newLine();
+    final String content = _builder.toString();
+    CodeActionExecuter executer = new CodeActionExecuter(content, this.resourceSetProvider, this.resourceFactory, this.invariantChecker, this.repairService);
+    executer.checkForIssues();
+    int _size = executer.getProblems().size();
+    boolean _greaterThan = (_size > 0);
+    Assertions.assertTrue(_greaterThan);
+    executer.executeFirstExecutableRepair();
+    Assertions.assertNotNull(executer.getExecutedCodeAction());
+    String repaired = executer.getRepairedOclxConstraint();
+    System.out.println(executer.getExecutedCodeAction());
+    System.out.println(repaired);
+    Assertions.assertTrue(this.isCorrect(repaired));
+  }
+
+  @Test
   public void testRepairPropertyViaCollectionReductionMethodSubtyping() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup.asList().first().referencesGroup.size() > 0 }");
@@ -117,6 +136,25 @@ public class CodeRepairExecutionTests {
   public void testRepairSetPropertyViaSubtyping() {
     StringConcatenation _builder = new StringConcatenation();
     _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup->forAll(issue | issue.bugs.size() > 0) }");
+    _builder.newLine();
+    final String content = _builder.toString();
+    CodeActionExecuter executer = new CodeActionExecuter(content, this.resourceSetProvider, this.resourceFactory, this.invariantChecker, this.repairService);
+    executer.checkForIssues();
+    int _size = executer.getProblems().size();
+    boolean _greaterThan = (_size > 0);
+    Assertions.assertTrue(_greaterThan);
+    executer.executeFirstExecutableRepair();
+    Assertions.assertNotNull(executer.getExecutedCodeAction());
+    String repaired = executer.getRepairedOclxConstraint();
+    System.out.println(executer.getExecutedCodeAction());
+    System.out.println(repaired);
+    Assertions.assertTrue(this.isCorrect(repaired));
+  }
+
+  @Test
+  public void testRepairSetPropertyViaSubtyping2() {
+    StringConcatenation _builder = new StringConcatenation();
+    _builder.append("rule TestRule { description: \"testing\" context: DemoIssue expression: self.referencesGroup.forAll(issue | issue->bugs.size() > 0) }");
     _builder.newLine();
     final String content = _builder.toString();
     CodeActionExecuter executer = new CodeActionExecuter(content, this.resourceSetProvider, this.resourceFactory, this.invariantChecker, this.repairService);

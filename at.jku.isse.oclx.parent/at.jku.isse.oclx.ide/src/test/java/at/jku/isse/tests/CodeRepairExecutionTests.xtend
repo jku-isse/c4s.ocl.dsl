@@ -76,6 +76,24 @@ class CodeRepairExecutionTests {
 	}
 	
 		@Test
+	def void testRepairPropertyViaCollectionMethodSubtyping2() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup->any().referencesGroup.size() > 0 }
+		'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeFirstExecutableRepair();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedOclxConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
+		Assertions.assertTrue(isCorrect(repaired));
+	}
+	
+		@Test
 	def void testRepairPropertyViaCollectionReductionMethodSubtyping() {
 		val content = '''
 			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup.asList().first().referencesGroup.size() > 0 }
@@ -130,7 +148,24 @@ class CodeRepairExecutionTests {
 		var repaired = executer.repairedOclxConstraint;
 		System.out.println(executer.executedCodeAction);
 		System.out.println(repaired);
-		// TODO Wrong position of SELECT -> is before property, but needs to be before iterator
+		Assertions.assertTrue(isCorrect(repaired));
+	}
+	
+		@Test
+	def void testRepairSetPropertyViaSubtyping2() {
+		val content = '''
+			rule TestRule { description: "testing" context: DemoIssue expression: self.referencesGroup.forAll(issue | issue->bugs.size() > 0) }
+		'''
+		var executer = new CodeActionExecuter(content, resourceSetProvider, resourceFactory, invariantChecker, repairService);
+		executer.checkForIssues();
+		Assertions.assertTrue(executer.problems.size() > 0);
+		
+		executer.executeFirstExecutableRepair();		
+		Assertions.assertNotNull(executer.executedCodeAction);
+		
+		var repaired = executer.repairedOclxConstraint;
+		System.out.println(executer.executedCodeAction);
+		System.out.println(repaired);
 		Assertions.assertTrue(isCorrect(repaired));
 	}
 	
