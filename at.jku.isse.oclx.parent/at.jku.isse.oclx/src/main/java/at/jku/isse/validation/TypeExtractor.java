@@ -313,7 +313,7 @@ public class TypeExtractor {
 				// check if method can be called on current type (see ARL OperatorExpression)
 				var isCompatibleType = methodReg.canMethodBeCalledOnType(callExp.getName(), currentTypeAndCardinality);		
 				if (!isCompatibleType) {
-					errorCollector.error(String.format("'%s' cannot be called on type '%s' of cardinality '%s' ", callExp.getName(), currentTypeAndCardinality.getType(), currentTypeAndCardinality.getCardinality())
+					errorCollector.error(String.format("'%s' cannot be called on type '%s' of cardinality '%s' ", callExp.getName(), currentTypeAndCardinality.getType().getName(), currentTypeAndCardinality.getCardinality())
 							, callExp, OclxPackage.Literals.METHOD_CALL_EXP__NAME, OCLXValidator.INCOMPATIBLE_INPUT_TYPE);
 				}
 				// check if parameters are correct number
